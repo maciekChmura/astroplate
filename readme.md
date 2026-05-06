@@ -175,7 +175,7 @@ npm install
 ```bash
 npm run dev -- --site astroplate
 # or
-npm run dev -- --site demo-blog
+npm run dev -- --site quickarchviz
 ```
 
 ### 👉 Build Command

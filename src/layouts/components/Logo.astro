@@ -11,6 +11,7 @@ const {
   logo_width,
   logo_height,
   logo_text,
+  logo_layout = "image",
   title,
 }: {
   logo: string;
@@ -18,39 +19,81 @@ const {
   logo_width: any;
   logo_height: any;
   logo_text: string;
+  logo_layout?: string;
   title: string;
 } = siteConfig.site;
 
 const { theme_switcher }: { theme_switcher: boolean } = siteConfig.settings;
 const lang = getLangFromUrl(Astro.url);
+const activeLogo = src ? src : logo;
+const activeDarkLogo = srcDarkmode ? srcDarkmode : logo_darkmode || activeLogo;
+const brandName = logo_text || title;
+const logoWidth = String(logo_width).replace("px", "");
+const logoHeight = String(logo_height).replace("px", "");
+const imageWidth = Number(logoWidth) * 2;
+const imageHeight = Number(logoHeight) * 2;
+const hasLogo = Boolean(activeLogo || activeDarkLogo);
+const logoLayout = logo_layout === "lockup" ? "lockup" : "image";
 ---
 
-<a href={slugSelector("/", lang)} class="navbar-brand inline-block">
+<a href={slugSelector("/", lang)} class="navbar-brand inline-flex items-center">
   {
-    src || srcDarkmode || logo || logo_darkmode ? (
+    logoLayout === "lockup" && hasLogo ? (
       <>
-        <ImageMod
-          src={src ? src : logo}
-          class={`inline-block ${theme_switcher && "dark:hidden"}`}
-          width={logo_width.replace("px", "") * 2}
-          height={logo_height.replace("px", "") * 2}
+        <img
+          src={activeLogo}
+          class={`inline-block shrink-0 ${theme_switcher && activeDarkLogo && activeDarkLogo !== activeLogo ? "dark:hidden" : ""}`}
+          width={logoWidth}
+          height={logoHeight}
           alt={title}
           style={{
-            height: logo_height.replace("px", "") + "px",
-            width: logo_width.replace("px", "") + "px",
+            height: logoHeight + "px",
+            width: logoWidth + "px",
+          }}
+        />
+        {
+          theme_switcher && activeDarkLogo && activeDarkLogo !== activeLogo && (
+            <img
+              src={activeDarkLogo}
+              class="hidden shrink-0 dark:inline-block"
+              width={logoWidth}
+              height={logoHeight}
+              alt={title}
+              style={{
+                height: logoHeight + "px",
+                width: logoWidth + "px",
+              }}
+            />
+          )
+        }
+        <span class="ml-3 whitespace-nowrap text-text-dark dark:text-darkmode-text-dark">
+          {brandName}
+        </span>
+      </>
+    ) : hasLogo ? (
+      <>
+        <ImageMod
+          src={activeLogo}
+          class={`inline-block ${theme_switcher && "dark:hidden"}`}
+          width={imageWidth}
+          height={imageHeight}
+          alt={title}
+          style={{
+            height: logoHeight + "px",
+            width: logoWidth + "px",
           }}
           format="webp"
         />
         {theme_switcher && (
           <ImageMod
-            src={srcDarkmode ? srcDarkmode : logo_darkmode}
+            src={activeDarkLogo}
             class={"hidden dark:inline-block"}
-            width={logo_width.replace("px", "") * 2}
-            height={logo_height.replace("px", "") * 2}
+            width={imageWidth}
+            height={imageHeight}
             alt={title}
             style={{
-              height: logo_height.replace("px", "") + "px",
-              width: logo_width.replace("px", "") + "px",
+              height: logoHeight + "px",
+              width: logoWidth + "px",
             }}
             format="webp"
           />
