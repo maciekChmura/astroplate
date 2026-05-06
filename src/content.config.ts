@@ -17,7 +17,6 @@ const blogCollection = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "src/content/blog" }),
   schema: z.object({
     title: z.string(),
-    meta_title: z.string().optional(),
     description: z.string(),
     date: z.coerce.date(),
     image: z.string(),
@@ -105,7 +104,7 @@ const homepageCollection = defineCollection({
 // Call to Action collection schema
 const ctaSectionCollection = defineCollection({
   loader: glob({
-    pattern: "call-to-action.{md,mdx}",
+    pattern: "**/call-to-action.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({
@@ -124,7 +123,7 @@ const ctaSectionCollection = defineCollection({
 // Testimonials Section collection schema
 const testimonialSectionCollection = defineCollection({
   loader: glob({
-    pattern: "testimonial.{md,mdx}",
+    pattern: "**/testimonial.{md,mdx}",
     base: "src/content/sections",
   }),
   schema: z.object({

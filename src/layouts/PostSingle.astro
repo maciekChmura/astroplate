@@ -1,23 +1,48 @@
 ---
 import BlogCard from "@/components/BlogCard.astro";
 import Share from "@/components/Share.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
 import Disqus from "@/helpers/Disqus";
 import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import {
+  getLangFromUrl,
+  getTranslations,
+  slugSelector,
+  stripLocaleFromId,
+} from "@/lib/utils/languageParser";
 import dateFormat from "@/lib/utils/dateFormat";
+import readingTime from "@/lib/utils/readingTime";
 import similarItems from "@/lib/utils/similarItems";
 import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
 import { render } from "astro:content";
-import { FaRegClock, FaRegFolder } from "react-icons/fa";
+import { FaRegClock, FaRegFolder, FaRegUser } from "react-icons/fa";
 import ImageMod from "./components/ImageMod.astro";
 
 const COLLECTION_FOLDER = "blog";
 const { post } = Astro.props;
 
-const posts = await getSinglePage(COLLECTION_FOLDER);
+const lang = getLangFromUrl(Astro.url);
+const posts = await getSinglePage(COLLECTION_FOLDER, lang);
 const similarPosts = similarItems(post, posts);
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const { title, description, categories, image, date, tags } = post.data;
+const {
+  tags: tagsLabel,
+  related_posts,
+  share,
+  table_of_contents,
+  reading_time,
+} = (await getTranslations(lang)) as unknown as {
+  tags: string;
+  related_posts: string;
+  share: string;
+  table_of_contents: string;
+  reading_time: string;
+};
+const postSlug = stripLocaleFromId(post.id);
+const publishedDate = date instanceof Date ? date : new Date(date);
+const readTime = readingTime(post.body || "");
 ---
 
 <section class="section pt-7">
@@ -39,13 +64,18 @@ const { title, description, categories, image, date, tags } = post.data;
           )
         }
         <h1 set:html={markdownify(title)} class="h2 mb-4" />
-        <ul class="mb-4">
-          <li class="mr-4 inline-block">{siteConfig.metadata.meta_author}</li>
+        <ul class="mb-8">
+          <li class="mr-4 inline-block">
+            <FaRegUser className={"mr-2 -mt-1 inline-block"} />
+            <span>{siteConfig.metadata.meta_author}</span>
+          </li>
           <li class="mr-4 inline-block">
             <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
             {
               categories.map((category: string, index: number) => (
-                <a href={`/categories/${slugify(category)}`}>
+                <a
+                  href={slugSelector(`/categories/${slugify(category)}`, lang)}
+                >
                   {humanize(category)}
                   {index !== categories.length - 1 && ","}
                 </a>
@@ -54,22 +84,29 @@ const { title, description, categories, image, date, tags } = post.data;
           </li>
           <li class="mr-4 inline-block">
             <FaRegClock className={"mr-2 -mt-1 inline-block"} />
-            {dateFormat(date)}
+            <time datetime={publishedDate.toISOString()}>
+              {dateFormat(publishedDate)}
+            </time>
+          </li>
+          <li class="mr-4 inline-block">
+            <FaRegClock className={"mr-2 -mt-1 inline-block"} />
+            <span aria-label={reading_time}>{readTime}</span>
           </li>
         </ul>
+        <TableOfContents headings={headings} title={table_of_contents} />
         <div class="content mb-10">
           <Content />
         </div>
         <div class="row items-start justify-between">
           <div class="mb-10 flex items-center lg:col-5 lg:mb-0">
-            <h5 class="mr-3">Tags :</h5>
+            <h5 class="mr-3">{tagsLabel} :</h5>
             <ul>
               {
                 tags.map((tag: string) => (
                   <li class="inline-block">
                     <a
                       class="m-1 block rounded bg-light px-3 py-1 hover:bg-primary hover:text-white dark:bg-darkmode-light dark:hover:bg-darkmode-primary dark:hover:text-text-dark"
-                      href={`/tags/${slugify(tag)}`}
+                      href={slugSelector(`/tags/${slugify(tag)}`, lang)}
                     >
                       {humanize(tag)}
                     </a>
@@ -79,12 +116,12 @@ const { title, description, categories, image, date, tags } = post.data;
             </ul>
           </div>
           <div class="flex items-center lg:col-4">
-            <h5 class="mr-3">Share :</h5>
+            <h5 class="mr-3">{share} :</h5>
             <Share
               className="social-icons"
               title={title}
               description={description}
-              slug={post.id}
+              path={slugSelector(`/blog/${postSlug}`, lang)}
             />
           </div>
         </div>
@@ -98,7 +135,7 @@ const { title, description, categories, image, date, tags } = post.data;
 
     <!-- Related posts -->
     <div class="section pb-0">
-      <h2 class="h3 mb-12 text-center">Related Posts</h2>
+      <h2 class="h3 mb-12 text-center">{related_posts}</h2>
       <div class="row justify-center">
         {
           similarPosts.map((post) => (

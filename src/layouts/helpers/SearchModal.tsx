@@ -1,9 +1,32 @@
 import searchData from ".json/search.json";
-import React, { useEffect, useState } from "react";
+import config from "@/config/config.json";
+import React, { useEffect, useRef, useState } from "react";
 import SearchResult, { type ISearchItem } from "./SearchResult";
 
-const SearchModal = () => {
+const { default_language } = config.settings;
+
+const SearchModal = ({
+  lang,
+  searchPlaceholder = "Search...",
+  searchEmpty = "Type something to search...",
+  searchResultsLabel = "results",
+  searchSecondsLabel = "seconds",
+  searchNavigateLabel = "to navigate",
+  searchSelectLabel = "to select",
+  searchCloseLabel = "to close",
+}: {
+  lang?: string;
+  searchPlaceholder?: string;
+  searchEmpty?: string;
+  searchResultsLabel?: string;
+  searchSecondsLabel?: string;
+  searchNavigateLabel?: string;
+  searchSelectLabel?: string;
+  searchCloseLabel?: string;
+}) => {
+  const activeLang = lang || default_language;
   const [searchString, setSearchString] = useState("");
+  const selectedIndexRef = useRef(-1);
 
   // handle input change
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,75 +63,103 @@ const SearchModal = () => {
   };
 
   // get search result
+  const typedSearchData = searchData as unknown as ISearchItem[];
+  const filterSearchData = typedSearchData.filter(
+    (item) => item.lang === activeLang,
+  );
   const startTime = performance.now();
-  const searchResult = doSearch(searchData);
+  const searchResult = doSearch(filterSearchData);
   const endTime = performance.now();
   const totalTime = ((endTime - startTime) / 1000).toFixed(3);
+
+  const getSearchResultItems = () =>
+    Array.from(document.querySelectorAll<HTMLElement>("#searchItem"));
+
+  const updateSelection = () => {
+    const searchResultItems = getSearchResultItems();
+
+    searchResultItems.forEach((item, index) => {
+      if (index === selectedIndexRef.current) {
+        item.classList.add("search-result-item-active");
+      } else {
+        item.classList.remove("search-result-item-active");
+      }
+    });
+
+    searchResultItems[selectedIndexRef.current]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  };
+
+  useEffect(() => {
+    selectedIndexRef.current = -1;
+    updateSelection();
+  }, [searchString, activeLang]);
 
   // search dom manipulation
   useEffect(() => {
     const searchModal = document.getElementById("searchModal");
     const searchInput = document.getElementById("searchInput");
     const searchModalOverlay = document.getElementById("searchModalOverlay");
-    const searchResultItems = document.querySelectorAll("#searchItem");
     const searchModalTriggers = document.querySelectorAll(
       "[data-search-trigger]",
     );
 
-    // search modal open
-    searchModalTriggers.forEach((button) => {
-      button.addEventListener("click", function () {
-        const searchModal = document.getElementById("searchModal");
-        searchModal!.classList.add("show");
-        searchInput!.focus();
-      });
-    });
+    if (!searchModal || !searchInput || !searchModalOverlay) {
+      return;
+    }
 
-    // search modal close
-    searchModalOverlay!.addEventListener("click", function () {
-      searchModal!.classList.remove("show");
-    });
-
-    // keyboard navigation
-    let selectedIndex = -1;
-
-    const updateSelection = () => {
-      searchResultItems.forEach((item, index) => {
-        if (index === selectedIndex) {
-          item.classList.add("search-result-item-active");
-        } else {
-          item.classList.remove("search-result-item-active");
-        }
-      });
-
-      searchResultItems[selectedIndex]?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-      });
+    const openModal = () => {
+      searchModal.classList.add("show");
+      searchInput.focus();
+      selectedIndexRef.current = -1;
+      updateSelection();
     };
 
-    document.addEventListener("keydown", function (event) {
+    const closeModal = () => {
+      searchModal.classList.remove("show");
+      selectedIndexRef.current = -1;
+      updateSelection();
+    };
+
+    const handleTriggerClick = () => {
+      openModal();
+    };
+
+    const handleOverlayClick = () => {
+      closeModal();
+    };
+
+    const handleKeydown = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "k") {
-        searchModal!.classList.add("show");
-        searchInput!.focus();
-        updateSelection();
+        event.preventDefault();
+        openModal();
+        return;
       }
+
+      if (!searchModal.classList.contains("show")) {
+        return;
+      }
+
+      if (event.key === "Escape") {
+        closeModal();
+        return;
+      }
+
+      const searchResultItems = getSearchResultItems();
 
       if (event.key === "ArrowUp" || event.key === "ArrowDown") {
         event.preventDefault();
       }
 
-      if (event.key === "Escape") {
-        searchModal!.classList.remove("show");
-      }
-
-      if (event.key === "ArrowUp" && selectedIndex > 0) {
-        selectedIndex--;
+      if (event.key === "ArrowUp" && selectedIndexRef.current > 0) {
+        selectedIndexRef.current--;
       } else if (
         event.key === "ArrowDown" &&
-        selectedIndex < searchResultItems.length - 1
+        selectedIndexRef.current < searchResultItems.length - 1
       ) {
-        selectedIndex++;
+        selectedIndexRef.current++;
       } else if (event.key === "Enter") {
         const activeLink = document.querySelector(
           ".search-result-item-active a",
@@ -119,8 +170,22 @@ const SearchModal = () => {
       }
 
       updateSelection();
+    };
+
+    searchModalTriggers.forEach((button) => {
+      button.addEventListener("click", handleTriggerClick);
     });
-  }, [searchString]);
+    searchModalOverlay.addEventListener("click", handleOverlayClick);
+    document.addEventListener("keydown", handleKeydown);
+
+    return () => {
+      searchModalTriggers.forEach((button) => {
+        button.removeEventListener("click", handleTriggerClick);
+      });
+      searchModalOverlay.removeEventListener("click", handleOverlayClick);
+      document.removeEventListener("keydown", handleKeydown);
+    };
+  }, []);
 
   return (
     <div id="searchModal" className="search-modal">
@@ -163,7 +228,7 @@ const SearchModal = () => {
           </label>
           <input
             id="searchInput"
-            placeholder="Search..."
+            placeholder={searchPlaceholder}
             className="search-wrapper-header-input"
             type="input"
             name="search"
@@ -172,7 +237,12 @@ const SearchModal = () => {
             autoComplete="off"
           />
         </div>
-        <SearchResult searchResult={searchResult} searchString={searchString} />
+        <SearchResult
+          searchResult={searchResult}
+          searchString={searchString}
+          lang={activeLang}
+          searchEmpty={searchEmpty}
+        />
         <div className="search-wrapper-footer">
           <span className="flex items-center">
             <kbd>
@@ -195,7 +265,7 @@ const SearchModal = () => {
                 <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 001.506.0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 00-.753 1.659z"></path>
               </svg>
             </kbd>
-            to navigate
+            {searchNavigateLabel}
           </span>
           <span className="flex items-center">
             <kbd>
@@ -211,16 +281,16 @@ const SearchModal = () => {
                 ></path>
               </svg>
             </kbd>
-            to select
+            {searchSelectLabel}
           </span>
           {searchString && (
             <span>
-              <strong>{searchResult.length} </strong> results - in{" "}
-              <strong>{totalTime} </strong> seconds
+              <strong>{searchResult.length} </strong> {searchResultsLabel} - in{" "}
+              <strong>{totalTime} </strong> {searchSecondsLabel}
             </span>
           )}
           <span>
-            <kbd>ESC</kbd> to close
+            <kbd>ESC</kbd> {searchCloseLabel}
           </span>
         </div>
       </div>
