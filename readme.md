@@ -33,6 +33,7 @@
 - 🔍 Search Functionality
 - 🌑 Dark Mode
 - 🏷️ Tags & Categories
+- 🗂️ Multiple blog instances from one shared codebase
 - 🔗 Netlify setting pre-configured
 - 📞 Support contact form
 - 📱 Fully responsive
@@ -67,36 +68,134 @@
 - astro/tailwind
 - Cloudflare Workers (optional deployment)
 
+## 🗂️ Multi-Site Blog Instances
+
+This fork can run multiple blogs from the same repository. The shared Astro app,
+layouts, components, scripts, and build pipeline stay in `src/` and `scripts/`.
+Each blog instance owns only its branding, config, content, and public images.
+
+The selected site is chosen at command time with `--site <site-id>` or
+`SITE_ID=<site-id>`.
+
+### Site Folder Structure
+
+```text
+sites/
+  astroplate/
+    manifest.json
+    config/
+      config.json
+      theme.json
+      language.json
+      social.json
+      menu.en.json
+      menu.pl.json
+    content/
+      blog/
+      authors/
+      pages/
+      about/
+      contact/
+      homepage/
+      sections/
+
+public/
+  sites/
+    astroplate/
+      images/
+```
+
+The repository currently includes:
+
+- `astroplate`: the migrated default site instance.
+- `demo-blog`: a small second instance used to verify site switching.
+
+### How Selection Works
+
+- `scripts/siteResolver.js` validates the selected site and loads its folder.
+- `scripts/runWithSite.js` wraps the npm commands so `--site <id>` works with
+  compound workflows like build, preview, and deploy.
+- A generated symlink at `sites/__current__` points `@site/*` imports to the
+  selected site. This symlink is ignored by git.
+- Generated theme CSS is written to `.astro/generated-theme.css`, which is also
+  ignored by git.
+- Optional deployment-only env overrides can live in
+  `.env.sites/<site-id>.local`; these files are ignored by git.
+
+### Adding a New Blog
+
+1. Copy an existing instance:
+
+```bash
+cp -R sites/astroplate sites/my-project
+cp -R public/sites/astroplate public/sites/my-project
+```
+
+2. Update `sites/my-project/manifest.json`.
+3. Update `sites/my-project/config/config.json` for the site name, URL, logo,
+   favicon, SEO defaults, social links, pagination, language settings, and
+   feature toggles.
+4. Update `sites/my-project/config/theme.json` for colors and fonts.
+5. Put posts in `sites/my-project/content/blog/<language>/`.
+6. Put images in `public/sites/my-project/images/` and reference them with
+   absolute paths like `/sites/my-project/images/cover.png`.
+
+Blog post frontmatter should include only:
+
+```yaml
+title:
+description:
+date:
+image:
+categories:
+tags:
+draft:
+```
+
+Use `draft: true` for unpublished posts. Draft posts are excluded from routes,
+search JSON, and generated output.
+
 ## 🚀 Getting Started
 
 ### 📦 Dependencies
 
 - astro v6.1.9
 - node v22.12.0+ (see `.nvmrc`)
-- yarn v1.22+
+- npm
 - tailwind v4+
 
 ### 👉 Install Dependencies
 
 ```bash
-yarn install
+npm install
 ```
 
 ### 👉 Development Command
 
 ```bash
-yarn run dev
+npm run dev -- --site astroplate
+# or
+npm run dev -- --site demo-blog
 ```
 
 ### 👉 Build Command
 
 ```bash
-yarn run build
+npm run build -- --site astroplate
 ```
+
+You can also select the site with an environment variable:
+
+```bash
+SITE_ID=astroplate npm run build
+```
+
+If no site is provided, the default site id is `astroplate`.
 
 ### 👉 Generate LLM Files
 
-After build, this project can generate LLM-friendly files from your `dist` HTML:
+After build, this project can generate LLM-friendly files from the selected
+site's `dist` HTML:
 
 - `llms.txt` (index of pages)
 - `llms-full.txt` (full combined content)
@@ -106,13 +205,13 @@ Use one of these ways:
 
 ```bash
 # included in build
-yarn run build
+npm run build -- --site astroplate
 
 # or run manually after build
-yarn run generate-llms
+npm run generate-llms -- --site astroplate
 ```
 
-Configuration is in `src/config/config.json` under `llms`:
+Configuration is in `sites/<site-id>/config/config.json` under `llms`:
 
 - `generate_llms_txt`: create `llms.txt`
 - `generate_llms_full_txt`: create `llms-full.txt`
@@ -123,13 +222,13 @@ Configuration is in `src/config/config.json` under `llms`:
 ### 👉 Preview on Cloudflare Workers
 
 ```bash
-yarn run preview:cf-workers
+npm run preview:cf-workers -- --site astroplate
 ```
 
 ### 👉 Deploy to Cloudflare Workers
 
 ```bash
-yarn run deploy:cf-workers
+npm run deploy:cf-workers -- --site astroplate
 ```
 
 ### 👉 Build and Run With Docker

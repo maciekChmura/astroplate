@@ -1,9 +1,9 @@
-import config from "@/config/config.json";
+import { siteConfig } from "@/lib/siteConfig";
 import { DiscussionEmbed } from "disqus-react";
 import React from "react";
 
 const Disqus = ({ className }: { className?: string }) => {
-  const { disqus } = config;
+  const { disqus } = siteConfig;
   return (
     <div className={className}>
       {disqus.enable && (

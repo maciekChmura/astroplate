@@ -5,14 +5,19 @@ import tailwindcss from "@tailwindcss/vite";
 import AutoImport from "astro-auto-import";
 import { defineConfig, fontProviders } from "astro/config";
 import { readFileSync } from "node:fs";
+import path from "node:path";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import sharp from "sharp";
-import config from "./src/config/config.json";
-import theme from "./src/config/theme.json";
+import { resolveSite } from "./scripts/siteResolver.js";
 
+const selectedSite = resolveSite();
+const readSiteJson = (filename) =>
+  JSON.parse(readFileSync(path.join(selectedSite.configDir, filename), "utf8"));
+const config = readSiteJson("config.json");
+const theme = readSiteJson("theme.json");
 const languages = JSON.parse(
-  readFileSync(new URL("./src/config/language.json", import.meta.url), "utf8"),
+  readFileSync(path.join(selectedSite.configDir, "language.json"), "utf8"),
 );
 
 function normalizeSiteUrl(rawUrl) {
@@ -104,7 +109,14 @@ export default defineConfig({
     },
   },
   image: { service: sharp() },
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        "@site": selectedSite.currentSiteDir,
+      },
+    },
+  },
   fonts: fontsConfig,
   integrations: [
     react(),

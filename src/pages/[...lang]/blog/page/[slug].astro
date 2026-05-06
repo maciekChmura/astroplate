@@ -1,6 +1,6 @@
 ---
-import config from "@/config/config.json";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
 import {
   normalizeLang,
   slugSelector,
@@ -14,7 +14,7 @@ export async function getStaticPaths() {
   for (const routeLang of supportedLang) {
     const lang = normalizeLang(routeLang);
     const posts = await getSinglePage(BLOG_FOLDER, lang);
-    const totalPages = Math.ceil(posts.length / config.settings.pagination);
+    const totalPages = Math.ceil(posts.length / siteConfig.settings.pagination);
 
     for (let page = 2; page <= totalPages; page++) {
       paths.push({

@@ -1,9 +1,9 @@
 ---
 import BlogCard from "@/components/BlogCard.astro";
 import Pagination from "@/components/Pagination.astro";
-import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
 import { getAllTaxonomy, getTaxonomy } from "@/lib/taxonomyParser.astro";
 import { normalizeLang, supportedLang } from "@/lib/utils/languageParser";
 import { sortByDate } from "@/lib/utils/sortFunctions";
@@ -19,7 +19,7 @@ export async function getStaticPaths() {
   for (const routeLang of supportedLang) {
     const lang = normalizeLang(routeLang);
     const posts = await getSinglePage(BLOG_FOLDER, lang);
-    const totalPages = Math.ceil(posts.length / config.settings.pagination);
+    const totalPages = Math.ceil(posts.length / siteConfig.settings.pagination);
 
     for (let page = 2; page <= totalPages; page++) {
       paths.push({
@@ -47,15 +47,15 @@ const allCategories = await getAllTaxonomy(BLOG_FOLDER, lang, "categories");
 const categories = await getTaxonomy(BLOG_FOLDER, lang, "categories");
 const tags = await getTaxonomy(BLOG_FOLDER, lang, "tags");
 const sortedPosts = sortByDate(posts);
-const totalPages = Math.ceil(posts.length / config.settings.pagination);
+const totalPages = Math.ceil(posts.length / siteConfig.settings.pagination);
 const currentPage = slug && !isNaN(Number(slug)) ? Number(slug) : 1;
-const indexOfLastPost = currentPage * config.settings.pagination;
-const indexOfFirstPost = indexOfLastPost - config.settings.pagination;
+const indexOfLastPost = currentPage * siteConfig.settings.pagination;
+const indexOfFirstPost = indexOfLastPost - siteConfig.settings.pagination;
 const currentPosts = sortedPosts.slice(indexOfFirstPost, indexOfLastPost);
 const archiveTitle = `${postIndex.data.title} - Page ${currentPage}`;
 const archiveDescription =
   postIndex.data.description === "this is meta description"
-    ? `Browse page ${currentPage} of the latest articles from ${config.site.title}, organized by topic and published in reverse chronological order.`
+    ? `Browse page ${currentPage} of the latest articles from ${siteConfig.site.title}, organized by topic and published in reverse chronological order.`
     : `${postIndex.data.description} Page ${currentPage}.`;
 ---
 

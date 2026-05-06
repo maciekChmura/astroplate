@@ -1,9 +1,9 @@
 import searchData from ".json/search.json";
-import config from "@/config/config.json";
+import { siteConfig } from "@/lib/siteConfig";
 import React, { useEffect, useRef, useState } from "react";
 import SearchResult, { type ISearchItem } from "./SearchResult";
 
-const { default_language } = config.settings;
+const { default_language } = siteConfig.settings;
 
 const SearchModal = ({
   lang,

@@ -1,8 +1,8 @@
-import config from "@/config/config.json";
+import { siteConfig } from "@/lib/siteConfig";
 import { markdownify } from "@/lib/utils/textConverter";
 import React, { useEffect, useState } from "react";
 
-const { enable, content, expire_days } = config.announcement;
+const { enable, content, expire_days } = siteConfig.announcement;
 
 const Cookies = {
   set: (name: string, value: string, options: any = {}) => {

@@ -1,5 +1,5 @@
-import config from "@/config/config.json";
-import languages from "@/config/language.json";
+import { siteConfig } from "@/lib/siteConfig";
+import { siteLanguages } from "@/lib/siteLanguages";
 import React from "react";
 
 const LanguageSwitcher = ({
@@ -9,10 +9,10 @@ const LanguageSwitcher = ({
   lang: string;
   switchTargets: Record<string, string>;
 }) => {
-  const { default_language, disable_languages } = config.settings;
+  const { default_language, disable_languages } = siteConfig.settings;
   const disabledLanguages = disable_languages as string[];
 
-  const sortedLanguages = languages
+  const sortedLanguages = siteLanguages
     .filter(({ languageCode }) => !disabledLanguages.includes(languageCode))
     .sort((a, b) => a.weight - b.weight);
 

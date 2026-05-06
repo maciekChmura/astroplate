@@ -4,8 +4,8 @@
 @plugin 'tailwind-bootstrap-grid';
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Auto-generated theme from "theme.json"*/
-@import "./generated-theme.css";
+/* Auto-generated theme from the selected site theme.json */
+@import "../../.astro/generated-theme.css";
 
 @import "./safe.css";
 @import "./utilities.css";

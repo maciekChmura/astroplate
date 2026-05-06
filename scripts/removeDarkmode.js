@@ -1,16 +1,21 @@
 import fs from "node:fs";
 import path from "node:path";
+import { resolveSite } from "./siteResolver.js";
 
 (function () {
+  const selectedSite = resolveSite();
   const rootDirs = ["src/pages", "src/hooks", "src/layouts", "src/styles"];
 
   const deleteAssetList = [
-    "public/images/logo-darkmode.png",
+    path.join(selectedSite.publicImagesDir, "logo-darkmode.png"),
     "src/layouts/components/ThemeSwitcher.astro",
   ];
 
   const configFiles = [
-    { filePath: "src/config/theme.json", patterns: ["colors.darkmode"] },
+    {
+      filePath: path.join(selectedSite.configDir, "theme.json"),
+      patterns: ["colors.darkmode"],
+    },
   ];
 
   const filePaths = [

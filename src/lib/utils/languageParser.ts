@@ -1,5 +1,5 @@
-import config from "@/config/config.json";
-import languagesJSON from "@/config/language.json";
+import { siteConfig } from "@/lib/siteConfig";
+import { siteLanguages } from "@/lib/siteLanguages";
 
 type LocaleDictionary = {
   main: {
@@ -13,10 +13,15 @@ type LocaleDictionary = {
 };
 
 const { default_language, disable_languages, default_language_in_subdir } =
-  config.settings;
+  siteConfig.settings;
 const disabledLanguages = disable_languages as string[];
 
-export const enabledLanguages = languagesJSON
+const menuModules = import.meta.glob<{ default: LocaleDictionary }>(
+  "@site/config/menu.*.json",
+  { eager: true },
+);
+
+export const enabledLanguages = siteLanguages
   .filter((language) => !disabledLanguages.includes(language.languageCode))
   .sort((a, b) => a.weight - b.weight);
 
@@ -75,15 +80,29 @@ export async function getTranslations(lang?: string) {
   const normalizedLang = normalizeLang(lang);
 
   try {
-    const menu = await import(`../../config/menu.${normalizedLang}.json`);
+    const menu = Object.entries(menuModules).find(([modulePath]) =>
+      modulePath.endsWith(`/menu.${normalizedLang}.json`),
+    )?.[1];
     const dictionary = await import(`../../i18n/${normalizedLang}.json`);
+
+    if (!menu) {
+      throw new Error(`Menu not found for language "${normalizedLang}"`);
+    }
+
     return {
       ...(menu.default as LocaleDictionary),
       ...(dictionary.default as Record<string, string>),
     };
   } catch {
-    const menu = await import(`../../config/menu.${default_language}.json`);
+    const menu = Object.entries(menuModules).find(([modulePath]) =>
+      modulePath.endsWith(`/menu.${default_language}.json`),
+    )?.[1];
     const dictionary = await import(`../../i18n/${default_language}.json`);
+
+    if (!menu) {
+      throw new Error(`Menu not found for language "${default_language}"`);
+    }
+
     return {
       ...(menu.default as LocaleDictionary),
       ...(dictionary.default as Record<string, string>),
@@ -102,7 +121,7 @@ export function slugSelector(url: string, lang?: string) {
         ? `/${normalizedLang}`
         : `/${normalizedLang}${normalizedUrl}`;
 
-  if (config.site.trailing_slash) {
+  if (siteConfig.site.trailing_slash) {
     if (!pathname.endsWith("/")) {
       pathname = `${pathname}/`;
     }

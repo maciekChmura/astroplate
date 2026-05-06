@@ -1,11 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
+import { resolveSite } from "./siteResolver.js";
 
 const JSON_FOLDER = "./.json";
-const BLOG_FOLDER = "src/content/blog";
+const selectedSite = resolveSite();
+const BLOG_FOLDER = path.join(selectedSite.contentDir, "blog");
 const languages = JSON.parse(
-  fs.readFileSync(new URL("../src/config/language.json", import.meta.url), "utf8"),
+  fs.readFileSync(path.join(selectedSite.configDir, "language.json"), "utf8"),
 );
 const localeByContentDir = new Map(
   languages.map(({ contentDir, languageCode }) => [contentDir, languageCode]),
@@ -50,6 +52,10 @@ const getData = (folder, groupDepth) => {
 };
 
 try {
+  if (!fs.existsSync(BLOG_FOLDER)) {
+    throw new Error(`Blog folder not found for site "${selectedSite.id}"`);
+  }
+
   // create folder if it doesn't exist
   if (!fs.existsSync(JSON_FOLDER)) {
     fs.mkdirSync(JSON_FOLDER);

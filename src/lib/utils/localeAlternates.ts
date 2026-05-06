@@ -1,4 +1,4 @@
-import config from "@/config/config.json";
+import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { getTaxonomy } from "@/lib/taxonomyParser.astro";
 import {
@@ -10,8 +10,8 @@ import {
 } from "@/lib/utils/languageParser";
 
 const BLOG_FOLDER = "blog";
-const PAGE_SIZE = config.settings.pagination;
-const { default_language, default_language_in_subdir } = config.settings;
+const PAGE_SIZE = siteConfig.settings.pagination;
+const { default_language, default_language_in_subdir } = siteConfig.settings;
 
 const blogPostSlugs = new Map<string, Set<string>>();
 const regularPageSlugs = new Map<string, Set<string>>();

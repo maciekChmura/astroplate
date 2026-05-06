@@ -1,5 +1,4 @@
 ---
-import config from "@/config/config.json";
 import {
   getLangFromUrl,
   getTranslations,
@@ -15,7 +14,7 @@ import ImageMod from "./ImageMod.astro";
 const {
   summary_length,
   blog_folder,
-}: { summary_length: number; blog_folder: string } = config.settings;
+}: { summary_length: number; blog_folder: string } = siteConfig.settings;
 const { data } = Astro.props;
 const { title, image, date, categories } = data.data;
 const lang = getLangFromUrl(Astro.url);

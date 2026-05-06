@@ -1,5 +1,5 @@
-import baseConfig from "@/config/config.json";
-import baseSocial from "@/config/social.json";
+import baseConfig from "@site/config/config.json";
+import baseSocial from "@site/config/social.json";
 
 type SocialLink = {
   name: string;

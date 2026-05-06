@@ -7,16 +7,16 @@
   "packageManager": "yarn@1.22.22",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"node scripts/themeGenerator.js --watch\" \"node scripts/jsonGenerator.js && astro dev\"",
-    "build": "node scripts/themeGenerator.js && node scripts/jsonGenerator.js && astro build && node scripts/llmsGenerator.js",
-    "preview": "astro preview",
-    "check": "astro check",
+    "dev": "node scripts/runWithSite.js dev",
+    "build": "node scripts/runWithSite.js build",
+    "preview": "node scripts/runWithSite.js preview",
+    "check": "node scripts/runWithSite.js check",
     "format": "prettier -w ./src",
-    "generate-json": "node scripts/jsonGenerator.js",
-    "generate-llms": "node scripts/llmsGenerator.js",
-    "remove-darkmode": "node scripts/removeDarkmode.js && yarn format",
-    "deploy:cf-workers": "npm run build && wrangler deploy",
-    "preview:cf-workers": "npm run build && wrangler dev"
+    "generate-json": "node scripts/runWithSite.js generate-json",
+    "generate-llms": "node scripts/runWithSite.js generate-llms",
+    "remove-darkmode": "node scripts/runWithSite.js remove-darkmode",
+    "deploy:cf-workers": "node scripts/runWithSite.js deploy:cf-workers",
+    "preview:cf-workers": "node scripts/runWithSite.js preview:cf-workers"
   },
   "dependencies": {
     "@astrojs/check": "0.9.8",

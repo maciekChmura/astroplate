@@ -5,12 +5,12 @@ const bgImageMod = async (
   format?: "auto" | "avif" | "jpeg" | "png" | "svg" | "webp",
 ) => {
   src = `/public${src}`;
-  const images = import.meta.glob("/public/images/**/*.{jpeg,jpg,png,gif}");
+  const images = import.meta.glob("/public/**/*.{jpeg,jpg,png,gif}");
 
   // Check if the source path is valid
   if (!src || !images[src]) {
     console.error(
-      `\x1b[31mImage not found - ${src}.\x1b[0m Make sure the image is in the /public/images folder.`,
+      `\x1b[31mImage not found - ${src}.\x1b[0m Make sure the image is in the /public folder.`,
     );
 
     return ""; // Return an empty string if the image is not found
@@ -22,7 +22,7 @@ const bgImageMod = async (
       const imageData = (await images[image]()) as any;
       return imageData;
     } catch (error) {
-      return `Image not found - ${src}. Make sure the image is in the /public/images folder.`;
+      return `Image not found - ${src}. Make sure the image is in the /public folder.`;
     }
   };
 

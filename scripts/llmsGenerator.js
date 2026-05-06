@@ -5,12 +5,14 @@ import fs from "node:fs";
 import path from "node:path";
 import TurndownService from "turndown";
 import { fileURLToPath } from "url";
+import { resolveSite } from "./siteResolver.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const selectedSite = resolveSite();
 
-const CONFIG_PATH = path.join(__dirname, "../src/config/config.json");
-const LANGUAGE_PATH = path.join(__dirname, "../src/config/language.json");
+const CONFIG_PATH = path.join(selectedSite.configDir, "config.json");
+const LANGUAGE_PATH = path.join(selectedSite.configDir, "language.json");
 
 // ─── Default patterns to always skip ────────────────────────────────────────
 const DEFAULT_EXCLUDES = [
@@ -70,94 +72,19 @@ function resolveSiteUrl(config) {
 }
 
 async function getAstroI18nConfig() {
-  const astroPath = path.join(__dirname, "../astro.config.mjs");
-  if (!fs.existsSync(astroPath)) return null;
-
-  let content = fs.readFileSync(astroPath, "utf8");
-  const projectRoot = path.resolve(__dirname, "..");
-
-  // Replace JSON imports with fs.readFileSync so plain Node can evaluate the file
-  content = content.replace(
-    /import\s+config\s+from\s+['"]\.\/src\/config\/config\.json['"];?\s*\n/,
-    `const config = JSON.parse(fs.readFileSync(${JSON.stringify(path.join(projectRoot, "src/config/config.json"))}));
-`,
-  );
-  content = content.replace(
-    /import\s+languagesJSON\s+from\s+['"]\.\/src\/config\/language\.json['"];?\s*\n/,
-    `const languagesJSON = JSON.parse(fs.readFileSync(${JSON.stringify(path.join(projectRoot, "src/config/language.json"))}));
-`,
-  );
-  content = content.replace(
-    /import\s+theme\s+from\s+['"]\.\/src\/config\/theme\.json['"];?\s*\n/,
-    `const theme = JSON.parse(fs.readFileSync(${JSON.stringify(path.join(projectRoot, "src/config/theme.json"))}));
-`,
-  );
-
-  // Remove named imports from astro/config (we polyfill them below)
-  content = content.replace(
-    /import\s+\{\s*defineConfig\s*,\s*fontProviders\s*\}\s+from\s+['"]astro\/config['"];?\s*\n/,
-    "\n",
-  );
-
-  // Stub remaining package imports so the config object evaluates safely
-  const stubImports = [
-    {
-      regex: /import\s+mdx\s+from\s+['"]@astrojs\/mdx['"];?\s*\n/,
-      name: "mdx",
-    },
-    {
-      regex: /import\s+react\s+from\s+['"]@astrojs\/react['"];?\s*\n/,
-      name: "react",
-    },
-    {
-      regex: /import\s+sitemap\s+from\s+['"]@astrojs\/sitemap['"];?\s*\n/,
-      name: "sitemap",
-    },
-    {
-      regex: /import\s+tailwindcss\s+from\s+['"]@tailwindcss\/vite['"];?\s*\n/,
-      name: "tailwindcss",
-    },
-    {
-      regex: /import\s+AutoImport\s+from\s+['"]astro-auto-import['"];?\s*\n/,
-      name: "AutoImport",
-    },
-    {
-      regex: /import\s+remarkCollapse\s+from\s+['"]remark-collapse['"];?\s*\n/,
-      name: "remarkCollapse",
-    },
-    {
-      regex: /import\s+remarkToc\s+from\s+['"]remark-toc['"];?\s*\n/,
-      name: "remarkToc",
-    },
-    { regex: /import\s+sharp\s+from\s+['"]sharp['"];?\s*\n/, name: "sharp" },
-  ];
-
-  for (const { regex, name } of stubImports) {
-    content = content.replace(regex, `const ${name} = () => ({});\n`);
-  }
-
-  // Prepend fs import and polyfills
-  const tempContent = `import fs from "node:fs";
-const defineConfig = (x) => x;
-const fontProviders = { google: () => ({}) };
-${content}`;
-
-  const tempName = `astro.config.llms-temp-${Date.now()}.mjs`;
-  const tempPath = path.join(projectRoot, tempName);
-
-  fs.writeFileSync(tempPath, tempContent, "utf8");
-
-  try {
-    const mod = await import(tempPath);
-    fs.unlinkSync(tempPath);
-    return mod.default?.i18n || null;
-  } catch (err) {
-    if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
-    console.warn(
-      `   ⚠️  Could not read i18n from astro.config.mjs: ${err.message}`,
+  const config = getConfig();
+  const languagesJSON = JSON.parse(fs.readFileSync(LANGUAGE_PATH, "utf8"));
+  const enabledLocales = languagesJSON
+    .map(({ languageCode }) => languageCode)
+    .filter(
+      (languageCode) =>
+        !config.settings.disable_languages.includes(languageCode),
     );
-    return null;
-  }
+
+  return {
+    locales: enabledLocales,
+    defaultLocale: config.settings.default_language,
+  };
 }
 
 function getLanguageFallback() {
@@ -737,7 +664,7 @@ async function generateLlmsFiles() {
         } else {
           console.log(
             "   ⚠️  No server available. SSR pages will be skipped.\n" +
-              "       Run 'yarn preview' before 'yarn generate-llms' to include them.",
+              "       Run 'npm run preview' before 'npm run generate-llms' to include them.",
           );
         }
       }

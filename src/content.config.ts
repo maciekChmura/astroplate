@@ -1,6 +1,10 @@
 import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
+import { resolveSite } from "../scripts/siteResolver.js";
+
+const selectedSite = resolveSite();
+const contentBase = selectedSite.contentDir;
 
 const commonFields = {
   title: z.string(),
@@ -14,7 +18,7 @@ const commonFields = {
 
 // Post collection schema
 const blogCollection = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "src/content/blog" }),
+  loader: glob({ pattern: "**/*.md", base: `${contentBase}/blog` }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -29,7 +33,7 @@ const blogCollection = defineCollection({
 
 // Author collection schema
 const authorsCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/authors" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: `${contentBase}/authors` }),
   schema: z.object({
     ...commonFields,
     social: z
@@ -49,7 +53,7 @@ const authorsCollection = defineCollection({
 
 // Pages collection schema
 const pagesCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/pages" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: `${contentBase}/pages` }),
   schema: z.object({
     ...commonFields,
   }),
@@ -57,7 +61,7 @@ const pagesCollection = defineCollection({
 
 // about collection schema
 const aboutCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/about" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: `${contentBase}/about` }),
   schema: z.object({
     ...commonFields,
   }),
@@ -65,7 +69,7 @@ const aboutCollection = defineCollection({
 
 // contact collection schema
 const contactCollection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/contact" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: `${contentBase}/contact` }),
   schema: z.object({
     ...commonFields,
   }),
@@ -73,7 +77,7 @@ const contactCollection = defineCollection({
 
 // Homepage collection schema
 const homepageCollection = defineCollection({
-  loader: glob({ pattern: "**/-*.{md,mdx}", base: "src/content/homepage" }),
+  loader: glob({ pattern: "**/-*.{md,mdx}", base: `${contentBase}/homepage` }),
   schema: z.object({
     banner: z.object({
       title: z.string(),
@@ -105,7 +109,7 @@ const homepageCollection = defineCollection({
 const ctaSectionCollection = defineCollection({
   loader: glob({
     pattern: "**/call-to-action.{md,mdx}",
-    base: "src/content/sections",
+    base: `${contentBase}/sections`,
   }),
   schema: z.object({
     enable: z.boolean(),
@@ -124,7 +128,7 @@ const ctaSectionCollection = defineCollection({
 const testimonialSectionCollection = defineCollection({
   loader: glob({
     pattern: "**/testimonial.{md,mdx}",
-    base: "src/content/sections",
+    base: `${contentBase}/sections`,
   }),
   schema: z.object({
     enable: z.boolean(),

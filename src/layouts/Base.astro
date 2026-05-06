@@ -1,7 +1,7 @@
 ---
 import TwSizeIndicator from "@/components/TwSizeIndicator.astro";
-import theme from "@/config/theme.json";
 import { siteConfig } from "@/lib/siteConfig";
+import { siteTheme } from "@/lib/siteTheme";
 import { getLocaleAlternates } from "@/lib/utils/localeAlternates";
 import { getLangFromUrl, getTranslations } from "@/lib/utils/languageParser";
 import { plainify } from "@/lib/utils/textConverter";
@@ -17,7 +17,7 @@ import Announcement from "./helpers/Announcement";
 import SearchModal from "./helpers/SearchModal";
 
 // font families - extract font names for Font component (filter out type keys)
-const fontEntries = Object.entries(theme.fonts.font_family).filter(
+const fontEntries = Object.entries(siteTheme.fonts.font_family).filter(
   ([key]) => !key.includes("_type"),
 );
 
