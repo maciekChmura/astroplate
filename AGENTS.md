@@ -31,7 +31,8 @@
 - Changes to theme, JSON generation, or build output may affect downstream generated artifacts. Review the corresponding script before editing related behavior.
 - Blog posts are authored directly in `src/content/blog/<language>` as Markdown `.md` files.
 - English posts live in `src/content/blog/english/` and Polish posts live in `src/content/blog/polish/`.
-- Post URLs come from filenames. For example, `src/content/blog/english/my-post.md` becomes `/blog/my-post`, and `src/content/blog/polish/my-post.md` becomes `/pl/blog/my-post`.
+- Post URLs come from filenames, but they are root-level routes in the Astro app. For example, `src/content/blog/english/my-post.md` becomes `/my-post`, and `src/content/blog/polish/my-post.md` becomes `/pl/my-post`.
+- If a blog instance is mounted under a path such as `/blog`, that prefix is handled by the hosting layer, not by Astro post routes.
 - Use `src/content/blog/english/-template.md` or `src/content/blog/polish/-template.md` as the starting point for new posts.
 - Blog post frontmatter should include only `title`, `description`, `date`, `image`, `categories`, `tags`, and `draft`.
 - Keep post images in `public/images/` and reference them with absolute paths like `/images/cover.png`.

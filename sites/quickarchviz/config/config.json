@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "QuickArchViz",
-    "base_url": "https://quickarchviz.example.com",
+    "base_url": "https://quickarchviz.com",
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/sites/quickarchviz/images/favicon.png",
@@ -22,8 +22,7 @@
     "disable_languages": ["pl"],
     "default_language_in_subdir": false,
     "pagination": 2,
-    "summary_length": 200,
-    "blog_folder": "blog"
+    "summary_length": 200
   },
 
   "announcement": {

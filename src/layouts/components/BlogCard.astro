@@ -5,16 +5,14 @@ import {
   slugSelector,
   stripLocaleFromId,
 } from "@/lib/utils/languageParser";
+import { blogPostPath } from "@/lib/utils/blogRoutes";
 import dateFormat from "@/lib/utils/dateFormat";
 import { humanize, plainify, slugify } from "@/lib/utils/textConverter";
 import { FaRegFolder } from "react-icons/fa";
 import { siteConfig } from "@/lib/siteConfig";
 import ImageMod from "./ImageMod.astro";
 
-const {
-  summary_length,
-  blog_folder,
-}: { summary_length: number; blog_folder: string } = siteConfig.settings;
+const { summary_length }: { summary_length: number } = siteConfig.settings;
 const { data } = Astro.props;
 const { title, image, date, categories } = data.data;
 const lang = getLangFromUrl(Astro.url);
@@ -38,9 +36,7 @@ const postSlug = stripLocaleFromId(data.id);
     )
   }
   <h4 class="mb-3">
-    <a href={slugSelector(`/${blog_folder}/${postSlug}`, lang)}>
-      {title}
-    </a>
+    <a href={blogPostPath(postSlug, lang)}>{title}</a>
   </h4>
   <ul class="mb-4">
     <li class="mr-4 inline-block">{siteConfig.metadata.meta_author}</li>
@@ -58,10 +54,7 @@ const postSlug = stripLocaleFromId(data.id);
     {date && <li class="inline-block">{dateFormat(date)}</li>}
   </ul>
   <p class="mb-6">{plainify(data.body?.slice(0, Number(summary_length)))}</p>
-  <a
-    class="btn btn-outline-primary btn-sm"
-    href={slugSelector(`/${blog_folder}/${postSlug}`, lang)}
-  >
+  <a class="btn btn-outline-primary btn-sm" href={blogPostPath(postSlug, lang)}>
     {read_more}
   </a>
 </div>

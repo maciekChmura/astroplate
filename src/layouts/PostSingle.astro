@@ -5,6 +5,7 @@ import TableOfContents from "@/components/TableOfContents.astro";
 import Disqus from "@/helpers/Disqus";
 import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { blogPostPath } from "@/lib/utils/blogRoutes";
 import {
   getLangFromUrl,
   getTranslations,
@@ -121,7 +122,7 @@ const readTime = readingTime(post.body || "");
               className="social-icons"
               title={title}
               description={description}
-              path={slugSelector(`/blog/${postSlug}`, lang)}
+              path={blogPostPath(postSlug, lang)}
             />
           </div>
         </div>

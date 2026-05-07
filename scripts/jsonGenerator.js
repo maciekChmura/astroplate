@@ -31,7 +31,7 @@ const getData = (folder, groupDepth) => {
       const relativePath = path.relative(BLOG_FOLDER, filepath);
       const [contentDir, ...slugParts] = relativePath.split(path.sep);
       const slug = path
-        .join("blog", ...slugParts)
+        .join(...slugParts)
         .replace(/\.[^/.]+$/, "")
         .replace(/\\/g, "/");
       const lang = localeByContentDir.get(contentDir);

@@ -1,6 +1,7 @@
 import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { getTaxonomy } from "@/lib/taxonomyParser.astro";
+import { blogPostPath } from "@/lib/utils/blogRoutes";
 import {
   enabledLanguages,
   getLangFromUrl,
@@ -116,7 +117,7 @@ async function resolveAlternateForLang(basePath: string, targetLang: string) {
     return slugSelector(basePath, normalizedLang);
   }
 
-  const archiveMatch = basePath.match(/^\/(?:blog\/)?page\/(\d+)$/);
+  const archiveMatch = basePath.match(/^\/page\/(\d+)$/);
   if (archiveMatch) {
     const pageNumber = Number(archiveMatch[1]);
     await getBlogSlugs(normalizedLang);
@@ -165,21 +166,15 @@ async function resolveAlternateForLang(basePath: string, targetLang: string) {
     return undefined;
   }
 
-  const blogPostMatch = basePath.match(/^\/blog\/([^/]+)$/);
-  if (blogPostMatch) {
-    const slug = blogPostMatch[1];
-    const slugs = await getBlogSlugs(normalizedLang);
-
-    if (slugs.has(slug)) {
-      return slugSelector(`/blog/${slug}`, normalizedLang);
-    }
-
-    return undefined;
-  }
-
   const regularPageMatch = basePath.match(/^\/([^/]+)$/);
   if (regularPageMatch) {
     const slug = regularPageMatch[1];
+    const blogSlugs = await getBlogSlugs(normalizedLang);
+
+    if (blogSlugs.has(slug)) {
+      return blogPostPath(slug, normalizedLang);
+    }
+
     const slugs = await getPageSlugs(normalizedLang);
 
     if (slugs.has(slug)) {
@@ -200,7 +195,9 @@ export async function getLocaleAlternates(
   pathname: string,
 ): Promise<LocaleAlternates> {
   const currentLang = getLangFromUrl(new URL(pathname, "https://example.com"));
-  const logicalPath = normalizePath(getPathWithoutLocale(pathname, currentLang));
+  const logicalPath = normalizePath(
+    getPathWithoutLocale(pathname, currentLang),
+  );
   const alternates = Object.fromEntries(
     (
       await Promise.all(

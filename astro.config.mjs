@@ -48,17 +48,6 @@ const enabledLocales = languages
   .filter(
     (languageCode) => !config.settings.disable_languages.includes(languageCode),
   );
-const enabledLocalePrefixes = enabledLocales.filter(
-  (locale) =>
-    locale !== config.settings.default_language ||
-    config.settings.default_language_in_subdir,
-);
-const localePrefixPattern = enabledLocalePrefixes.length
-  ? `(?:/(?:${enabledLocalePrefixes.join("|")}))?`
-  : "";
-const legacyArchivePattern = new RegExp(
-  `^${localePrefixPattern}/blog(?:/page/\\d+)?/?$`,
-);
 
 // Helper to parse font string format: "FontName:wght@400;500;600;700"
 function parseFontString(fontStr) {
@@ -120,12 +109,7 @@ export default defineConfig({
   fonts: fontsConfig,
   integrations: [
     react(),
-    sitemap({
-      filter(page) {
-        const pathname = new URL(page, resolvedSiteUrl).pathname;
-        return !legacyArchivePattern.test(pathname);
-      },
-    }),
+    sitemap(),
     AutoImport({
       imports: [
         "@/shortcodes/Button",

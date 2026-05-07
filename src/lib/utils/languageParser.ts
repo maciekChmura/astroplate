@@ -112,7 +112,8 @@ export async function getTranslations(lang?: string) {
 
 export function slugSelector(url: string, lang?: string) {
   const normalizedLang = normalizeLang(lang);
-  const normalizedUrl = url === "/" ? "/" : url.startsWith("/") ? url : `/${url}`;
+  const normalizedUrl =
+    url === "/" ? "/" : url.startsWith("/") ? url : `/${url}`;
 
   let pathname =
     normalizedLang === default_language && !default_language_in_subdir

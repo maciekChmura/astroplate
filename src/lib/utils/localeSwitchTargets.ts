@@ -1,6 +1,7 @@
 import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { getTaxonomy } from "@/lib/taxonomyParser.astro";
+import { blogPostPath } from "@/lib/utils/blogRoutes";
 import {
   enabledLanguages,
   getLangFromUrl,
@@ -57,10 +58,7 @@ export async function getLocaleSwitchTargets(pathname: string) {
         lang,
         new Set(posts.map((post) => stripLocaleFromId(post.id))),
       );
-      totalBlogPages.set(
-        lang,
-        Math.ceil(posts.length / PAGE_SIZE) || 1,
-      );
+      totalBlogPages.set(lang, Math.ceil(posts.length / PAGE_SIZE) || 1);
     }
 
     return blogPostSlugs.get(lang)!;
@@ -112,11 +110,11 @@ export async function getLocaleSwitchTargets(pathname: string) {
   async function resolveTargetForLang(targetLang: string) {
     const normalizedLang = normalizeLang(targetLang);
 
-    if (basePath === "/" || basePath === "/blog") {
+    if (basePath === "/") {
       return slugSelector("/", normalizedLang);
     }
 
-    const archiveMatch = basePath.match(/^\/(?:blog\/)?page\/(\d+)$/);
+    const archiveMatch = basePath.match(/^\/page\/(\d+)$/);
     if (archiveMatch) {
       const pageNumber = Number(archiveMatch[1]);
       await getBlogSlugs(normalizedLang);
@@ -135,7 +133,11 @@ export async function getLocaleSwitchTargets(pathname: string) {
       return slugSelector(basePath, normalizedLang);
     }
 
-    if (basePath === "/authors" || basePath === "/categories" || basePath === "/tags") {
+    if (
+      basePath === "/authors" ||
+      basePath === "/categories" ||
+      basePath === "/tags"
+    ) {
       return slugSelector(basePath, normalizedLang);
     }
 
@@ -166,20 +168,17 @@ export async function getLocaleSwitchTargets(pathname: string) {
         : slugSelector("/tags", normalizedLang);
     }
 
-    const blogPostMatch = basePath.match(/^\/blog\/([^/]+)$/);
-    if (blogPostMatch) {
-      const slug = blogPostMatch[1];
-      const slugs = await getBlogSlugs(normalizedLang);
-      return slugs.has(slug)
-        ? slugSelector(`/blog/${slug}`, normalizedLang)
-        : slugSelector("/", normalizedLang);
-    }
-
     const regularPageMatch = basePath.match(/^\/([^/]+)$/);
     if (regularPageMatch) {
       const slug = regularPageMatch[1];
-      const slugs = await getPageSlugs(normalizedLang);
-      return slugs.has(slug)
+      const blogSlugs = await getBlogSlugs(normalizedLang);
+
+      if (blogSlugs.has(slug)) {
+        return blogPostPath(slug, normalizedLang);
+      }
+
+      const pageSlugs = await getPageSlugs(normalizedLang);
+      return pageSlugs.has(slug)
         ? slugSelector(`/${slug}`, normalizedLang)
         : slugSelector("/", normalizedLang);
     }

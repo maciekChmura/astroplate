@@ -21,8 +21,7 @@
     "disable_languages": [],
     "default_language_in_subdir": false,
     "pagination": 2,
-    "summary_length": 200,
-    "blog_folder": "blog"
+    "summary_length": 200
   },
 
   "announcement": {

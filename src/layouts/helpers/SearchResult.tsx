@@ -1,3 +1,4 @@
+import { blogPostPath } from "@/lib/utils/blogRoutes";
 import { slugSelector } from "@/lib/utils/languageParser";
 import { plainify, titleify } from "@/lib/utils/textConverter";
 import React from "react";
@@ -161,7 +162,11 @@ const SearchResult = ({
                     )}
                     <div className="search-result-item-body">
                       <a
-                        href={slugSelector(`/${item.slug}`, lang)}
+                        href={
+                          result.group === "blog"
+                            ? blogPostPath(item.slug, lang)
+                            : slugSelector(`/${item.slug}`, lang)
+                        }
                         className="search-result-item-title search-result-item-link"
                       >
                         {matchUnderline(item.frontmatter.title, searchString)}
