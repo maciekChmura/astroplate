@@ -62,6 +62,16 @@ test("production URL normalizes to origin with trailing slash", () => {
   );
 });
 
+test("SITE_URL is accepted when PUBLIC_SITE_URL is absent", () => {
+  assert.equal(
+    resolveEnvSiteUrl(
+      { SITE_URL: "https://site-domain.com" },
+      { production: true },
+    ),
+    "https://site-domain.com/",
+  );
+});
+
 test("PUBLIC_SITE_URL takes precedence over SITE_URL", () => {
   assert.equal(
     resolveEnvSiteUrl(
@@ -72,6 +82,17 @@ test("PUBLIC_SITE_URL takes precedence over SITE_URL", () => {
       { production: true },
     ),
     "https://public-domain.com/",
+  );
+});
+
+test("production URL rejects paths, queries, and hashes", () => {
+  assert.throws(
+    () =>
+      resolveEnvSiteUrl(
+        { PUBLIC_SITE_URL: "https://real-domain.com/path?x=1#top" },
+        { production: true },
+      ),
+    /origin URL/,
   );
 });
 
