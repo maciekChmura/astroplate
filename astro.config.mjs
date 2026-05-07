@@ -10,6 +10,10 @@ import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import sharp from "sharp";
 import { resolveSite } from "./scripts/siteResolver.js";
+import {
+  LOCALHOST_SITE_URL,
+  resolveSiteUrl,
+} from "./scripts/siteUrlResolver.js";
 
 const selectedSite = resolveSite();
 const readSiteJson = (filename) =>
@@ -20,28 +24,15 @@ const languages = JSON.parse(
   readFileSync(path.join(selectedSite.configDir, "language.json"), "utf8"),
 );
 
-function normalizeSiteUrl(rawUrl) {
-  if (!rawUrl) return undefined;
-
-  const withProtocol = /^https?:\/\//.test(rawUrl)
-    ? rawUrl
-    : `https://${rawUrl}`;
-
-  try {
-    const url = new URL(withProtocol);
-    return url.hostname === "example.com" ? undefined : url.toString();
-  } catch {
-    return undefined;
-  }
-}
-
-const fallbackSiteUrl = "http://localhost:4321/";
-const resolvedSiteUrl =
-  normalizeSiteUrl(process.env.PUBLIC_SITE_URL) ||
-  normalizeSiteUrl(process.env.SITE_URL) ||
-  normalizeSiteUrl(process.env.CF_PAGES_URL) ||
-  normalizeSiteUrl(config.site.base_url) ||
-  fallbackSiteUrl;
+const shouldRequireProductionSiteUrl =
+  process.env.REQUIRE_PRODUCTION_SITE_URL === "true" ||
+  process.argv.includes("build");
+const resolvedSiteUrl = resolveSiteUrl({
+  env: process.env,
+  fallbackSiteUrl: LOCALHOST_SITE_URL,
+  production: shouldRequireProductionSiteUrl,
+  allowConfigSiteUrl: false,
+});
 
 const enabledLocales = languages
   .map(({ languageCode }) => languageCode)

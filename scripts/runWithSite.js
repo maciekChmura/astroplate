@@ -2,6 +2,7 @@ import { spawn } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { resolveSite, stripSiteArgs } from "./siteResolver.js";
+import { assertProductionSiteUrl } from "./siteUrlResolver.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,7 +52,10 @@ async function runWrangler(args) {
   await run(npmCommand, ["exec", "wrangler", "--", ...args]);
 }
 
-async function runBuild(extraAstroArgs = []) {
+async function runBuild(extraAstroArgs = [], commandLabel = "npm run build") {
+  assertProductionSiteUrl(process.env, commandLabel);
+  process.env.REQUIRE_PRODUCTION_SITE_URL = "true";
+
   await run(process.execPath, ["scripts/themeGenerator.js"]);
   await run(process.execPath, ["scripts/jsonGenerator.js"]);
   await runAstro(["build", ...extraAstroArgs]);
@@ -97,7 +101,7 @@ async function main() {
       await runDev();
       break;
     case "build":
-      await runBuild(commandArgs);
+      await runBuild(commandArgs, "npm run build");
       break;
     case "check":
       await run(process.execPath, ["scripts/themeGenerator.js"]);
@@ -118,11 +122,11 @@ async function main() {
       await run(npmCommand, ["run", "format"]);
       break;
     case "deploy:cf-workers":
-      await runBuild();
+      await runBuild([], "npm run deploy:cf-workers");
       await runWrangler(["deploy", ...commandArgs]);
       break;
     case "preview:cf-workers":
-      await runBuild();
+      await runBuild([], "npm run preview:cf-workers");
       await runWrangler(["dev", ...commandArgs]);
       break;
     default:
