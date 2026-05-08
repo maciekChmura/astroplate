@@ -2,6 +2,7 @@ import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { getTaxonomy } from "@/lib/taxonomyParser.astro";
 import { blogPostPath } from "@/lib/utils/blogRoutes";
+import { promptPath, promptsIndexPath } from "@/lib/utils/promptRoutes";
 import {
   enabledLanguages,
   getLangFromUrl,
@@ -11,6 +12,7 @@ import {
 } from "@/lib/utils/languageParser";
 
 const BLOG_FOLDER = "blog";
+const PROMPTS_FOLDER = "prompts";
 const PAGE_SIZE = siteConfig.settings.pagination;
 const { default_language, default_language_in_subdir } = siteConfig.settings;
 
@@ -45,6 +47,7 @@ export async function getLocaleSwitchTargets(pathname: string) {
   const basePath = normalizePath(getPathWithoutLocale(pathname, currentLang));
 
   const blogPostSlugs = new Map<string, Set<string>>();
+  const promptSlugs = new Map<string, Set<string>>();
   const regularPageSlugs = new Map<string, Set<string>>();
   const authorSlugs = new Map<string, Set<string>>();
   const categorySlugs = new Map<string, Set<string>>();
@@ -74,6 +77,18 @@ export async function getLocaleSwitchTargets(pathname: string) {
     }
 
     return regularPageSlugs.get(lang)!;
+  }
+
+  async function getPromptSlugs(lang: string) {
+    if (!promptSlugs.has(lang)) {
+      const prompts = await getSinglePage(PROMPTS_FOLDER, lang);
+      promptSlugs.set(
+        lang,
+        new Set(prompts.map((prompt) => stripLocaleFromId(prompt.id))),
+      );
+    }
+
+    return promptSlugs.get(lang)!;
   }
 
   async function getAuthorSlugs(lang: string) {
@@ -136,9 +151,19 @@ export async function getLocaleSwitchTargets(pathname: string) {
     if (
       basePath === "/authors" ||
       basePath === "/categories" ||
+      basePath === "/prompts" ||
       basePath === "/tags"
     ) {
       return slugSelector(basePath, normalizedLang);
+    }
+
+    const promptMatch = basePath.match(/^\/prompts\/([^/]+)$/);
+    if (promptMatch) {
+      const slug = promptMatch[1];
+      const slugs = await getPromptSlugs(normalizedLang);
+      return slugs.has(slug)
+        ? promptPath(slug, normalizedLang)
+        : promptsIndexPath(normalizedLang);
     }
 
     const authorMatch = basePath.match(/^\/authors\/([^/]+)$/);

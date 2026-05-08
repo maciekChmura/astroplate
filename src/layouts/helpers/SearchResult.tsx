@@ -1,4 +1,5 @@
 import { blogPostPath } from "@/lib/utils/blogRoutes";
+import { promptPath } from "@/lib/utils/promptRoutes";
 import { slugSelector } from "@/lib/utils/languageParser";
 import { plainify, titleify } from "@/lib/utils/textConverter";
 import React from "react";
@@ -165,7 +166,9 @@ const SearchResult = ({
                         href={
                           result.group === "blog"
                             ? blogPostPath(item.slug, lang)
-                            : slugSelector(`/${item.slug}`, lang)
+                            : result.group === "prompts"
+                              ? promptPath(item.slug, lang)
+                              : slugSelector(`/${item.slug}`, lang)
                         }
                         className="search-result-item-title search-result-item-link"
                       >

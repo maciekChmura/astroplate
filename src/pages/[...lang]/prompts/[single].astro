@@ -1,0 +1,68 @@
+---
+import Base from "@/layouts/Base.astro";
+import PromptSingle from "@/layouts/PromptSingle.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
+import { PROMPTS_CONTENT_FOLDER, promptPath } from "@/lib/utils/promptRoutes";
+import {
+  normalizeLang,
+  stripLocaleFromId,
+  supportedLang,
+} from "@/lib/utils/languageParser";
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const routeLang of supportedLang) {
+    const lang = normalizeLang(routeLang);
+    const prompts = await getSinglePage(PROMPTS_CONTENT_FOLDER, lang);
+
+    paths.push(
+      ...prompts.map((promptEntry) => ({
+        params: {
+          lang: routeLang || undefined,
+          single: stripLocaleFromId(promptEntry.id),
+        },
+        props: { promptEntry, lang },
+      })),
+    );
+  }
+
+  return paths;
+}
+
+const { promptEntry, lang } = Astro.props;
+const { title, description, image, categories, tags } = promptEntry.data;
+const promptSlug = stripLocaleFromId(promptEntry.id);
+const canonicalPath = promptPath(promptSlug, lang);
+const siteUrl =
+  Astro.site ||
+  (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
+const canonicalUrl = siteUrl
+  ? new URL(canonicalPath, siteUrl).toString()
+  : canonicalPath;
+const imageUrl = siteUrl && image ? new URL(image, siteUrl).toString() : image;
+const promptJsonLd = {
+  "@type": "CreativeWork",
+  "@id": `${canonicalUrl}#prompt`,
+  headline: title,
+  name: title,
+  description,
+  image: imageUrl,
+  url: canonicalUrl,
+  inLanguage: lang,
+  about: categories,
+  keywords: tags.join(", "),
+};
+---
+
+<Base
+  title={title}
+  description={description}
+  image={image}
+  canonical={canonicalPath}
+  lang={lang}
+  jsonLd={promptJsonLd}
+>
+  <PromptSingle promptEntry={promptEntry} lang={lang} />
+</Base>

@@ -1,0 +1,48 @@
+---
+import {
+  getLangFromUrl,
+  getTranslations,
+  stripLocaleFromId,
+} from "@/lib/utils/languageParser";
+import { promptPath } from "@/lib/utils/promptRoutes";
+import { humanize, plainify } from "@/lib/utils/textConverter";
+import ImageMod from "./ImageMod.astro";
+
+const { data } = Astro.props;
+const { title, description, image, categories } = data.data;
+const lang = getLangFromUrl(Astro.url);
+const translations = (await getTranslations(lang)) as Record<string, string>;
+const viewPrompt = translations.view_prompt || "View prompt";
+const promptSlug = stripLocaleFromId(data.id);
+---
+
+<article class="h-full rounded bg-light p-6 dark:bg-darkmode-light">
+  {
+    image && (
+      <ImageMod
+        class="mb-6 h-44 w-full rounded object-cover"
+        src={image}
+        alt={title}
+        width={445}
+        height={230}
+        format="webp"
+      />
+    )
+  }
+  <div class="mb-4 flex flex-wrap gap-2">
+    {
+      categories.map((category: string) => (
+        <span class="rounded bg-body px-3 py-1 text-sm text-text dark:bg-darkmode-body dark:text-darkmode-text">
+          {humanize(category)}
+        </span>
+      ))
+    }
+  </div>
+  <h3 class="h5 mb-3">
+    <a href={promptPath(promptSlug, lang)}>{title}</a>
+  </h3>
+  <p class="mb-6">{plainify(description)}</p>
+  <a class="btn btn-outline-primary btn-sm" href={promptPath(promptSlug, lang)}>
+    {viewPrompt}
+  </a>
+</article>

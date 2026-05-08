@@ -6,6 +6,7 @@ import { resolveSite } from "./siteResolver.js";
 const JSON_FOLDER = "./.json";
 const selectedSite = resolveSite();
 const BLOG_FOLDER = path.join(selectedSite.contentDir, "blog");
+const PROMPTS_FOLDER = path.join(selectedSite.contentDir, "prompts");
 const languages = JSON.parse(
   fs.readFileSync(path.join(selectedSite.configDir, "language.json"), "utf8"),
 );
@@ -14,7 +15,11 @@ const localeByContentDir = new Map(
 );
 
 // get data from markdown
-const getData = (folder, groupDepth) => {
+const getData = (folder, group, contentFolder = folder) => {
+  if (!fs.existsSync(folder)) {
+    return [];
+  }
+
   const getPath = fs.readdirSync(folder);
   const removeIndex = getPath.filter((item) => !item.startsWith("-"));
 
@@ -24,24 +29,28 @@ const getData = (folder, groupDepth) => {
     const isFolder = stats.isDirectory();
 
     if (isFolder) {
-      return getData(filepath, groupDepth);
+      return getData(filepath, group, contentFolder);
     } else if (filename.endsWith(".md")) {
       const file = fs.readFileSync(filepath, "utf-8");
       const { data, content } = matter(file);
-      const relativePath = path.relative(BLOG_FOLDER, filepath);
+      const relativePath = path.relative(contentFolder, filepath);
       const [contentDir, ...slugParts] = relativePath.split(path.sep);
       const slug = path
         .join(...slugParts)
         .replace(/\.[^/.]+$/, "")
         .replace(/\\/g, "/");
       const lang = localeByContentDir.get(contentDir);
+      const searchableContent =
+        group === "prompts" && data.prompt
+          ? [data.prompt, content].filter(Boolean).join("\n\n")
+          : content;
 
       return {
         lang,
-        group: "blog",
+        group,
         slug: slug,
         frontmatter: data,
-        content: content,
+        content: searchableContent,
       };
     } else {
       return [];
@@ -64,13 +73,23 @@ try {
   // create json files
   fs.writeFileSync(
     `${JSON_FOLDER}/posts.json`,
-    JSON.stringify(getData(BLOG_FOLDER, 2)),
+    JSON.stringify(getData(BLOG_FOLDER, "blog")),
+  );
+
+  fs.writeFileSync(
+    `${JSON_FOLDER}/prompts.json`,
+    JSON.stringify(getData(PROMPTS_FOLDER, "prompts")),
   );
 
   // merger json files for search
   const postsPath = new URL(`../${JSON_FOLDER}/posts.json`, import.meta.url);
+  const promptsPath = new URL(
+    `../${JSON_FOLDER}/prompts.json`,
+    import.meta.url,
+  );
   const posts = JSON.parse(fs.readFileSync(postsPath, "utf8"));
-  const search = [...posts];
+  const prompts = JSON.parse(fs.readFileSync(promptsPath, "utf8"));
+  const search = [...posts, ...prompts];
   fs.writeFileSync(`${JSON_FOLDER}/search.json`, JSON.stringify(search));
 } catch (err) {
   console.error(err);

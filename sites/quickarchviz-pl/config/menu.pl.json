@@ -3,6 +3,10 @@
     {
       "name": "Strona glowna",
       "url": "/"
+    },
+    {
+      "name": "Prompty",
+      "url": "/prompts"
     }
   ],
   "footer": [

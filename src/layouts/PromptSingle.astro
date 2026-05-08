@@ -1,0 +1,136 @@
+---
+import TableOfContents from "@/components/TableOfContents.astro";
+import { getTranslations } from "@/lib/utils/languageParser";
+import { humanize, markdownify } from "@/lib/utils/textConverter";
+import ImageMod from "./components/ImageMod.astro";
+import { render } from "astro:content";
+import { FaRegFolder } from "react-icons/fa";
+
+const { promptEntry, lang } = Astro.props;
+const { Content, headings } = await render(promptEntry);
+const { title, description, image, categories, tags, prompt } =
+  promptEntry.data;
+const translations = (await getTranslations(lang)) as Record<string, string>;
+const copyLabel = translations.copy_prompt || "Copy prompt";
+const copiedLabel = translations.copied_prompt || "Copied";
+const promptLabel = translations.prompt || "Prompt";
+const tableOfContents = translations.table_of_contents || "Table of contents";
+---
+
+<section class="section pt-7">
+  <div class="container">
+    <div class="row justify-center">
+      <article class="lg:col-10">
+        {
+          image && (
+            <div class="mb-10">
+              <ImageMod
+                src={image}
+                height={500}
+                width={1200}
+                alt={title}
+                class="w-full rounded"
+                format="webp"
+              />
+            </div>
+          )
+        }
+        <h1 set:html={markdownify(title)} class="h2 mb-4" />
+        <p class="mb-6 text-lg">{description}</p>
+        <ul class="mb-8">
+          <li class="mr-4 inline-block">
+            <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
+            {
+              categories.map((category: string, index: number) => (
+                <span>
+                  {humanize(category)}
+                  {index !== categories.length - 1 && ", "}
+                </span>
+              ))
+            }
+          </li>
+        </ul>
+
+        <div
+          class="mb-10 rounded bg-light p-6 dark:bg-darkmode-light"
+          data-prompt-container
+        >
+          <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 class="h5 mb-0">{promptLabel}</h2>
+            <button
+              class="btn btn-outline-primary btn-sm"
+              type="button"
+              data-copy-prompt
+              data-copy-label={copyLabel}
+              data-copied-label={copiedLabel}
+            >
+              {copyLabel}
+            </button>
+          </div>
+          <pre
+            class="whitespace-pre-wrap break-words rounded bg-body p-5 text-sm leading-7 dark:bg-darkmode-body"><code data-prompt-text>{prompt}</code></pre>
+        </div>
+
+        <TableOfContents headings={headings} title={tableOfContents} />
+        <div class="content mb-10">
+          <Content />
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          {
+            tags.map((tag: string) => (
+              <span class="rounded bg-light px-3 py-1 text-sm dark:bg-darkmode-light">
+                {humanize(tag)}
+              </span>
+            ))
+          }
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+  const copyButtons = document.querySelectorAll("[data-copy-prompt]");
+
+  copyButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const container = button.closest("[data-prompt-container]");
+      const promptText = container?.querySelector("[data-prompt-text]");
+      const text = promptText?.textContent || "";
+      const originalLabel = button.getAttribute("data-copy-label") || "";
+      const copiedLabel = button.getAttribute("data-copied-label") || "";
+
+      const fallbackCopy = () => {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.top = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        const copied = document.execCommand("copy");
+        textarea.remove();
+        return copied;
+      };
+
+      try {
+        if (navigator.clipboard) {
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch {
+            fallbackCopy();
+          }
+        } else {
+          fallbackCopy();
+        }
+
+        button.textContent = copiedLabel;
+        setTimeout(() => {
+          button.textContent = originalLabel;
+        }, 2000);
+      } catch {
+        button.textContent = originalLabel;
+      }
+    });
+  });
+</script>

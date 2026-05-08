@@ -12,6 +12,7 @@ const RESERVED_ROOT_SLUGS = new Set([
   "categories",
   "contact",
   "page",
+  "prompts",
   "tags",
 ]);
 

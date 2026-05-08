@@ -31,6 +31,20 @@ const blogCollection = defineCollection({
   }),
 });
 
+// Prompt collection schema
+const promptsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: `${contentBase}/prompts` }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    image: z.string().optional(),
+    categories: z.array(z.string()).min(1),
+    tags: z.array(z.string()).min(1),
+    prompt: z.string(),
+    draft: z.boolean(),
+  }),
+});
+
 // Author collection schema
 const authorsCollection = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: `${contentBase}/authors` }),
@@ -150,6 +164,7 @@ export const collections = {
   // Pages
   homepage: homepageCollection,
   blog: blogCollection,
+  prompts: promptsCollection,
   authors: authorsCollection,
   pages: pagesCollection,
   about: aboutCollection,
