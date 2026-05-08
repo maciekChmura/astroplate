@@ -15,6 +15,7 @@
     "generate-json": "node scripts/runWithSite.js generate-json",
     "generate-llms": "node scripts/runWithSite.js generate-llms",
     "remove-darkmode": "node scripts/runWithSite.js remove-darkmode",
+    "preview:cf-pages": "node scripts/runWithSite.js preview:cf-pages",
     "deploy:cf-workers": "node scripts/runWithSite.js deploy:cf-workers",
     "preview:cf-workers": "node scripts/runWithSite.js preview:cf-workers"
   },

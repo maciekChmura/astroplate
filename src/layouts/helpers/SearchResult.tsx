@@ -1,5 +1,5 @@
 import { blogPostPath } from "@/lib/utils/blogRoutes";
-import { slugSelector } from "@/lib/utils/languageParser";
+import { publicAssetPath, slugSelector } from "@/lib/utils/languageParser";
 import { plainify, titleify } from "@/lib/utils/textConverter";
 import React from "react";
 
@@ -155,7 +155,7 @@ const SearchResult = ({
                     {item.frontmatter.image && (
                       <div className="search-result-item-image">
                         <img
-                          src={item.frontmatter.image}
+                          src={publicAssetPath(item.frontmatter.image)}
                           alt={item.frontmatter.title}
                         />
                       </div>

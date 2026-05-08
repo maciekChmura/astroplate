@@ -1,7 +1,11 @@
 ---
 import ImageMod from "./ImageMod.astro";
 import { siteConfig } from "@/lib/siteConfig";
-import { getLangFromUrl, slugSelector } from "@/lib/utils/languageParser";
+import {
+  getLangFromUrl,
+  publicAssetPath,
+  slugSelector,
+} from "@/lib/utils/languageParser";
 
 const { src, srcDarkmode }: { src?: string; srcDarkmode?: string } =
   Astro.props;
@@ -27,6 +31,8 @@ const { theme_switcher }: { theme_switcher: boolean } = siteConfig.settings;
 const lang = getLangFromUrl(Astro.url);
 const activeLogo = src ? src : logo;
 const activeDarkLogo = srcDarkmode ? srcDarkmode : logo_darkmode || activeLogo;
+const activeLogoPath = publicAssetPath(activeLogo);
+const activeDarkLogoPath = publicAssetPath(activeDarkLogo);
 const brandName = logo_text || title;
 const logoWidth = String(logo_width).replace("px", "");
 const logoHeight = String(logo_height).replace("px", "");
@@ -41,7 +47,7 @@ const logoLayout = logo_layout === "lockup" ? "lockup" : "image";
     logoLayout === "lockup" && hasLogo ? (
       <>
         <img
-          src={activeLogo}
+          src={activeLogoPath}
           class={`inline-block shrink-0 ${theme_switcher && activeDarkLogo && activeDarkLogo !== activeLogo ? "dark:hidden" : ""}`}
           width={logoWidth}
           height={logoHeight}
@@ -54,7 +60,7 @@ const logoLayout = logo_layout === "lockup" ? "lockup" : "image";
         {
           theme_switcher && activeDarkLogo && activeDarkLogo !== activeLogo && (
             <img
-              src={activeDarkLogo}
+              src={activeDarkLogoPath}
               class="hidden shrink-0 dark:inline-block"
               width={logoWidth}
               height={logoHeight}

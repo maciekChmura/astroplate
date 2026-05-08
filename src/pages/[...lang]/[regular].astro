@@ -7,6 +7,7 @@ import { blogPostPath, BLOG_CONTENT_FOLDER } from "@/lib/utils/blogRoutes";
 import { assertAvailableBlogSlugs } from "@/lib/utils/blogSlugCollisions";
 import {
   normalizeLang,
+  publicAssetPath,
   stripLocaleFromId,
   supportedLang,
 } from "@/lib/utils/languageParser";
@@ -59,7 +60,9 @@ const canonicalUrl =
   siteUrl && postCanonicalPath
     ? new URL(postCanonicalPath, siteUrl).toString()
     : postCanonicalPath;
-const imageUrl = siteUrl && image ? new URL(image, siteUrl).toString() : image;
+const imagePath = publicAssetPath(image);
+const imageUrl =
+  siteUrl && imagePath ? new URL(imagePath, siteUrl).toString() : imagePath;
 const organizationId = siteRootUrl ? `${siteRootUrl}#organization` : undefined;
 const publishedDate =
   isPost && "date" in entry.data && entry.data.date

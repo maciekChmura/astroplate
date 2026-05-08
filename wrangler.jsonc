@@ -1,7 +1,8 @@
 {
-  // Cloudflare Workers — Static Assets deployment
+  // Cloudflare Workers — Static Assets deployment (legacy)
   // Deploy:  npm run deploy:cf-workers
   // Preview: npm run preview:cf-workers
+  // Cloudflare Pages preview: npm run preview:cf-pages
   "name": "astroplate",
   "compatibility_date": "2026-03-02",
   "assets": {

@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from "@/lib/siteConfig";
+import { withSiteBasePath } from "@/lib/utils/languageParser";
 import {
   IoLogoFacebook,
   IoLogoLinkedin,
@@ -17,7 +18,7 @@ const {
   className,
 }: { title?: string; description?: string; path?: string; className?: string } =
   Astro.props;
-const sharePath = path || "/";
+const sharePath = withSiteBasePath(path || "/");
 ---
 
 <ul class={`${className}`}>

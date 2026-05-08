@@ -1,0 +1,14 @@
+{
+  "main": [
+    {
+      "name": "Strona glowna",
+      "url": "/"
+    }
+  ],
+  "footer": [
+    {
+      "name": "Polityka prywatnosci",
+      "url": "/privacy-policy"
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import {
   getLangFromUrl,
   getTranslations,
   slugSelector,
+  withSiteBasePath,
 } from "@/lib/utils/languageParser";
 import { IoSearch } from "react-icons/io5";
 
@@ -28,6 +29,19 @@ const { main } = (await getTranslations(lang)) as { main: NavigationLink[] };
 const { navigation_button, settings } = siteConfig;
 const { pathname } = Astro.url;
 const switchTargets = await getLocaleSwitchTargets(pathname);
+const navigationButtonLink = withSiteBasePath(navigation_button.link);
+const languageSwitcherLinks =
+  (
+    siteConfig as typeof siteConfig & {
+      language_switcher?: {
+        links?: {
+          languageCode: string;
+          languageName: string;
+          url: string;
+        }[];
+      };
+    }
+  ).language_switcher?.links || [];
 ---
 
 <header class={`header z-30 ${settings.sticky_header && "sticky top-0"}`}>
@@ -119,11 +133,11 @@ const switchTargets = await getLocaleSwitchTargets(pathname);
           <li class="mt-4 inline-block lg:hidden">
             <a
               class="btn btn-outline-primary btn-sm"
-              href={navigation_button.link}
+              href={navigationButtonLink}
               target={
-                navigation_button.link.startsWith("http") ? "_blank" : "_self"
+                navigationButtonLink.startsWith("http") ? "_blank" : "_self"
               }
-              rel={navigation_button.link.startsWith("http") ? "noopener" : ""}
+              rel={navigationButtonLink.startsWith("http") ? "noopener" : ""}
             >
               {navigation_button.label}
             </a>
@@ -144,16 +158,21 @@ const switchTargets = await getLocaleSwitchTargets(pathname);
         )
       }
       {settings.theme_switcher && <ThemeSwitcher className="mr-5" />}
-      <LanguageSwitcher client:load lang={lang} switchTargets={switchTargets} />
+      <LanguageSwitcher
+        client:load
+        lang={lang}
+        switchTargets={switchTargets}
+        externalLinks={languageSwitcherLinks}
+      />
       {
         navigation_button.enable && (
           <a
             class="btn btn-outline-primary btn-sm hidden lg:inline-block"
-            href={navigation_button.link}
+            href={navigationButtonLink}
             target={
-              navigation_button.link.startsWith("http") ? "_blank" : "_self"
+              navigationButtonLink.startsWith("http") ? "_blank" : "_self"
             }
-            rel={navigation_button.link.startsWith("http") ? "noopener" : ""}
+            rel={navigationButtonLink.startsWith("http") ? "noopener" : ""}
           >
             {navigation_button.label}
           </a>

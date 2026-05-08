@@ -1,0 +1,73 @@
+{
+  "site": {
+    "title": "QuickArchViz",
+    "base_url": "https://quickarchviz.pl",
+    "base_path": "/resources",
+    "trailing_slash": false,
+    "favicon": "/sites/quickarchviz/images/favicon.png",
+    "logo_layout": "lockup",
+    "logo": "/sites/quickarchviz/images/q-logo.svg",
+    "logo_darkmode": "/sites/quickarchviz/images/q-logo.svg",
+    "logo_width": "36",
+    "logo_height": "36",
+    "logo_text": "QuickArchViz"
+  },
+
+  "settings": {
+    "search": true,
+    "sticky_header": true,
+    "theme_switcher": true,
+    "default_theme": "system",
+    "default_language": "pl",
+    "disable_languages": [],
+    "default_language_in_subdir": false,
+    "pagination": 2,
+    "summary_length": 200
+  },
+
+  "announcement": {
+    "enable": false,
+    "content": "<span class='text-center block'>♥️ Loving QuickArchViz? <a class='underline' href='https://github.com/zeon-studio/astroplate' target='_blank' rel='noopener'>Please ⭐️ on Github</a></span>",
+    "expire_days": 7
+  },
+
+  "params": {
+    "contact_form_action": "#",
+    "copyright": "Designed And Developed by QuickArchViz"
+  },
+
+  "navigation_button": {
+    "enable": false,
+    "label": "Github",
+    "link": "https://github.com/zeon-studio/astroplate"
+  },
+
+  "google_tag_manager": {
+    "enable": false,
+    "gtm_id": "GTM-XXXXXX"
+  },
+
+  "disqus": {
+    "enable": false,
+    "shortname": "themefisher-template",
+    "settings": {}
+  },
+
+  "metadata": {
+    "meta_author": "QuickArchViz",
+    "meta_image": "/sites/quickarchviz/images/og-image.png",
+    "meta_description": "Zasoby QuickArchViz po polsku"
+  },
+
+  "language_switcher": {
+    "links": []
+  },
+
+  "llms": {
+    "generate_llms_txt": true,
+    "generate_llms_full_txt": true,
+    "generate_individual_md": true,
+    "include": [],
+    "exclude": []
+  }
+}

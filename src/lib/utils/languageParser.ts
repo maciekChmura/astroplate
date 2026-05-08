@@ -15,6 +15,73 @@ type LocaleDictionary = {
 const { default_language, disable_languages, default_language_in_subdir } =
   siteConfig.settings;
 const disabledLanguages = disable_languages as string[];
+const configuredBasePath = siteConfig.site.base_path || "/";
+
+function isExternalUrl(url: string) {
+  return /^(?:[a-z][a-z\d+.-]*:|\/\/|#)/i.test(url);
+}
+
+export function getSiteBasePath() {
+  const normalizedBase = configuredBasePath.startsWith("/")
+    ? configuredBasePath
+    : `/${configuredBasePath}`;
+  const withoutTrailingSlash =
+    normalizedBase !== "/" && normalizedBase.endsWith("/")
+      ? normalizedBase.slice(0, -1)
+      : normalizedBase;
+
+  return withoutTrailingSlash || "/";
+}
+
+export function stripSiteBasePath(pathname: string) {
+  const basePath = getSiteBasePath();
+
+  if (basePath === "/") {
+    return pathname || "/";
+  }
+
+  if (pathname === basePath) {
+    return "/";
+  }
+
+  if (pathname.startsWith(`${basePath}/`)) {
+    return pathname.slice(basePath.length) || "/";
+  }
+
+  return pathname || "/";
+}
+
+export function withSiteBasePath(pathname: string) {
+  if (!pathname || isExternalUrl(pathname)) {
+    return pathname;
+  }
+
+  const basePath = getSiteBasePath();
+  const normalizedPath =
+    pathname === "/" ? "/" : pathname.startsWith("/") ? pathname : `/${pathname}`;
+
+  if (basePath === "/") {
+    return normalizedPath;
+  }
+
+  if (normalizedPath === basePath || normalizedPath.startsWith(`${basePath}/`)) {
+    return normalizedPath;
+  }
+
+  return normalizedPath === "/" ? basePath : `${basePath}${normalizedPath}`;
+}
+
+export function publicAssetPath(pathname?: string) {
+  if (!pathname || isExternalUrl(pathname) || pathname.startsWith("data:")) {
+    return pathname;
+  }
+
+  if (!pathname.startsWith("/")) {
+    return pathname;
+  }
+
+  return withSiteBasePath(pathname);
+}
 
 const menuModules = import.meta.glob<{ default: LocaleDictionary }>(
   "@site/config/menu.*.json",
@@ -64,7 +131,7 @@ export function getContentDir(lang?: string) {
 }
 
 export function getLangFromUrl(url: URL) {
-  const [, firstSegment] = url.pathname.split("/");
+  const [, firstSegment] = stripSiteBasePath(url.pathname).split("/");
   const language = enabledLanguages.find(
     ({ languageCode }) => languageCode === firstSegment,
   );
@@ -111,9 +178,14 @@ export async function getTranslations(lang?: string) {
 }
 
 export function slugSelector(url: string, lang?: string) {
+  if (isExternalUrl(url)) {
+    return url;
+  }
+
   const normalizedLang = normalizeLang(lang);
-  const normalizedUrl =
-    url === "/" ? "/" : url.startsWith("/") ? url : `/${url}`;
+  const normalizedUrl = stripSiteBasePath(
+    url === "/" ? "/" : url.startsWith("/") ? url : `/${url}`,
+  );
 
   let pathname =
     normalizedLang === default_language && !default_language_in_subdir
@@ -130,7 +202,7 @@ export function slugSelector(url: string, lang?: string) {
     pathname = pathname.slice(0, -1);
   }
 
-  return pathname;
+  return withSiteBasePath(pathname);
 }
 
 export function stripLocaleFromId(id: string) {

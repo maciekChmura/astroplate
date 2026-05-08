@@ -1,3 +1,4 @@
+import { withSiteBasePath } from "@/lib/utils/languageParser";
 import React from "react";
 
 const Button = ({
@@ -11,9 +12,11 @@ const Button = ({
   style?: string;
   rel?: string;
 }) => {
+  const href = withSiteBasePath(link);
+
   return (
     <a
-      href={link}
+      href={href}
       target={link.startsWith("http") ? "_blank" : "_self"}
       rel={`noopener noreferrer ${
         rel ? (rel === "follow" ? "" : rel) : "nofollow"

@@ -59,6 +59,7 @@ async function runBuild(extraAstroArgs = [], commandLabel = "npm run build") {
   await run(process.execPath, ["scripts/themeGenerator.js"]);
   await run(process.execPath, ["scripts/jsonGenerator.js"]);
   await runAstro(["build", ...extraAstroArgs]);
+  await run(process.execPath, ["scripts/mountBasePath.js"]);
   await run(process.execPath, ["scripts/llmsGenerator.js"]);
 }
 
@@ -120,6 +121,10 @@ async function main() {
     case "remove-darkmode":
       await run(process.execPath, ["scripts/removeDarkmode.js"]);
       await run(npmCommand, ["run", "format"]);
+      break;
+    case "preview:cf-pages":
+      await runBuild([], "npm run preview:cf-pages");
+      await runWrangler(["pages", "dev", "dist", ...commandArgs]);
       break;
     case "deploy:cf-workers":
       await runBuild([], "npm run deploy:cf-workers");

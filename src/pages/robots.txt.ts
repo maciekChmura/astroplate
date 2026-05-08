@@ -1,6 +1,11 @@
+import { withSiteBasePath } from "@/lib/utils/languageParser";
+
 export function GET({ site }: { site?: URL }) {
   const siteUrl = site || new URL("http://localhost:4321/");
-  const sitemapUrl = new URL("/sitemap-index.xml", siteUrl).toString();
+  const sitemapUrl = new URL(
+    withSiteBasePath("/sitemap-index.xml"),
+    siteUrl,
+  ).toString();
 
   return new Response(
     [

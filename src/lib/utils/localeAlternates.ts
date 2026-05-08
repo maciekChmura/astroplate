@@ -7,6 +7,7 @@ import {
   getLangFromUrl,
   normalizeLang,
   slugSelector,
+  stripSiteBasePath,
   stripLocaleFromId,
 } from "@/lib/utils/languageParser";
 
@@ -196,7 +197,7 @@ export async function getLocaleAlternates(
 ): Promise<LocaleAlternates> {
   const currentLang = getLangFromUrl(new URL(pathname, "https://example.com"));
   const logicalPath = normalizePath(
-    getPathWithoutLocale(pathname, currentLang),
+    getPathWithoutLocale(stripSiteBasePath(pathname), currentLang),
   );
   const alternates = Object.fromEntries(
     (

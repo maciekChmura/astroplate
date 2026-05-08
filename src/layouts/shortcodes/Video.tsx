@@ -1,3 +1,4 @@
+import { publicAssetPath } from "@/lib/utils/languageParser";
 import React from "react";
 function Video({
   title,
@@ -21,7 +22,7 @@ function Video({
       {...rest}
     >
       <source
-        src={src.match(/^http/) ? src : `/videos/${src}`}
+        src={src.match(/^http/) ? src : publicAssetPath(`/videos/${src}`)}
         type="video/mp4"
       />
       {title}
