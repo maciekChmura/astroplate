@@ -6,8 +6,6 @@ import { getLocaleAlternates } from "@/lib/utils/localeAlternates";
 import {
   getLangFromUrl,
   getTranslations,
-  publicAssetPath,
-  withSiteBasePath,
 } from "@/lib/utils/languageParser";
 import { plainify } from "@/lib/utils/textConverter";
 import Footer from "@/partials/Footer.astro";
@@ -72,15 +70,14 @@ const seoTitle = plainify(
 const seoDescription = plainify(
   description ? description : siteConfig.metadata.meta_description,
 ).trim();
-const canonicalPath = canonical
-  ? withSiteBasePath(canonical)
-  : withSiteBasePath(Astro.url.pathname);
-const canonicalUrl = siteUrl ? new URL(canonicalPath, siteUrl).toString() : canonicalPath;
-const socialImagePath = publicAssetPath(image ? image : siteConfig.metadata.meta_image);
-const socialImage =
-  siteUrl && socialImagePath
-    ? new URL(socialImagePath, siteUrl).toString()
-    : socialImagePath || siteConfig.metadata.meta_image;
+const canonicalUrl = siteUrl
+  ? canonical
+    ? new URL(canonical, siteUrl).toString()
+    : new URL(Astro.url.pathname, siteUrl).toString()
+  : canonical;
+const socialImage = siteUrl
+  ? new URL(image ? image : siteConfig.metadata.meta_image, siteUrl).toString()
+  : image || siteConfig.metadata.meta_image;
 const ogType = og_type || "website";
 const siteRootUrl = siteUrl ? new URL("/", siteUrl).toString() : undefined;
 const organizationId = siteRootUrl ? `${siteRootUrl}#organization` : undefined;
@@ -119,7 +116,7 @@ const jsonLdGraph = siteRootUrl
         "@id": organizationId,
         name: siteConfig.metadata.meta_author || siteConfig.site.title,
         url: siteRootUrl,
-        logo: new URL(publicAssetPath(siteConfig.site.logo) || "/", siteRootUrl).toString(),
+        logo: new URL(siteConfig.site.logo, siteRootUrl).toString(),
       },
       {
         "@type": "WebSite",
@@ -152,7 +149,7 @@ const structuredData =
       )
     }
     <!-- favicon -->
-    <link rel="shortcut icon" href={publicAssetPath(siteConfig.site.favicon)} />
+    <link rel="shortcut icon" href={siteConfig.site.favicon} />
     <!-- theme meta -->
     <meta name="theme-name" content="astroplate" />
     <meta name="msapplication-TileColor" content="#000000" />

@@ -8,7 +8,6 @@ import {
   getLangFromUrl,
   getTranslations,
   slugSelector,
-  withSiteBasePath,
 } from "@/lib/utils/languageParser";
 import { IoSearch } from "react-icons/io5";
 
@@ -29,7 +28,6 @@ const { main } = (await getTranslations(lang)) as { main: NavigationLink[] };
 const { navigation_button, settings } = siteConfig;
 const { pathname } = Astro.url;
 const switchTargets = await getLocaleSwitchTargets(pathname);
-const navigationButtonLink = withSiteBasePath(navigation_button.link);
 const languageSwitcherLinks =
   (
     siteConfig as typeof siteConfig & {
@@ -133,11 +131,11 @@ const languageSwitcherLinks =
           <li class="mt-4 inline-block lg:hidden">
             <a
               class="btn btn-outline-primary btn-sm"
-              href={navigationButtonLink}
+              href={navigation_button.link}
               target={
-                navigationButtonLink.startsWith("http") ? "_blank" : "_self"
+                navigation_button.link.startsWith("http") ? "_blank" : "_self"
               }
-              rel={navigationButtonLink.startsWith("http") ? "noopener" : ""}
+              rel={navigation_button.link.startsWith("http") ? "noopener" : ""}
             >
               {navigation_button.label}
             </a>
@@ -168,11 +166,11 @@ const languageSwitcherLinks =
         navigation_button.enable && (
           <a
             class="btn btn-outline-primary btn-sm hidden lg:inline-block"
-            href={navigationButtonLink}
+            href={navigation_button.link}
             target={
-              navigationButtonLink.startsWith("http") ? "_blank" : "_self"
+              navigation_button.link.startsWith("http") ? "_blank" : "_self"
             }
-            rel={navigationButtonLink.startsWith("http") ? "noopener" : ""}
+            rel={navigation_button.link.startsWith("http") ? "noopener" : ""}
           >
             {navigation_button.label}
           </a>

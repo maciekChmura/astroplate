@@ -83,9 +83,8 @@ QuickArchViz is split into one static Cloudflare Pages deploy per language:
 - `quickarchviz-en`: English resources deploy.
 - `quickarchviz-pl`: Polish resources deploy.
 
-Both language deploys are mounted publicly under `/resources`. Astro must know
-about that prefix through `site.base_path`, and Cloudflare should forward
-`/resources` unchanged to the matching Pages project.
+Astro builds each language deploy at `/`. The public `/resources` path is owned
+by the Cloudflare Worker in front of the Pages project.
 
 ### Site Folder Structure
 
@@ -131,9 +130,9 @@ The repository currently includes:
   selected site. This symlink is ignored by git.
 - Generated theme CSS is written to `.astro/generated-theme.css`, which is also
   ignored by git.
-- Production builds with `site.base_path` set to a subpath are mounted under
-  that folder in `dist`. For QuickArchViz this means the final output lives in
-  `dist/resources`, including HTML, assets, sitemap, robots, and LLM files.
+- Production builds emit root-mounted static output in `dist`. For QuickArchViz
+  this means `dist/index.html`, `dist/post-1/index.html`, `dist/_astro/`,
+  `dist/robots.txt`, `dist/sitemap-index.xml`, and root-level LLM files.
 - Optional deployment-only env overrides can live in
   `.env.sites/<site-id>.local`; these files are ignored by git.
 
@@ -144,11 +143,13 @@ The two QuickArchViz sites intentionally use one enabled language each:
 ```text
 quickarchviz-en
   default language: en
-  public mount: /resources
+  Astro mount: /
+  public Worker mount: /resources
 
 quickarchviz-pl
   default language: pl
-  public mount: /resources
+  Astro mount: /
+  public Worker mount: /resources
 ```
 
 The source content still follows the existing content folder convention:
@@ -165,8 +166,7 @@ For day-to-day content work:
 - Keep post images in `public/sites/quickarchviz/images/` unless a language
   deploy needs its own asset folder.
 - Reference images with absolute paths like
-  `/sites/quickarchviz/images/cover.png`; production rendering will add the
-  `/resources` public prefix.
+  `/sites/quickarchviz/images/cover.png`.
 
 Use the language-specific site id when working locally:
 
@@ -182,8 +182,9 @@ SITE_ID=quickarchviz-en npm run dev
 SITE_ID=quickarchviz-pl npm run dev
 ```
 
-In development, Astro serves the selected site locally. In production builds,
-the rendered public URLs and generated output use `/resources`.
+In development, Astro serves the selected site at `http://localhost:4321/`.
+The local Astro app does not know about `/resources`; the Worker adds that
+public mount in production.
 
 ### Adding a New Blog
 
@@ -248,22 +249,22 @@ npm run dev -- --site quickarchviz-pl
 ```bash
 npm run build -- --site astroplate
 # or
-PUBLIC_SITE_URL=https://quickarchviz.com npm run build -- --site quickarchviz-en
+PUBLIC_SITE_URL=https://quickarchviz-en.pages.dev npm run build -- --site quickarchviz-en
 ```
 
 You can also select the site with an environment variable:
 
 ```bash
 SITE_ID=astroplate npm run build
-SITE_ID=quickarchviz-en PUBLIC_SITE_URL=https://quickarchviz.com npm run build
-SITE_ID=quickarchviz-pl PUBLIC_SITE_URL=https://quickarchviz.pl npm run build
+SITE_ID=quickarchviz-en PUBLIC_SITE_URL=https://quickarchviz-en.pages.dev npm run build
+SITE_ID=quickarchviz-pl PUBLIC_SITE_URL=https://quickarchviz-pl.pages.dev npm run build
 ```
 
 If no site is provided, the default site id is `astroplate`.
 
-Production builds require a real HTTPS `PUBLIC_SITE_URL`. Use the public origin
-only, without `/resources`; the `/resources` prefix comes from
-`sites/<site-id>/config/config.json` as `site.base_path`.
+Production builds require a real HTTPS `PUBLIC_SITE_URL`. Use the Pages/custom
+origin for the root-mounted Astro app, not the Worker-mounted public URL, and do
+not include `/resources`.
 
 ### 👉 Generate LLM Files
 
@@ -292,12 +293,12 @@ Configuration is in `sites/<site-id>/config/config.json` under `llms`:
 - `include`: include only selected routes/globs (empty = all files). Examples: `/about`, `/blog/**` (all files in blog folder)
 - `exclude`: exclude routes/globs on top of defaults. Example: `/blog/index.html`
 
-For QuickArchViz, generated LLM files are emitted below the public mount:
+For QuickArchViz, generated LLM files are emitted at the build root:
 
 ```text
-dist/resources/llms.txt
-dist/resources/llms-full.txt
-dist/resources/<page>.md
+dist/llms.txt
+dist/llms-full.txt
+dist/<page>.md
 ```
 
 ### 👉 Cloudflare Pages Deploys
@@ -311,7 +312,7 @@ Build command: npm run build
 Build output directory: dist
 Environment:
   SITE_ID=quickarchviz-en
-  PUBLIC_SITE_URL=https://<public-en-host>
+  PUBLIC_SITE_URL=https://quickarchviz-en.pages.dev
 ```
 
 Polish project:
@@ -321,26 +322,32 @@ Build command: npm run build
 Build output directory: dist
 Environment:
   SITE_ID=quickarchviz-pl
-  PUBLIC_SITE_URL=https://<public-pl-host>
+  PUBLIC_SITE_URL=https://quickarchviz-pl.pages.dev
 ```
 
-`PUBLIC_SITE_URL` must be the final public origin only. Do not include
-`/resources`.
+`PUBLIC_SITE_URL` must be the root Astro app origin only. Do not include
+`/resources`, and do not use the Worker-mounted URL as the Astro build origin.
 
 ### 👉 Preview on Cloudflare Pages
 
 Preview the selected site as a Pages static output:
 
 ```bash
-SITE_ID=quickarchviz-en PUBLIC_SITE_URL=https://quickarchviz.com npm run preview:cf-pages
-SITE_ID=quickarchviz-pl PUBLIC_SITE_URL=https://quickarchviz.pl npm run preview:cf-pages
+SITE_ID=quickarchviz-en PUBLIC_SITE_URL=https://quickarchviz-en.pages.dev npm run preview:cf-pages
+SITE_ID=quickarchviz-pl PUBLIC_SITE_URL=https://quickarchviz-pl.pages.dev npm run preview:cf-pages
 ```
 
 ### 👉 Cloudflare Worker `/resources` Proxy
 
-If the Pages project is mounted behind a Worker on a larger domain, forward
-`/resources` unchanged. Do not strip the prefix and do not rely on HTML body
-rewrites for canonical URLs.
+If the Pages project is mounted behind a Worker on a larger domain, the Worker
+owns `/resources`. It strips `/resources` before fetching from the Pages origin,
+then rewrites HTML/XML/text/JSON responses so public links, assets, sitemap,
+robots, canonicals, and Open Graph URLs include `/resources`.
+
+For example, Astro can build with
+`PUBLIC_SITE_URL=https://quickarchviz-en.pages.dev`, while the Worker uses
+`publicOrigin: "https://quickarchviz.com"` and exposes the site at
+`https://quickarchviz.com/resources`.
 
 ```js
 const config = {
@@ -359,12 +366,39 @@ async function handleRequest(request) {
     return fetch(request);
   }
 
+  const originPath =
+    url.pathname === config.mountPath
+      ? "/"
+      : url.pathname.slice(config.mountPath.length);
   const targetUrl = new URL(
-    url.pathname + url.search,
+    originPath + url.search,
     `https://${config.originHost}`,
   );
+  const response = await fetch(new Request(targetUrl, request));
 
-  return fetch(new Request(targetUrl, request));
+  const contentType = response.headers.get("content-type") || "";
+  const shouldRewrite =
+    contentType.includes("text/html") ||
+    contentType.includes("xml") ||
+    contentType.includes("text/plain") ||
+    contentType.includes("application/json");
+
+  if (!shouldRewrite) {
+    return response;
+  }
+
+  let body = await response.text();
+  body = body
+    .split(`https://${config.originHost}`).join(config.publicOrigin)
+    .replaceAll('href="/', `href="${config.mountPath}/`)
+    .replaceAll('src="/', `src="${config.mountPath}/`)
+    .replaceAll('content="/', `content="${config.mountPath}/`)
+    .replaceAll(
+      `${config.publicOrigin}/`,
+      `${config.publicOrigin}${config.mountPath}/`,
+    );
+
+  return new Response(body, response);
 }
 
 addEventListener("fetch", (event) => {
@@ -372,9 +406,8 @@ addEventListener("fetch", (event) => {
 });
 ```
 
-Because Astro builds with `base: "/resources"`, links, assets, canonicals,
-sitemap URLs, robots, Open Graph metadata, and LLM files already use the public
-prefix.
+Astro builds with `base: "/"`, so the Worker is responsible for mapping public
+`/resources/...` requests to root-origin Pages paths.
 
 ### 👉 Legacy Cloudflare Workers Static-Assets Preview
 

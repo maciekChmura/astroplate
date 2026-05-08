@@ -32,20 +32,8 @@ function isApiRoute(urlPath) {
   return API_ROUTE_PREFIXES.some((prefix) => urlPath.startsWith(prefix));
 }
 
-function pathWithinBase(urlPath, basePath) {
-  if (basePath === "/") return urlPath;
-
-  if (urlPath === basePath) return "/";
-
-  if (urlPath.startsWith(`${basePath}/`)) {
-    return urlPath.slice(basePath.length) || "/";
-  }
-
-  return urlPath;
-}
-
-function isNotFoundRoute(urlPath, basePath = "/") {
-  return pathWithinBase(urlPath, basePath) === "/404";
+function isNotFoundRoute(urlPath) {
+  return urlPath === "/404";
 }
 
 // ─── Config ──────────────────────────────────────────────────────────────────
@@ -450,13 +438,9 @@ function generateMarkdownFile(page, siteUrl) {
   return md;
 }
 
-function getMarkdownUrlPath(urlPath, basePath = "/") {
+function getMarkdownUrlPath(urlPath) {
   if (urlPath === "/") {
     return "/index.md";
-  }
-
-  if (basePath !== "/" && urlPath === basePath) {
-    return `${basePath}/index.md`;
   }
 
   return `${urlPath}.md`;
@@ -468,7 +452,6 @@ function generateLlmsTxtContent(
   siteName,
   siteDescription,
   generateIndividualMd,
-  basePath,
 ) {
   let content = `# ${siteName}\n\n`;
 
@@ -501,7 +484,7 @@ function generateLlmsTxtContent(
     grouped[group].forEach((page) => {
       let linkUrl;
       if (generateIndividualMd) {
-        const mdPath = getMarkdownUrlPath(page.urlPath, basePath);
+        const mdPath = getMarkdownUrlPath(page.urlPath);
         linkUrl = `${siteUrl}${mdPath}`.replace(/([^:])\/\//g, "$1/");
       } else {
         linkUrl = `${siteUrl}${page.urlPath}`.replace(/(?<=.)\/$/, "");
@@ -580,10 +563,6 @@ async function generateLlmsFiles() {
     allowConfigSiteUrl: !requireProductionSiteUrl,
   }).replace(/\/$/, "");
   const basePath = (config.site.base_path || "/").replace(/\/$/, "") || "/";
-  const publicOutputDir = path.join(
-    clientDir,
-    basePath === "/" ? "" : basePath.slice(1),
-  );
   const siteName = config.site.title;
   const siteDescription = config.metadata?.meta_description || "";
 
@@ -608,7 +587,7 @@ async function generateLlmsFiles() {
         continue;
       }
 
-      if (isNotFoundRoute(urlPath, basePath)) {
+      if (isNotFoundRoute(urlPath)) {
         console.log(`   ⤷ Skipping 404 route: ${urlPath}`);
         continue;
       }
@@ -749,10 +728,7 @@ async function generateLlmsFiles() {
     deleteStaleMdFiles(clientDir);
 
     for (const page of pages) {
-      const mdRelative = getMarkdownUrlPath(
-        page.urlPath,
-        basePath,
-      ).replace(/^\//, "");
+      const mdRelative = getMarkdownUrlPath(page.urlPath).replace(/^\//, "");
       const mdPath = path.join(clientDir, mdRelative);
 
       const mdContent = generateMarkdownFile(page, siteUrl);
@@ -779,10 +755,8 @@ async function generateLlmsFiles() {
       siteName,
       siteDescription,
       llms.generate_individual_md,
-      basePath,
     );
-    const llmsTxtPath = path.join(publicOutputDir, "llms.txt");
-    fs.mkdirSync(path.dirname(llmsTxtPath), { recursive: true });
+    const llmsTxtPath = path.join(clientDir, "llms.txt");
 
     fs.writeFileSync(llmsTxtPath, llmsTxtContent, "utf8");
     console.log(`   ✓ ${path.relative(distFolder, llmsTxtPath)}\n`);
@@ -797,8 +771,7 @@ async function generateLlmsFiles() {
       siteUrl,
       siteName,
     );
-    const llmsFullPath = path.join(publicOutputDir, "llms-full.txt");
-    fs.mkdirSync(path.dirname(llmsFullPath), { recursive: true });
+    const llmsFullPath = path.join(clientDir, "llms-full.txt");
 
     fs.writeFileSync(llmsFullPath, llmsFullContent, "utf8");
     console.log(`   ✓ ${path.relative(distFolder, llmsFullPath)}\n`);
@@ -813,17 +786,17 @@ async function generateLlmsFiles() {
   );
   if (llms.generate_individual_md) {
     console.log(
-      `  .md files       : ${pages.length} (in ${path.relative(distFolder, publicOutputDir) || "."}/)`,
+      `  .md files       : ${pages.length} (in ${path.relative(distFolder, clientDir)}/)`,
     );
   }
   if (llms.generate_llms_txt) {
     console.log(
-      `  llms.txt        : ${path.relative(distFolder, path.join(publicOutputDir, "llms.txt"))}`,
+      `  llms.txt        : ${path.relative(distFolder, path.join(clientDir, "llms.txt"))}`,
     );
   }
   if (llms.generate_llms_full_txt) {
     console.log(
-      `  llms-full.txt   : ${path.relative(distFolder, path.join(publicOutputDir, "llms-full.txt"))}`,
+      `  llms-full.txt   : ${path.relative(distFolder, path.join(clientDir, "llms-full.txt"))}`,
     );
   }
 }

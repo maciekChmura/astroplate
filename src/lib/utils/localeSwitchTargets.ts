@@ -7,7 +7,6 @@ import {
   getLangFromUrl,
   normalizeLang,
   slugSelector,
-  stripSiteBasePath,
   stripLocaleFromId,
 } from "@/lib/utils/languageParser";
 
@@ -43,9 +42,7 @@ function normalizePath(pathname: string) {
 
 export async function getLocaleSwitchTargets(pathname: string) {
   const currentLang = getLangFromUrl(new URL(pathname, "https://example.com"));
-  const basePath = normalizePath(
-    getPathWithoutLocale(stripSiteBasePath(pathname), currentLang),
-  );
+  const basePath = normalizePath(getPathWithoutLocale(pathname, currentLang));
 
   const blogPostSlugs = new Map<string, Set<string>>();
   const regularPageSlugs = new Map<string, Set<string>>();

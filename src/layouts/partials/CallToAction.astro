@@ -1,9 +1,7 @@
 ---
 import ImageMod from "@/components/ImageMod.astro";
-import { withSiteBasePath } from "@/lib/utils/languageParser";
 import { markdownify } from "@/lib/utils/textConverter";
 const { call_to_action } = Astro.props;
-const ctaButtonLink = withSiteBasePath(call_to_action.data.button.link);
 ---
 
 {
@@ -34,7 +32,7 @@ const ctaButtonLink = withSiteBasePath(call_to_action.data.button.link);
               {call_to_action.data.button.enable && (
                 <a
                   class="btn btn-primary"
-                  href={ctaButtonLink}
+                  href={call_to_action.data.button.link}
                 >
                   {call_to_action.data.button.label}
                 </a>

@@ -1,24 +1,19 @@
 ---
-import {
-  slugSelector,
-  stripSiteBasePath,
-} from "@/lib/utils/languageParser";
 import { humanize } from "@/lib/utils/textConverter";
 
 const { className }: { className?: string } = Astro.props;
 
-const logicalPathname = stripSiteBasePath(Astro.url.pathname);
-const paths = logicalPathname.split("/").filter((x) => x);
+const paths = Astro.url.pathname.split("/").filter((x) => x);
 let parts = [
   {
     label: "Home",
-    href: slugSelector("/"),
-    "aria-label": logicalPathname === "/" ? "page" : undefined,
+    href: "/",
+    "aria-label": Astro.url.pathname === "/" ? "page" : undefined,
   },
 ];
 
 paths.forEach((label: string, i: number) => {
-  const href = slugSelector(`/${paths.slice(0, i + 1).join("/")}`);
+  const href = `/${paths.slice(0, i + 1).join("/")}`;
   label !== "page" &&
     parts.push({
       label: humanize(label.replace(".html", "").replace(/[-_]/g, " ")) || "",
