@@ -1,10 +1,15 @@
 import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
+import fs from "node:fs";
+import path from "node:path";
 import { resolveSite } from "../scripts/siteResolver.js";
 
 const selectedSite = resolveSite();
 const contentBase = selectedSite.contentDir;
+const useCasesBase = fs.existsSync(path.join(contentBase, "use-cases"))
+  ? path.join(contentBase, "use-cases")
+  : path.join(selectedSite.projectRoot, "src", "content-empty", "use-cases");
 
 const commonFields = {
   title: z.string(),
@@ -43,6 +48,70 @@ const promptsCollection = defineCollection({
     prompt: z.string(),
     popular: z.boolean().optional(),
     draft: z.boolean(),
+  }),
+});
+
+const imageField = z.object({
+  src: z.string(),
+  alt: z.string(),
+  caption: z.string().optional(),
+});
+
+// Use case collection schema
+const useCasesCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: useCasesBase }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    meta_title: z.string().optional(),
+    image: z.string().optional(),
+    categories: z.array(z.string()).min(1),
+    tags: z.array(z.string()).min(1),
+    popular: z.boolean().optional(),
+    draft: z.boolean(),
+    software: z.string().optional(),
+    workflow: z.string().optional(),
+    rendering_intent: z.string().optional(),
+    hero_before: imageField.optional(),
+    hero_after: imageField.optional(),
+    steps: z
+      .array(
+        z.object({
+          title: z.string(),
+          description: z.string().optional(),
+        }),
+      )
+      .default([]),
+    examples: z
+      .array(
+        z.object({
+          title: z.string(),
+          description: z.string().optional(),
+          before: imageField.optional(),
+          after: imageField.optional(),
+          image: imageField.optional(),
+        }),
+      )
+      .default([]),
+    preserved: z.array(z.string()).default([]),
+    best_for: z.array(z.string()).default([]),
+    faq: z
+      .array(
+        z.object({
+          question: z.string(),
+          answer: z.string(),
+        }),
+      )
+      .default([]),
+    cta: z
+      .object({
+        enable: z.boolean(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        label: z.string(),
+        link: z.string(),
+      })
+      .optional(),
   }),
 });
 
@@ -166,6 +235,7 @@ export const collections = {
   homepage: homepageCollection,
   blog: blogCollection,
   prompts: promptsCollection,
+  "use-cases": useCasesCollection,
   authors: authorsCollection,
   pages: pagesCollection,
   about: aboutCollection,

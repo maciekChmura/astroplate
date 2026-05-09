@@ -1,0 +1,78 @@
+---
+import UseCaseCard from "@/components/UseCaseCard.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import {
+  getContentDir,
+  normalizeLang,
+  supportedLang,
+} from "@/lib/utils/languageParser";
+import { USE_CASES_CONTENT_FOLDER } from "@/lib/utils/useCaseRoutes";
+import { humanize, slugify } from "@/lib/utils/textConverter";
+import PageHeader from "@/partials/PageHeader.astro";
+import { getEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const routeLang of supportedLang) {
+    const lang = normalizeLang(routeLang);
+    const contentDir = getContentDir(lang);
+    const useCaseIndex = await getEntry(
+      USE_CASES_CONTENT_FOLDER,
+      `${contentDir}/-index`,
+    );
+
+    if (useCaseIndex && !useCaseIndex.data.draft) {
+      paths.push({
+        params: { lang: routeLang || undefined },
+        props: { useCaseIndex, lang },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { useCaseIndex, lang } = Astro.props;
+const useCases = await getSinglePage(USE_CASES_CONTENT_FOLDER, lang);
+const useCaseGroups = useCases.reduce((groups, useCase) => {
+  const category = useCase.data.categories[0] || "General";
+  const key = slugify(category);
+
+  if (!groups.has(key)) {
+    groups.set(key, { title: category, useCases: [] });
+  }
+
+  groups.get(key)!.useCases.push(useCase);
+  return groups;
+}, new Map<string, { title: string; useCases: typeof useCases }>());
+---
+
+<Base
+  title={useCaseIndex.data.title}
+  meta_title={useCaseIndex.data.meta_title}
+  description={useCaseIndex.data.description}
+  image={useCaseIndex.data.image}
+  lang={lang}
+>
+  <PageHeader title={useCaseIndex.data.title} />
+  <section class="section-sm pb-0">
+    <div class="container">
+      {
+        Array.from(useCaseGroups.values()).map((group) => (
+          <div class="mb-16">
+            <h2 class="h3 mb-8 text-center">{humanize(group.title)}</h2>
+            <div class="row justify-center">
+              {group.useCases.map((useCase) => (
+                <div class="mb-14 md:col-6 lg:col-4">
+                  <UseCaseCard data={useCase} />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>

@@ -3,6 +3,7 @@ import { getSinglePage } from "@/lib/contentParser.astro";
 import { getTaxonomy } from "@/lib/taxonomyParser.astro";
 import { blogPostPath } from "@/lib/utils/blogRoutes";
 import { promptPath, promptsIndexPath } from "@/lib/utils/promptRoutes";
+import { useCasePath, useCasesIndexPath } from "@/lib/utils/useCaseRoutes";
 import {
   enabledLanguages,
   getLangFromUrl,
@@ -13,6 +14,7 @@ import {
 
 const BLOG_FOLDER = "blog";
 const PROMPTS_FOLDER = "prompts";
+const USE_CASES_FOLDER = "use-cases";
 const PAGE_SIZE = siteConfig.settings.pagination;
 const { default_language, default_language_in_subdir } = siteConfig.settings;
 
@@ -48,6 +50,7 @@ export async function getLocaleSwitchTargets(pathname: string) {
 
   const blogPostSlugs = new Map<string, Set<string>>();
   const promptSlugs = new Map<string, Set<string>>();
+  const useCaseSlugs = new Map<string, Set<string>>();
   const regularPageSlugs = new Map<string, Set<string>>();
   const authorSlugs = new Map<string, Set<string>>();
   const categorySlugs = new Map<string, Set<string>>();
@@ -89,6 +92,18 @@ export async function getLocaleSwitchTargets(pathname: string) {
     }
 
     return promptSlugs.get(lang)!;
+  }
+
+  async function getUseCaseSlugs(lang: string) {
+    if (!useCaseSlugs.has(lang)) {
+      const useCases = await getSinglePage(USE_CASES_FOLDER, lang);
+      useCaseSlugs.set(
+        lang,
+        new Set(useCases.map((useCase) => stripLocaleFromId(useCase.id))),
+      );
+    }
+
+    return useCaseSlugs.get(lang)!;
   }
 
   async function getAuthorSlugs(lang: string) {
@@ -165,9 +180,19 @@ export async function getLocaleSwitchTargets(pathname: string) {
       basePath === "/authors" ||
       basePath === "/categories" ||
       basePath === "/prompts" ||
+      basePath === "/use-cases" ||
       basePath === "/tags"
     ) {
       return slugSelector(basePath, normalizedLang);
+    }
+
+    const useCaseMatch = basePath.match(/^\/use-cases\/([^/]+)$/);
+    if (useCaseMatch) {
+      const slug = useCaseMatch[1];
+      const slugs = await getUseCaseSlugs(normalizedLang);
+      return slugs.has(slug)
+        ? useCasePath(slug, normalizedLang)
+        : useCasesIndexPath(normalizedLang);
     }
 
     const promptMatch = basePath.match(/^\/prompts\/([^/]+)$/);

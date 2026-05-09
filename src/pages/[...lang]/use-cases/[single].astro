@@ -1,0 +1,157 @@
+---
+import Base from "@/layouts/Base.astro";
+import UseCaseSingle from "@/layouts/UseCaseSingle.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
+import {
+  normalizeLang,
+  stripLocaleFromId,
+  supportedLang,
+} from "@/lib/utils/languageParser";
+import {
+  USE_CASES_CONTENT_FOLDER,
+  useCasePath,
+  useCasesIndexPath,
+} from "@/lib/utils/useCaseRoutes";
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const routeLang of supportedLang) {
+    const lang = normalizeLang(routeLang);
+    const useCases = await getSinglePage(USE_CASES_CONTENT_FOLDER, lang);
+
+    paths.push(
+      ...useCases.map((useCaseEntry) => ({
+        params: {
+          lang: routeLang || undefined,
+          single: stripLocaleFromId(useCaseEntry.id),
+        },
+        props: { useCaseEntry, lang },
+      })),
+    );
+  }
+
+  return paths;
+}
+
+const { useCaseEntry, lang } = Astro.props;
+const {
+  title,
+  meta_title,
+  description,
+  image,
+  categories,
+  tags,
+  software,
+  workflow,
+  rendering_intent,
+  hero_before,
+  hero_after,
+  examples,
+  faq,
+} = useCaseEntry.data;
+const useCaseSlug = stripLocaleFromId(useCaseEntry.id);
+const canonicalPath = useCasePath(useCaseSlug, lang);
+const siteUrl =
+  Astro.site ||
+  (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
+const canonicalUrl = siteUrl
+  ? new URL(canonicalPath, siteUrl).toString()
+  : canonicalPath;
+const indexUrl = siteUrl
+  ? new URL(useCasesIndexPath(lang), siteUrl).toString()
+  : useCasesIndexPath(lang);
+const primaryImage = image || hero_after?.src || hero_before?.src;
+const imageUrl =
+  siteUrl && primaryImage
+    ? new URL(primaryImage, siteUrl).toString()
+    : primaryImage;
+const imageUrls = [
+  imageUrl,
+  hero_before?.src && siteUrl
+    ? new URL(hero_before.src, siteUrl).toString()
+    : hero_before?.src,
+  hero_after?.src && siteUrl
+    ? new URL(hero_after.src, siteUrl).toString()
+    : hero_after?.src,
+  ...examples.flatMap((example) =>
+    [example.image?.src, example.before?.src, example.after?.src]
+      .filter(Boolean)
+      .map((src) => (siteUrl ? new URL(src!, siteUrl).toString() : src!)),
+  ),
+].filter(Boolean);
+const useCaseJsonLd = [
+  {
+    "@type": "WebPage",
+    "@id": `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
+    name: title,
+    headline: title,
+    description,
+    image: imageUrls,
+    inLanguage: lang,
+    about: [
+      "AI architectural visualization",
+      software,
+      workflow,
+      rendering_intent,
+      ...categories,
+    ].filter(Boolean),
+    keywords: tags.join(", "),
+  },
+  {
+    "@type": "BreadcrumbList",
+    "@id": `${canonicalUrl}#breadcrumb`,
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Use Cases",
+        item: indexUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: title,
+        item: canonicalUrl,
+      },
+    ],
+  },
+  {
+    "@type": "SoftwareApplication",
+    "@id": `${siteUrl ? new URL("/", siteUrl).toString() : "/"}#software`,
+    name: "QuickArchViz",
+    applicationCategory: "DesignApplication",
+    operatingSystem: "Web",
+    url: siteUrl ? new URL("/", siteUrl).toString() : "/",
+    description: siteConfig.metadata.meta_description,
+  },
+  faq.length > 0
+    ? {
+        "@type": "FAQPage",
+        "@id": `${canonicalUrl}#faq`,
+        mainEntity: faq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      }
+    : undefined,
+].filter(Boolean);
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={description}
+  image={primaryImage}
+  canonical={canonicalPath}
+  lang={lang}
+  jsonLd={useCaseJsonLd}
+>
+  <UseCaseSingle useCaseEntry={useCaseEntry} lang={lang} />
+</Base>

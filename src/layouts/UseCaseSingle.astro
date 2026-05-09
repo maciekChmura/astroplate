@@ -1,0 +1,256 @@
+---
+import BeforeAfter from "@/components/BeforeAfter.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
+import { getTranslations, slugSelector } from "@/lib/utils/languageParser";
+import { humanize, markdownify } from "@/lib/utils/textConverter";
+import { render } from "astro:content";
+import { FaRegFolder } from "react-icons/fa";
+import ImageMod from "./components/ImageMod.astro";
+
+type UseCaseImage = {
+  src: string;
+  alt: string;
+  caption?: string;
+};
+
+type UseCaseStep = {
+  title: string;
+  description?: string;
+};
+
+type UseCaseExample = {
+  title: string;
+  description?: string;
+  before?: UseCaseImage;
+  after?: UseCaseImage;
+  image?: UseCaseImage;
+};
+
+type UseCaseFaq = {
+  question: string;
+  answer: string;
+};
+
+const { useCaseEntry, lang } = Astro.props;
+const { Content, headings } = await render(useCaseEntry);
+const {
+  title,
+  description,
+  image,
+  categories,
+  tags,
+  software,
+  workflow,
+  rendering_intent,
+  hero_before,
+  hero_after,
+  steps,
+  examples,
+  preserved,
+  best_for,
+  faq,
+  cta,
+} = useCaseEntry.data;
+const translations = (await getTranslations(lang)) as Record<string, string>;
+const tableOfContents = translations.table_of_contents || "Table of contents";
+const beforeLabel = translations.input || "Input";
+const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
+---
+
+<section class="section pt-7">
+  <div class="container">
+    <div class="row justify-center">
+      <article class="lg:col-10">
+        <div class="mb-6 flex flex-wrap gap-2">
+          {
+            [software, workflow, rendering_intent]
+              .filter(Boolean)
+              .map((item) => (
+                <span class="rounded bg-light px-3 py-1 text-sm font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+                  {item}
+                </span>
+              ))
+          }
+        </div>
+        <h1 set:html={markdownify(title)} class="h2 mb-4" />
+        <p class="mb-8 text-lg leading-8">{description}</p>
+
+        {
+          hero_before && hero_after ? (
+            <BeforeAfter
+              before={hero_before}
+              after={hero_after}
+              beforeLabel={beforeLabel}
+              afterLabel={afterLabel}
+              class="mb-10"
+            />
+          ) : (
+            image && (
+              <div class="mb-10">
+                <ImageMod
+                  src={image}
+                  height={500}
+                  width={1200}
+                  alt={title}
+                  class="w-full rounded"
+                  format="webp"
+                />
+              </div>
+            )
+          )
+        }
+
+        <ul class="mb-8">
+          <li class="mr-4 inline-block">
+            <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
+            {
+              categories.map((category: string, index: number) => (
+                <span>
+                  {humanize(category)}
+                  {index !== categories.length - 1 && ", "}
+                </span>
+              ))
+            }
+          </li>
+        </ul>
+
+        <TableOfContents headings={headings} title={tableOfContents} />
+
+        <div class="content mb-12">
+          <Content />
+        </div>
+
+        {
+          steps.length > 0 && (
+            <section class="mb-14">
+              <h2 class="h3 mb-8">How It Works</h2>
+              <div class="grid gap-4 md:grid-cols-3">
+                {steps.map((step: UseCaseStep, index: number) => (
+                  <div class="rounded bg-light p-6 dark:bg-darkmode-light">
+                    <p class="mb-4 text-sm font-semibold text-primary dark:text-darkmode-primary">
+                      Step {index + 1}
+                    </p>
+                    <h3 class="h5 mb-3">{step.title}</h3>
+                    {step.description && <p class="mb-0">{step.description}</p>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          examples.length > 0 && (
+            <section class="mb-14">
+              <h2 class="h3 mb-8">More Workflow Examples</h2>
+              <div class="grid gap-8">
+                {examples.map((example: UseCaseExample) => (
+                  <div class="rounded bg-light p-5 dark:bg-darkmode-light">
+                    {example.before && example.after ? (
+                      <BeforeAfter
+                        before={example.before}
+                        after={example.after}
+                        beforeLabel={beforeLabel}
+                        afterLabel={afterLabel}
+                      />
+                    ) : (
+                      example.image && (
+                        <ImageMod
+                          src={example.image.src}
+                          alt={example.image.alt}
+                          width={1200}
+                          height={675}
+                          fit="cover"
+                          class="mb-5 h-auto w-full rounded object-cover"
+                          format="webp"
+                        />
+                      )
+                    )}
+                    <div class="pt-5">
+                      <h3 class="h4 mb-3">{example.title}</h3>
+                      {example.description && (
+                        <p class="mb-0">{example.description}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          preserved.length > 0 && (
+            <section class="mb-14">
+              <h2 class="h3 mb-6">What QuickArchViz Preserves</h2>
+              <div class="grid gap-3 sm:grid-cols-2">
+                {preserved.map((item: string) => (
+                  <div class="rounded bg-light px-4 py-3 font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          best_for.length > 0 && (
+            <section class="mb-14">
+              <h2 class="h3 mb-6">Best For</h2>
+              <div class="flex flex-wrap gap-3">
+                {best_for.map((item: string) => (
+                  <span class="rounded bg-light px-4 py-2 text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          faq.length > 0 && (
+            <section class="mb-14">
+              <h2 class="h3 mb-6">FAQ</h2>
+              <div class="grid gap-4">
+                {faq.map((item: UseCaseFaq) => (
+                  <details class="rounded bg-light p-5 dark:bg-darkmode-light">
+                    <summary class="cursor-pointer font-secondary text-lg font-semibold text-text-dark dark:text-darkmode-text">
+                      {item.question}
+                    </summary>
+                    <p class="mb-0 mt-4">{item.answer}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          cta?.enable && (
+            <section class="mb-10 rounded bg-light p-8 text-center dark:bg-darkmode-light">
+              {cta.title && <h2 class="h3 mb-4">{cta.title}</h2>}
+              {cta.description && (
+                <p class="mx-auto mb-6 max-w-2xl">{cta.description}</p>
+              )}
+              <a class="btn btn-primary" href={slugSelector(cta.link, lang)}>
+                {cta.label}
+              </a>
+            </section>
+          )
+        }
+
+        <div class="flex flex-wrap items-center gap-2">
+          {
+            tags.map((tag: string) => (
+              <span class="rounded bg-light px-3 py-1 text-sm dark:bg-darkmode-light">
+                {humanize(tag)}
+              </span>
+            ))
+          }
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
