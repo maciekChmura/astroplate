@@ -109,6 +109,7 @@ async function resolveAlternateForLang(basePath: string, targetLang: string) {
   if (
     basePath === "/" ||
     basePath === "/about" ||
+    basePath === "/blog" ||
     basePath === "/contact" ||
     basePath === "/authors" ||
     basePath === "/categories" ||
@@ -117,17 +118,26 @@ async function resolveAlternateForLang(basePath: string, targetLang: string) {
     return slugSelector(basePath, normalizedLang);
   }
 
-  const archiveMatch = basePath.match(/^\/page\/(\d+)$/);
+  const archiveMatch = basePath.match(/^\/blog\/page\/(\d+)$/);
   if (archiveMatch) {
     const pageNumber = Number(archiveMatch[1]);
     await getBlogSlugs(normalizedLang);
     const totalPages = totalBlogPages.get(normalizedLang) || 1;
 
     if (pageNumber >= 2 && pageNumber <= totalPages) {
-      return slugSelector(`/page/${pageNumber}`, normalizedLang);
+      return slugSelector(`/blog/page/${pageNumber}`, normalizedLang);
     }
 
     return undefined;
+  }
+
+  const blogPostMatch = basePath.match(/^\/blog\/([^/]+)$/);
+  if (blogPostMatch) {
+    const slug = blogPostMatch[1];
+    const slugs = await getBlogSlugs(normalizedLang);
+    return slugs.has(slug)
+      ? blogPostPath(slug, normalizedLang)
+      : slugSelector("/blog", normalizedLang);
   }
 
   const authorMatch = basePath.match(/^\/authors\/([^/]+)$/);
@@ -169,12 +179,6 @@ async function resolveAlternateForLang(basePath: string, targetLang: string) {
   const regularPageMatch = basePath.match(/^\/([^/]+)$/);
   if (regularPageMatch) {
     const slug = regularPageMatch[1];
-    const blogSlugs = await getBlogSlugs(normalizedLang);
-
-    if (blogSlugs.has(slug)) {
-      return blogPostPath(slug, normalizedLang);
-    }
-
     const slugs = await getPageSlugs(normalizedLang);
 
     if (slugs.has(slug)) {

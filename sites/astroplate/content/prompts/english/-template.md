@@ -4,6 +4,7 @@ description: "Write a clear one-sentence summary of the workflow this prompt sup
 image: "/sites/astroplate/images/image-placeholder.png"
 categories: ["Project phases"]
 tags: ["meetings", "checklists"]
+popular: false
 prompt: |
   Paste the exact reusable AI prompt here.
 draft: true

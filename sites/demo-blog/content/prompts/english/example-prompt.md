@@ -4,6 +4,7 @@ description: "Turn messy project meeting notes into a clear architectural action
 image: "/sites/demo-blog/images/image-placeholder.png"
 categories: ["Meeting workflows"]
 tags: ["meetings", "checklists", "project-management"]
+popular: true
 prompt: |
   You are an architecture project assistant. Convert the meeting notes below into a practical action checklist for the project team.
 

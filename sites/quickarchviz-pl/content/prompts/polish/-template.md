@@ -4,6 +4,7 @@ description: "Napisz jednozdaniowe podsumowanie workflow, ktory wspiera ten prom
 image: "/sites/quickarchviz/images/image-placeholder.png"
 categories: ["Etapy projektu"]
 tags: ["spotkania", "checklisty"]
+popular: false
 prompt: |
   Wklej tutaj dokladny tekst promptu do ponownego uzycia.
 draft: true

@@ -1,51 +1,19 @@
-import { siteConfig } from "@/lib/siteConfig";
-import {
-  enabledLanguages,
-  stripLocaleFromId,
-} from "@/lib/utils/languageParser";
+import { stripLocaleFromId } from "@/lib/utils/languageParser";
 
-const RESERVED_ROOT_SLUGS = new Set([
-  "404",
-  "about",
-  "authors",
-  "blog",
-  "categories",
-  "contact",
-  "page",
-  "prompts",
-  "tags",
-]);
-
-function getRoutedLanguageCodes() {
-  if (siteConfig.settings.default_language_in_subdir) {
-    return enabledLanguages.map(({ languageCode }) => languageCode);
-  }
-
-  return enabledLanguages
-    .map(({ languageCode }) => languageCode)
-    .filter(
-      (languageCode) => languageCode !== siteConfig.settings.default_language,
-    );
-}
+const RESERVED_BLOG_SLUGS = new Set(["page"]);
 
 export function assertAvailableBlogSlugs(
   lang: string,
-  pages: { id: string }[],
   posts: { id: string }[],
 ) {
-  const reservedSlugs = new Set([
-    ...RESERVED_ROOT_SLUGS,
-    ...getRoutedLanguageCodes(),
-    ...pages.map((page) => stripLocaleFromId(page.id)),
-  ]);
   const seenPostSlugs = new Set<string>();
 
   for (const post of posts) {
     const postSlug = stripLocaleFromId(post.id);
 
-    if (reservedSlugs.has(postSlug)) {
+    if (RESERVED_BLOG_SLUGS.has(postSlug)) {
       throw new Error(
-        `Blog post slug "${postSlug}" for language "${lang}" conflicts with an existing root route. Rename the Markdown file in content/blog.`,
+        `Blog post slug "${postSlug}" for language "${lang}" conflicts with an existing blog route. Rename the Markdown file in content/blog.`,
       );
     }
 

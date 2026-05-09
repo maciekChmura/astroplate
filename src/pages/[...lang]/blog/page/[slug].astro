@@ -5,20 +5,18 @@ import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
 import { getAllTaxonomy, getTaxonomy } from "@/lib/taxonomyParser.astro";
+import { BLOG_CONTENT_FOLDER } from "@/lib/utils/blogRoutes";
 import { normalizeLang, supportedLang } from "@/lib/utils/languageParser";
 import { sortByDate } from "@/lib/utils/sortFunctions";
 import PageHeader from "@/partials/PageHeader.astro";
 import PostSidebar from "@/partials/PostSidebar.astro";
 
-const BLOG_FOLDER = "blog";
-
 export async function getStaticPaths() {
-  const BLOG_FOLDER = "blog";
   const paths = [];
 
   for (const routeLang of supportedLang) {
     const lang = normalizeLang(routeLang);
-    const posts = await getSinglePage(BLOG_FOLDER, lang);
+    const posts = await getSinglePage(BLOG_CONTENT_FOLDER, lang);
     const totalPages = Math.ceil(posts.length / siteConfig.settings.pagination);
 
     for (let page = 2; page <= totalPages; page++) {
@@ -36,16 +34,20 @@ export async function getStaticPaths() {
 
 const lang = normalizeLang(Astro.params.lang);
 const { slug } = Astro.params;
-const postIndex = await getListPage(BLOG_FOLDER, lang, "-index");
+const postIndex = await getListPage(BLOG_CONTENT_FOLDER, lang, "-index");
 
 if (postIndex.data.draft) {
   return Astro.redirect("/404");
 }
 
-const posts = await getSinglePage(BLOG_FOLDER, lang);
-const allCategories = await getAllTaxonomy(BLOG_FOLDER, lang, "categories");
-const categories = await getTaxonomy(BLOG_FOLDER, lang, "categories");
-const tags = await getTaxonomy(BLOG_FOLDER, lang, "tags");
+const posts = await getSinglePage(BLOG_CONTENT_FOLDER, lang);
+const allCategories = await getAllTaxonomy(
+  BLOG_CONTENT_FOLDER,
+  lang,
+  "categories",
+);
+const categories = await getTaxonomy(BLOG_CONTENT_FOLDER, lang, "categories");
+const tags = await getTaxonomy(BLOG_CONTENT_FOLDER, lang, "tags");
 const sortedPosts = sortByDate(posts);
 const totalPages = Math.ceil(posts.length / siteConfig.settings.pagination);
 const currentPage = slug && !isNaN(Number(slug)) ? Number(slug) : 1;
@@ -80,7 +82,11 @@ const archiveDescription =
               ))
             }
           </div>
-          <Pagination currentPage={currentPage} totalPages={totalPages} />
+          <Pagination
+            section="blog"
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
         </div>
 
         <PostSidebar

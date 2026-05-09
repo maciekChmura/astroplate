@@ -4,6 +4,7 @@ description: "Zamien chaotyczne notatki projektowe w czytelna checkliste dzialan
 image: "/sites/astroplate/images/image-placeholder.png"
 categories: ["Workflow spotkan"]
 tags: ["spotkania", "checklisty", "zarzadzanie-projektem"]
+popular: true
 prompt: |
   Jestes asystentem projektu architektonicznego. Zamien ponizsze notatki ze spotkania w praktyczna checkliste dzialan dla zespolu projektowego.
 

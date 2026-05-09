@@ -1,10 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
-import PostSingle from "@/layouts/PostSingle.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
-import { siteConfig } from "@/lib/siteConfig";
-import { blogPostPath, BLOG_CONTENT_FOLDER } from "@/lib/utils/blogRoutes";
-import { assertAvailableBlogSlugs } from "@/lib/utils/blogSlugCollisions";
 import {
   normalizeLang,
   stripLocaleFromId,
@@ -19,9 +15,6 @@ export async function getStaticPaths() {
   for (const routeLang of supportedLang) {
     const lang = normalizeLang(routeLang);
     const pages = await getSinglePage("pages", lang);
-    const posts = await getSinglePage(BLOG_CONTENT_FOLDER, lang);
-
-    assertAvailableBlogSlugs(lang, pages, posts);
 
     paths.push(
       ...pages.map((page) => ({
@@ -29,14 +22,7 @@ export async function getStaticPaths() {
           lang: routeLang || undefined,
           regular: stripLocaleFromId(page.id),
         },
-        props: { entry: page, entryType: "page", lang },
-      })),
-      ...posts.map((post) => ({
-        params: {
-          lang: routeLang || undefined,
-          regular: stripLocaleFromId(post.id),
-        },
-        props: { entry: post, entryType: "post", lang },
+        props: { entry: page, lang },
       })),
     );
   }
@@ -44,124 +30,29 @@ export async function getStaticPaths() {
   return paths;
 }
 
-const { entry, entryType, lang } = Astro.props;
-const isPost = entryType === "post";
+const { entry, lang } = Astro.props;
 const { title, description, image } = entry.data;
 const metaTitle =
-  !isPost && "meta_title" in entry.data ? entry.data.meta_title : undefined;
-const postSlug = isPost ? stripLocaleFromId(entry.id) : undefined;
-const postCanonicalPath = postSlug ? blogPostPath(postSlug, lang) : undefined;
-const siteUrl =
-  Astro.site ||
-  (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
-const siteRootUrl = siteUrl ? new URL("/", siteUrl).toString() : undefined;
-const canonicalUrl =
-  siteUrl && postCanonicalPath
-    ? new URL(postCanonicalPath, siteUrl).toString()
-    : postCanonicalPath;
-const imageUrl = siteUrl && image ? new URL(image, siteUrl).toString() : image;
-const organizationId = siteRootUrl ? `${siteRootUrl}#organization` : undefined;
-const publishedDate =
-  isPost && "date" in entry.data && entry.data.date
-    ? entry.data.date instanceof Date
-      ? entry.data.date
-      : new Date(entry.data.date)
-    : undefined;
-const categories =
-  isPost && "categories" in entry.data ? entry.data.categories : [];
-const tags = isPost && "tags" in entry.data ? entry.data.tags : [];
-const articleJsonLd =
-  isPost && postSlug && publishedDate
-    ? [
-        {
-          "@type": "BlogPosting",
-          "@id": `${canonicalUrl}#article`,
-          headline: title,
-          description,
-          image: imageUrl,
-          datePublished: publishedDate.toISOString(),
-          dateModified: publishedDate.toISOString(),
-          author: {
-            "@type": "Person",
-            name: siteConfig.metadata.meta_author,
-          },
-          publisher: organizationId
-            ? {
-                "@id": organizationId,
-              }
-            : {
-                "@type": "Organization",
-                name: siteConfig.metadata.meta_author || siteConfig.site.title,
-              },
-          mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": canonicalUrl,
-          },
-          url: canonicalUrl,
-          articleSection: categories[0],
-          keywords: tags.join(", "),
-          inLanguage: lang,
-        },
-        {
-          "@type": "BreadcrumbList",
-          "@id": `${canonicalUrl}#breadcrumb`,
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              name: siteConfig.site.title,
-              item: siteRootUrl,
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              name: title,
-              item: canonicalUrl,
-            },
-          ],
-        },
-      ]
-    : undefined;
-const pageContent = !isPost ? await render(entry) : undefined;
+  "meta_title" in entry.data ? entry.data.meta_title : undefined;
+const pageContent = await render(entry);
 const Content = pageContent?.Content;
 ---
 
-{
-  isPost && publishedDate ? (
-    <Base
-      title={title}
-      description={description}
-      image={image}
-      canonical={postCanonicalPath}
-      og_type="article"
-      lang={lang}
-      jsonLd={articleJsonLd}
-      articlePublishedTime={publishedDate}
-      articleModifiedTime={publishedDate}
-      articleSection={categories[0]}
-      articleTags={tags}
-      articleAuthor={siteConfig.metadata.meta_author}
-    >
-      <PostSingle post={entry} />
-    </Base>
-  ) : (
-    <Base
-      title={title}
-      meta_title={metaTitle}
-      description={description}
-      image={image}
-      lang={lang}
-    >
-      <PageHeader title={title} />
-      <section class="section-sm">
-        <div class="container">
-          <div class="row justify-center">
-            <div class="lg:col-10">
-              <div class="content">{Content && <Content />}</div>
-            </div>
-          </div>
+<Base
+  title={title}
+  meta_title={metaTitle}
+  description={description}
+  image={image}
+  lang={lang}
+>
+  <PageHeader title={title} />
+  <section class="section-sm">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-10">
+          <div class="content">{Content && <Content />}</div>
         </div>
-      </section>
-    </Base>
-  )
-}
+      </div>
+    </div>
+  </section>
+</Base>

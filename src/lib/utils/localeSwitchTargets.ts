@@ -129,7 +129,11 @@ export async function getLocaleSwitchTargets(pathname: string) {
       return slugSelector("/", normalizedLang);
     }
 
-    const archiveMatch = basePath.match(/^\/page\/(\d+)$/);
+    if (basePath === "/blog") {
+      return slugSelector("/blog", normalizedLang);
+    }
+
+    const archiveMatch = basePath.match(/^\/blog\/page\/(\d+)$/);
     if (archiveMatch) {
       const pageNumber = Number(archiveMatch[1]);
       await getBlogSlugs(normalizedLang);
@@ -137,11 +141,20 @@ export async function getLocaleSwitchTargets(pathname: string) {
 
       if (pageNumber <= totalPages) {
         return pageNumber === 1
-          ? slugSelector("/", normalizedLang)
-          : slugSelector(`/page/${pageNumber}`, normalizedLang);
+          ? slugSelector("/blog", normalizedLang)
+          : slugSelector(`/blog/page/${pageNumber}`, normalizedLang);
       }
 
-      return slugSelector("/", normalizedLang);
+      return slugSelector("/blog", normalizedLang);
+    }
+
+    const blogPostMatch = basePath.match(/^\/blog\/([^/]+)$/);
+    if (blogPostMatch) {
+      const slug = blogPostMatch[1];
+      const slugs = await getBlogSlugs(normalizedLang);
+      return slugs.has(slug)
+        ? blogPostPath(slug, normalizedLang)
+        : slugSelector("/blog", normalizedLang);
     }
 
     if (basePath === "/about" || basePath === "/contact") {
@@ -196,12 +209,6 @@ export async function getLocaleSwitchTargets(pathname: string) {
     const regularPageMatch = basePath.match(/^\/([^/]+)$/);
     if (regularPageMatch) {
       const slug = regularPageMatch[1];
-      const blogSlugs = await getBlogSlugs(normalizedLang);
-
-      if (blogSlugs.has(slug)) {
-        return blogPostPath(slug, normalizedLang);
-      }
-
       const pageSlugs = await getPageSlugs(normalizedLang);
       return pageSlugs.has(slug)
         ? slugSelector(`/${slug}`, normalizedLang)
