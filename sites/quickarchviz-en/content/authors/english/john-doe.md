@@ -1,8 +1,8 @@
 ---
-title: John Doe
-email: johndoe@email.com
-image: "/sites/quickarchviz/images/avatar.png"
-description: John Doe writes practical articles about software architecture, product systems, and modern web development.
+title: Jowita Chmura
+email: jowitachmura@gmail.com
+image: "/sites/quickarchviz/images/JowitaChmura.png"
+description: Jowita Chmura writes practical articles about AI for Architects.
 social:
   - name: github
     icon: FaGithub

@@ -4,7 +4,7 @@ description: "Respond professionally to out-of-scope requests while offering a f
 image: "/sites/quickarchviz/images/image-placeholder.png"
 categories: ["Contracts And Scope"]
 tags: ["scope-control","client-communication","change-requests"]
-popular: false
+popular: true
 what_it_does: |
   This prompt helps architects push back on extra work without damaging the relationship. It ties the request to time, fee, capacity, risk, or trade-offs and proposes a formal change or additional services route.
 best_input: |

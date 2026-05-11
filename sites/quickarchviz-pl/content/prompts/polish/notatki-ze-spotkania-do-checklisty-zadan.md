@@ -4,7 +4,19 @@ description: "Zamien chaotyczne notatki projektowe w czytelna checkliste dzialan
 image: "/sites/quickarchviz/images/image-placeholder.png"
 categories: ["Workflow spotkan"]
 tags: ["spotkania", "checklisty", "zarzadzanie-projektem"]
+keywords:
+  [
+    "prompt dla architekta",
+    "notatki ze spotkania",
+    "checklista zadan projektowych",
+    "zarzadzanie projektem architektonicznym",
+    "AI dla architektow",
+  ]
 popular: true
+what_it_does: |
+  Wyłapuje decyzje, pytania otwarte, zależności i kolejne kroki z surowych notatek, żeby zespół mógł przejść od rozmowy do realizacji.
+best_input: |
+  Wklej pełne notatki, dodaj etap projektu oraz znane terminy lub osoby odpowiedzialne.
 prompt: |
   Jestes asystentem projektu architektonicznego. Zamien ponizsze notatki ze spotkania w praktyczna checkliste dzialan dla zespolu projektowego.
 
@@ -14,13 +26,3 @@ prompt: |
   [Wklej notatki tutaj]
 draft: false
 ---
-
-Uzyj tego promptu po spotkaniach z klientem, konsultantami albo zespolem, gdy notatki trzeba zamienic w konkretna liste zadan.
-
-## Co robi
-
-Wylapuje decyzje, pytania otwarte, zaleznosci i kolejne kroki z surowych notatek, zeby zespol mogl przejsc od rozmowy do realizacji.
-
-## Najlepsze dane wejsciowe
-
-Wklej pelne notatki, dodaj etap projektu oraz znane terminy lub osoby odpowiedzialne.

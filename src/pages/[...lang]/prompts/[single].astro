@@ -33,7 +33,8 @@ export async function getStaticPaths() {
 }
 
 const { promptEntry, lang } = Astro.props;
-const { title, description, image, categories, tags } = promptEntry.data;
+const { title, description, image, categories, tags, keywords } =
+  promptEntry.data;
 const promptSlug = stripLocaleFromId(promptEntry.id);
 const canonicalPath = promptPath(promptSlug, lang);
 const siteUrl =
@@ -48,6 +49,7 @@ const author = await getAuthorProfile({
   authorSlug: promptEntry.data.author,
   siteUrl,
 });
+const promptKeywords = Array.from(new Set([...tags, ...keywords]));
 const promptJsonLd = [
   author.personJsonLd,
   {
@@ -60,7 +62,7 @@ const promptJsonLd = [
     url: canonicalUrl,
     inLanguage: lang,
     about: categories,
-    keywords: tags.join(", "),
+    keywords: promptKeywords.join(", "),
     author: author.id ? { "@id": author.id } : author.personJsonLd,
     creator: author.id ? { "@id": author.id } : author.personJsonLd,
   },

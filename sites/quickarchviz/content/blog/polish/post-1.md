@@ -1,8 +1,8 @@
 ---
-title: "Jak zbudowac nowoczesny stos aplikacji"
+title: "bbbb"
 description: "Poznaj praktyczny sposob projektowania nowoczesnego stosu aplikacji dla frontendu, danych i publikacji."
 date: 2022-04-04T05:00:00Z
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/AI-for-Architects.png"
 categories: ["Application", "Data"]
 tags: ["nextjs", "tailwind"]
 draft: false

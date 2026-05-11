@@ -4,7 +4,7 @@ description: "Generate a phase-by-phase architectural project checklist from rou
 image: "/sites/quickarchviz/images/image-placeholder.png"
 categories: ["Project Management"]
 tags: ["project-management","checklists","delivery"]
-popular: false
+popular: true
 what_it_does: |
   This prompt turns fragmented project information into a structured execution checklist across briefing, design, approvals, documentation, tender, construction, and handover. It helps an architecture studio spot missing decisions, consultant gaps, approval gates, and phase deliverables before they become delivery problems.
 best_input: |

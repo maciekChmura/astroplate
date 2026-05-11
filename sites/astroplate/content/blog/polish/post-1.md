@@ -1,5 +1,5 @@
 ---
-title: "Jak zbudowac nowoczesny stos aplikacji"
+title: "ddd"
 description: "Poznaj praktyczny sposob projektowania nowoczesnego stosu aplikacji dla frontendu, danych i publikacji."
 date: 2022-04-04T05:00:00Z
 image: "/sites/astroplate/images/image-placeholder.png"

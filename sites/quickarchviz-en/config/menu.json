@@ -2,6 +2,10 @@
   "main": [
     {
       "name": "Home",
+      "url": "https://quickarchviz.com"
+    },
+    {
+      "name": "Knowledge Base",
       "url": "/"
     },
     {

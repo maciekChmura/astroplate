@@ -7,4 +7,3 @@ tags: ["ai-prompts"]
 prompt: ""
 draft: false
 ---
-

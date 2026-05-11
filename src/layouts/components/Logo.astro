@@ -8,6 +8,7 @@ const { src, srcDarkmode }: { src?: string; srcDarkmode?: string } =
 const {
   logo,
   logo_darkmode,
+  logo_url,
   logo_width,
   logo_height,
   logo_text,
@@ -16,6 +17,7 @@ const {
 }: {
   logo: string;
   logo_darkmode: string;
+  logo_url?: string;
   logo_width: any;
   logo_height: any;
   logo_text: string;
@@ -34,9 +36,10 @@ const imageWidth = Number(logoWidth) * 2;
 const imageHeight = Number(logoHeight) * 2;
 const hasLogo = Boolean(activeLogo || activeDarkLogo);
 const logoLayout = logo_layout === "lockup" ? "lockup" : "image";
+const logoHref = logo_url || slugSelector("/", lang);
 ---
 
-<a href={slugSelector("/", lang)} class="navbar-brand inline-flex items-center">
+<a href={logoHref} class="navbar-brand inline-flex items-center">
   {
     logoLayout === "lockup" && hasLogo ? (
       <>

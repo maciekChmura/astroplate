@@ -8,6 +8,7 @@
     "logo_layout": "lockup",
     "logo": "/sites/quickarchviz/images/q-logo.svg",
     "logo_darkmode": "/sites/quickarchviz/images/q-logo.svg",
+    "logo_url": "https://quickarchviz.com",
     "logo_width": "36",
     "logo_height": "36",
     "logo_text": "QuickArchViz"
@@ -55,6 +56,7 @@
 
   "metadata": {
     "meta_author": "QuickArchViz",
+    "default_author": "quickarchviz-expert",
     "meta_image": "/sites/quickarchviz/images/og-image.png",
     "meta_description": "Zasoby QuickArchViz po polsku"
   },

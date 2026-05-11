@@ -1,5 +1,6 @@
 ---
-title: "Jak zbudowac nowoczesny stos aplikacji"
+title: "Jak używać AI w architekturze w 2026? Dlaczego AI „zmyśla” i jak architekci powinni naprawdę korzystać z AI
+"
 description: "Poznaj praktyczny sposob projektowania nowoczesnego stosu aplikacji dla frontendu, danych i publikacji."
 date: 2022-04-04T05:00:00Z
 image: "/sites/quickarchviz/images/image-placeholder.png"

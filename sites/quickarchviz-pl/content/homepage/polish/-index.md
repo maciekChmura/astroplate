@@ -1,7 +1,7 @@
 ---
 # Banner
 banner:
-  title: "The Ultimate Starter Template You Need To Start Your Astro Project"
+  title: "The AI Knowledge Hub for Architects"
   content: "QuickArchViz is a free starter template built with Astro and TailwindCSS, providing everything you need to jumpstart your Astro project and save valuable time."
   image: "/sites/quickarchviz/images/banner.png"
   button:

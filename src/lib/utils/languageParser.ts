@@ -61,6 +61,15 @@ export function getContentDir(lang?: string) {
   const language = getLanguageByCode(lang);
 
   if (!language) {
+    const fallbackLanguage =
+      enabledLanguages.find(
+        ({ languageCode }) => languageCode === default_language,
+      ) || enabledLanguages[0];
+
+    if (fallbackLanguage) {
+      return fallbackLanguage.contentDir;
+    }
+
     throw new Error(`Language not found for code "${lang}"`);
   }
 

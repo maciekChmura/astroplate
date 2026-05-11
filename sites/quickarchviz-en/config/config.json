@@ -8,6 +8,7 @@
     "logo_layout": "lockup",
     "logo": "/sites/quickarchviz/images/q-logo.svg",
     "logo_darkmode": "/sites/quickarchviz/images/q-logo.svg",
+    "logo_url": "https://quickarchviz.com",
     "logo_width": "36",
     "logo_height": "36",
     "logo_text": "QuickArchViz"
