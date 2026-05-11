@@ -4,9 +4,9 @@ import { getTranslations } from "@/lib/utils/languageParser";
 import { humanize, markdownify } from "@/lib/utils/textConverter";
 import PromptVisual from "./components/PromptVisual.astro";
 import { render } from "astro:content";
-import { FaRegFolder } from "react-icons/fa";
+import { FaRegFolder, FaRegUser } from "react-icons/fa";
 
-const { promptEntry, lang } = Astro.props;
+const { promptEntry, lang, author } = Astro.props;
 const { Content, headings } = await render(promptEntry);
 const {
   title,
@@ -59,6 +59,16 @@ const promptHeadings = hasStructuredSections
         <h1 set:html={markdownify(title)} class="h2 mb-4" />
         <p class="mb-6 text-lg">{description}</p>
         <ul class="mb-8">
+          <li class="mr-4 inline-block">
+            <FaRegUser className={"mr-2 -mt-1 inline-block"} />
+            {
+              author?.url ? (
+                <a href={author.url}>{author.name}</a>
+              ) : (
+                <span>{author?.name}</span>
+              )
+            }
+          </li>
           <li class="mr-4 inline-block">
             <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
             {

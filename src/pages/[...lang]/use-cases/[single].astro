@@ -3,6 +3,7 @@ import Base from "@/layouts/Base.astro";
 import UseCaseSingle from "@/layouts/UseCaseSingle.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
+import { getAuthorProfile } from "@/lib/utils/authors";
 import {
   normalizeLang,
   stripLocaleFromId,
@@ -81,7 +82,13 @@ const imageUrls = [
       .map((src) => (siteUrl ? new URL(src!, siteUrl).toString() : src!)),
   ),
 ].filter(Boolean);
+const author = await getAuthorProfile({
+  lang,
+  authorSlug: useCaseEntry.data.author,
+  siteUrl,
+});
 const useCaseJsonLd = [
+  author.personJsonLd,
   {
     "@type": "WebPage",
     "@id": `${canonicalUrl}#webpage`,
@@ -99,6 +106,7 @@ const useCaseJsonLd = [
       ...categories,
     ].filter(Boolean),
     keywords: tags.join(", "),
+    author: author.id ? { "@id": author.id } : author.personJsonLd,
   },
   {
     "@type": "BreadcrumbList",
@@ -153,5 +161,5 @@ const useCaseJsonLd = [
   lang={lang}
   jsonLd={useCaseJsonLd}
 >
-  <UseCaseSingle useCaseEntry={useCaseEntry} lang={lang} />
+  <UseCaseSingle useCaseEntry={useCaseEntry} lang={lang} author={author} />
 </Base>

@@ -1,16 +1,23 @@
 ---
 import BlogCard from "@/components/BlogCard.astro";
 import ImageMod from "@/components/ImageMod.astro";
+import PromptCard from "@/components/PromptCard.astro";
 import Social from "@/components/Social.astro";
+import UseCaseCard from "@/components/UseCaseCard.astro";
 import Base from "@/layouts/Base.astro";
-import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import {
+  cleanJsonLd,
+  getAuthorDisplayItem,
+  getAuthorProfile,
+  hasAuthoredContent,
+} from "@/lib/utils/authors";
 import {
   normalizeLang,
   stripLocaleFromId,
   supportedLang,
 } from "@/lib/utils/languageParser";
-import { slugify } from "@/lib/utils/textConverter";
+import { siteConfig } from "@/lib/siteConfig";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -36,57 +43,255 @@ export async function getStaticPaths() {
 }
 
 const { author, lang } = Astro.props;
-const { title, social, meta_title, description, image } = author.data;
+const { meta_title } = author.data;
 const { Content } = await render(author);
+const authorSlug = stripLocaleFromId(author.id);
+const siteUrl =
+  Astro.site ||
+  (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
+const profile = await getAuthorProfile({
+  lang,
+  authorSlug,
+  siteUrl,
+});
 
-const BLOG_FOLDER = "blog";
-const posts = await getSinglePage(BLOG_FOLDER, lang);
-const postFilterByAuthor =
-  slugify(title) === slugify(siteConfig.metadata.meta_author) ? posts : [];
+const posts = await getSinglePage("blog", lang);
+const prompts = await getSinglePage("prompts", lang);
+const useCases = await getSinglePage("use-cases", lang);
+const authoredPosts = posts.filter((post) =>
+  hasAuthoredContent(post, authorSlug),
+);
+const authoredPrompts = prompts.filter((prompt) =>
+  hasAuthoredContent(prompt, authorSlug),
+);
+const authoredUseCases = useCases.filter((useCaseEntry) =>
+  hasAuthoredContent(useCaseEntry, authorSlug),
+);
+const contactAction =
+  profile.contact?.form_action || siteConfig.params.contact_form_action || "#";
+const contactLabel = profile.contact?.form_label || `Contact ${profile.name}`;
+const profileJsonLd = cleanJsonLd([
+  profile.personJsonLd,
+  {
+    "@type": "ProfilePage",
+    "@id": profile.absoluteUrl ? `${profile.absoluteUrl}#profile` : undefined,
+    url: profile.absoluteUrl || profile.url,
+    name: profile.name,
+    description: profile.description,
+    inLanguage: lang,
+    mainEntity: profile.id ? { "@id": profile.id } : profile.personJsonLd,
+  },
+]);
 ---
 
 <Base
-  title={title}
+  title={profile.name}
   meta_title={meta_title}
-  description={description}
-  image={image}
+  description={profile.description}
+  image={profile.image}
   lang={lang}
+  canonical={profile.url}
+  jsonLd={profileJsonLd}
 >
   <section class="section-sm pb-0">
     <div class="container">
       <div
-        class="row justify-center border-b border-border pb-14 dark:border-darkmode-border"
+        class="row items-start justify-center gap-y-10 border-b border-border pb-14 dark:border-darkmode-border"
       >
         <div class="text-center lg:col-4">
           {
-            image && (
+            profile.image && (
               <ImageMod
-                src={image}
-                class="mx-auto mb-10 rounded"
+                src={profile.image}
+                class="mx-auto mb-8 rounded"
                 height={200}
                 width={200}
-                alt={title}
+                alt={profile.name}
                 format="webp"
               />
             )
           }
-          <h1 class="h3 mb-6">{title}</h1>
-          <div class="content">
-            <Content />
+          <h1 class="h3 mb-3">{profile.name}</h1>
+          {
+            profile.jobTitle && (
+              <p class="mb-4 font-medium">{profile.jobTitle}</p>
+            )
+          }
+          {profile.statement && <p class="mb-6">{profile.statement}</p>}
+          {
+            profile.social && profile.social.length > 0 && (
+              <Social source={profile.social} className="social-icons" />
+            )
+          }
+        </div>
+
+        <div class="lg:col-7">
+          <div class="grid gap-6 md:grid-cols-2">
+            {
+              profile.yearsExperience && (
+                <section>
+                  <h2 class="h5 mb-3">Experience</h2>
+                  <p class="mb-0">
+                    {profile.yearsExperience} years in architecture
+                    visualization and design communication.
+                  </p>
+                </section>
+              )
+            }
+            {
+              profile.expertise.length > 0 && (
+                <section>
+                  <h2 class="h5 mb-3">Expertise</h2>
+                  <ul class="mb-0 list-disc pl-5">
+                    {profile.expertise.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </section>
+              )
+            }
+            {
+              profile.education.length > 0 && (
+                <section>
+                  <h2 class="h5 mb-3">Education</h2>
+                  <ul class="mb-0 list-disc pl-5">
+                    {profile.education.map((item) => (
+                      <li>{getAuthorDisplayItem(item)}</li>
+                    ))}
+                  </ul>
+                </section>
+              )
+            }
+            {
+              profile.certificates.length > 0 && (
+                <section>
+                  <h2 class="h5 mb-3">Certificates</h2>
+                  <ul class="mb-0 list-disc pl-5">
+                    {profile.certificates.map((item) => (
+                      <li>{getAuthorDisplayItem(item)}</li>
+                    ))}
+                  </ul>
+                </section>
+              )
+            }
           </div>
-          <Social source={social} className="social-icons" />
+
+          {
+            profile.achievements.length > 0 && (
+              <section class="mt-8">
+                <h2 class="h5 mb-3">Achievements</h2>
+                <ul class="mb-0 list-disc pl-5">
+                  {profile.achievements.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
+
+          <section class="content mt-8">
+            <h2 class="h5 mb-3">About me</h2>
+            <Content />
+          </section>
         </div>
       </div>
 
-      <div class="row justify-center pb-16 pt-14">
-        {
-          postFilterByAuthor.map((post) => (
-            <div class="mb-12 md:col-6 lg:col-4">
-              <BlogCard data={post} />
+      <section class="pb-8 pt-14">
+        <h2 class="h3 mb-8 text-center">Articles by {profile.name}</h2>
+        <div class="row justify-center">
+          {
+            authoredPosts.map((post) => (
+              <div class="mb-12 md:col-6 lg:col-4">
+                <BlogCard data={post} />
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      {
+        authoredPrompts.length > 0 && (
+          <section class="pb-8 pt-6">
+            <h2 class="h3 mb-8 text-center">Prompts by {profile.name}</h2>
+            <div class="row justify-center">
+              {authoredPrompts.map((prompt) => (
+                <div class="mb-12 md:col-6 lg:col-4">
+                  <PromptCard data={prompt} />
+                </div>
+              ))}
             </div>
-          ))
-        }
-      </div>
+          </section>
+        )
+      }
+
+      {
+        authoredUseCases.length > 0 && (
+          <section class="pb-8 pt-6">
+            <h2 class="h3 mb-8 text-center">Use cases by {profile.name}</h2>
+            <div class="row justify-center">
+              {authoredUseCases.map((useCaseEntry) => (
+                <div class="mb-12 md:col-6 lg:col-4">
+                  <UseCaseCard data={useCaseEntry} />
+                </div>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <section class="pb-16 pt-6">
+        <div class="mx-auto max-w-2xl">
+          <h2 class="h3 mb-8 text-center">{contactLabel}</h2>
+          <form action={contactAction} method="POST">
+            <div class="mb-6">
+              <label for="author-contact-name" class="form-label">
+                Full name <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="author-contact-name"
+                name="name"
+                class="form-input"
+                type="text"
+                required
+              />
+            </div>
+            <div class="mb-6">
+              <label for="author-contact-email" class="form-label">
+                Email <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="author-contact-email"
+                name="email"
+                class="form-input"
+                type="email"
+                required
+              />
+            </div>
+            <div class="mb-6">
+              <label for="author-contact-message" class="form-label">
+                Message <span class="text-red-500">*</span>
+              </label>
+              <textarea
+                id="author-contact-message"
+                name="message"
+                class="form-input"
+                required
+                rows="6"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send message</button>
+          </form>
+          {
+            profile.contact?.email && (
+              <p class="mt-5 text-center">
+                Or email{" "}
+                <a href={`mailto:${profile.contact.email}`}>
+                  {profile.contact.email}
+                </a>
+              </p>
+            )
+          }
+        </div>
+      </section>
     </div>
   </section>
 </Base>

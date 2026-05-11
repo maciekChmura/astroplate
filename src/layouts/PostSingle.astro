@@ -3,8 +3,8 @@ import BlogCard from "@/components/BlogCard.astro";
 import Share from "@/components/Share.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
 import Disqus from "@/helpers/Disqus";
-import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
 import { blogPostPath } from "@/lib/utils/blogRoutes";
 import {
   getLangFromUrl,
@@ -21,7 +21,7 @@ import { FaRegClock, FaRegFolder, FaRegUser } from "react-icons/fa";
 import ImageMod from "./components/ImageMod.astro";
 
 const COLLECTION_FOLDER = "blog";
-const { post } = Astro.props;
+const { post, author } = Astro.props;
 
 const lang = getLangFromUrl(Astro.url);
 const posts = await getSinglePage(COLLECTION_FOLDER, lang);
@@ -68,7 +68,13 @@ const readTime = readingTime(post.body || "");
         <ul class="mb-8">
           <li class="mr-4 inline-block">
             <FaRegUser className={"mr-2 -mt-1 inline-block"} />
-            <span>{siteConfig.metadata.meta_author}</span>
+            {
+              author?.url ? (
+                <a href={author.url}>{author.name}</a>
+              ) : (
+                <span>{author?.name}</span>
+              )
+            }
           </li>
           <li class="mr-4 inline-block">
             <FaRegFolder className={"mr-2 -mt-1 inline-block"} />

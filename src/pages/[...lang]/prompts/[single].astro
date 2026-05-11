@@ -3,6 +3,7 @@ import Base from "@/layouts/Base.astro";
 import PromptSingle from "@/layouts/PromptSingle.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
+import { getAuthorProfile } from "@/lib/utils/authors";
 import { PROMPTS_CONTENT_FOLDER, promptPath } from "@/lib/utils/promptRoutes";
 import {
   normalizeLang,
@@ -42,18 +43,28 @@ const canonicalUrl = siteUrl
   ? new URL(canonicalPath, siteUrl).toString()
   : canonicalPath;
 const imageUrl = siteUrl && image ? new URL(image, siteUrl).toString() : image;
-const promptJsonLd = {
-  "@type": "CreativeWork",
-  "@id": `${canonicalUrl}#prompt`,
-  headline: title,
-  name: title,
-  description,
-  image: imageUrl,
-  url: canonicalUrl,
-  inLanguage: lang,
-  about: categories,
-  keywords: tags.join(", "),
-};
+const author = await getAuthorProfile({
+  lang,
+  authorSlug: promptEntry.data.author,
+  siteUrl,
+});
+const promptJsonLd = [
+  author.personJsonLd,
+  {
+    "@type": "CreativeWork",
+    "@id": `${canonicalUrl}#prompt`,
+    headline: title,
+    name: title,
+    description,
+    image: imageUrl,
+    url: canonicalUrl,
+    inLanguage: lang,
+    about: categories,
+    keywords: tags.join(", "),
+    author: author.id ? { "@id": author.id } : author.personJsonLd,
+    creator: author.id ? { "@id": author.id } : author.personJsonLd,
+  },
+];
 ---
 
 <Base
@@ -64,5 +75,5 @@ const promptJsonLd = {
   lang={lang}
   jsonLd={promptJsonLd}
 >
-  <PromptSingle promptEntry={promptEntry} lang={lang} />
+  <PromptSingle promptEntry={promptEntry} lang={lang} author={author} />
 </Base>

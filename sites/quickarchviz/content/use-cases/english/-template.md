@@ -5,6 +5,7 @@ meta_title: "Optional shorter SEO title"
 image: "/sites/quickarchviz/images/og-image.png"
 categories: ["AI architectural rendering"]
 tags: ["sketchup", "concept-rendering", "geometry-preservation"]
+author: "quickarchviz-expert"
 popular: false
 software: "SketchUp"
 workflow: "Screenshot to render"

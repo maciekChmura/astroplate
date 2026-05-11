@@ -3,6 +3,7 @@ import Base from "@/layouts/Base.astro";
 import PostSingle from "@/layouts/PostSingle.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
+import { getAuthorProfile } from "@/lib/utils/authors";
 import { blogPostPath, BLOG_CONTENT_FOLDER } from "@/lib/utils/blogRoutes";
 import { assertAvailableBlogSlugs } from "@/lib/utils/blogSlugCollisions";
 import {
@@ -50,7 +51,13 @@ const imageUrl = siteUrl && image ? new URL(image, siteUrl).toString() : image;
 const organizationId = siteRootUrl ? `${siteRootUrl}#organization` : undefined;
 const publishedDate =
   post.data.date instanceof Date ? post.data.date : new Date(post.data.date);
+const author = await getAuthorProfile({
+  lang,
+  authorSlug: post.data.author,
+  siteUrl,
+});
 const articleJsonLd = [
+  author.personJsonLd,
   {
     "@type": "BlogPosting",
     "@id": `${canonicalUrl}#article`,
@@ -59,10 +66,7 @@ const articleJsonLd = [
     image: imageUrl,
     datePublished: publishedDate.toISOString(),
     dateModified: publishedDate.toISOString(),
-    author: {
-      "@type": "Person",
-      name: siteConfig.metadata.meta_author,
-    },
+    author: author.id ? { "@id": author.id } : author.personJsonLd,
     publisher: organizationId
       ? {
           "@id": organizationId,
@@ -113,7 +117,7 @@ const articleJsonLd = [
   articleModifiedTime={publishedDate}
   articleSection={categories[0]}
   articleTags={tags}
-  articleAuthor={siteConfig.metadata.meta_author}
+  articleAuthor={author.absoluteUrl || author.name}
 >
-  <PostSingle post={post} />
+  <PostSingle post={post} author={author} />
 </Base>

@@ -4,7 +4,7 @@ import TableOfContents from "@/components/TableOfContents.astro";
 import { getTranslations, slugSelector } from "@/lib/utils/languageParser";
 import { humanize, markdownify } from "@/lib/utils/textConverter";
 import { render } from "astro:content";
-import { FaRegFolder } from "react-icons/fa";
+import { FaRegFolder, FaRegUser } from "react-icons/fa";
 import ImageMod from "./components/ImageMod.astro";
 
 type UseCaseImage = {
@@ -31,7 +31,7 @@ type UseCaseFaq = {
   answer: string;
 };
 
-const { useCaseEntry, lang } = Astro.props;
+const { useCaseEntry, lang, author } = Astro.props;
 const { Content, headings } = await render(useCaseEntry);
 const {
   title,
@@ -101,6 +101,16 @@ const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
         }
 
         <ul class="mb-8">
+          <li class="mr-4 inline-block">
+            <FaRegUser className={"mr-2 -mt-1 inline-block"} />
+            {
+              author?.url ? (
+                <a href={author.url}>{author.name}</a>
+              ) : (
+                <span>{author?.name}</span>
+              )
+            }
+          </li>
           <li class="mr-4 inline-block">
             <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
             {

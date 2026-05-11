@@ -32,6 +32,7 @@ const blogCollection = defineCollection({
     // Use factory functions for mutable array defaults (Zod 4 best practice)
     categories: z.array(z.string()).min(1),
     tags: z.array(z.string()).min(1),
+    author: z.string().optional(),
     draft: z.boolean(),
   }),
 });
@@ -45,6 +46,7 @@ const promptsCollection = defineCollection({
     image: z.string().optional(),
     categories: z.array(z.string()).min(1),
     tags: z.array(z.string()).min(1),
+    author: z.string().optional(),
     what_it_does: z.string().optional(),
     best_input: z.string().optional(),
     prompt: z.string(),
@@ -69,6 +71,7 @@ const useCasesCollection = defineCollection({
     image: z.string().optional(),
     categories: z.array(z.string()).min(1),
     tags: z.array(z.string()).min(1),
+    author: z.string().optional(),
     popular: z.boolean().optional(),
     draft: z.boolean(),
     software: z.string().optional(),
@@ -122,6 +125,44 @@ const authorsCollection = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: `${contentBase}/authors` }),
   schema: z.object({
     ...commonFields,
+    first_name: z.string().optional(),
+    last_name: z.string().optional(),
+    statement: z.string().optional(),
+    job_title: z.string().optional(),
+    years_experience: z.union([z.number(), z.string()]).optional(),
+    expertise: z.array(z.string()).default([]),
+    education: z
+      .array(
+        z.union([
+          z.string(),
+          z.object({
+            name: z.string(),
+            organization: z.string().optional(),
+            year: z.union([z.number(), z.string()]).optional(),
+          }),
+        ]),
+      )
+      .default([]),
+    certificates: z
+      .array(
+        z.union([
+          z.string(),
+          z.object({
+            name: z.string(),
+            organization: z.string().optional(),
+            year: z.union([z.number(), z.string()]).optional(),
+          }),
+        ]),
+      )
+      .default([]),
+    achievements: z.array(z.string()).default([]),
+    contact: z
+      .object({
+        email: z.string().optional(),
+        form_label: z.string().optional(),
+        form_action: z.string().optional(),
+      })
+      .optional(),
     social: z
       .array(
         z

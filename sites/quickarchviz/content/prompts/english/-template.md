@@ -4,6 +4,7 @@ description: "Write a clear one-sentence summary of the workflow this prompt sup
 image: "/sites/quickarchviz/images/image-placeholder.png"
 categories: ["Project phases"]
 tags: ["meetings", "checklists"]
+author: "quickarchviz-expert"
 popular: false
 prompt: |
   Paste the exact reusable AI prompt here.
@@ -19,4 +20,3 @@ Describe the workflow outcome in practical terms.
 ## Suggested inputs
 
 - Add source notes, project phase, constraints, and expected format.
-

@@ -9,7 +9,7 @@ import ImageMod from "./ImageMod.astro";
 import Social from "./Social.astro";
 
 const { data } = Astro.props;
-const { title, image, social } = data.data;
+const { title, image, social, statement, job_title } = data.data;
 const lang = getLangFromUrl(Astro.url);
 const authorSlug = stripLocaleFromId(data.id);
 ---
@@ -30,8 +30,13 @@ const authorSlug = stripLocaleFromId(data.id);
   <h4 class="mb-3">
     <a href={slugSelector(`/authors/${authorSlug}`, lang)}>{title}</a>
   </h4>
+  {job_title && <p class="mb-3 font-medium">{job_title}</p>}
   <p class="mb-4">
-    {plainify(data.body?.slice(0, 100))}
+    {plainify((statement || data.data.description || data.body)?.slice(0, 120))}
   </p>
-  <Social source={social} className="social-icons" />
+  {
+    social && social.length > 0 && (
+      <Social source={social} className="social-icons" />
+    )
+  }
 </div>
