@@ -3,7 +3,6 @@ import PromptCard from "@/components/PromptCard.astro";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
 import { PROMPTS_CONTENT_FOLDER } from "@/lib/utils/promptRoutes";
-import { humanize, slugify } from "@/lib/utils/textConverter";
 import { normalizeLang, supportedLang } from "@/lib/utils/languageParser";
 import PageHeader from "@/partials/PageHeader.astro";
 
@@ -21,17 +20,6 @@ if (promptIndex.data.draft) {
 }
 
 const prompts = await getSinglePage(PROMPTS_CONTENT_FOLDER, lang);
-const promptGroups = prompts.reduce((groups, prompt) => {
-  const category = prompt.data.categories[0] || "General";
-  const key = slugify(category);
-
-  if (!groups.has(key)) {
-    groups.set(key, { title: category, prompts: [] });
-  }
-
-  groups.get(key)!.prompts.push(prompt);
-  return groups;
-}, new Map<string, { title: string; prompts: typeof prompts }>());
 ---
 
 <Base
@@ -43,20 +31,15 @@ const promptGroups = prompts.reduce((groups, prompt) => {
   <PageHeader title={promptIndex.data.title} />
   <section class="section-sm pb-0">
     <div class="container">
-      {
-        Array.from(promptGroups.values()).map((group) => (
-          <div class="mb-16">
-            <h2 class="h3 mb-8 text-center">{humanize(group.title)}</h2>
-            <div class="row justify-center">
-              {group.prompts.map((prompt) => (
-                <div class="mb-14 md:col-6 lg:col-4">
-                  <PromptCard data={prompt} />
-                </div>
-              ))}
+      <div class="row justify-center">
+        {
+          prompts.map((prompt) => (
+            <div class="mb-14 md:col-6 lg:col-4">
+              <PromptCard data={prompt} />
             </div>
-          </div>
-        ))
-      }
+          ))
+        }
+      </div>
     </div>
   </section>
 </Base>

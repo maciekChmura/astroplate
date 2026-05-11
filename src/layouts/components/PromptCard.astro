@@ -6,7 +6,7 @@ import {
 } from "@/lib/utils/languageParser";
 import { promptPath } from "@/lib/utils/promptRoutes";
 import { humanize, plainify } from "@/lib/utils/textConverter";
-import ImageMod from "./ImageMod.astro";
+import PromptVisual from "./PromptVisual.astro";
 
 const { data } = Astro.props;
 const { title, description, image, categories } = data.data;
@@ -19,12 +19,13 @@ const promptSlug = stripLocaleFromId(data.id);
 <article class="h-full rounded bg-light p-6 dark:bg-darkmode-light">
   {
     image && (
-      <ImageMod
+      <PromptVisual
         class="mb-6 h-44 w-full rounded object-cover"
         src={image}
         alt={title}
         width={445}
         height={230}
+        seed={promptSlug}
         format="webp"
       />
     )

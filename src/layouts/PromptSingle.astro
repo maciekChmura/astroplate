@@ -2,19 +2,39 @@
 import TableOfContents from "@/components/TableOfContents.astro";
 import { getTranslations } from "@/lib/utils/languageParser";
 import { humanize, markdownify } from "@/lib/utils/textConverter";
-import ImageMod from "./components/ImageMod.astro";
+import PromptVisual from "./components/PromptVisual.astro";
 import { render } from "astro:content";
 import { FaRegFolder } from "react-icons/fa";
 
 const { promptEntry, lang } = Astro.props;
 const { Content, headings } = await render(promptEntry);
-const { title, description, image, categories, tags, prompt } =
-  promptEntry.data;
+const {
+  title,
+  description,
+  image,
+  categories,
+  tags,
+  what_it_does,
+  best_input,
+  prompt,
+} = promptEntry.data;
 const translations = (await getTranslations(lang)) as Record<string, string>;
 const copyLabel = translations.copy_prompt || "Copy prompt";
 const copiedLabel = translations.copied_prompt || "Copied";
 const promptLabel = translations.prompt || "Prompt";
 const tableOfContents = translations.table_of_contents || "Table of contents";
+const hasStructuredSections = Boolean(what_it_does || best_input);
+const promptHeadings = hasStructuredSections
+  ? [
+      what_it_does && {
+        depth: 2,
+        slug: "what-it-does",
+        text: "What it does",
+      },
+      { depth: 2, slug: "prompt", text: promptLabel },
+      best_input && { depth: 2, slug: "best-input", text: "Best input" },
+    ].filter(Boolean)
+  : [{ depth: 2, slug: "prompt", text: promptLabel }, ...headings];
 ---
 
 <section class="section pt-7">
@@ -24,11 +44,12 @@ const tableOfContents = translations.table_of_contents || "Table of contents";
         {
           image && (
             <div class="mb-10">
-              <ImageMod
+              <PromptVisual
                 src={image}
                 height={500}
                 width={1200}
                 alt={title}
+                seed={title}
                 class="w-full rounded"
                 format="webp"
               />
@@ -51,12 +72,23 @@ const tableOfContents = translations.table_of_contents || "Table of contents";
           </li>
         </ul>
 
+        <TableOfContents headings={promptHeadings} title={tableOfContents} />
+
+        {
+          hasStructuredSections && what_it_does && (
+            <section class="content mb-10">
+              <h2 id="what-it-does">What it does</h2>
+              <div set:html={markdownify(what_it_does, true)} />
+            </section>
+          )
+        }
+
         <div
           class="mb-10 rounded bg-light p-6 dark:bg-darkmode-light"
           data-prompt-container
         >
           <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h2 class="h5 mb-0">{promptLabel}</h2>
+            <h2 id="prompt" class="h5 mb-0">{promptLabel}</h2>
             <button
               class="btn btn-outline-primary btn-sm"
               type="button"
@@ -71,10 +103,20 @@ const tableOfContents = translations.table_of_contents || "Table of contents";
             class="whitespace-pre-wrap break-words rounded bg-body p-5 text-sm leading-7 dark:bg-darkmode-body"><code data-prompt-text>{prompt}</code></pre>
         </div>
 
-        <TableOfContents headings={headings} title={tableOfContents} />
-        <div class="content mb-10">
-          <Content />
-        </div>
+        {
+          hasStructuredSections ? (
+            best_input && (
+              <section class="content mb-10">
+                <h2 id="best-input">Best input</h2>
+                <div set:html={markdownify(best_input, true)} />
+              </section>
+            )
+          ) : (
+            <div class="content mb-10">
+              <Content />
+            </div>
+          )
+        }
         <div class="flex flex-wrap items-center gap-2">
           {
             tags.map((tag: string) => (

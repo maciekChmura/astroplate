@@ -5,18 +5,11 @@ image: "/sites/quickarchviz/images/image-placeholder.png"
 categories: ["Project phases"]
 tags: ["meetings", "checklists"]
 popular: false
+what_it_does: |
+  Describe the workflow outcome in practical terms.
+best_input: |
+  Add source notes, project phase, constraints, and expected format.
 prompt: |
   Paste the exact reusable AI prompt here.
 draft: true
 ---
-
-Explain when to use this prompt, what inputs the architect should prepare, and how to review the output.
-
-## How it helps
-
-Describe the workflow outcome in practical terms.
-
-## Suggested inputs
-
-- Add source notes, project phase, constraints, and expected format.
-
