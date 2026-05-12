@@ -35,5 +35,18 @@
   "search_to_close": "aby zamknac",
   "page_not_found": "Nie znaleziono strony",
   "page_not_found_content": "Strona, ktorej szukasz, mogla zostac usunieta, zmienic adres albo byc tymczasowo niedostepna.",
-  "back_to_home": "Wroc do strony glownej"
+  "back_to_home": "Wroc do strony glownej",
+  "author_experience": "Doświadczenie",
+  "author_experience_suffix": "lat doświadczenia w wizualizacji architektonicznej i komunikacji projektowej.",
+  "author_expertise": "Specjalizacja",
+  "author_education": "Edukacja",
+  "author_certificates": "Certyfikaty",
+  "author_achievements": "Osiągnięcia",
+  "author_about": "O mnie",
+  "author_articles_by": "Artykuły autorstwa",
+  "author_prompts_by": "Prompty autorstwa",
+  "author_use_cases_by": "Przypadki użycia autorstwa",
+  "author_contact": "Kontakt",
+  "author_send_message": "Wyślij wiadomość",
+  "author_or_email": "Lub napisz na"
 }

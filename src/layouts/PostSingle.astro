@@ -104,10 +104,10 @@ const readTime = readingTime(post.body || "");
         <div class="content mb-10">
           <Content />
         </div>
-        <div class="row items-start justify-between">
-          <div class="mb-10 flex items-center lg:col-5 lg:mb-0">
-            <h5 class="mr-3">{tagsLabel} :</h5>
-            <ul>
+        <div class="row items-start justify-between gap-y-8">
+          <div class="mb-10 flex items-start gap-3 lg:col-5 lg:mb-0">
+            <h5 class="mb-0 shrink-0 whitespace-nowrap">{tagsLabel}:</h5>
+            <ul class="flex flex-wrap">
               {
                 tags.map((tag: string) => (
                   <li class="inline-block">
@@ -122,10 +122,10 @@ const readTime = readingTime(post.body || "");
               }
             </ul>
           </div>
-          <div class="flex items-center lg:col-4">
-            <h5 class="mr-3">{share} :</h5>
+          <div class="flex items-start gap-3 lg:col-5">
+            <h5 class="mb-0 shrink-0 whitespace-nowrap">{share}:</h5>
             <Share
-              className="social-icons"
+              className="social-icons flex flex-wrap gap-3"
               title={title}
               description={description}
               path={blogPostPath(postSlug, lang)}

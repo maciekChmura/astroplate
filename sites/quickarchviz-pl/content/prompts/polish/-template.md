@@ -19,4 +19,3 @@ Opisz praktyczny rezultat workflow.
 ## Sugerowane dane
 
 - Dodaj notatki zrodlowe, etap projektu, ograniczenia i oczekiwany format.
-

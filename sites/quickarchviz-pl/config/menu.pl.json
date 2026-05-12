@@ -1,7 +1,11 @@
 {
   "main": [
     {
-      "name": "Strona glowna",
+      "name": "Strona główna",
+      "url": "https://quickarchviz.com/pl"
+    },
+    {
+      "name": "Baza Wiedzy",
       "url": "/"
     },
     {

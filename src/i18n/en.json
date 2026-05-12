@@ -35,5 +35,18 @@
   "search_to_close": "to close",
   "page_not_found": "Page not found",
   "page_not_found_content": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
-  "back_to_home": "Back to home"
+  "back_to_home": "Back to home",
+  "author_experience": "Experience",
+  "author_experience_suffix": "years in architecture visualization and design communication.",
+  "author_expertise": "Expertise",
+  "author_education": "Education",
+  "author_certificates": "Certificates",
+  "author_achievements": "Achievements",
+  "author_about": "About me",
+  "author_articles_by": "Articles by",
+  "author_prompts_by": "Prompts by",
+  "author_use_cases_by": "Use cases by",
+  "author_contact": "Contact",
+  "author_send_message": "Send message",
+  "author_or_email": "Or email"
 }

@@ -46,6 +46,7 @@ const promptsCollection = defineCollection({
     image: z.string().optional(),
     categories: z.array(z.string()).min(1),
     tags: z.array(z.string()).min(1),
+    keywords: z.array(z.string()).default([]),
     author: z.string().optional(),
     what_it_does: z.string().optional(),
     best_input: z.string().optional(),

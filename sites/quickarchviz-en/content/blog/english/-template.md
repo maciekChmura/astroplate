@@ -5,7 +5,7 @@ date: 2026-05-04T09:00:00Z
 image: "/sites/quickarchviz/images/your-cover-image.png"
 categories: ["Category"]
 tags: ["tag-one", "tag-two"]
-author: "quickarchviz-expert"
+author: "jowita-chmura"
 draft: true
 ---
 

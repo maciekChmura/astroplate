@@ -31,11 +31,12 @@ const postSlug = stripLocaleFromId(data.id);
   {
     image && (
       <ImageMod
-        class="mb-6 w-full rounded"
+        class="mb-6 h-[230px] w-full rounded object-cover"
         src={image}
         alt={title}
         width={445}
         height={230}
+        fit="cover"
         format="webp"
       />
     )

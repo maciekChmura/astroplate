@@ -13,6 +13,7 @@ import {
   hasAuthoredContent,
 } from "@/lib/utils/authors";
 import {
+  getTranslations,
   normalizeLang,
   stripLocaleFromId,
   supportedLang,
@@ -67,9 +68,28 @@ const authoredPrompts = prompts.filter((prompt) =>
 const authoredUseCases = useCases.filter((useCaseEntry) =>
   hasAuthoredContent(useCaseEntry, authorSlug),
 );
+const translations = (await getTranslations(lang)) as Record<string, string>;
+const authorLabels = {
+  experience: translations.author_experience || "Experience",
+  experienceSuffix:
+    translations.author_experience_suffix ||
+    "years in architecture visualization and design communication.",
+  expertise: translations.author_expertise || "Expertise",
+  education: translations.author_education || "Education",
+  certificates: translations.author_certificates || "Certificates",
+  achievements: translations.author_achievements || "Achievements",
+  about: translations.author_about || "About me",
+  articlesBy: translations.author_articles_by || "Articles by",
+  promptsBy: translations.author_prompts_by || "Prompts by",
+  useCasesBy: translations.author_use_cases_by || "Use cases by",
+  contact: translations.author_contact || "Contact",
+  sendMessage: translations.author_send_message || "Send message",
+  orEmail: translations.author_or_email || "Or email",
+};
 const contactAction =
   profile.contact?.form_action || siteConfig.params.contact_form_action || "#";
-const contactLabel = profile.contact?.form_label || `Contact ${profile.name}`;
+const contactLabel =
+  profile.contact?.form_label || `${authorLabels.contact} ${profile.name}`;
 const profileJsonLd = cleanJsonLd([
   profile.personJsonLd,
   {
@@ -126,14 +146,13 @@ const profileJsonLd = cleanJsonLd([
         </div>
 
         <div class="lg:col-7">
-          <div class="grid gap-6 md:grid-cols-2">
+          <div class="grid gap-6">
             {
               profile.yearsExperience && (
                 <section>
-                  <h2 class="h5 mb-3">Experience</h2>
+                  <h2 class="h5 mb-3">{authorLabels.experience}</h2>
                   <p class="mb-0">
-                    {profile.yearsExperience} years in architecture
-                    visualization and design communication.
+                    {profile.yearsExperience} {authorLabels.experienceSuffix}
                   </p>
                 </section>
               )
@@ -141,7 +160,7 @@ const profileJsonLd = cleanJsonLd([
             {
               profile.expertise.length > 0 && (
                 <section>
-                  <h2 class="h5 mb-3">Expertise</h2>
+                  <h2 class="h5 mb-3">{authorLabels.expertise}</h2>
                   <ul class="mb-0 list-disc pl-5">
                     {profile.expertise.map((item) => (
                       <li>{item}</li>
@@ -153,7 +172,7 @@ const profileJsonLd = cleanJsonLd([
             {
               profile.education.length > 0 && (
                 <section>
-                  <h2 class="h5 mb-3">Education</h2>
+                  <h2 class="h5 mb-3">{authorLabels.education}</h2>
                   <ul class="mb-0 list-disc pl-5">
                     {profile.education.map((item) => (
                       <li>{getAuthorDisplayItem(item)}</li>
@@ -165,7 +184,7 @@ const profileJsonLd = cleanJsonLd([
             {
               profile.certificates.length > 0 && (
                 <section>
-                  <h2 class="h5 mb-3">Certificates</h2>
+                  <h2 class="h5 mb-3">{authorLabels.certificates}</h2>
                   <ul class="mb-0 list-disc pl-5">
                     {profile.certificates.map((item) => (
                       <li>{getAuthorDisplayItem(item)}</li>
@@ -179,7 +198,7 @@ const profileJsonLd = cleanJsonLd([
           {
             profile.achievements.length > 0 && (
               <section class="mt-8">
-                <h2 class="h5 mb-3">Achievements</h2>
+                <h2 class="h5 mb-3">{authorLabels.achievements}</h2>
                 <ul class="mb-0 list-disc pl-5">
                   {profile.achievements.map((item) => (
                     <li>{item}</li>
@@ -190,7 +209,7 @@ const profileJsonLd = cleanJsonLd([
           }
 
           <section class="mt-8">
-            <h2 class="h5 mb-3">About me</h2>
+            <h2 class="h2 mb-3">{authorLabels.about}</h2>
             <div class="content">
               <Content />
             </div>
@@ -199,7 +218,10 @@ const profileJsonLd = cleanJsonLd([
       </div>
 
       <section class="pb-8 pt-14">
-        <h2 class="h3 mb-8 text-center">Articles by {profile.name}</h2>
+        <h2 class="h3 mb-8 text-center">
+          {authorLabels.articlesBy}
+          {profile.name}
+        </h2>
         <div class="row justify-center">
           {
             authoredPosts.map((post) => (
@@ -214,7 +236,9 @@ const profileJsonLd = cleanJsonLd([
       {
         authoredPrompts.length > 0 && (
           <section class="pb-8 pt-6">
-            <h2 class="h3 mb-8 text-center">Prompts by {profile.name}</h2>
+            <h2 class="h3 mb-8 text-center">
+              {authorLabels.promptsBy} {profile.name}
+            </h2>
             <div class="row justify-center">
               {authoredPrompts.map((prompt) => (
                 <div class="mb-12 md:col-6 lg:col-4">
@@ -229,7 +253,9 @@ const profileJsonLd = cleanJsonLd([
       {
         authoredUseCases.length > 0 && (
           <section class="pb-8 pt-6">
-            <h2 class="h3 mb-8 text-center">Use cases by {profile.name}</h2>
+            <h2 class="h3 mb-8 text-center">
+              {authorLabels.useCasesBy} {profile.name}
+            </h2>
             <div class="row justify-center">
               {authoredUseCases.map((useCaseEntry) => (
                 <div class="mb-12 md:col-6 lg:col-4">
@@ -247,7 +273,8 @@ const profileJsonLd = cleanJsonLd([
           <form action={contactAction} method="POST">
             <div class="mb-6">
               <label for="author-contact-name" class="form-label">
-                Full name <span class="text-red-500">*</span>
+                {translations.full_name || "Full name"}{" "}
+                <span class="text-red-500">*</span>
               </label>
               <input
                 id="author-contact-name"
@@ -259,7 +286,8 @@ const profileJsonLd = cleanJsonLd([
             </div>
             <div class="mb-6">
               <label for="author-contact-email" class="form-label">
-                Email <span class="text-red-500">*</span>
+                {translations.working_mail || "Email"}{" "}
+                <span class="text-red-500">*</span>
               </label>
               <input
                 id="author-contact-email"
@@ -271,7 +299,8 @@ const profileJsonLd = cleanJsonLd([
             </div>
             <div class="mb-6">
               <label for="author-contact-message" class="form-label">
-                Message <span class="text-red-500">*</span>
+                {translations.message || "Message"}{" "}
+                <span class="text-red-500">*</span>
               </label>
               <textarea
                 id="author-contact-message"
@@ -280,12 +309,14 @@ const profileJsonLd = cleanJsonLd([
                 required
                 rows="6"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Send message</button>
+            <button type="submit" class="btn btn-primary">
+              {authorLabels.sendMessage}
+            </button>
           </form>
           {
             profile.contact?.email && (
               <p class="mt-5 text-center">
-                Or email{" "}
+                {authorLabels.orEmail}{" "}
                 <a href={`mailto:${profile.contact.email}`}>
                   {profile.contact.email}
                 </a>

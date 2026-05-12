@@ -4,7 +4,7 @@ description: "Write a clear one-sentence summary of the workflow this prompt sup
 image: "/sites/quickarchviz/images/image-placeholder.png"
 categories: ["Project phases"]
 tags: ["meetings", "checklists"]
-author: "quickarchviz-expert"
+author: "jowita-chmura"
 popular: false
 what_it_does: |
   Describe the workflow outcome in practical terms.

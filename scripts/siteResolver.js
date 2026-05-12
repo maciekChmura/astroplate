@@ -95,7 +95,37 @@ function loadEnvFile(envPath) {
   }
 }
 
+function currentSiteLinkTargets(siteDir) {
+  if (!fs.existsSync(currentSiteDir)) {
+    return false;
+  }
+
+  let stats;
+
+  try {
+    stats = fs.lstatSync(currentSiteDir);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      return false;
+    }
+
+    throw error;
+  }
+
+  if (!stats.isSymbolicLink()) {
+    throw new Error(
+      `${currentSiteDir} exists and is not a generated site symlink.`,
+    );
+  }
+
+  return fs.realpathSync(currentSiteDir) === fs.realpathSync(siteDir);
+}
+
 function ensureCurrentSiteLink(siteDir) {
+  if (currentSiteLinkTargets(siteDir)) {
+    return;
+  }
+
   if (fs.existsSync(currentSiteDir)) {
     const stats = fs.lstatSync(currentSiteDir);
 
@@ -105,17 +135,23 @@ function ensureCurrentSiteLink(siteDir) {
       );
     }
 
-    const currentTarget = fs.realpathSync(currentSiteDir);
-    const nextTarget = fs.realpathSync(siteDir);
+    fs.unlinkSync(currentSiteDir);
+  }
 
-    if (currentTarget === nextTarget) {
+  try {
+    fs.symlinkSync(siteDir, currentSiteDir, "dir");
+  } catch (error) {
+    if (error.code !== "EEXIST") {
+      throw error;
+    }
+
+    if (currentSiteLinkTargets(siteDir)) {
       return;
     }
 
     fs.unlinkSync(currentSiteDir);
+    fs.symlinkSync(siteDir, currentSiteDir, "dir");
   }
-
-  fs.symlinkSync(siteDir, currentSiteDir, "dir");
 }
 
 export function resolveSite(options = {}) {
