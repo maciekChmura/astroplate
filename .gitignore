@@ -24,6 +24,7 @@ sites/__current__
 
 # ignore .astro directory
 .astro
+.wrangler
 
 # ide
 .idea/
