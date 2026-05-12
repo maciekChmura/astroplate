@@ -2,7 +2,7 @@
 title: "How Architects Should Really Use AI in 2026"
 description: "In 2026, AI is fully embedded in UK architectural practice, but not in the way most people expect. This article explores where it genuinely helps, where it quietly fails, and why the Building Safety Act and the Golden Thread make human judgment more important than ever."
 date: 2026-05-12T09:00:00Z
-image: "/sites/quickarchviz/images/og-image.png"
+image: "/sites/quickarchviz-en/AI-for-Architects.png"
 categories: ["AI in Architecture", "Building Safety"]
 tags: ["AI for architects", "Building Safety Act", "Golden Thread", "Automated Code Checking", "BIM"]
 draft: false
