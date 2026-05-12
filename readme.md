@@ -117,7 +117,6 @@ public/
 The repository currently includes:
 
 - `astroplate`: the migrated default site instance.
-- `demo-blog`: a small second instance used to verify site switching.
 - `quickarchviz-en`: English-only QuickArchViz resources deploy.
 - `quickarchviz-pl`: Polish-only QuickArchViz resources deploy.
 
