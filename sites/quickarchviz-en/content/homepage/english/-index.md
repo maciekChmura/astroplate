@@ -2,12 +2,12 @@
 # Banner
 banner:
   title: "The AI Knowledge Hub for Architects"
-  content: "Learn How Architects Use AI for Visualizations, Checklists, Building Regulations & More"
+  content: "Explore practical AI workflows for architects, then create your first QuickArchViz visualization when you're ready."
   image: "/sites/quickarchviz/images/banner.png"
   button:
     enable: true
-    label: "Fork Deploy and Edit Online 🚀"
-    link: "https://app.sitepins.com/new/clone?name=QuickArchViz&repository=https://github.com/zeon-studio/astroplate?aff=astroplate"
+    label: "Create your first visualization"
+    link: "https://quickarchviz.com/register"
 
 # Features
 features:

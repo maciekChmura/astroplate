@@ -71,27 +71,18 @@ const { banner } = homepage.data;
             class="mb-8 text-lg leading-8"
             set:html={markdownify(banner.content)}
           />
-          <div class="flex flex-wrap gap-4">
-            <a class="btn btn-primary" href={blogArchivePath(lang)}>
-              {viewAllPostsLabel}
-            </a>
-            <a class="btn btn-outline-primary" href={promptsIndexPath(lang)}>
-              {browsePromptsLabel}
-            </a>
-            <a class="btn btn-outline-primary" href={useCasesIndexPath(lang)}>
-              {browseUseCasesLabel}
-            </a>
-            {
-              banner.button.enable && (
+          {
+            banner.button.enable && (
+              <div class="flex flex-wrap gap-4">
                 <a
-                  class="btn btn-outline-primary"
+                  class="btn btn-primary"
                   href={slugSelector(banner.button.link, lang)}
                 >
                   {banner.button.label}
                 </a>
-              )
-            }
-          </div>
+              </div>
+            )
+          }
         </div>
         <div class="lg:col-6">
           <ImageMod

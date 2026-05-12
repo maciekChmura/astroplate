@@ -2,12 +2,12 @@
 # Banner
 banner:
   title: "The AI Knowledge Hub for Architects"
-  content: "QuickArchViz is a free starter template built with Astro and TailwindCSS, providing everything you need to jumpstart your Astro project and save valuable time."
+  content: "Poznaj praktyczne workflow AI dla architektów, a potem stwórz swoją pierwszą wizualizację w QuickArchViz."
   image: "/sites/quickarchviz/images/banner.png"
   button:
     enable: true
-    label: "Fork Deploy and Edit Online 🚀"
-    link: "https://app.sitepins.com/new/clone?name=QuickArchViz&repository=https://github.com/zeon-studio/astroplate?aff=astroplate"
+    label: "Stwórz pierwszą wizualizację"
+    link: "https://quickarchviz.com/register"
 
 # Features
 features:
