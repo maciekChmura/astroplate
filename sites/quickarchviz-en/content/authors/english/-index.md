@@ -1,6 +1,6 @@
 ---
 title: "Authors"
-description: "Browse authors who contribute articles, guides, and resources to the Astroplate publication."
+description: "Browse the people behind QuickArchViz articles, AI prompts, and architecture workflow resources."
 image: ""
 draft: false
 ---

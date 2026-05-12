@@ -28,7 +28,7 @@
 
   "announcement": {
     "enable": false,
-    "content": "<span class='text-center block'>♥️ Loving QuickArchViz? <a class='underline' href='https://github.com/zeon-studio/astroplate' target='_blank' rel='noopener'>Please ⭐️ on Github</a></span>",
+    "content": "<span class='text-center block'>Explore new QuickArchViz architecture AI resources in the Knowledge Hub.</span>",
     "expire_days": 7
   },
 
@@ -39,8 +39,8 @@
 
   "navigation_button": {
     "enable": false,
-    "label": "Github",
-    "link": "https://github.com/zeon-studio/astroplate"
+    "label": "Create visualization",
+    "link": "https://quickarchviz.com/register"
   },
 
   "google_tag_manager": {

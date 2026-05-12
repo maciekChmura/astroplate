@@ -1,19 +1,20 @@
 ---
-title: "Hey, I am John Doe!"
-meta_title: "About"
-description: "Learn more about John Doe, the background behind the site, and the ideas that shape the published articles."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+title: "About QuickArchViz Knowledge Hub"
+meta_title: "About QuickArchViz Knowledge Hub"
+description: "Learn why QuickArchViz publishes practical AI, visualization, and project workflow resources for architects."
+image: "/sites/quickarchviz/images/banner.png"
 draft: false
 ---
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis illum nesciunt commodi vel nisi ut alias excepturi ipsum, totam, labore tempora, odit ex iste tempore sed. Fugit voluptatibus perspiciatis assumenda nulla ad nihil, omnis vel, doloremque sit quam autem optio maiores, illum eius facilis et quo consectetur provident dolor similique! Enim voluptatem dicta expedita veritatis repellat dolorum impedit, provident quasi at.
+QuickArchViz Knowledge Hub is a practical resource library for architects who want to use AI with more structure, confidence, and creative control.
 
-### This is a title
+The hub connects architectural visualization, AI prompting, project communication, and delivery workflows. The goal is simple: help architects move from loose design material to clearer decisions, stronger visuals, and better client conversations.
 
-- Lorem ipsum, dolor sit amet
-- Enim voluptatem dicta expedita veritatis
-- Fugit voluptatibus perspiciatis assumenda
-- Enim voluptatem dicta expedita
-- Corporis illum nesciunt commodi vel
+### What We Publish
 
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis illum nesciunt commodi vel nisi ut alias excepturi ipsum, totam, labore tempora, odit ex iste tempore sed. Fugit voluptatibus perspiciatis assumenda nulla ad nihil, omnis vel, doloremque sit quam autem optio maiores, illum eius facilis et quo consectetur provident dolor similique! Enim voluptatem dicta expedita veritatis repellat dolorum impedit, provident quasi at. Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis illum nesciunt commodi vel nisi ut alias excepturi ipsum, totam, labore tempora, odit ex iste tempore sed. Fugit voluptatibus perspiciatis assumenda nulla ad nihil, omnis vel, doloremque sit quam autem optio maiores, illum eius facilis et quo consectetur provident dolor similique! Enim voluptatem dicta expedita veritatis repellat dolorum impedit, provident quasi at.
+- AI prompting guides for architecture and design work
+- Rendering workflows for concept, portfolio, and client review visuals
+- Reusable prompts for meetings, scope, budget, risk, and handover tasks
+- Use cases showing how QuickArchViz can support early design communication
+
+Every article and prompt is written for applied architectural work, not generic productivity advice. QuickArchViz is here to help architects use AI as a sharper assistant while keeping professional judgment at the center of the process.

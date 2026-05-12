@@ -11,43 +11,42 @@ banner:
 
 # Features
 features:
-  - title: "What's Included in QuickArchViz"
+  - title: "AI workflows for architecture teams"
     image: "/sites/quickarchviz/images/service-1.png"
-    content: "QuickArchViz is a comprehensive starter template that includes everything you need to get started with your Astro project. What's Included in QuickArchViz"
+    content: "Learn how to use AI as a practical design and delivery assistant, from early visual direction to clearer client communication."
     bulletpoints:
-      - "10+ Pre-build pages"
-      - "95+ Google Pagespeed Score"
-      - "Build with Astro and TailwindCSS for easy and customizable styling"
-      - "Fully responsive on all devices"
-      - "SEO-optimized for better search engine rankings"
-      - "**Open-source and free** for personal and commercial use"
-    button:
-      enable: false
-      label: "Get Started Now"
-      link: "#"
-
-  - title: "Discover the Key Features Of Astro"
-    image: "/sites/quickarchviz/images/service-2.png"
-    content: "Astro is an all-in-one web framework for building fast, content-focused websites. It offers a range of exciting features for developers and website creators. Some of the key features are:"
-    bulletpoints:
-      - "Zero JS, by default: No JavaScript runtime overhead to slow you down."
-      - "Customizable: Tailwind, MDX, and 100+ other integrations to choose from."
-      - "UI-agnostic: Supports React, Preact, Svelte, Vue, Solid, Lit and more."
+      - "Prompting guides written for architectural work"
+      - "AI rendering workflows for concept and portfolio visuals"
+      - "Project communication templates for teams and clients"
+      - "Practical examples that connect design intent to output quality"
     button:
       enable: true
-      label: "Get Started Now"
-      link: "https://github.com/zeon-studio/astroplate"
+      label: "Read the guides"
+      link: "/blog"
 
-  - title: "The Top Reasons to Choose Astro for Your Next Project"
-    image: "/sites/quickarchviz/images/service-3.png"
-    content: "With Astro, you can build modern and content-focused websites without sacrificing performance or ease of use."
+  - title: "Prompt library for project delivery"
+    image: "/sites/quickarchviz/images/service-2.png"
+    content: "Use reusable prompts to turn messy inputs into structured architectural deliverables, checklists, reports, and stakeholder updates."
     bulletpoints:
-      - "Instantly load static sites for better user experience and SEO."
-      - "Intuitive syntax and support for popular frameworks make learning and using Astro a breeze."
-      - "Use any front-end library or framework, or build custom components, for any project size."
-      - "Built on cutting-edge technology to keep your projects up-to-date with the latest web standards."
+      - "Meeting notes to action lists"
+      - "Scope, budget, and risk communication"
+      - "Handover and milestone checklists"
+      - "Client-facing wording for difficult project moments"
     button:
-      enable: false
-      label: ""
-      link: ""
+      enable: true
+      label: "Browse prompts"
+      link: "/prompts"
+
+  - title: "Visualize architecture faster"
+    image: "/sites/quickarchviz/images/service-3.png"
+    content: "QuickArchViz helps architects turn sketches, references, and early design ideas into stronger visual stories without waiting for a full production render."
+    bulletpoints:
+      - "Explore facade, interior, and massing directions"
+      - "Create clearer portfolio and client presentation visuals"
+      - "Compare options before committing to detailed modeling"
+      - "Connect the knowledge hub directly to the QuickArchViz product"
+    button:
+      enable: true
+      label: "See use cases"
+      link: "/use-cases"
 ---

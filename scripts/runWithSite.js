@@ -59,6 +59,7 @@ async function runBuild(extraAstroArgs = [], commandLabel = "npm run build") {
   await run(process.execPath, ["scripts/themeGenerator.js"]);
   await run(process.execPath, ["scripts/jsonGenerator.js"]);
   await runAstro(["build", ...extraAstroArgs]);
+  await run(process.execPath, ["scripts/fixMountedSitemapIndex.js"]);
   await run(process.execPath, ["scripts/llmsGenerator.js"]);
 }
 
