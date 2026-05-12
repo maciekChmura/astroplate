@@ -18,6 +18,7 @@
     "preview:cf-pages": "node scripts/runWithSite.js preview:cf-pages",
     "deploy:cf-workers": "node scripts/runWithSite.js deploy:cf-workers",
     "preview:cf-workers": "node scripts/runWithSite.js preview:cf-workers",
+    "deploy:prod": "node scripts/mergeMainToProd.js",
     "deploy:knowledge-hub-en-proxy": "wrangler deploy --config wrangler.knowledge-hub-en.jsonc",
     "preview:knowledge-hub-en-proxy": "wrangler dev --config wrangler.knowledge-hub-en.jsonc"
   },
