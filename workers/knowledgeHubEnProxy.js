@@ -11,6 +11,17 @@ const legacyRedirects = new Map([
   ],
 ]);
 
+const rootRedirectPrefixes = [
+  "/authors",
+  "/blog",
+  "/categories",
+  "/prompts",
+  "/tags",
+  "/use-cases",
+];
+
+const rootRedirectPaths = ["/sitemap-index.xml", "/sitemap-0.xml"];
+
 const textTypes = [
   "text/css",
   "text/html",
@@ -38,6 +49,23 @@ function toOriginPath(pathname) {
 
 function normalizeTrailingSlash(pathname) {
   return pathname.length > 1 ? pathname.replace(/\/+$/g, "") : pathname;
+}
+
+function isRootRedirectPath(pathname) {
+  if (rootRedirectPaths.includes(pathname)) {
+    return true;
+  }
+
+  return rootRedirectPrefixes.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
+
+function redirectToMountedPath(url, status = 301) {
+  const redirectUrl = new URL(url);
+  redirectUrl.pathname = `${config.mountPath}${url.pathname}`;
+
+  return Response.redirect(redirectUrl.toString(), status);
 }
 
 function shouldRewrite(response) {
@@ -159,6 +187,10 @@ function prefixSitemapIndexUrls(body) {
 
 async function handleRequest(request) {
   const url = new URL(request.url);
+
+  if (isRootRedirectPath(url.pathname)) {
+    return redirectToMountedPath(url);
+  }
 
   if (!isMountedPath(url.pathname)) {
     return fetch(request);
