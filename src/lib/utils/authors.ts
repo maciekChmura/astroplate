@@ -5,6 +5,7 @@ import {
   slugSelector,
   stripLocaleFromId,
 } from "./languageParser";
+import { withSiteMountPath } from "./mountPath";
 import { slugify } from "./textConverter";
 
 type AuthorEntry = CollectionEntry<"authors">;
@@ -197,7 +198,7 @@ export async function getAuthorProfile({
   const id = absoluteUrl ? `${absoluteUrl}#person` : `${path}#person`;
   const imageUrl =
     siteUrl && author.data.image
-      ? new URL(author.data.image, siteUrl).toString()
+      ? new URL(withSiteMountPath(author.data.image), siteUrl).toString()
       : author.data.image;
   const social = (author.data.social || []).filter(
     (item) => item?.name && item.icon && item.link,

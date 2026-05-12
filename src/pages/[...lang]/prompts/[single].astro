@@ -10,6 +10,7 @@ import {
   stripLocaleFromId,
   supportedLang,
 } from "@/lib/utils/languageParser";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
 
 export async function getStaticPaths() {
   const paths = [];
@@ -43,7 +44,10 @@ const siteUrl =
 const canonicalUrl = siteUrl
   ? new URL(canonicalPath, siteUrl).toString()
   : canonicalPath;
-const imageUrl = siteUrl && image ? new URL(image, siteUrl).toString() : image;
+const imageUrl =
+  siteUrl && image
+    ? new URL(withSiteMountPath(image), siteUrl).toString()
+    : image;
 const author = await getAuthorProfile({
   lang,
   authorSlug: promptEntry.data.author,

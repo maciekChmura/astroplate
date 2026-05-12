@@ -15,6 +15,10 @@
     {
       "name": "Prompty",
       "url": "/prompts"
+    },
+    {
+      "name": "Przypadki użycia",
+      "url": "/use-cases"
     }
   ],
   "footer": [

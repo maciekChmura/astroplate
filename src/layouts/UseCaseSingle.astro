@@ -55,6 +55,14 @@ const translations = (await getTranslations(lang)) as Record<string, string>;
 const tableOfContents = translations.table_of_contents || "Table of contents";
 const beforeLabel = translations.input || "Input";
 const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
+const howItWorksLabel = translations.use_case_how_it_works || "How It Works";
+const stepLabel = translations.use_case_step || "Step";
+const workflowExamplesLabel =
+  translations.use_case_more_examples || "More Workflow Examples";
+const preservesLabel =
+  translations.use_case_preserves || "What QuickArchViz Preserves";
+const bestForLabel = translations.use_case_best_for || "Best For";
+const faqLabel = translations.use_case_faq || "FAQ";
 ---
 
 <section class="section pt-7">
@@ -133,12 +141,12 @@ const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
         {
           steps.length > 0 && (
             <section class="mb-14">
-              <h2 class="h3 mb-8">How It Works</h2>
+              <h2 class="h3 mb-8">{howItWorksLabel}</h2>
               <div class="grid gap-4 md:grid-cols-3">
                 {steps.map((step: UseCaseStep, index: number) => (
                   <div class="rounded bg-light p-6 dark:bg-darkmode-light">
                     <p class="mb-4 text-sm font-semibold text-primary dark:text-darkmode-primary">
-                      Step {index + 1}
+                      {stepLabel} {index + 1}
                     </p>
                     <h3 class="h5 mb-3">{step.title}</h3>
                     {step.description && <p class="mb-0">{step.description}</p>}
@@ -152,7 +160,7 @@ const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
         {
           examples.length > 0 && (
             <section class="mb-14">
-              <h2 class="h3 mb-8">More Workflow Examples</h2>
+              <h2 class="h3 mb-8">{workflowExamplesLabel}</h2>
               <div class="grid gap-8">
                 {examples.map((example: UseCaseExample) => (
                   <div class="rounded bg-light p-5 dark:bg-darkmode-light">
@@ -192,7 +200,7 @@ const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
         {
           preserved.length > 0 && (
             <section class="mb-14">
-              <h2 class="h3 mb-6">What QuickArchViz Preserves</h2>
+              <h2 class="h3 mb-6">{preservesLabel}</h2>
               <div class="grid gap-3 sm:grid-cols-2">
                 {preserved.map((item: string) => (
                   <div class="rounded bg-light px-4 py-3 font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
@@ -207,7 +215,7 @@ const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
         {
           best_for.length > 0 && (
             <section class="mb-14">
-              <h2 class="h3 mb-6">Best For</h2>
+              <h2 class="h3 mb-6">{bestForLabel}</h2>
               <div class="flex flex-wrap gap-3">
                 {best_for.map((item: string) => (
                   <span class="rounded bg-light px-4 py-2 text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
@@ -222,7 +230,7 @@ const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
         {
           faq.length > 0 && (
             <section class="mb-14">
-              <h2 class="h3 mb-6">FAQ</h2>
+              <h2 class="h3 mb-6">{faqLabel}</h2>
               <div class="grid gap-4">
                 {faq.map((item: UseCaseFaq) => (
                   <details class="rounded bg-light p-5 dark:bg-darkmode-light">

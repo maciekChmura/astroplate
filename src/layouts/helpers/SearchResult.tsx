@@ -2,6 +2,7 @@ import { blogPostPath } from "@/lib/utils/blogRoutes";
 import { promptPath } from "@/lib/utils/promptRoutes";
 import { useCasePath } from "@/lib/utils/useCaseRoutes";
 import { slugSelector } from "@/lib/utils/languageParser";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
 import { plainify, titleify } from "@/lib/utils/textConverter";
 import React from "react";
 
@@ -157,7 +158,7 @@ const SearchResult = ({
                     {item.frontmatter.image && (
                       <div className="search-result-item-image">
                         <img
-                          src={item.frontmatter.image}
+                          src={withSiteMountPath(item.frontmatter.image)}
                           alt={item.frontmatter.title}
                         />
                       </div>

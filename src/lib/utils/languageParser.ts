@@ -1,5 +1,6 @@
 import { siteConfig } from "@/lib/siteConfig";
 import { siteLanguages } from "@/lib/siteLanguages";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
 
 type LocaleDictionary = {
   main: {
@@ -147,7 +148,7 @@ export function slugSelector(url: string, lang?: string) {
     pathname = pathname.slice(0, -1);
   }
 
-  return pathname;
+  return withSiteMountPath(pathname);
 }
 
 export function stripLocaleFromId(id: string) {

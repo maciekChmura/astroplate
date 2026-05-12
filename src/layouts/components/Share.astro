@@ -6,6 +6,7 @@ import {
   IoLogoPinterest,
   IoLogoTwitter,
 } from "react-icons/io5";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
 
 const siteUrl =
   Astro.site?.toString().replace(/\/$/, "") ||
@@ -17,7 +18,7 @@ const {
   className,
 }: { title?: string; description?: string; path?: string; className?: string } =
   Astro.props;
-const sharePath = path || "/";
+const sharePath = withSiteMountPath(path || "/");
 ---
 
 <ul class={`${className}`}>
