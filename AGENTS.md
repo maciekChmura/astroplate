@@ -29,14 +29,78 @@
 - `npm run dev` runs `themeGenerator.js` in watch mode and runs `jsonGenerator.js` before starting `astro dev`.
 - `npm run build` runs `themeGenerator.js`, then `jsonGenerator.js`, then `astro build`, then `llmsGenerator.js`.
 - Changes to theme, JSON generation, or build output may affect downstream generated artifacts. Review the corresponding script before editing related behavior.
-- Blog posts are authored directly in `src/content/blog/<language>` as Markdown `.md` files.
-- English posts live in `src/content/blog/english/` and Polish posts live in `src/content/blog/polish/`.
-- Post URLs come from filenames, but they are root-level routes in the Astro app. For example, `src/content/blog/english/my-post.md` becomes `/my-post`, and `src/content/blog/polish/my-post.md` becomes `/pl/my-post`.
-- If a blog instance is mounted under a path such as `/blog`, that prefix is handled by the hosting layer, not by Astro post routes.
-- Use `src/content/blog/english/-template.md` or `src/content/blog/polish/-template.md` as the starting point for new posts.
-- Blog post frontmatter should include only `title`, `description`, `date`, `image`, `categories`, `tags`, and `draft`.
-- Keep post images in `public/images/` and reference them with absolute paths like `/images/cover.png`.
-- Use `draft: true` for unpublished work. Draft posts should stay out of routes, search JSON, and sitemap output.
+
+## Multi-Site Content Guide
+
+- Content lives under `sites/<site-id>/content/`, not under `src/content/`.
+- QuickArchViz uses separate site ids for each language:
+  - English: `quickarchviz-en`
+  - Polish: `quickarchviz-pl`
+- QuickArchViz content roots:
+  - English content: `sites/quickarchviz-en/content/.../english/`
+  - Polish content: `sites/quickarchviz-pl/content/.../polish/`
+- Keep language separation strict. Do not add Polish content to `quickarchviz-en`, and do not add English content to `quickarchviz-pl`.
+- Before adding or modifying content, inspect the relevant existing file or `-template.md` in the same collection and language.
+- Prefer shared QuickArchViz images in `public/sites/quickarchviz/images/` and reference them with absolute paths such as `/sites/quickarchviz/images/cover.png`.
+- Use language-specific asset folders, such as `public/sites/quickarchviz-en/avatars/` or `public/sites/quickarchviz-pl/avatars/`, only when the existing content type already uses them.
+- Keep generated output, `dist/`, `.astro/`, and search/LLM build artifacts out of manual content edits unless the task explicitly asks for generated files.
+
+### Blog Posts
+
+- Add English blog posts to `sites/quickarchviz-en/content/blog/english/`.
+- Add Polish blog posts to `sites/quickarchviz-pl/content/blog/polish/`.
+- Start from the nearest blog `-template.md` and rename the file to the intended slug.
+- Blog URLs come from filenames:
+  - `sites/quickarchviz-en/content/blog/english/my-post.md` becomes `/blog/my-post`.
+  - `sites/quickarchviz-pl/content/blog/polish/moj-post.md` becomes `/blog/moj-post` in the Polish deploy.
+- Blog frontmatter must satisfy `src/content.config.ts`:
+
+```yaml
+title:
+description:
+date:
+image:
+categories:
+tags:
+draft:
+```
+
+- `author` is schema-supported and appears in some templates, but the default author resolves from site config. Omit `author` unless intentionally overriding it.
+- Use `draft: true` while writing unpublished posts. Draft posts stay out of routes, search JSON, sitemap output, and generated content lists.
+- Use `draft: false` only when the post should be published.
+- Use H2 and H3 Markdown headings for article structure because the post layout builds the table of contents from headings.
+
+### Prompts
+
+- Add English prompts to `sites/quickarchviz-en/content/prompts/english/`.
+- Add Polish prompts to `sites/quickarchviz-pl/content/prompts/polish/`.
+- Prompt URLs come from filenames under `/prompts/<slug>`.
+- Prompt frontmatter must include `title`, `description`, `categories`, `tags`, `prompt`, and `draft`.
+- `prompt` should be a YAML block scalar containing the reusable prompt text:
+
+```yaml
+prompt: |
+  Paste the exact reusable AI prompt here.
+```
+
+- Optional prompt fields include `image`, `author`, `popular`, `what_it_does`, and `best_input`. Preserve the style used by the local template.
+
+### Pages, Authors, Homepage, and Sections
+
+- Modify static pages in `sites/<site-id>/content/pages/<language>/`.
+- Modify author profiles in `sites/<site-id>/content/authors/<language>/`.
+- Modify homepage content in `sites/<site-id>/content/homepage/<language>/-index.md`.
+- Modify reusable sections in `sites/<site-id>/content/sections/<language>/`.
+- Preserve the existing frontmatter and nested YAML shape for these files. Homepage and section files often contain structured objects and arrays used directly by layouts.
+- Use ASCII where the existing file is ASCII. Preserve Polish diacritics in Polish content when they are already present or needed for reader-facing copy.
+
+### Content Commands
+
+- Check English QuickArchViz content with `npm run check -- --site quickarchviz-en`.
+- Check Polish QuickArchViz content with `npm run check -- --site quickarchviz-pl`.
+- Start English local dev with `npm run dev -- --site quickarchviz-en`.
+- Start Polish local dev with `npm run dev -- --site quickarchviz-pl`.
+- Production builds require a real HTTPS `PUBLIC_SITE_URL` or `SITE_URL`, for example `PUBLIC_SITE_URL=https://quickarchviz.com npm run build -- --site quickarchviz-en`.
 
 ## Package Manager Policy
 

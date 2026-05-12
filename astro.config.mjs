@@ -93,7 +93,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
     resolve: {
       alias: {
-        "@site": selectedSite.currentSiteDir,
+        "@site": selectedSite.siteDir,
       },
     },
   },

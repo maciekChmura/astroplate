@@ -5,7 +5,7 @@ date: 2022-04-04T05:00:00Z
 image: "/sites/quickarchviz/images/image-placeholder.png"
 categories: ["Application", "Data"]
 tags: ["nextjs", "tailwind"]
-draft: false
+draft: true
 ---
 
 Nemo vel ad consectetur namut rutrum ex, venenatis sollicitudin urna. Aliquam erat volutpat. Integer eu ipsum sem. Ut bibendum lacus vestibulum maximus suscipit. Quisque vitae nibh iaculis neque blandit euismod.
