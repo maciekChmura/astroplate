@@ -1,5 +1,6 @@
 ---
 import { humanize } from "@/lib/utils/textConverter";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
 
 const { className }: { className?: string } = Astro.props;
 
@@ -7,7 +8,7 @@ const paths = Astro.url.pathname.split("/").filter((x) => x);
 let parts = [
   {
     label: "Home",
-    href: "/",
+    href: withSiteMountPath("/"),
     "aria-label": Astro.url.pathname === "/" ? "page" : undefined,
   },
 ];
@@ -17,7 +18,7 @@ paths.forEach((label: string, i: number) => {
   label !== "page" &&
     parts.push({
       label: humanize(label.replace(".html", "").replace(/[-_]/g, " ")) || "",
-      href,
+      href: withSiteMountPath(href),
       "aria-label": Astro.url.pathname === href ? "page" : undefined,
     });
 });

@@ -11,6 +11,7 @@ import {
   stripLocaleFromId,
   supportedLang,
 } from "@/lib/utils/languageParser";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
 
 export async function getStaticPaths() {
   const paths = [];
@@ -42,12 +43,17 @@ const postCanonicalPath = blogPostPath(postSlug, lang);
 const siteUrl =
   Astro.site ||
   (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
-const siteRootUrl = siteUrl ? new URL("/", siteUrl).toString() : undefined;
+const siteRootUrl = siteUrl
+  ? new URL(withSiteMountPath("/"), siteUrl).toString()
+  : undefined;
 const canonicalUrl =
   siteUrl && postCanonicalPath
     ? new URL(postCanonicalPath, siteUrl).toString()
     : postCanonicalPath;
-const imageUrl = siteUrl && image ? new URL(image, siteUrl).toString() : image;
+const imageUrl =
+  siteUrl && image
+    ? new URL(withSiteMountPath(image), siteUrl).toString()
+    : image;
 const organizationId = siteRootUrl ? `${siteRootUrl}#organization` : undefined;
 const publishedDate =
   post.data.date instanceof Date ? post.data.date : new Date(post.data.date);

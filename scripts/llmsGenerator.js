@@ -423,8 +423,58 @@ function discoverSsrPageRoutes(srcPagesDir, basePath) {
 
 // ─── Output generators ────────────────────────────────────────────────────────
 
-function generateMarkdownFile(page, siteUrl) {
-  const url = `${siteUrl}${page.urlPath}`.replace(/(?<=.)\/$/, "");
+function normalizeMountPath(value) {
+  const trimmed = value?.trim();
+
+  if (!trimmed || trimmed === "/") {
+    return "";
+  }
+
+  return `/${trimmed.replace(/^\/+|\/+$/g, "")}`;
+}
+
+function withMountPath(urlPath, mountPath) {
+  if (!mountPath) {
+    return urlPath;
+  }
+
+  if (urlPath === mountPath || urlPath.startsWith(`${mountPath}/`)) {
+    return urlPath;
+  }
+
+  if (urlPath === "/") {
+    return mountPath;
+  }
+
+  return `${mountPath}${urlPath.startsWith("/") ? urlPath : `/${urlPath}`}`;
+}
+
+function withMountUrl(siteUrl, urlPath, mountPath) {
+  return `${siteUrl}${withMountPath(urlPath, mountPath)}`.replace(
+    /(?<=.)\/$/,
+    "",
+  );
+}
+
+function mountMarkdownRootPaths(content, mountPath) {
+  if (!mountPath) {
+    return content;
+  }
+
+  return content.replace(
+    /(\]\(|\]:\s*|href="|src="|content=")(\/(?!\/)[^)"\s]*)/g,
+    (match, prefix, urlPath) => {
+      if (urlPath === mountPath || urlPath.startsWith(`${mountPath}/`)) {
+        return match;
+      }
+
+      return `${prefix}${mountPath}${urlPath}`;
+    },
+  );
+}
+
+function generateMarkdownFile(page, siteUrl, mountPath) {
+  const url = withMountUrl(siteUrl, page.urlPath, mountPath);
 
   let md = "---\n";
   md += `title: "${page.title.replace(/"/g, '\\"')}"\n`;
@@ -433,7 +483,7 @@ function generateMarkdownFile(page, siteUrl) {
     md += `description: "${page.description.replace(/"/g, '\\"')}"\n`;
   }
   md += "---\n\n";
-  md += page.content;
+  md += mountMarkdownRootPaths(page.content, mountPath);
 
   return md;
 }
@@ -449,6 +499,7 @@ function getMarkdownUrlPath(urlPath) {
 function generateLlmsTxtContent(
   pages,
   siteUrl,
+  mountPath,
   siteName,
   siteDescription,
   generateIndividualMd,
@@ -485,9 +536,12 @@ function generateLlmsTxtContent(
       let linkUrl;
       if (generateIndividualMd) {
         const mdPath = getMarkdownUrlPath(page.urlPath);
-        linkUrl = `${siteUrl}${mdPath}`.replace(/([^:])\/\//g, "$1/");
+        linkUrl = withMountUrl(siteUrl, mdPath, mountPath).replace(
+          /([^:])\/\//g,
+          "$1/",
+        );
       } else {
-        linkUrl = `${siteUrl}${page.urlPath}`.replace(/(?<=.)\/$/, "");
+        linkUrl = withMountUrl(siteUrl, page.urlPath, mountPath);
       }
       const linkText = page.title || page.urlPath;
 
@@ -504,12 +558,12 @@ function generateLlmsTxtContent(
   return content;
 }
 
-function generateLlmsFullTxtContent(pages, siteUrl, siteName) {
+function generateLlmsFullTxtContent(pages, siteUrl, mountPath, siteName) {
   let content = `# ${siteName}\n\n`;
-  content += `URL: ${siteUrl}\n\n`;
+  content += `URL: ${withMountUrl(siteUrl, "/", mountPath)}\n\n`;
 
   pages.forEach((page, index) => {
-    const url = `${siteUrl}${page.urlPath}`.replace(/(?<=.)\/$/, "");
+    const url = withMountUrl(siteUrl, page.urlPath, mountPath);
     content += `## ${page.title}\n\n`;
     content += `URL: ${url}\n\n`;
 
@@ -517,7 +571,7 @@ function generateLlmsFullTxtContent(pages, siteUrl, siteName) {
       content += `${page.description}\n\n`;
     }
 
-    content += page.content;
+    content += mountMarkdownRootPaths(page.content, mountPath);
 
     if (index < pages.length - 1) {
       content += "\n\n---\n\n";
@@ -562,6 +616,7 @@ async function generateLlmsFiles() {
     production: requireProductionSiteUrl,
     allowConfigSiteUrl: !requireProductionSiteUrl,
   }).replace(/\/$/, "");
+  const mountPath = normalizeMountPath(process.env.PUBLIC_SITE_MOUNT_PATH);
   const basePath = (config.site.base_path || "/").replace(/\/$/, "") || "/";
   const siteName = config.site.title;
   const siteDescription = config.metadata?.meta_description || "";
@@ -731,7 +786,7 @@ async function generateLlmsFiles() {
       const mdRelative = getMarkdownUrlPath(page.urlPath).replace(/^\//, "");
       const mdPath = path.join(clientDir, mdRelative);
 
-      const mdContent = generateMarkdownFile(page, siteUrl);
+      const mdContent = generateMarkdownFile(page, siteUrl, mountPath);
 
       const mdDir = path.dirname(mdPath);
       if (!fs.existsSync(mdDir)) {
@@ -752,6 +807,7 @@ async function generateLlmsFiles() {
     const llmsTxtContent = generateLlmsTxtContent(
       pages,
       siteUrl,
+      mountPath,
       siteName,
       siteDescription,
       llms.generate_individual_md,
@@ -769,6 +825,7 @@ async function generateLlmsFiles() {
     const llmsFullContent = generateLlmsFullTxtContent(
       pages,
       siteUrl,
+      mountPath,
       siteName,
     );
     const llmsFullPath = path.join(clientDir, "llms-full.txt");

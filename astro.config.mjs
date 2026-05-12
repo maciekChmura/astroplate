@@ -33,6 +33,7 @@ const resolvedSiteUrl = resolveSiteUrl({
   production: shouldRequireProductionSiteUrl,
   allowConfigSiteUrl: false,
 });
+const siteMountPath = normalizeMountPath(process.env.PUBLIC_SITE_MOUNT_PATH);
 
 const enabledLocales = languages
   .map(({ languageCode }) => languageCode)
@@ -56,6 +57,38 @@ function parseFontString(fontStr) {
   // remove + from font name and add space
   const cleanName = name.replace(/\+/g, " ");
   return { name: cleanName, weights };
+}
+
+function normalizeMountPath(value) {
+  const trimmed = value?.trim();
+
+  if (!trimmed || trimmed === "/") {
+    return "";
+  }
+
+  return `/${trimmed.replace(/^\/+|\/+$/g, "")}`;
+}
+
+function withSiteMountUrl(url) {
+  if (!siteMountPath) {
+    return url;
+  }
+
+  const parsedUrl = new URL(url);
+
+  if (
+    parsedUrl.pathname === siteMountPath ||
+    parsedUrl.pathname.startsWith(`${siteMountPath}/`)
+  ) {
+    return parsedUrl.toString();
+  }
+
+  parsedUrl.pathname =
+    parsedUrl.pathname === "/"
+      ? siteMountPath
+      : `${siteMountPath}${parsedUrl.pathname}`;
+
+  return parsedUrl.toString();
 }
 
 // Build fonts configuration from theme.json
@@ -100,7 +133,14 @@ export default defineConfig({
   fonts: fontsConfig,
   integrations: [
     react(),
-    sitemap(),
+    sitemap({
+      serialize(item) {
+        return {
+          ...item,
+          url: withSiteMountUrl(item.url),
+        };
+      },
+    }),
     AutoImport({
       imports: [
         "@/shortcodes/Button",

@@ -14,6 +14,7 @@ import {
   useCasePath,
   useCasesIndexPath,
 } from "@/lib/utils/useCaseRoutes";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
 
 export async function getStaticPaths() {
   const paths = [];
@@ -66,20 +67,22 @@ const indexUrl = siteUrl
 const primaryImage = image || hero_after?.src || hero_before?.src;
 const imageUrl =
   siteUrl && primaryImage
-    ? new URL(primaryImage, siteUrl).toString()
+    ? new URL(withSiteMountPath(primaryImage), siteUrl).toString()
     : primaryImage;
 const imageUrls = [
   imageUrl,
   hero_before?.src && siteUrl
-    ? new URL(hero_before.src, siteUrl).toString()
+    ? new URL(withSiteMountPath(hero_before.src), siteUrl).toString()
     : hero_before?.src,
   hero_after?.src && siteUrl
-    ? new URL(hero_after.src, siteUrl).toString()
+    ? new URL(withSiteMountPath(hero_after.src), siteUrl).toString()
     : hero_after?.src,
   ...examples.flatMap((example) =>
     [example.image?.src, example.before?.src, example.after?.src]
       .filter(Boolean)
-      .map((src) => (siteUrl ? new URL(src!, siteUrl).toString() : src!)),
+      .map((src) =>
+        siteUrl ? new URL(withSiteMountPath(src!), siteUrl).toString() : src!,
+      ),
   ),
 ].filter(Boolean);
 const author = await getAuthorProfile({
@@ -128,11 +131,13 @@ const useCaseJsonLd = [
   },
   {
     "@type": "SoftwareApplication",
-    "@id": `${siteUrl ? new URL("/", siteUrl).toString() : "/"}#software`,
+    "@id": `${
+      siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/"
+    }#software`,
     name: "QuickArchViz",
     applicationCategory: "DesignApplication",
     operatingSystem: "Web",
-    url: siteUrl ? new URL("/", siteUrl).toString() : "/",
+    url: siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/",
     description: siteConfig.metadata.meta_description,
   },
   faq.length > 0
