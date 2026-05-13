@@ -92,6 +92,7 @@ function withSiteMountUrl(url) {
 }
 
 // Build fonts configuration from theme.json
+const fontSubsets = theme.fonts.font_subsets || ["latin"];
 const fontsConfig = Object.entries(theme.fonts.font_family)
   .filter(([key]) => !key.includes("_type")) // Filter out type entries
   .map(([key, fontStr]) => {
@@ -104,6 +105,7 @@ const fontsConfig = Object.entries(theme.fonts.font_family)
       cssVariable: `--font-${key}`,
       provider: fontProviders.google(),
       weights,
+      subsets: fontSubsets,
       display: "swap",
       fallbacks: [fallback],
     };
