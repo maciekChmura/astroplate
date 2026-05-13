@@ -2,6 +2,7 @@
 import BeforeAfter from "@/components/BeforeAfter.astro";
 import { getTranslations, slugSelector } from "@/lib/utils/languageParser";
 import { humanize, markdownify } from "@/lib/utils/textConverter";
+import { render } from "astro:content";
 import { FaRegFolder, FaRegUser } from "react-icons/fa";
 import ImageMod from "./components/ImageMod.astro";
 
@@ -39,6 +40,7 @@ type UseCaseFaq = {
 };
 
 const { useCaseEntry, lang, author } = Astro.props;
+const { Content } = await render(useCaseEntry);
 const {
   title,
   description,
@@ -95,6 +97,7 @@ function isBunnyEmbedUrl(embedUrl?: string) {
 const videoEmbedUrl = isBunnyEmbedUrl(video?.embed_url)
   ? video.embed_url
   : undefined;
+const hasBodyContent = Boolean(useCaseEntry.body?.trim());
 ---
 
 <section class="section pt-7">
@@ -352,6 +355,14 @@ const videoEmbedUrl = isBunnyEmbedUrl(video?.embed_url)
                 ))}
               </div>
             </section>
+          )
+        }
+
+        {
+          hasBodyContent && (
+            <div class="content mb-16">
+              <Content />
+            </div>
           )
         }
 
