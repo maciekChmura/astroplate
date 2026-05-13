@@ -35,8 +35,8 @@ const initialPosition = 50;
 >
   <div class="relative aspect-[16/10] w-full overflow-hidden">
     <ImageMod
-      src={before.src}
-      alt={before.alt}
+      src={after.src}
+      alt={after.alt}
       width={1200}
       height={750}
       loading="eager"
@@ -51,8 +51,8 @@ const initialPosition = 50;
       style={`clip-path: inset(0 ${100 - initialPosition}% 0 0);`}
     >
       <ImageMod
-        src={after.src}
-        alt={after.alt}
+        src={before.src}
+        alt={before.alt}
         width={1200}
         height={750}
         loading="eager"

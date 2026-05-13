@@ -62,6 +62,12 @@ const imageField = z.object({
   caption: z.string().optional(),
 });
 
+const useCaseTextImageField = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+  image: imageField.optional(),
+});
+
 // Use case collection schema
 const useCasesCollection = defineCollection({
   loader: glob({ pattern: "**/*.md", base: useCasesBase }),
@@ -78,6 +84,34 @@ const useCasesCollection = defineCollection({
     software: z.string().optional(),
     workflow: z.string().optional(),
     rendering_intent: z.string().optional(),
+    input_example: useCaseTextImageField
+      .extend({
+        accepted_formats: z.array(z.string()).default([]),
+      })
+      .optional(),
+    style_selection: z
+      .object({
+        title: z.string(),
+        description: z.string().optional(),
+        styles: z
+          .array(
+            z.object({
+              title: z.string(),
+              description: z.string().optional(),
+              image: imageField.optional(),
+            }),
+          )
+          .default([]),
+      })
+      .optional(),
+    result: useCaseTextImageField.optional(),
+    video: z
+      .object({
+        title: z.string(),
+        embed_url: z.string(),
+        caption: z.string().optional(),
+      })
+      .optional(),
     hero_before: imageField.optional(),
     hero_after: imageField.optional(),
     steps: z
@@ -100,7 +134,6 @@ const useCasesCollection = defineCollection({
       )
       .default([]),
     preserved: z.array(z.string()).default([]),
-    best_for: z.array(z.string()).default([]),
     faq: z
       .array(
         z.object({

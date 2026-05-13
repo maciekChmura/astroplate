@@ -1,9 +1,7 @@
 ---
 import BeforeAfter from "@/components/BeforeAfter.astro";
-import TableOfContents from "@/components/TableOfContents.astro";
 import { getTranslations, slugSelector } from "@/lib/utils/languageParser";
 import { humanize, markdownify } from "@/lib/utils/textConverter";
-import { render } from "astro:content";
 import { FaRegFolder, FaRegUser } from "react-icons/fa";
 import ImageMod from "./components/ImageMod.astro";
 
@@ -13,17 +11,26 @@ type UseCaseImage = {
   caption?: string;
 };
 
-type UseCaseStep = {
+type UseCaseTextImage = {
   title: string;
   description?: string;
+  image?: UseCaseImage;
 };
 
-type UseCaseExample = {
+type UseCaseInputExample = UseCaseTextImage & {
+  accepted_formats?: string[];
+};
+
+type UseCaseStyle = {
   title: string;
   description?: string;
-  before?: UseCaseImage;
-  after?: UseCaseImage;
   image?: UseCaseImage;
+};
+
+type UseCaseVideo = {
+  title: string;
+  embed_url: string;
+  caption?: string;
 };
 
 type UseCaseFaq = {
@@ -32,7 +39,6 @@ type UseCaseFaq = {
 };
 
 const { useCaseEntry, lang, author } = Astro.props;
-const { Content, headings } = await render(useCaseEntry);
 const {
   title,
   description,
@@ -42,114 +48,205 @@ const {
   software,
   workflow,
   rendering_intent,
+  input_example,
+  style_selection,
+  result,
+  video,
   hero_before,
   hero_after,
   steps,
-  examples,
   preserved,
-  best_for,
   faq,
   cta,
 } = useCaseEntry.data;
 const translations = (await getTranslations(lang)) as Record<string, string>;
-const tableOfContents = translations.table_of_contents || "Table of contents";
 const beforeLabel = translations.input || "Input";
 const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
-const howItWorksLabel = translations.use_case_how_it_works || "How It Works";
-const stepLabel = translations.use_case_step || "Step";
-const workflowExamplesLabel =
-  translations.use_case_more_examples || "More Workflow Examples";
+const comparisonLabel = translations.use_case_comparison || "Before and After";
 const preservesLabel =
   translations.use_case_preserves || "What QuickArchViz Preserves";
-const bestForLabel = translations.use_case_best_for || "Best For";
 const faqLabel = translations.use_case_faq || "FAQ";
+const formatLabel =
+  translations.use_case_accepted_formats || "Accepted formats";
+const styleSelectionFallbackTitle =
+  translations.use_case_style_selection || "Styles to Pick";
+
+const inputSection = input_example as UseCaseInputExample | undefined;
+const acceptedFormats = inputSection?.accepted_formats || [];
+const resultSection =
+  (result as UseCaseTextImage | undefined) ||
+  (hero_after && {
+    title: afterLabel,
+    description: hero_after.caption,
+    image: hero_after,
+  });
+const styles = (style_selection?.styles || steps || []) as UseCaseStyle[];
+const styleTitle = style_selection?.title || styleSelectionFallbackTitle;
+const badges = [software, workflow, rendering_intent].filter(Boolean);
+const showMeta = Boolean(author?.name || categories.length > 0);
+
+function isBunnyEmbedUrl(embedUrl?: string) {
+  return Boolean(
+    embedUrl &&
+    /^https:\/\/(player|iframe)\.mediadelivery\.net\//.test(embedUrl),
+  );
+}
+
+const videoEmbedUrl = isBunnyEmbedUrl(video?.embed_url)
+  ? video.embed_url
+  : undefined;
 ---
 
 <section class="section pt-7">
   <div class="container">
     <div class="row justify-center">
       <article class="lg:col-10">
-        <div class="mb-6 flex flex-wrap gap-2">
+        <header class="mb-14 max-w-4xl">
           {
-            [software, workflow, rendering_intent]
-              .filter(Boolean)
-              .map((item) => (
-                <span class="rounded bg-light px-3 py-1 text-sm font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
-                  {item}
-                </span>
-              ))
-          }
-        </div>
-        <h1 set:html={markdownify(title)} class="h2 mb-4" />
-        <p class="mb-8 text-lg leading-8">{description}</p>
-
-        {
-          hero_before && hero_after ? (
-            <BeforeAfter
-              before={hero_before}
-              after={hero_after}
-              beforeLabel={beforeLabel}
-              afterLabel={afterLabel}
-              class="mb-10"
-            />
-          ) : (
-            image && (
-              <div class="mb-10">
-                <ImageMod
-                  src={image}
-                  height={500}
-                  width={1200}
-                  alt={title}
-                  class="w-full rounded"
-                  format="webp"
-                />
+            badges.length > 0 && (
+              <div class="mb-6 flex flex-wrap gap-2">
+                {badges.map((item: string) => (
+                  <span class="rounded bg-light px-3 py-1 text-sm font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+                    {item}
+                  </span>
+                ))}
               </div>
             )
+          }
+          <h1 set:html={markdownify(title)} class="h1 mb-5" />
+          <p class="mb-6 text-lg leading-8 text-text dark:text-darkmode-text">
+            {description}
+          </p>
+          {
+            showMeta && (
+              <ul class="mb-0 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                {author?.name && (
+                  <li>
+                    <FaRegUser className={"mr-2 -mt-1 inline-block"} />
+                    {author?.url ? (
+                      <a href={author.url}>{author.name}</a>
+                    ) : (
+                      <span>{author.name}</span>
+                    )}
+                  </li>
+                )}
+                {categories.length > 0 && (
+                  <li>
+                    <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
+                    {categories.map((category: string, index: number) => (
+                      <span>
+                        {humanize(category)}
+                        {index !== categories.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </li>
+                )}
+              </ul>
+            )
+          }
+        </header>
+
+        {
+          inputSection && (
+            <section class="mb-16 grid items-center gap-8 md:grid-cols-2">
+              <div>
+                {inputSection.image ? (
+                  <figure class="overflow-hidden rounded bg-light dark:bg-darkmode-light">
+                    <ImageMod
+                      src={inputSection.image.src}
+                      alt={inputSection.image.alt}
+                      width={900}
+                      height={600}
+                      loading="eager"
+                      decoding="async"
+                      fit="cover"
+                      class="aspect-[3/2] w-full object-cover"
+                      format="webp"
+                    />
+                    {inputSection.image.caption && (
+                      <figcaption class="px-4 py-3 text-sm">
+                        {inputSection.image.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                ) : (
+                  image && (
+                    <ImageMod
+                      src={image}
+                      height={600}
+                      width={900}
+                      alt={title}
+                      class="aspect-[3/2] w-full rounded object-cover"
+                      format="webp"
+                    />
+                  )
+                )}
+              </div>
+              <div class="md:pl-8">
+                <h2 class="h3 mb-4">{inputSection.title}</h2>
+                {inputSection.description && (
+                  <div
+                    class="content mb-5"
+                    set:html={markdownify(inputSection.description, true)}
+                  />
+                )}
+                {acceptedFormats.length > 0 && (
+                  <div>
+                    <p class="mb-3 text-sm font-semibold uppercase text-text-dark dark:text-darkmode-text">
+                      {formatLabel}
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                      {acceptedFormats.map((format: string) => (
+                        <span class="rounded bg-light px-3 py-1 text-sm dark:bg-darkmode-light">
+                          {format}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </section>
           )
         }
 
-        <ul class="mb-8">
-          <li class="mr-4 inline-block">
-            <FaRegUser className={"mr-2 -mt-1 inline-block"} />
-            {
-              author?.url ? (
-                <a href={author.url}>{author.name}</a>
-              ) : (
-                <span>{author?.name}</span>
-              )
-            }
-          </li>
-          <li class="mr-4 inline-block">
-            <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
-            {
-              categories.map((category: string, index: number) => (
-                <span>
-                  {humanize(category)}
-                  {index !== categories.length - 1 && ", "}
-                </span>
-              ))
-            }
-          </li>
-        </ul>
-
-        <TableOfContents headings={headings} title={tableOfContents} />
-
-        <div class="content mb-12">
-          <Content />
-        </div>
-
         {
-          steps.length > 0 && (
-            <section class="mb-14">
-              <h2 class="h3 mb-8">{howItWorksLabel}</h2>
-              <div class="grid gap-4 md:grid-cols-3">
-                {steps.map((step: UseCaseStep, index: number) => (
-                  <div class="rounded bg-light p-6 dark:bg-darkmode-light">
-                    <p class="mb-4 text-sm font-semibold text-primary dark:text-darkmode-primary">
-                      {stepLabel} {index + 1}
-                    </p>
-                    <h3 class="h5 mb-3">{step.title}</h3>
-                    {step.description && <p class="mb-0">{step.description}</p>}
+          (style_selection || styles.length > 0) && (
+            <section class="mb-16 grid items-center gap-8 md:grid-cols-2">
+              <div class="md:pr-8">
+                <h2 class="h3 mb-4">{styleTitle}</h2>
+                {style_selection?.description && (
+                  <div
+                    class="content mb-0"
+                    set:html={markdownify(style_selection.description, true)}
+                  />
+                )}
+              </div>
+              <div class="grid gap-4 sm:grid-cols-2">
+                {styles.map((style: UseCaseStyle) => (
+                  <div>
+                    {style.image && (
+                      <figure class="relative overflow-hidden rounded-[1.75rem] border border-transparent bg-light shadow transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg dark:bg-darkmode-light">
+                        <ImageMod
+                          src={style.image.src}
+                          alt={style.image.alt}
+                          width={600}
+                          height={600}
+                          fit="cover"
+                          class="aspect-square w-full object-cover"
+                          format="webp"
+                        />
+                        <figcaption class="absolute inset-x-4 bottom-5 flex justify-center">
+                          <span class="rounded-full bg-white/95 px-4 py-1.5 text-center font-secondary text-sm font-medium leading-none text-text-dark shadow">
+                            {style.title}
+                          </span>
+                        </figcaption>
+                      </figure>
+                    )}
+                    {!style.image && (
+                      <div class="rounded bg-light p-5 dark:bg-darkmode-light">
+                        <h3 class="h5 mb-0">{style.title}</h3>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -158,48 +255,94 @@ const faqLabel = translations.use_case_faq || "FAQ";
         }
 
         {
-          examples.length > 0 && (
-            <section class="mb-14">
-              <h2 class="h3 mb-8">{workflowExamplesLabel}</h2>
-              <div class="grid gap-8">
-                {examples.map((example: UseCaseExample) => (
-                  <div class="rounded bg-light p-5 dark:bg-darkmode-light">
-                    {example.before && example.after ? (
-                      <BeforeAfter
-                        before={example.before}
-                        after={example.after}
-                        beforeLabel={beforeLabel}
-                        afterLabel={afterLabel}
-                      />
-                    ) : (
-                      example.image && (
-                        <ImageMod
-                          src={example.image.src}
-                          alt={example.image.alt}
-                          width={1200}
-                          height={675}
-                          fit="cover"
-                          class="mb-5 h-auto w-full rounded object-cover"
-                          format="webp"
-                        />
-                      )
+          resultSection && (
+            <section class="mb-16 grid items-center gap-8 md:grid-cols-2">
+              <div>
+                {resultSection.image ? (
+                  <figure class="overflow-hidden rounded bg-light dark:bg-darkmode-light">
+                    <ImageMod
+                      src={resultSection.image.src}
+                      alt={resultSection.image.alt}
+                      width={900}
+                      height={600}
+                      fit="cover"
+                      class="aspect-[3/2] w-full object-cover"
+                      format="webp"
+                    />
+                    {resultSection.image.caption && (
+                      <figcaption class="px-4 py-3 text-sm">
+                        {resultSection.image.caption}
+                      </figcaption>
                     )}
-                    <div class="pt-5">
-                      <h3 class="h4 mb-3">{example.title}</h3>
-                      {example.description && (
-                        <p class="mb-0">{example.description}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                  </figure>
+                ) : (
+                  image && (
+                    <ImageMod
+                      src={image}
+                      height={600}
+                      width={900}
+                      alt={title}
+                      class="aspect-[3/2] w-full rounded object-cover"
+                      format="webp"
+                    />
+                  )
+                )}
               </div>
+              <div class="md:pl-8">
+                <h2 class="h3 mb-4">{resultSection.title}</h2>
+                {resultSection.description && (
+                  <div
+                    class="content mb-0"
+                    set:html={markdownify(resultSection.description, true)}
+                  />
+                )}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          videoEmbedUrl && (
+            <section class="mb-16">
+              <h2 class="h3 mb-6">{(video as UseCaseVideo).title}</h2>
+              <div class="overflow-hidden rounded bg-light dark:bg-darkmode-light">
+                <div class="relative aspect-video w-full">
+                  <iframe
+                    src={videoEmbedUrl}
+                    title={(video as UseCaseVideo).title}
+                    loading="lazy"
+                    class="absolute inset-0 h-full w-full border-0"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                    allowfullscreen
+                  />
+                </div>
+                {(video as UseCaseVideo).caption && (
+                  <p class="mb-0 px-4 py-3 text-sm">
+                    {(video as UseCaseVideo).caption}
+                  </p>
+                )}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          hero_before && hero_after && (
+            <section class="mb-16">
+              <h2 class="h3 mb-6">{comparisonLabel}</h2>
+              <BeforeAfter
+                before={hero_before}
+                after={hero_after}
+                beforeLabel={beforeLabel}
+                afterLabel={afterLabel}
+              />
             </section>
           )
         }
 
         {
           preserved.length > 0 && (
-            <section class="mb-14">
+            <section class="mb-16">
               <h2 class="h3 mb-6">{preservesLabel}</h2>
               <div class="grid gap-3 sm:grid-cols-2">
                 {preserved.map((item: string) => (
@@ -213,23 +356,8 @@ const faqLabel = translations.use_case_faq || "FAQ";
         }
 
         {
-          best_for.length > 0 && (
-            <section class="mb-14">
-              <h2 class="h3 mb-6">{bestForLabel}</h2>
-              <div class="flex flex-wrap gap-3">
-                {best_for.map((item: string) => (
-                  <span class="rounded bg-light px-4 py-2 text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )
-        }
-
-        {
           faq.length > 0 && (
-            <section class="mb-14">
+            <section class="mb-16">
               <h2 class="h3 mb-6">{faqLabel}</h2>
               <div class="grid gap-4">
                 {faq.map((item: UseCaseFaq) => (
@@ -259,15 +387,17 @@ const faqLabel = translations.use_case_faq || "FAQ";
           )
         }
 
-        <div class="flex flex-wrap items-center gap-2">
-          {
-            tags.map((tag: string) => (
-              <span class="rounded bg-light px-3 py-1 text-sm dark:bg-darkmode-light">
-                {humanize(tag)}
-              </span>
-            ))
-          }
-        </div>
+        {
+          tags.length > 0 && (
+            <div class="flex flex-wrap items-center gap-2">
+              {tags.map((tag: string) => (
+                <span class="rounded bg-light px-3 py-1 text-sm dark:bg-darkmode-light">
+                  {humanize(tag)}
+                </span>
+              ))}
+            </div>
+          )
+        }
       </article>
     </div>
   </div>

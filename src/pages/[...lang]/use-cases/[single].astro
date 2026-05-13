@@ -48,6 +48,10 @@ const {
   software,
   workflow,
   rendering_intent,
+  input_example,
+  style_selection,
+  result,
+  video,
   hero_before,
   hero_after,
   examples,
@@ -71,6 +75,18 @@ const imageUrl =
     : primaryImage;
 const imageUrls = [
   imageUrl,
+  input_example?.image?.src && siteUrl
+    ? new URL(withSiteMountPath(input_example.image.src), siteUrl).toString()
+    : input_example?.image?.src,
+  result?.image?.src && siteUrl
+    ? new URL(withSiteMountPath(result.image.src), siteUrl).toString()
+    : result?.image?.src,
+  ...(style_selection?.styles || [])
+    .map((style) => style.image?.src)
+    .filter(Boolean)
+    .map((src) =>
+      siteUrl ? new URL(withSiteMountPath(src!), siteUrl).toString() : src!,
+    ),
   hero_before?.src && siteUrl
     ? new URL(withSiteMountPath(hero_before.src), siteUrl).toString()
     : hero_before?.src,
@@ -140,6 +156,15 @@ const useCaseJsonLd = [
     url: siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/",
     description: siteConfig.metadata.meta_description,
   },
+  video?.embed_url
+    ? {
+        "@type": "VideoObject",
+        "@id": `${canonicalUrl}#video`,
+        name: video.title,
+        description: video.caption || description,
+        embedUrl: video.embed_url,
+      }
+    : undefined,
   faq.length > 0
     ? {
         "@type": "FAQPage",

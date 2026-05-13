@@ -21,6 +21,19 @@ function getSearchableContent(data, content, group) {
   }
 
   if (group === "use-cases") {
+    const inputExample = [
+      data.input_example?.title,
+      data.input_example?.description,
+      data.input_example?.image?.alt,
+      data.input_example?.image?.caption,
+      ...(data.input_example?.accepted_formats || []),
+    ];
+    const styles = (data.style_selection?.styles || []).flatMap((style) => [
+      style.title,
+      style.description,
+      style.image?.alt,
+      style.image?.caption,
+    ]);
     const steps = (data.steps || []).flatMap((step) => [
       step.title,
       step.description,
@@ -36,14 +49,26 @@ function getSearchableContent(data, content, group) {
       item.question,
       item.answer,
     ]);
+    const result = [
+      data.result?.title,
+      data.result?.description,
+      data.result?.image?.alt,
+      data.result?.image?.caption,
+    ];
     const structuredParts = [
       data.software,
       data.workflow,
       data.rendering_intent,
+      ...inputExample,
+      data.style_selection?.title,
+      data.style_selection?.description,
+      ...styles,
+      ...result,
+      data.video?.title,
+      data.video?.caption,
       data.hero_before?.alt,
       data.hero_after?.alt,
       ...(data.preserved || []),
-      ...(data.best_for || []),
       ...steps,
       ...examples,
       ...faq,
