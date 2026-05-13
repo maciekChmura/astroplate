@@ -9,27 +9,60 @@ import { humanize, plainify } from "@/lib/utils/textConverter";
 import ImageMod from "./ImageMod.astro";
 
 const { data } = Astro.props;
-const { title, description, image, categories, hero_after } = data.data;
+const { title, description, image, categories, hero_before, hero_after } =
+  data.data;
 const lang = getLangFromUrl(Astro.url);
 const translations = (await getTranslations(lang)) as Record<string, string>;
 const viewUseCase = translations.view_use_case || "View use case";
 const useCaseSlug = stripLocaleFromId(data.id);
 const cardImage = image || hero_after?.src;
 const cardImageAlt = hero_after?.alt || title;
+const hasBeforeAfterThumbnail = Boolean(hero_before?.src && hero_after?.src);
 ---
 
 <article class="h-full rounded bg-light p-6 dark:bg-darkmode-light">
   {
-    cardImage && (
-      <ImageMod
-        class="mb-6 h-44 w-full rounded object-cover"
-        src={cardImage}
-        alt={cardImageAlt}
-        width={445}
-        height={230}
-        fit="cover"
-        format="webp"
-      />
+    hasBeforeAfterThumbnail ? (
+      <div class="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded">
+        <ImageMod
+          class="h-full w-full object-cover"
+          src={hero_after.src}
+          alt={hero_after.alt || title}
+          width={640}
+          height={400}
+          fit="cover"
+          format="webp"
+        />
+        <div
+          class="absolute inset-0 overflow-hidden"
+          style="clip-path: inset(0 50% 0 0);"
+        >
+          <ImageMod
+            class="h-full w-full object-cover"
+            src={hero_before.src}
+            alt={hero_before.alt || title}
+            width={640}
+            height={400}
+            fit="cover"
+            format="webp"
+          />
+        </div>
+        <span
+          class="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/80 shadow-[0_0_0_1px_rgba(75,85,99,0.45)]"
+          aria-hidden="true"></span>
+      </div>
+    ) : (
+      cardImage && (
+        <ImageMod
+          class="mb-6 aspect-[16/10] w-full rounded object-cover"
+          src={cardImage}
+          alt={cardImageAlt}
+          width={640}
+          height={400}
+          fit="cover"
+          format="webp"
+        />
+      )
     )
   }
   <div class="mb-4 flex flex-wrap gap-2">
