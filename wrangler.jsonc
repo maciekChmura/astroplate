@@ -1,13 +1,8 @@
 {
-  // Cloudflare Workers — Static Assets deployment (legacy)
-  // Deploy:  npm run deploy:cf-workers
-  // Preview: npm run preview:cf-workers
-  // Cloudflare Pages preview: npm run preview:cf-pages
+  // Cloudflare Pages-safe config.
+  // Keep Workers Static Assets config in wrangler.cf-workers.jsonc so Pages
+  // Git deployments do not fail while reading the root wrangler file.
   "name": "astroplate",
   "compatibility_date": "2026-03-02",
-  "pages_build_output_dir": "./dist",
-  "assets": {
-    "directory": "./dist",
-    "not_found_handling": "404-page"
-  }
+  "pages_build_output_dir": "./dist"
 }

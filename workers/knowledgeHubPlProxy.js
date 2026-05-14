@@ -29,9 +29,28 @@ const mountedPublicPathPrefixes = [
   "/sitemap-",
 ];
 
+const originLanguagePath = "/pl";
+const originLanguageHubPrefixes = [
+  "/authors",
+  "/blog",
+  "/categories",
+  "/contact",
+  "/prompts",
+  "/privacy-policy",
+  "/tags",
+  "/use-cases",
+];
+
 function isMountedPath(pathname) {
   return (
     pathname === config.mountPath || pathname.startsWith(`${config.mountPath}/`)
+  );
+}
+
+function isMountedLanguageHomePath(pathname) {
+  return (
+    pathname === `${config.mountPath}${originLanguagePath}` ||
+    pathname === `${config.mountPath}${originLanguagePath}/`
   );
 }
 
@@ -58,6 +77,20 @@ function toMountedPath(pathname) {
     pathname.startsWith(`${config.mountPath}/`)
   ) {
     return pathname;
+  }
+
+  if (pathname.startsWith(`${originLanguagePath}/`)) {
+    const pathWithoutLanguage = pathname.slice(originLanguagePath.length);
+
+    if (
+      originLanguageHubPrefixes.some(
+        (prefix) =>
+          pathWithoutLanguage === prefix ||
+          pathWithoutLanguage.startsWith(`${prefix}/`),
+      )
+    ) {
+      return `${config.mountPath}${pathWithoutLanguage}`;
+    }
   }
 
   return pathname === "/" ? config.mountPath : `${config.mountPath}${pathname}`;
@@ -138,6 +171,53 @@ function prefixMarkdownRootPaths(body) {
   );
 }
 
+function rewriteOriginLanguageMountedAttributes(body) {
+  const attributes = [
+    "action",
+    "content",
+    "href",
+    "poster",
+    "src",
+    "component-url",
+    "renderer-url",
+    "before-hydration-url",
+  ];
+
+  return originLanguageHubPrefixes.reduce((currentBody, prefix) => {
+    return attributes.reduce((attributeBody, attribute) => {
+      const pattern = new RegExp(
+        `(${attribute}=["'])${escapeRegExp(originLanguagePath)}${escapeRegExp(
+          prefix,
+        )}(?=[/?#"'\\s<]|$)`,
+        "g",
+      );
+
+      return attributeBody.replace(
+        pattern,
+        `$1${config.mountPath}${prefix}`,
+      );
+    }, currentBody);
+  }, body);
+}
+
+function rewriteOriginLanguageHomeAttributes(body) {
+  return body
+    .split(`href="${config.mountPath}${originLanguagePath}"`)
+    .join(`href="${config.mountPath}"`)
+    .split(`href='${config.mountPath}${originLanguagePath}'`)
+    .join(`href='${config.mountPath}'`)
+    .split(`href=&quot;${config.mountPath}${originLanguagePath}&quot;`)
+    .join(`href=&quot;${config.mountPath}&quot;`)
+    .split(
+      `"${config.publicOrigin}${config.mountPath}${originLanguagePath}"`,
+    )
+    .join(`"${config.publicOrigin}${config.mountPath}"`)
+    .split(
+      `&quot;${config.publicOrigin}${config.mountPath}${originLanguagePath}&quot;`,
+    )
+    .join(`&quot;${config.publicOrigin}${config.mountPath}&quot;`);
+}
+
 function prefixRootRelativeCssUrls(body) {
   const mountSegment = config.mountPath.slice(1);
 
@@ -166,7 +246,17 @@ function prefixPublicOriginMountedUrls(body) {
       `${escapeRegExp(config.publicOrigin)}${escapeRegExp(prefix)}(?=[/?#"'\\s<]|$)`,
       "g",
     );
+    const languagePattern = new RegExp(
+      `${escapeRegExp(config.publicOrigin)}${escapeRegExp(
+        originLanguagePath,
+      )}${escapeRegExp(prefix)}(?=[/?#"'\\s<]|$)`,
+      "g",
+    );
+
     return currentBody.replace(
+      languagePattern,
+      `${config.publicOrigin}${config.mountPath}${prefix}`,
+    ).replace(
       rootPattern,
       `${config.publicOrigin}${config.mountPath}${prefix}`,
     );
@@ -175,21 +265,37 @@ function prefixPublicOriginMountedUrls(body) {
 
 function rewriteRootMetadataUrls(body) {
   const rootUrl = config.publicOrigin;
+  const languageUrl = `${config.publicOrigin}${originLanguagePath}`;
   const mountedUrl = `${config.publicOrigin}${config.mountPath}`;
 
   return body
+    .split(`href="${languageUrl}" item-prop="url"`)
+    .join(`href="${mountedUrl}" item-prop="url"`)
     .split(`href="${rootUrl}" item-prop="url"`)
     .join(`href="${mountedUrl}" item-prop="url"`)
+    .split(`content="${languageUrl}"`)
+    .join(`content="${mountedUrl}"`)
     .split(`content="${rootUrl}"`)
     .join(`content="${mountedUrl}"`)
+    .split(`"url":"${languageUrl}"`)
+    .join(`"url":"${mountedUrl}"`)
     .split(`"url":"${rootUrl}"`)
     .join(`"url":"${mountedUrl}"`)
+    .split(`"@id":"${languageUrl}#`)
+    .join(`"@id":"${mountedUrl}#`)
     .split(`"@id":"${rootUrl}#`)
     .join(`"@id":"${mountedUrl}#`);
 }
 
 async function handleRequest(request) {
   const url = new URL(request.url);
+
+  if (isMountedLanguageHomePath(url.pathname)) {
+    return Response.redirect(
+      `${config.publicOrigin}${config.mountPath}${url.search}`,
+      301,
+    );
+  }
 
   if (!isMountedPath(url.pathname)) {
     return fetch(request);
@@ -226,7 +332,9 @@ async function handleRequest(request) {
     .join(`${config.publicOrigin}${config.mountPath}`)
     .split(config.originHost)
     .join(new URL(config.publicOrigin).host);
+  body = rewriteOriginLanguageMountedAttributes(body);
   body = prefixRootRelativeAttributes(body);
+  body = rewriteOriginLanguageHomeAttributes(body);
   body = prefixMarkdownRootPaths(body);
   body = prefixRootRelativeCssUrls(body);
   body = prefixSitemapIndexUrls(body);

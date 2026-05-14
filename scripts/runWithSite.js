@@ -128,11 +128,21 @@ async function main() {
       break;
     case "deploy:cf-workers":
       await runBuild([], "npm run deploy:cf-workers");
-      await runWrangler(["deploy", ...commandArgs]);
+      await runWrangler([
+        "deploy",
+        "--config",
+        "wrangler.cf-workers.jsonc",
+        ...commandArgs,
+      ]);
       break;
     case "preview:cf-workers":
       await runBuild([], "npm run preview:cf-workers");
-      await runWrangler(["dev", ...commandArgs]);
+      await runWrangler([
+        "dev",
+        "--config",
+        "wrangler.cf-workers.jsonc",
+        ...commandArgs,
+      ]);
       break;
     default:
       throw new Error(`Unknown command "${command}"`);

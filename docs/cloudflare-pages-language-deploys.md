@@ -6,6 +6,27 @@ the site with `SITE_ID`.
 Astro builds and serves the selected language app at `/` on the Pages origin.
 The public mount paths are handled by Cloudflare Workers.
 
+## Production deploy flow
+
+Deploy both language hubs from Git, then refresh both proxy Workers:
+
+```sh
+npm run deploy:knowledge-hubs
+```
+
+This runs:
+
+```sh
+npm run deploy:prod
+npm run deploy:knowledge-hub-en-proxy
+npm run deploy:knowledge-hub-pl-proxy
+```
+
+`deploy:prod` merges `main` into `prod` and pushes `prod`. Both Cloudflare
+Pages projects should use `prod` as their production branch, so the Pages build
+starts from Git. The root `wrangler.jsonc` is intentionally Pages-safe; the
+legacy Workers Static Assets config lives in `wrangler.cf-workers.jsonc`.
+
 ## English Pages project
 
 Production project:
