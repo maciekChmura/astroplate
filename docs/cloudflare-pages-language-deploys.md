@@ -85,7 +85,7 @@ quickarchviz.com/pl/*
 ```
 
 It strips `/pl` before fetching
-`https://quickarchviz-knowledge-hub-pl.pages.dev`, then rewrites text responses
+`https://astroplate-wq8.pages.dev`, then rewrites text responses
 so root-relative links and assets stay under `/pl`.
 
 Unlike the English Worker, the Polish Worker does not redirect root-level

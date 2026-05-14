@@ -5,8 +5,9 @@
   // Cloudflare Pages preview: npm run preview:cf-pages
   "name": "astroplate",
   "compatibility_date": "2026-03-02",
+  "pages_build_output_dir": "./dist",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page",
-  },
+    "not_found_handling": "404-page"
+  }
 }

@@ -1,5 +1,5 @@
 const config = {
-  originHost: "quickarchviz-knowledge-hub-pl.pages.dev",
+  originHost: "astroplate-wq8.pages.dev",
   publicOrigin: "https://quickarchviz.com",
   mountPath: "/pl",
 };
