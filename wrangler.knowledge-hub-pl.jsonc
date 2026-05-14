@@ -6,11 +6,11 @@
   "workers_dev": false,
   "routes": [
     {
-      "pattern": "quickarchviz.com/pl",
+      "pattern": "quickarchviz.com/pl/knowledge-hub",
       "zone_name": "quickarchviz.com",
     },
     {
-      "pattern": "quickarchviz.com/pl/*",
+      "pattern": "quickarchviz.com/pl/knowledge-hub/*",
       "zone_name": "quickarchviz.com",
     },
   ],

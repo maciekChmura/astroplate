@@ -33,7 +33,7 @@ Production project:
 - Environment variables:
   - `SITE_ID=quickarchviz-pl`
   - `PUBLIC_SITE_URL=https://quickarchviz.com`
-  - `PUBLIC_SITE_MOUNT_PATH=/pl`
+  - `PUBLIC_SITE_MOUNT_PATH=/pl/knowledge-hub`
 
 `PUBLIC_SITE_URL` must be the public origin without a path. Put the public mount
 path in `PUBLIC_SITE_MOUNT_PATH`.
@@ -55,7 +55,7 @@ npm run check -- --site quickarchviz-en
 SITE_ID=quickarchviz-en PUBLIC_SITE_URL=https://quickarchviz.com PUBLIC_SITE_MOUNT_PATH=/knowledge-hub npm run build
 
 npm run check -- --site quickarchviz-pl
-SITE_ID=quickarchviz-pl PUBLIC_SITE_URL=https://quickarchviz.com PUBLIC_SITE_MOUNT_PATH=/pl npm run build
+SITE_ID=quickarchviz-pl PUBLIC_SITE_URL=https://quickarchviz.com PUBLIC_SITE_MOUNT_PATH=/pl/knowledge-hub npm run build
 ```
 
 ## Worker mount contract
@@ -80,17 +80,17 @@ npm run preview:knowledge-hub-en-proxy
 The Polish Worker is named `quickarchviz-knowledge-hub-pl-proxy` and routes:
 
 ```txt
-quickarchviz.com/pl
-quickarchviz.com/pl/*
+quickarchviz.com/pl/knowledge-hub
+quickarchviz.com/pl/knowledge-hub/*
 ```
 
-It strips `/pl` before fetching
+It strips `/pl/knowledge-hub` before fetching
 `https://astroplate-wq8.pages.dev`, then rewrites text responses
-so root-relative links and assets stay under `/pl`.
+so root-relative links and assets stay under `/pl/knowledge-hub`.
 
 Unlike the English Worker, the Polish Worker does not redirect root-level
 `/blog`, `/prompts`, `/tags`, or sitemap paths. This avoids conflicts with the
-English mount and keeps the Polish hub scoped to `/pl`.
+English mount and keeps the Polish hub scoped to `/pl/knowledge-hub`.
 
 Deploy or preview the Worker proxy with:
 

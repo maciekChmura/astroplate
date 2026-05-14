@@ -1,7 +1,7 @@
 const config = {
   originHost: "astroplate-wq8.pages.dev",
   publicOrigin: "https://quickarchviz.com",
-  mountPath: "/pl",
+  mountPath: "/pl/knowledge-hub",
 };
 
 const textTypes = [
@@ -13,6 +13,20 @@ const textTypes = [
   "application/rss+xml",
   "application/json",
   "application/ld+json",
+];
+
+const mountedPublicPathPrefixes = [
+  "/_astro",
+  "/authors",
+  "/blog",
+  "/categories",
+  "/contact",
+  "/prompts",
+  "/privacy-policy",
+  "/sites",
+  "/tags",
+  "/use-cases",
+  "/sitemap-",
 ];
 
 function isMountedPath(pathname) {
@@ -146,6 +160,34 @@ function prefixSitemapIndexUrls(body) {
   );
 }
 
+function prefixPublicOriginMountedUrls(body) {
+  return mountedPublicPathPrefixes.reduce((currentBody, prefix) => {
+    const rootPattern = new RegExp(
+      `${escapeRegExp(config.publicOrigin)}${escapeRegExp(prefix)}(?=[/?#"'\\s<]|$)`,
+      "g",
+    );
+    return currentBody.replace(
+      rootPattern,
+      `${config.publicOrigin}${config.mountPath}${prefix}`,
+    );
+  }, body);
+}
+
+function rewriteRootMetadataUrls(body) {
+  const rootUrl = config.publicOrigin;
+  const mountedUrl = `${config.publicOrigin}${config.mountPath}`;
+
+  return body
+    .split(`href="${rootUrl}" item-prop="url"`)
+    .join(`href="${mountedUrl}" item-prop="url"`)
+    .split(`content="${rootUrl}"`)
+    .join(`content="${mountedUrl}"`)
+    .split(`"url":"${rootUrl}"`)
+    .join(`"url":"${mountedUrl}"`)
+    .split(`"@id":"${rootUrl}#`)
+    .join(`"@id":"${mountedUrl}#`);
+}
+
 async function handleRequest(request) {
   const url = new URL(request.url);
 
@@ -188,6 +230,8 @@ async function handleRequest(request) {
   body = prefixMarkdownRootPaths(body);
   body = prefixRootRelativeCssUrls(body);
   body = prefixSitemapIndexUrls(body);
+  body = prefixPublicOriginMountedUrls(body);
+  body = rewriteRootMetadataUrls(body);
 
   const responseHeaders = new Headers(response.headers);
   responseHeaders.delete("content-length");
