@@ -47,6 +47,7 @@ const useCaseGroups = useCases.reduce((groups, useCase) => {
   groups.get(key)!.useCases.push(useCase);
   return groups;
 }, new Map<string, { title: string; useCases: typeof useCases }>());
+const hiddenGroupTitleKeys = new Set(["rendering-ai", "render-ai"]);
 ---
 
 <Base
@@ -62,7 +63,9 @@ const useCaseGroups = useCases.reduce((groups, useCase) => {
       {
         Array.from(useCaseGroups.values()).map((group) => (
           <div class="mb-16">
-            <h2 class="h3 mb-8 text-center">{humanize(group.title)}</h2>
+            {!hiddenGroupTitleKeys.has(slugify(group.title)) && (
+              <h2 class="h3 mb-8 text-center">{humanize(group.title)}</h2>
+            )}
             <div class="row justify-center">
               {group.useCases.map((useCase) => (
                 <div class="mb-14 md:col-6 lg:col-4">

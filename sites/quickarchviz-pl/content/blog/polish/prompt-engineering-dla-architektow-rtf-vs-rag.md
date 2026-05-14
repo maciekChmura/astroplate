@@ -2,7 +2,7 @@
 title: "Prompt engineering dla architektów: framework RTF vs RAG w praktyce"
 description: "Zobacz, jak architekci mogą łączyć framework RTF, RAG i Google NotebookLM, aby tworzyć lepsze prompty, ograniczać halucynacje AI i analizować dokumentację projektową."
 date: 2026-05-11T10:00:00Z
-image: "/sites/quickarchviz-pl/NotebookLM-for-Architects.png"
+image: "/sites/quickarchviz-pl/NotebookLM-for-Architects.webp"
 categories: ["AI w architekturze", "Prompt engineering"]
 tags: ["Prompt engineering", "RTF", "RAG", "NotebookLM", "AI dla architektów"]
 draft: false

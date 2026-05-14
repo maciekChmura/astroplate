@@ -28,6 +28,10 @@ type UseCaseStyle = {
   image?: UseCaseImage;
 };
 
+type UseCaseStyleSelection = UseCaseTextImage & {
+  styles?: UseCaseStyle[];
+};
+
 type UseCaseVideo = {
   title: string;
   embed_url: string;
@@ -82,7 +86,8 @@ const resultSection =
     description: hero_after.caption,
     image: hero_after,
   });
-const styles = (style_selection?.styles || steps || []) as UseCaseStyle[];
+const styleSelection = style_selection as UseCaseStyleSelection | undefined;
+const styles = (styleSelection?.styles || steps || []) as UseCaseStyle[];
 const styleTitle = style_selection?.title || styleSelectionFallbackTitle;
 const badges = [software, workflow, rendering_intent].filter(Boolean);
 const showMeta = Boolean(author?.name || categories.length > 0);
@@ -98,6 +103,10 @@ const videoEmbedUrl = isBunnyEmbedUrl(video?.embed_url)
   ? video.embed_url
   : undefined;
 const hasBodyContent = Boolean(useCaseEntry.body?.trim());
+
+function emphasizeProductTerms(content: string) {
+  return content.replaceAll("Advanced Mode", "**Advanced Mode**");
+}
 ---
 
 <section class="section pt-7">
@@ -117,9 +126,10 @@ const hasBodyContent = Boolean(useCaseEntry.body?.trim());
             )
           }
           <h1 set:html={markdownify(title)} class="h1 mb-5" />
-          <p class="mb-6 text-lg leading-8 text-text dark:text-darkmode-text">
-            {description}
-          </p>
+          <p
+            class="mb-6 text-lg leading-8 text-text dark:text-darkmode-text"
+            set:html={markdownify(emphasizeProductTerms(description))}
+          />
           {
             showMeta && (
               <ul class="mb-0 flex flex-wrap gap-x-6 gap-y-2 text-sm">
@@ -217,42 +227,64 @@ const hasBodyContent = Boolean(useCaseEntry.body?.trim());
             <section class="mb-16 grid items-center gap-8 md:grid-cols-2">
               <div class="md:pr-8">
                 <h2 class="h3 mb-4">{styleTitle}</h2>
-                {style_selection?.description && (
+                {styleSelection?.description && (
                   <div
                     class="content mb-0"
-                    set:html={markdownify(style_selection.description, true)}
+                    set:html={markdownify(styleSelection.description, true)}
                   />
                 )}
               </div>
-              <div class="grid gap-4 sm:grid-cols-2">
-                {styles.map((style: UseCaseStyle) => (
-                  <div>
-                    {style.image && (
-                      <figure class="relative overflow-hidden rounded-[1.75rem] border border-transparent bg-light shadow transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg dark:bg-darkmode-light">
-                        <ImageMod
-                          src={style.image.src}
-                          alt={style.image.alt}
-                          width={600}
-                          height={600}
-                          fit="cover"
-                          class="aspect-square w-full object-cover"
-                          format="webp"
-                        />
-                        <figcaption class="absolute inset-x-4 bottom-5 flex justify-center">
-                          <span class="rounded-full bg-white/95 px-4 py-1.5 text-center font-secondary text-sm font-medium leading-none text-text-dark shadow">
-                            {style.title}
-                          </span>
-                        </figcaption>
-                      </figure>
+              {styleSelection?.image && (
+                <div>
+                  <figure class="overflow-hidden rounded bg-light dark:bg-darkmode-light">
+                    <ImageMod
+                      src={styleSelection.image.src}
+                      alt={styleSelection.image.alt}
+                      width={900}
+                      height={600}
+                      fit="cover"
+                      class="aspect-[3/2] w-full object-cover"
+                      format="webp"
+                    />
+                    {styleSelection.image.caption && (
+                      <figcaption class="px-4 py-3 text-sm">
+                        {styleSelection.image.caption}
+                      </figcaption>
                     )}
-                    {!style.image && (
-                      <div class="rounded bg-light p-5 dark:bg-darkmode-light">
-                        <h3 class="h5 mb-0">{style.title}</h3>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                  </figure>
+                </div>
+              )}
+              {!styleSelection?.image && (
+                <div class="grid gap-4 sm:grid-cols-2">
+                  {styles.map((style: UseCaseStyle) => (
+                    <div>
+                      {style.image && (
+                        <figure class="relative overflow-hidden rounded-[1.75rem] border border-transparent bg-light shadow transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg dark:bg-darkmode-light">
+                          <ImageMod
+                            src={style.image.src}
+                            alt={style.image.alt}
+                            width={600}
+                            height={600}
+                            fit="cover"
+                            class="aspect-square w-full object-cover"
+                            format="webp"
+                          />
+                          <figcaption class="absolute inset-x-4 bottom-5 flex justify-center">
+                            <span class="rounded-full bg-white/95 px-4 py-1.5 text-center font-secondary text-sm font-medium leading-none text-text-dark shadow">
+                              {style.title}
+                            </span>
+                          </figcaption>
+                        </figure>
+                      )}
+                      {!style.image && (
+                        <div class="rounded bg-light p-5 dark:bg-darkmode-light">
+                          <h3 class="h5 mb-0">{style.title}</h3>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </section>
           )
         }
@@ -346,10 +378,10 @@ const hasBodyContent = Boolean(useCaseEntry.body?.trim());
         {
           preserved.length > 0 && (
             <section class="mb-16">
-              <h2 class="h3 mb-6">{preservesLabel}</h2>
+              <h2 class="h3 mb-6 text-center">{preservesLabel}</h2>
               <div class="grid gap-3 sm:grid-cols-2">
                 {preserved.map((item: string) => (
-                  <div class="rounded bg-light px-4 py-3 font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+                  <div class="rounded bg-[#f6efe4] px-4 py-4 text-center font-bold text-[#3a332a] ring-1 ring-[#eadfce] dark:bg-[#3a332a]/30 dark:text-[#f6efe4] dark:ring-[#eadfce]/20">
                     {item}
                   </div>
                 ))}
@@ -376,7 +408,10 @@ const hasBodyContent = Boolean(useCaseEntry.body?.trim());
                     <summary class="cursor-pointer font-secondary text-lg font-semibold text-text-dark dark:text-darkmode-text">
                       {item.question}
                     </summary>
-                    <p class="mb-0 mt-4">{item.answer}</p>
+                    <p
+                      class="mb-0 mt-4"
+                      set:html={markdownify(item.answer)}
+                    />
                   </details>
                 ))}
               </div>
@@ -386,12 +421,19 @@ const hasBodyContent = Boolean(useCaseEntry.body?.trim());
 
         {
           cta?.enable && (
-            <section class="mb-10 rounded bg-light p-8 text-center dark:bg-darkmode-light">
-              {cta.title && <h2 class="h3 mb-4">{cta.title}</h2>}
-              {cta.description && (
-                <p class="mx-auto mb-6 max-w-2xl">{cta.description}</p>
+            <section class="mb-10 rounded bg-gradient-to-br from-[#f8f1e7] via-[#efe2d0] to-[#d9c1a2] p-8 text-center text-[#3a332a] shadow-sm ring-1 ring-[#eadfce]">
+              {cta.title && (
+                <h2 class="h3 mb-4 text-[#3a332a]">{cta.title}</h2>
               )}
-              <a class="btn btn-primary" href={slugSelector(cta.link, lang)}>
+              {cta.description && (
+                <p class="mx-auto mb-6 max-w-2xl text-[#5a5044]">
+                  {cta.description}
+                </p>
+              )}
+              <a
+                class="btn border-[#3a332a] bg-[#3a332a] text-[#f8f1e7] hover:border-[#2a241e] hover:bg-[#2a241e] hover:text-white"
+                href={slugSelector(cta.link, lang)}
+              >
                 {cta.label}
               </a>
             </section>

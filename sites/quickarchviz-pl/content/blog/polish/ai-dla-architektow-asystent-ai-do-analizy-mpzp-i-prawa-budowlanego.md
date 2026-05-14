@@ -2,7 +2,7 @@
 title: "AI dla architektów: jak zbudować asystenta AI do analizy MPZP i prawa budowlanego w 2026"
 description: "Praktyczny przewodnik dla architektów: jak wykorzystać RAG, NotebookLM i Custom Agenta do analizy MPZP, Warunków Technicznych oraz prawa budowlanego."
 date: 2026-05-11T09:00:00Z
-image: "/sites/quickarchviz-pl/AI-Prompt-Dla-Architektow.png"
+image: "/sites/quickarchviz-pl/AI-Prompt-Dla-Architektow.webp"
 categories: ["AI w architekturze", "Prawo budowlane"]
 tags: ["AI dla architektów", "MPZP", "Prawo budowlane", "NotebookLM", "RAG", "Custom Agent"]
 draft: false

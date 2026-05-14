@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "quickarchviz-knowledge-hub-pl-proxy",
+  "main": "workers/knowledgeHubPlProxy.js",
+  "compatibility_date": "2026-05-12",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "quickarchviz.com/pl",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/*",
+      "zone_name": "quickarchviz.com",
+    },
+  ],
+  "observability": {
+    "enabled": true,
+  },
+}

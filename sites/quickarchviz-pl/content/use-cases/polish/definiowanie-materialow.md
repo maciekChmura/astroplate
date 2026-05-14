@@ -1,6 +1,6 @@
 ---
-title: "Zamień surowy model 3D w fotorealistyczną prezentację w mniej niż 60 sekund."
-description: "Nie trać godzin na ręczne ustawianie materiałów, świateł i renderów testowych. Dzięki Advanced Mode wystarczy prosty screenshot z Revit, SketchUp lub Archicada, aby błyskawicznie stworzyć wizualizację premium gotową do prezentacji klientowi lub inwestorowi."
+title: "Jak ustawić materiały?"
+description: "Wystarczy prosty zrzut ekranu z Revita, SketchUpa lub Archicada — QuickArchViz automatycznie przygotuje fotorealistyczną wizualizację albo dzięki funkcji Advanced Mode sam możesz przypisać własne materiały na podstawie kolorów użytych w modelu. W kilka sekund otrzymasz gotowy efekt do prezentacji klientowi lub inwestorowi."
 meta_title: "Rendering AI ze screenshotu CAD/BIM | QuickArchViz Advanced Mode"
 image: "/sites/quickarchviz-pl/use-cases/material-id/modern-residence-client-render.webp"
 categories: ["Rendering AI", "Advanced Mode"]
@@ -21,26 +21,28 @@ software: "QuickArchViz"
 workflow: "Screenshot CAD/BIM do renderu AI"
 rendering_intent: "Mapowanie materiałów w Advanced Mode"
 input_example:
-  title: "Wystarczy screenshot modelu z Twojego programu CAD lub BIM"
+  title: "Wystarczy screenshot modelu"
   description: |
-    Prześlij zwykły zrzut ekranu z Archicada, Revita, SketchUpa, Rhino lub 3ds Maxa. Nie potrzebujesz gotowych materiałów, oświetlenia ani dopracowanej sceny. QuickArchViz wykorzystuje geometrię i kolory Twojego modelu, aby automatycznie zbudować fotorealistyczną wizualizację architektoniczną.
-
-    Idealne rozwiązanie do renderingu ze screenshotu SketchUp, wizualizacji modeli BIM, szybkich renderów z Archicada i Revita oraz prezentacji koncepcji bez pełnego workflow renderingowego.
+    Prześlij zwykły screenshot modelu z Archicada, Revita, SketchUpa, Rhino lub 3ds Maxa. Nie potrzebujesz materiałów, oświetlenia ani dopracowanej sceny. 
+    * Wystarczy zrzut ekranu z modelu z Archicada, Revita, SketchUpa, Rhino albo 3ds Maxa 
+    * Zachowuje geometrię i bryłę
+    * Zachowuje perspektywę i kamerę
   accepted_formats: ["JPG", "PNG", "WEBP"]
   image:
     src: "/sites/quickarchviz-pl/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
     alt: "Kolorowy screenshot modelu 3D domu jednorodzinnego przygotowany do mapowania materiałów w QuickArchViz"
-    caption: "Input: surowy screenshot modelu 3D z kolorami, które mogą zostać przypisane do konkretnych materiałów."
+    caption: "Screenshot modelu 3D z kolorami, które mogą zostać przypisane do konkretnych materiałów."
 style_selection:
-  title: "Advanced Mode — zamień kolory modelu w rzeczywiste materiały"
+  title: "Materiały przypisywane na podstawie kolorów"
   description: |
-    Wybierz klimat wizualizacji — Clean Daylight, Golden Hour, Evening Glow lub Overcast — a następnie przejdź do Advanced Mode. To tutaj przejmujesz pełną kontrolę nad realizmem projektu.
+    * Wybierz gotowy styl wizualizacji:
+    **Clean Daylight**, **Golden Hour**, **Evening Glow** lub **Overcast**.
+    * Dzięki **Advanced Mode** możesz samodzielnie przypisać materiały do kolorów użytych w modelu np.: 
+      * brązowy → drewno;
+      * biały → beton architektoniczny;
+      * niebieski → szkło refleksyjne;
+      * pomarańczowy → aluminium lub stal;
 
-    Przypisz materiały do kolorów użytych w modelu: czerwony → cegła, biały → beton architektoniczny, niebieski → szkło refleksyjne, szary → aluminium lub stal.
-
-    Nie musisz ręcznie mapować tekstur ani ustawiać shaderów. Ty definiujesz logikę projektu — QuickArchViz zajmuje się fotorealizmem.
-
-    Ten workflow wspiera AI material mapping for architecture, inteligentne mapowanie materiałów, profesjonalny rendering AI dla architektów i szybkie style wizualizacji architektonicznej.
   styles:
     - title: "Clean Daylight"
       description: "Neutralny, jasny styl do czytelnych prezentacji koncepcji."
@@ -63,19 +65,18 @@ style_selection:
         src: "/sites/quickarchviz-en/styles/ui_overcast.jpeg"
         alt: "Miniatura stylu Overcast dla wizualizacji architektonicznej"
 result:
-  title: "Odbierz gotową wizualizację 2K+ i dopracuj detale jednym kliknięciem"
+  title: "Odbierz gotową wizualizację"
   description: |
     W kilka sekund otrzymujesz fotorealistyczny render gotowy do prezentacji inwestorskiej, portfolio, konkursu lub iteracji projektu podczas spotkania z klientem.
-
-    Po wygenerowaniu możesz edytować obraz językiem naturalnym. Wpisz: „zmień podłogę na jaśniejszy dąb”, „dodaj cieplejsze oświetlenie” albo „użyj ciemniejszego kamienia na elewacji”. AI zmodyfikuje wybrane elementy bez naruszania geometrii projektu.
-
-    Możesz też wygenerować 8-sekundowe cinematic walkthrough, które pokaże przestrzeń w ruchu, oraz użyć Upscalera 4K, aby przygotować ultra-detaliczny obraz do druku, portfolio lub materiałów marketingowych.
-
-    To fotorealistyczny rendering AI, rendering architektoniczny w kilka sekund, AI walkthrough architecture i upscaler 4K dla architektów w jednym workflow.
+    * Wizualiazacja w rozdzielczosci 2K+;
+    * Dodatkowo:
+      * po wygenerowaniu możesz 2 razy edytować wizualizacje i ją dopracować;
+      * jednym kliknięciem wygeneruj 8s wideo;
+      * użyj Upscalera, by uzyskać rozdzielczość 4K;
   image:
     src: "/sites/quickarchviz-pl/use-cases/material-id/modern-residence-client-render.webp"
     alt: "Fotorealistyczny render nowoczesnego domu jednorodzinnego wygenerowany z surowego screenshotu modelu 3D"
-    caption: "Wynik: fotorealistyczna wizualizacja premium z materiałami, światłem i zielenią gotowa do prezentacji."
+    caption: "Fotorealistyczna wizualizacja z materiałami, światłem i zielenią gotowa do prezentacji."
 hero_before:
   src: "/sites/quickarchviz-pl/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
   alt: "Kolorowy screenshot modelu 3D domu jednorodzinnego przed mapowaniem materiałów"
@@ -84,6 +85,11 @@ hero_after:
   src: "/sites/quickarchviz-pl/use-cases/material-id/modern-residence-client-render.webp"
   alt: "Fotorealistyczny render domu jednorodzinnego po mapowaniu materiałów w QuickArchViz"
   caption: "Wynik: gotowa wizualizacja AI z realistycznymi materiałami, światłem i otoczeniem."
+preserved:
+  - "Oryginalna geometria i bryła"
+  - "Perspektywa i kamera"
+  - "Proporcje architektoniczne"
+  - "Intencja projektowa"
 faq:
   - question: "Jak działa Advanced Mode?"
     answer: "Advanced Mode analizuje kolory użyte w Twoim modelu i pozwala przypisać im konkretne materiały architektoniczne, takie jak drewno, beton, szkło, stal czy kamień. Dzięki temu zachowujesz kontrolę nad finalnym wyglądem projektu bez ręcznego render setupu."
@@ -97,19 +103,15 @@ faq:
     answer: "Nie. QuickArchViz eliminuje techniczną część procesu renderingu, dzięki czemu możesz skupić się na projektowaniu i prezentacji koncepcji."
 cta:
   enable: true
-  title: "Przestań tracić czas na skomplikowany rendering. Zacznij prezentować architekturę szybciej."
-  description: "Dołącz do architektów, projektantów i studentów, którzy wykorzystują QuickArchViz do błyskawicznego tworzenia fotorealistycznych wizualizacji bez wielogodzinnego workflow renderingowego. Bez karty kredytowej. Pierwszy render gotowy nawet w 5 sekund."
+  title: "Przestań tracić czas na skomplikowany rendering."
+  description: "Zacznij prezentować architekturę szybciej. Dołącz do architektów, którzy wykorzystują QuickArchViz do błyskawicznego tworzenia fotorealistycznych wizualizacji."
   label: "Stwórz pierwszą wizualizację za darmo"
   link: "/"
 ---
 
-## Koniec z godzinami straconymi na rendering. Skup się na projektowaniu, nie na pipeline’ie wizualizacji.
+## Koniec z godzinami straconymi na rendering. Skup się na projektowaniu.
 
-W tradycyjnym workflow architektonicznym stworzenie atrakcyjnej wizualizacji oznacza godziny pracy nad materiałami, światłem, renderingiem i poprawkami.
-
-QuickArchViz skraca ten proces do minut.
-
-Zamiast budować każdą scenę od zera, możesz wykorzystać screenshot istniejącego modelu i natychmiast sprawdzić różne warianty materiałów, atmosfery i wykończenia.
+Zamiast budować każdą scenę od zera, możesz wykorzystać screenshot istniejącego modelu i natychmiast sprawdzić różne warianty materiałów, atmosfery i wykończenia. QuickArchViz skraca ten proces do minut.
 
 Dla architektów i biur projektowych oznacza to:
 
@@ -117,27 +119,3 @@ Dla architektów i biur projektowych oznacza to:
 - więcej iteracji podczas spotkań,
 - mniej czasu spędzonego na technicznym renderingu,
 - wyższą marżę na projekcie.
-
-Dla studentów architektury:
-
-- profesjonalne portfolio bez nauki skomplikowanych silników renderujących,
-- możliwość prezentowania projektów na poziomie topowych studiów wizualizacyjnych,
-- więcej czasu na sam design i kompozycję przestrzeni.
-
-## Co pozostaje nienaruszone?
-
-### Oryginalna geometria i bryła
-
-QuickArchViz zachowuje układ, proporcje i strukturę Twojego modelu 3D.
-
-### Perspektywa i kamera
-
-Wizualizacja powstaje dokładnie z ujęcia ustawionego na screenie.
-
-### Proporcje architektoniczne
-
-Relacje między elementami projektu pozostają realistyczne i technicznie spójne.
-
-### Intencja projektowa
-
-Dzięki mapowaniu kolorów na materiały AI respektuje logikę Twojego projektu zamiast generować przypadkowe interpretacje.

@@ -2,7 +2,7 @@
 title: "Jak używać AI w architekturze w 2026? Dlaczego AI „zmyśla” i jak architekci powinni naprawdę korzystać z AI"
 description: "Praktyczny przewodnik po profesjonalnym wykorzystaniu AI w architekturze: prompt engineering, framework RTF, NotebookLM, RAG i bazy wiedzy projektowej."
 date: 2022-04-04T05:00:00Z
-image: "/sites/quickarchviz-pl/AI-for-Architects.png"
+image: "/sites/quickarchviz-pl/AI-for-Architects.webp"
 categories: ["AI w architekturze", "Prompt engineering"]
 tags: ["AI w architekturze", "AI dla architektów", "Prompt engineering", "NotebookLM", "AI assistant"]
 draft: false

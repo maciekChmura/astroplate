@@ -93,6 +93,7 @@ const useCasesCollection = defineCollection({
       .object({
         title: z.string(),
         description: z.string().optional(),
+        image: imageField.optional(),
         styles: z
           .array(
             z.object({

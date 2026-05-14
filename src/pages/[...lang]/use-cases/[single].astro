@@ -15,6 +15,7 @@ import {
   useCasesIndexPath,
 } from "@/lib/utils/useCaseRoutes";
 import { withSiteMountPath } from "@/lib/utils/mountPath";
+import { plainify } from "@/lib/utils/textConverter";
 
 export async function getStaticPaths() {
   const paths = [];
@@ -58,6 +59,7 @@ const {
   faq,
 } = useCaseEntry.data;
 const useCaseSlug = stripLocaleFromId(useCaseEntry.id);
+const plainDescription = plainify(description);
 const canonicalPath = useCasePath(useCaseSlug, lang);
 const siteUrl =
   Astro.site ||
@@ -114,7 +116,7 @@ const useCaseJsonLd = [
     url: canonicalUrl,
     name: title,
     headline: title,
-    description,
+    description: plainDescription,
     image: imageUrls,
     inLanguage: lang,
     about: [
@@ -161,7 +163,7 @@ const useCaseJsonLd = [
         "@type": "VideoObject",
         "@id": `${canonicalUrl}#video`,
         name: video.title,
-        description: video.caption || description,
+        description: plainify(video.caption || description),
         embedUrl: video.embed_url,
       }
     : undefined,
@@ -174,7 +176,7 @@ const useCaseJsonLd = [
           name: item.question,
           acceptedAnswer: {
             "@type": "Answer",
-            text: item.answer,
+            text: plainify(item.answer),
           },
         })),
       }
@@ -185,7 +187,7 @@ const useCaseJsonLd = [
 <Base
   title={title}
   meta_title={meta_title}
-  description={description}
+  description={plainDescription}
   image={primaryImage}
   canonical={canonicalPath}
   lang={lang}
