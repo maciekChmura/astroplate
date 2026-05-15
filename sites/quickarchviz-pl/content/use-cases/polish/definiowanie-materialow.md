@@ -23,7 +23,7 @@ rendering_intent: "Mapowanie materiałów w Advanced Mode"
 input_example:
   title: "Wystarczy screenshot modelu"
   description: |
-    Prześlij zwykły screenshot modelu z Archicada, Revita, SketchUpa, Rhino lub 3ds Maxa. Nie potrzebujesz materiałów, oświetlenia ani dopracowanej sceny. 
+    Prześlij zwykły screenshot modelu z Archicada, Revita, SketchUpa, Rhino lub 3ds Maxa. Nie potrzebujesz materiałów, oświetlenia ani dopracowanej sceny.
     * Wystarczy zrzut ekranu z modelu z Archicada, Revita, SketchUpa, Rhino albo 3ds Maxa 
     * Zachowuje geometrię i bryłę
     * Zachowuje perspektywę i kamerę
@@ -68,7 +68,7 @@ result:
   title: "Odbierz gotową wizualizację"
   description: |
     W kilka sekund otrzymujesz fotorealistyczny render gotowy do prezentacji inwestorskiej, portfolio, konkursu lub iteracji projektu podczas spotkania z klientem.
-    * Wizualiazacja w rozdzielczosci 2K+;
+    * Wizualizacja w rozdzielczości 2K+;
     * Dodatkowo:
       * po wygenerowaniu możesz 2 razy edytować wizualizacje i ją dopracować;
       * jednym kliknięciem wygeneruj 8s wideo;

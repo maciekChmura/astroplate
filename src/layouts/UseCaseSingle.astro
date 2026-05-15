@@ -32,6 +32,13 @@ type UseCaseStyleSelection = UseCaseTextImage & {
   styles?: UseCaseStyle[];
 };
 
+type UseCaseWorkflowStep = UseCaseTextImage & {
+  accepted_formats?: string[];
+  styles?: UseCaseStyle[];
+  fallbackImage?: string;
+  fallbackAlt?: string;
+};
+
 type UseCaseVideo = {
   title: string;
   embed_url: string;
@@ -68,6 +75,8 @@ const {
 const translations = (await getTranslations(lang)) as Record<string, string>;
 const beforeLabel = translations.input || "Input";
 const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
+const howItWorksLabel = translations.use_case_how_it_works || "How It Works";
+const stepLabel = translations.use_case_step || "Step";
 const comparisonLabel = translations.use_case_comparison || "Before and After";
 const preservesLabel =
   translations.use_case_preserves || "What QuickArchViz Preserves";
@@ -89,6 +98,25 @@ const resultSection =
 const styleSelection = style_selection as UseCaseStyleSelection | undefined;
 const styles = (styleSelection?.styles || steps || []) as UseCaseStyle[];
 const styleTitle = style_selection?.title || styleSelectionFallbackTitle;
+const workflowSteps = [
+  inputSection && {
+    ...inputSection,
+    accepted_formats: acceptedFormats,
+    fallbackImage: image,
+    fallbackAlt: title,
+  },
+  (styleSelection || styles.length > 0) && {
+    title: styleTitle,
+    description: styleSelection?.description,
+    image: styleSelection?.image,
+    styles: styleSelection?.image ? [] : styles,
+  },
+  resultSection && {
+    ...resultSection,
+    fallbackImage: image,
+    fallbackAlt: title,
+  },
+].filter(Boolean) as UseCaseWorkflowStep[];
 const badges = [software, workflow, rendering_intent].filter(Boolean);
 const showMeta = Boolean(author?.name || categories.length > 0);
 
@@ -160,177 +188,106 @@ function emphasizeProductTerms(content: string) {
         </header>
 
         {
-          inputSection && (
-            <section class="mb-16 grid items-center gap-8 md:grid-cols-2">
-              <div>
-                {inputSection.image ? (
-                  <figure class="overflow-hidden rounded bg-light dark:bg-darkmode-light">
-                    <ImageMod
-                      src={inputSection.image.src}
-                      alt={inputSection.image.alt}
-                      width={900}
-                      height={600}
-                      loading="eager"
-                      decoding="async"
-                      fit="cover"
-                      class="aspect-[3/2] w-full object-cover"
-                      format="webp"
-                    />
-                    {inputSection.image.caption && (
-                      <figcaption class="px-4 py-3 text-sm">
-                        {inputSection.image.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                ) : (
-                  image && (
-                    <ImageMod
-                      src={image}
-                      height={600}
-                      width={900}
-                      alt={title}
-                      class="aspect-[3/2] w-full rounded object-cover"
-                      format="webp"
-                    />
-                  )
-                )}
-              </div>
-              <div class="md:pl-8">
-                <h2 class="h3 mb-4">{inputSection.title}</h2>
-                {inputSection.description && (
-                  <div
-                    class="content mb-5"
-                    set:html={markdownify(inputSection.description, true)}
-                  />
-                )}
-                {acceptedFormats.length > 0 && (
-                  <div>
-                    <p class="mb-3 text-sm font-semibold uppercase text-text-dark dark:text-darkmode-text">
-                      {formatLabel}
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                      {acceptedFormats.map((format: string) => (
-                        <span class="rounded bg-light px-3 py-1 text-sm dark:bg-darkmode-light">
-                          {format}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </section>
-          )
-        }
-
-        {
-          (style_selection || styles.length > 0) && (
-            <section class="mb-16 grid items-center gap-8 md:grid-cols-2">
-              <div class="md:pr-8">
-                <h2 class="h3 mb-4">{styleTitle}</h2>
-                {styleSelection?.description && (
-                  <div
-                    class="content mb-0"
-                    set:html={markdownify(styleSelection.description, true)}
-                  />
-                )}
-              </div>
-              {styleSelection?.image && (
-                <div>
-                  <figure class="overflow-hidden rounded bg-light dark:bg-darkmode-light">
-                    <ImageMod
-                      src={styleSelection.image.src}
-                      alt={styleSelection.image.alt}
-                      width={900}
-                      height={600}
-                      fit="cover"
-                      class="aspect-[3/2] w-full object-cover"
-                      format="webp"
-                    />
-                    {styleSelection.image.caption && (
-                      <figcaption class="px-4 py-3 text-sm">
-                        {styleSelection.image.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                </div>
-              )}
-              {!styleSelection?.image && (
-                <div class="grid gap-4 sm:grid-cols-2">
-                  {styles.map((style: UseCaseStyle) => (
+          workflowSteps.length > 0 && (
+            <section class="mb-16">
+              <h2 class="h3 mb-8 text-center">{howItWorksLabel}</h2>
+              <div class="grid gap-10">
+                {workflowSteps.map((step: UseCaseWorkflowStep, index: number) => (
+                  <article class="grid items-center gap-8 border-b border-border pb-10 last:border-b-0 last:pb-0 md:grid-cols-2 dark:border-darkmode-border">
                     <div>
-                      {style.image && (
-                        <figure class="relative overflow-hidden rounded-[1.75rem] border border-transparent bg-light shadow transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg dark:bg-darkmode-light">
+                      {step.image ? (
+                        <figure class="overflow-hidden rounded bg-light dark:bg-darkmode-light">
                           <ImageMod
-                            src={style.image.src}
-                            alt={style.image.alt}
-                            width={600}
+                            src={step.image.src}
+                            alt={step.image.alt}
+                            width={900}
                             height={600}
+                            loading={index === 0 ? "eager" : undefined}
+                            decoding={index === 0 ? "async" : undefined}
                             fit="cover"
-                            class="aspect-square w-full object-cover"
+                            class="aspect-[3/2] w-full object-cover"
                             format="webp"
                           />
-                          <figcaption class="absolute inset-x-4 bottom-5 flex justify-center">
-                            <span class="rounded-full bg-white/95 px-4 py-1.5 text-center font-secondary text-sm font-medium leading-none text-text-dark shadow">
-                              {style.title}
-                            </span>
-                          </figcaption>
+                          {step.image.caption && (
+                            <figcaption class="px-4 py-3 text-sm">
+                              {step.image.caption}
+                            </figcaption>
+                          )}
                         </figure>
+                      ) : step.styles && step.styles.length > 0 ? (
+                        <div class="grid gap-4 sm:grid-cols-2">
+                          {step.styles.map((style: UseCaseStyle) => (
+                            <div>
+                              {style.image && (
+                                <figure class="relative overflow-hidden rounded border border-transparent bg-light shadow transition duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg dark:bg-darkmode-light">
+                                  <ImageMod
+                                    src={style.image.src}
+                                    alt={style.image.alt}
+                                    width={600}
+                                    height={600}
+                                    fit="cover"
+                                    class="aspect-square w-full object-cover"
+                                    format="webp"
+                                  />
+                                  <figcaption class="absolute inset-x-4 bottom-5 flex justify-center">
+                                    <span class="rounded-full bg-white/95 px-4 py-1.5 text-center font-secondary text-sm font-medium leading-none text-text-dark shadow">
+                                      {style.title}
+                                    </span>
+                                  </figcaption>
+                                </figure>
+                              )}
+                              {!style.image && (
+                                <div class="rounded bg-light p-5 dark:bg-darkmode-light">
+                                  <h3 class="h5 mb-0">{style.title}</h3>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        step.fallbackImage && (
+                          <ImageMod
+                            src={step.fallbackImage}
+                            height={600}
+                            width={900}
+                            alt={step.fallbackAlt || step.title}
+                            class="aspect-[3/2] w-full rounded object-cover"
+                            format="webp"
+                          />
+                        )
                       )}
-                      {!style.image && (
-                        <div class="rounded bg-light p-5 dark:bg-darkmode-light">
-                          <h3 class="h5 mb-0">{style.title}</h3>
+                    </div>
+                    <div class="md:pl-8">
+                      <p class="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-primary">
+                        {stepLabel} {index + 1}
+                      </p>
+                      <h3 class="h3 mb-4">{step.title}</h3>
+                      {step.description && (
+                        <div
+                          class="content mb-5"
+                          set:html={markdownify(
+                            emphasizeProductTerms(step.description),
+                            true,
+                          )}
+                        />
+                      )}
+                      {step.accepted_formats && step.accepted_formats.length > 0 && (
+                        <div>
+                          <p class="mb-3 text-sm font-semibold uppercase text-text-dark dark:text-darkmode-text">
+                            {formatLabel}
+                          </p>
+                          <div class="flex flex-wrap gap-2">
+                            {step.accepted_formats.map((format: string) => (
+                              <span class="rounded bg-light px-3 py-1 text-sm dark:bg-darkmode-light">
+                                {format}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>
-                  ))}
-                </div>
-              )}
-            </section>
-          )
-        }
-
-        {
-          resultSection && (
-            <section class="mb-16 grid items-center gap-8 md:grid-cols-2">
-              <div>
-                {resultSection.image ? (
-                  <figure class="overflow-hidden rounded bg-light dark:bg-darkmode-light">
-                    <ImageMod
-                      src={resultSection.image.src}
-                      alt={resultSection.image.alt}
-                      width={900}
-                      height={600}
-                      fit="cover"
-                      class="aspect-[3/2] w-full object-cover"
-                      format="webp"
-                    />
-                    {resultSection.image.caption && (
-                      <figcaption class="px-4 py-3 text-sm">
-                        {resultSection.image.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                ) : (
-                  image && (
-                    <ImageMod
-                      src={image}
-                      height={600}
-                      width={900}
-                      alt={title}
-                      class="aspect-[3/2] w-full rounded object-cover"
-                      format="webp"
-                    />
-                  )
-                )}
-              </div>
-              <div class="md:pl-8">
-                <h2 class="h3 mb-4">{resultSection.title}</h2>
-                {resultSection.description && (
-                  <div
-                    class="content mb-0"
-                    set:html={markdownify(resultSection.description, true)}
-                  />
-                )}
+                  </article>
+                ))}
               </div>
             </section>
           )

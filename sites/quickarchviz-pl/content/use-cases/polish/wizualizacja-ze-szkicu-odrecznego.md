@@ -42,7 +42,7 @@ style_selection:
       * **Golden Hour**: ciepły, emocjonalny klimat sprzedażowy;
       * **Evening Glow**: światło wieczorne i mocniejszy efekt wow;
       * **Overcast**: spokojna ocena elewacji bez ostrego kontrastu.
-    * W kilka sekund masz gotowa wizualizacje.
+    * W kilka sekund masz gotową wizualizację.
   styles:
     - title: "Clean Daylight"
       description: "Neutralny styl do czytelnego pokazania bryły i elewacji."

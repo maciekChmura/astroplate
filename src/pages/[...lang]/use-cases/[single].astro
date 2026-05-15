@@ -83,6 +83,9 @@ const imageUrls = [
   result?.image?.src && siteUrl
     ? new URL(withSiteMountPath(result.image.src), siteUrl).toString()
     : result?.image?.src,
+  style_selection?.image?.src && siteUrl
+    ? new URL(withSiteMountPath(style_selection.image.src), siteUrl).toString()
+    : style_selection?.image?.src,
   ...(style_selection?.styles || [])
     .map((style) => style.image?.src)
     .filter(Boolean)

@@ -60,7 +60,7 @@ style_selection:
         src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
         alt: "Wizualizacja akwarelowa domu jednorodzinnego AI"
 result:
-  title: "Gotowe"
+  title: "Odbierz gotowy szkic"
   description: |
     Otrzymaj gotowy szkic w jakości 2K+ w kilka sekund.
 

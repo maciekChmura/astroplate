@@ -44,7 +44,7 @@ style_selection:
   description: |
     Wybierz atmosferę projektu spośród gotowych stylów architektonicznych. Nie musisz ustawiać materiałów ani konfigurować renderu.
 
-    Gotowe style wizualizacji:
+    Gotowe style wizualizacji obejmują:
     * **Clean Daylight**: jasny, neutralny render do czytelnej prezentacji bryły;
     * **Golden Hour**: ciepłe światło i bardziej emocjonalny klimat inwestorski;
     * **Evening Glow**: wieczorna atmosfera z podkreślonym światłem;
