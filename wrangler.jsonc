@@ -1,9 +1,0 @@
-{
-  // Cloudflare Pages-safe config.
-  // Keep Workers Static Assets config in wrangler.cf-workers.jsonc so Pages
-  // Git deployments do not fail while reading the root wrangler file.
-  "name": "astroplate",
-  "compatibility_date": "2026-03-02",
-  "pages_build_output_dir": "./dist",
-  "keep_vars": true
-}

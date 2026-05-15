@@ -24,8 +24,10 @@ npm run deploy:knowledge-hub-pl-proxy
 
 `deploy:prod` merges `main` into `prod` and pushes `prod`. Both Cloudflare
 Pages projects should use `prod` as their production branch, so the Pages build
-starts from Git. The root `wrangler.jsonc` is intentionally Pages-safe; the
-legacy Workers Static Assets config lives in `wrangler.cf-workers.jsonc`.
+starts from Git. Do not add a root `wrangler.jsonc` for the Pages projects:
+both language projects share this repository, and each project needs its own
+dashboard environment variables. The legacy Workers Static Assets config lives
+in `wrangler.cf-workers.jsonc`.
 
 ## English Pages project
 
