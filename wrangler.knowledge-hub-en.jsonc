@@ -9,38 +9,6 @@
       "pattern": "quickarchviz.com/knowledge-hub*",
       "zone_name": "quickarchviz.com",
     },
-    {
-      "pattern": "quickarchviz.com/authors*",
-      "zone_name": "quickarchviz.com",
-    },
-    {
-      "pattern": "quickarchviz.com/blog*",
-      "zone_name": "quickarchviz.com",
-    },
-    {
-      "pattern": "quickarchviz.com/categories*",
-      "zone_name": "quickarchviz.com",
-    },
-    {
-      "pattern": "quickarchviz.com/prompts*",
-      "zone_name": "quickarchviz.com",
-    },
-    {
-      "pattern": "quickarchviz.com/tags*",
-      "zone_name": "quickarchviz.com",
-    },
-    {
-      "pattern": "quickarchviz.com/use-cases*",
-      "zone_name": "quickarchviz.com",
-    },
-    {
-      "pattern": "quickarchviz.com/sitemap-index.xml",
-      "zone_name": "quickarchviz.com",
-    },
-    {
-      "pattern": "quickarchviz.com/sitemap-0.xml",
-      "zone_name": "quickarchviz.com",
-    },
   ],
   "observability": {
     "enabled": true,

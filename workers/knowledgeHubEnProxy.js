@@ -4,23 +4,14 @@ const config = {
   mountPath: "/knowledge-hub",
 };
 
+const robotsPath = "/robots.txt";
+
 const legacyRedirects = new Map([
   [
     "/prompts/example-prompt",
     "/prompts/meeting-notes-action-checklist-for-architects",
   ],
 ]);
-
-const rootRedirectPrefixes = [
-  "/authors",
-  "/blog",
-  "/categories",
-  "/prompts",
-  "/tags",
-  "/use-cases",
-];
-
-const rootRedirectPaths = ["/sitemap-index.xml", "/sitemap-0.xml"];
 
 const textTypes = [
   "text/css",
@@ -51,26 +42,27 @@ function normalizeTrailingSlash(pathname) {
   return pathname.length > 1 ? pathname.replace(/\/+$/g, "") : pathname;
 }
 
-function isRootRedirectPath(pathname) {
-  if (rootRedirectPaths.includes(pathname)) {
-    return true;
-  }
-
-  return rootRedirectPrefixes.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
-  );
-}
-
-function redirectToMountedPath(url, status = 301) {
-  const redirectUrl = new URL(url);
-  redirectUrl.pathname = `${config.mountPath}${url.pathname}`;
-
-  return Response.redirect(redirectUrl.toString(), status);
-}
-
 function shouldRewrite(response) {
   const contentType = response.headers.get("content-type") || "";
   return textTypes.some((type) => contentType.includes(type));
+}
+
+function createRobotsResponse(sitemapUrls) {
+  const body = [
+    "User-agent: *",
+    "Allow: /",
+    "",
+    "Disallow: /api/*",
+    "",
+    ...sitemapUrls.map((sitemapUrl) => `Sitemap: ${sitemapUrl}`),
+    "",
+  ].join("\n");
+
+  return new Response(body, {
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+    },
+  });
 }
 
 function escapeRegExp(value) {
@@ -188,10 +180,6 @@ function prefixSitemapIndexUrls(body) {
 async function handleRequest(request) {
   const url = new URL(request.url);
 
-  if (isRootRedirectPath(url.pathname)) {
-    return redirectToMountedPath(url);
-  }
-
   if (!isMountedPath(url.pathname)) {
     return fetch(request);
   }
@@ -199,8 +187,17 @@ async function handleRequest(request) {
   const originPath = toOriginPath(url.pathname);
   const legacyTarget = legacyRedirects.get(normalizeTrailingSlash(originPath));
 
+  if (normalizeTrailingSlash(originPath) === robotsPath) {
+    return createRobotsResponse([
+      `${config.publicOrigin}${config.mountPath}/sitemap-index.xml`,
+    ]);
+  }
+
   if (legacyTarget) {
-    return Response.redirect(`${config.mountPath}${legacyTarget}${url.search}`, 301);
+    return Response.redirect(
+      `${config.mountPath}${legacyTarget}${url.search}`,
+      301,
+    );
   }
 
   const originUrl = new URL(

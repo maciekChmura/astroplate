@@ -4,6 +4,8 @@ const config = {
   mountPath: "/pl/knowledge-hub",
 };
 
+const robotsPath = "/robots.txt";
+
 const textTypes = [
   "text/css",
   "text/html",
@@ -65,6 +67,24 @@ function toOriginPath(pathname) {
 function shouldRewrite(response) {
   const contentType = response.headers.get("content-type") || "";
   return textTypes.some((type) => contentType.includes(type));
+}
+
+function createRobotsResponse() {
+  const body = [
+    "User-agent: *",
+    "Allow: /",
+    "",
+    "Disallow: /api/*",
+    "",
+    `Sitemap: ${config.publicOrigin}${config.mountPath}/sitemap-index.xml`,
+    "",
+  ].join("\n");
+
+  return new Response(body, {
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+    },
+  });
 }
 
 function escapeRegExp(value) {
@@ -192,10 +212,7 @@ function rewriteOriginLanguageMountedAttributes(body) {
         "g",
       );
 
-      return attributeBody.replace(
-        pattern,
-        `$1${config.mountPath}${prefix}`,
-      );
+      return attributeBody.replace(pattern, `$1${config.mountPath}${prefix}`);
     }, currentBody);
   }, body);
 }
@@ -208,9 +225,7 @@ function rewriteOriginLanguageHomeAttributes(body) {
     .join(`href='${config.mountPath}'`)
     .split(`href=&quot;${config.mountPath}${originLanguagePath}&quot;`)
     .join(`href=&quot;${config.mountPath}&quot;`)
-    .split(
-      `"${config.publicOrigin}${config.mountPath}${originLanguagePath}"`,
-    )
+    .split(`"${config.publicOrigin}${config.mountPath}${originLanguagePath}"`)
     .join(`"${config.publicOrigin}${config.mountPath}"`)
     .split(
       `&quot;${config.publicOrigin}${config.mountPath}${originLanguagePath}&quot;`,
@@ -253,13 +268,15 @@ function prefixPublicOriginMountedUrls(body) {
       "g",
     );
 
-    return currentBody.replace(
-      languagePattern,
-      `${config.publicOrigin}${config.mountPath}${prefix}`,
-    ).replace(
-      rootPattern,
-      `${config.publicOrigin}${config.mountPath}${prefix}`,
-    );
+    return currentBody
+      .replace(
+        languagePattern,
+        `${config.publicOrigin}${config.mountPath}${prefix}`,
+      )
+      .replace(
+        rootPattern,
+        `${config.publicOrigin}${config.mountPath}${prefix}`,
+      );
   }, body);
 }
 
@@ -302,6 +319,11 @@ async function handleRequest(request) {
   }
 
   const originPath = toOriginPath(url.pathname);
+
+  if (originPath.replace(/\/+$/g, "") === robotsPath) {
+    return createRobotsResponse();
+  }
+
   const originUrl = new URL(
     `${originPath}${url.search}`,
     `https://${config.originHost}`,
