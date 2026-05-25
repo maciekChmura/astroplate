@@ -1,10 +1,15 @@
 ---
+import AudienceCard from "@/components/AudienceCard.astro";
 import BlogCard from "@/components/BlogCard.astro";
 import ImageMod from "@/components/ImageMod.astro";
 import PromptCard from "@/components/PromptCard.astro";
 import UseCaseCard from "@/components/UseCaseCard.astro";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import {
+  audiencesIndexPath,
+  AUDIENCES_CONTENT_FOLDER,
+} from "@/lib/utils/audienceRoutes";
 import { blogArchivePath, BLOG_CONTENT_FOLDER } from "@/lib/utils/blogRoutes";
 import {
   getTranslations,
@@ -44,15 +49,22 @@ const popularPrompts = (await getSinglePage(PROMPTS_CONTENT_FOLDER, lang))
 const popularUseCases = (await getSinglePage(USE_CASES_CONTENT_FOLDER, lang))
   .filter((useCase) => useCase.data.popular === true)
   .slice(0, HOMEPAGE_ITEMS);
+const popularAudiences = (await getSinglePage(AUDIENCES_CONTENT_FOLDER, lang))
+  .filter((audience) => audience.data.popular === true)
+  .slice(0, HOMEPAGE_ITEMS);
 const translations = (await getTranslations(lang)) as Record<string, string>;
 
 const latestPostsLabel = translations.latest_blog_posts || "Latest blog posts";
 const popularPromptsLabel = translations.popular_prompts || "Popular prompts";
 const popularUseCasesLabel =
   translations.popular_use_cases || "Popular use cases";
+const popularAudiencesLabel =
+  translations.popular_audiences || "Popular audiences";
 const viewAllPostsLabel = translations.view_all_posts || "View all posts";
 const browsePromptsLabel = translations.browse_prompts || "Browse prompts";
 const browseUseCasesLabel = translations.browse_use_cases || "Browse use cases";
+const browseAudiencesLabel =
+  translations.browse_audiences || "Browse audiences";
 const { banner } = homepage.data;
 ---
 
@@ -135,6 +147,31 @@ const { banner } = homepage.data;
             {popularUseCases.map((useCase) => (
               <div class="mb-14 md:col-6 lg:col-4">
                 <UseCaseCard data={useCase} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    popularAudiences.length > 0 && (
+      <section class="section-sm pt-0">
+        <div class="container">
+          <div class="mb-10 flex flex-wrap items-center justify-between gap-4">
+            <h2 class="mb-0">{popularAudiencesLabel}</h2>
+            <a
+              class="btn btn-outline-primary btn-sm"
+              href={audiencesIndexPath(lang)}
+            >
+              {browseAudiencesLabel}
+            </a>
+          </div>
+          <div class="row">
+            {popularAudiences.map((audience) => (
+              <div class="mb-14 md:col-6 lg:col-4">
+                <AudienceCard data={audience} />
               </div>
             ))}
           </div>

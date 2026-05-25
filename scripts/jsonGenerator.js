@@ -8,6 +8,7 @@ const selectedSite = resolveSite();
 const BLOG_FOLDER = path.join(selectedSite.contentDir, "blog");
 const PROMPTS_FOLDER = path.join(selectedSite.contentDir, "prompts");
 const USE_CASES_FOLDER = path.join(selectedSite.contentDir, "use-cases");
+const AUDIENCES_FOLDER = path.join(selectedSite.contentDir, "for");
 const languages = JSON.parse(
   fs.readFileSync(path.join(selectedSite.configDir, "language.json"), "utf8"),
 );
@@ -71,6 +72,30 @@ function getSearchableContent(data, content, group) {
       ...(data.preserved || []),
       ...steps,
       ...examples,
+      ...faq,
+    ];
+
+    return [content, ...structuredParts].filter(Boolean).join("\n\n");
+  }
+
+  if (group === "for") {
+    const workflows = (data.workflows || []).flatMap((workflow) => [
+      workflow.title,
+      workflow.description,
+      workflow.link,
+      workflow.image?.alt,
+      workflow.image?.caption,
+    ]);
+    const faq = (data.faq || []).flatMap((item) => [
+      item.question,
+      item.answer,
+    ]);
+    const structuredParts = [
+      data.audience_label,
+      ...(data.pain_points || []),
+      ...workflows,
+      ...(data.related_use_cases || []),
+      ...(data.related_prompts || []),
       ...faq,
     ];
 
@@ -149,6 +174,11 @@ try {
     JSON.stringify(getData(USE_CASES_FOLDER, "use-cases")),
   );
 
+  fs.writeFileSync(
+    `${JSON_FOLDER}/for.json`,
+    JSON.stringify(getData(AUDIENCES_FOLDER, "for")),
+  );
+
   // merger json files for search
   const postsPath = new URL(`../${JSON_FOLDER}/posts.json`, import.meta.url);
   const promptsPath = new URL(
@@ -159,10 +189,12 @@ try {
     `../${JSON_FOLDER}/use-cases.json`,
     import.meta.url,
   );
+  const audiencesPath = new URL(`../${JSON_FOLDER}/for.json`, import.meta.url);
   const posts = JSON.parse(fs.readFileSync(postsPath, "utf8"));
   const prompts = JSON.parse(fs.readFileSync(promptsPath, "utf8"));
   const useCases = JSON.parse(fs.readFileSync(useCasesPath, "utf8"));
-  const search = [...posts, ...prompts, ...useCases];
+  const audiences = JSON.parse(fs.readFileSync(audiencesPath, "utf8"));
+  const search = [...posts, ...prompts, ...useCases, ...audiences];
   fs.writeFileSync(`${JSON_FOLDER}/search.json`, JSON.stringify(search));
 } catch (err) {
   console.error(err);

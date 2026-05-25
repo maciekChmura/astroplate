@@ -1,4 +1,5 @@
 import { blogPostPath } from "@/lib/utils/blogRoutes";
+import { audiencePath } from "@/lib/utils/audienceRoutes";
 import { promptPath } from "@/lib/utils/promptRoutes";
 import { useCasePath } from "@/lib/utils/useCaseRoutes";
 import { slugSelector } from "@/lib/utils/languageParser";
@@ -172,7 +173,9 @@ const SearchResult = ({
                               ? promptPath(item.slug, lang)
                               : result.group === "use-cases"
                                 ? useCasePath(item.slug, lang)
-                                : slugSelector(`/${item.slug}`, lang)
+                                : result.group === "for"
+                                  ? audiencePath(item.slug, lang)
+                                  : slugSelector(`/${item.slug}`, lang)
                         }
                         className="search-result-item-title search-result-item-link"
                       >

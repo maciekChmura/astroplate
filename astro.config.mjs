@@ -38,6 +38,7 @@ const quickArchVizHubRoutePrefixes = [
   "/authors",
   "/blog",
   "/categories",
+  "/for",
   "/knowledge-hub",
   "/privacy-policy",
   "/prompts",

@@ -10,6 +10,9 @@ const contentBase = selectedSite.contentDir;
 const useCasesBase = fs.existsSync(path.join(contentBase, "use-cases"))
   ? path.join(contentBase, "use-cases")
   : path.join(selectedSite.projectRoot, "src", "content-empty", "use-cases");
+const audiencesBase = fs.existsSync(path.join(contentBase, "for"))
+  ? path.join(contentBase, "for")
+  : path.join(selectedSite.projectRoot, "src", "content-empty", "for");
 
 const commonFields = {
   title: z.string(),
@@ -143,6 +146,49 @@ const useCasesCollection = defineCollection({
         }),
       )
       .default([]),
+    cta: z
+      .object({
+        enable: z.boolean(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        label: z.string(),
+        link: z.string(),
+      })
+      .optional(),
+  }),
+});
+
+const audienceWorkflowField = z.object({
+  title: z.string(),
+  description: z.string(),
+  link: z.string().optional(),
+  image: imageField.optional(),
+});
+
+const audienceFaqField = z.object({
+  question: z.string(),
+  answer: z.string(),
+});
+
+// Audience/persona collection schema
+const audiencesCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: audiencesBase }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    meta_title: z.string().optional(),
+    image: z.string().optional(),
+    categories: z.array(z.string()).min(1),
+    tags: z.array(z.string()).min(1),
+    author: z.string().optional(),
+    popular: z.boolean().optional(),
+    draft: z.boolean(),
+    audience_label: z.string(),
+    pain_points: z.array(z.string()).default([]),
+    workflows: z.array(audienceWorkflowField).default([]),
+    related_use_cases: z.array(z.string()).default([]),
+    related_prompts: z.array(z.string()).default([]),
+    faq: z.array(audienceFaqField).default([]),
     cta: z
       .object({
         enable: z.boolean(),
@@ -314,6 +360,7 @@ export const collections = {
   blog: blogCollection,
   prompts: promptsCollection,
   "use-cases": useCasesCollection,
+  for: audiencesCollection,
   authors: authorsCollection,
   pages: pagesCollection,
   about: aboutCollection,

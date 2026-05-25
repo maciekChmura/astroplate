@@ -31,6 +31,7 @@ const QUICKARCHVIZ_HUB_ROUTE_PREFIXES = [
   "/authors",
   "/blog",
   "/categories",
+  "/for",
   "/knowledge-hub",
   "/privacy-policy",
   "/prompts",

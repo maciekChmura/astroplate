@@ -1,0 +1,61 @@
+---
+import AudienceCard from "@/components/AudienceCard.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import {
+  getContentDir,
+  normalizeLang,
+  supportedLang,
+} from "@/lib/utils/languageParser";
+import { AUDIENCES_CONTENT_FOLDER } from "@/lib/utils/audienceRoutes";
+import PageHeader from "@/partials/PageHeader.astro";
+import { getEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const routeLang of supportedLang) {
+    const lang = normalizeLang(routeLang);
+    const contentDir = getContentDir(lang);
+    const audienceIndex = await getEntry(
+      AUDIENCES_CONTENT_FOLDER,
+      `${contentDir}/-index`,
+    );
+
+    if (audienceIndex && !audienceIndex.data.draft) {
+      paths.push({
+        params: { lang: routeLang || undefined },
+        props: { audienceIndex, lang },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { audienceIndex, lang } = Astro.props;
+const audiences = await getSinglePage(AUDIENCES_CONTENT_FOLDER, lang);
+---
+
+<Base
+  title={audienceIndex.data.title}
+  meta_title={audienceIndex.data.meta_title}
+  description={audienceIndex.data.description}
+  image={audienceIndex.data.image}
+  lang={lang}
+>
+  <PageHeader title={audienceIndex.data.title} />
+  <section class="section-sm pb-0">
+    <div class="container">
+      <div class="row justify-center">
+        {
+          audiences.map((audience) => (
+            <div class="mb-14 md:col-6 lg:col-4">
+              <AudienceCard data={audience} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>

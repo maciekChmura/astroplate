@@ -1,0 +1,208 @@
+---
+import AudienceSingle from "@/layouts/AudienceSingle.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
+import {
+  audiencePath,
+  audiencesIndexPath,
+  AUDIENCES_CONTENT_FOLDER,
+} from "@/lib/utils/audienceRoutes";
+import { getAuthorProfile } from "@/lib/utils/authors";
+import {
+  normalizeLang,
+  stripLocaleFromId,
+  supportedLang,
+} from "@/lib/utils/languageParser";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
+import { promptPath, PROMPTS_CONTENT_FOLDER } from "@/lib/utils/promptRoutes";
+import { plainify } from "@/lib/utils/textConverter";
+import {
+  useCasePath,
+  USE_CASES_CONTENT_FOLDER,
+} from "@/lib/utils/useCaseRoutes";
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const routeLang of supportedLang) {
+    const lang = normalizeLang(routeLang);
+    const audiences = await getSinglePage(AUDIENCES_CONTENT_FOLDER, lang);
+
+    paths.push(
+      ...audiences.map((audienceEntry) => ({
+        params: {
+          lang: routeLang || undefined,
+          single: stripLocaleFromId(audienceEntry.id),
+        },
+        props: { audienceEntry, lang },
+      })),
+    );
+  }
+
+  return paths;
+}
+
+const { audienceEntry, lang } = Astro.props;
+const {
+  title,
+  meta_title,
+  description,
+  image,
+  categories,
+  tags,
+  audience_label,
+  workflows,
+  related_use_cases,
+  related_prompts,
+  faq,
+} = audienceEntry.data;
+const audienceSlug = stripLocaleFromId(audienceEntry.id);
+const plainDescription = plainify(description);
+const canonicalPath = audiencePath(audienceSlug, lang);
+const siteUrl =
+  Astro.site ||
+  (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
+const canonicalUrl = siteUrl
+  ? new URL(canonicalPath, siteUrl).toString()
+  : canonicalPath;
+const indexUrl = siteUrl
+  ? new URL(audiencesIndexPath(lang), siteUrl).toString()
+  : audiencesIndexPath(lang);
+const imageUrl =
+  siteUrl && image ? new URL(withSiteMountPath(image), siteUrl).toString() : image;
+const workflowImageUrls = workflows
+  .map((workflow) => workflow.image?.src)
+  .filter(Boolean)
+  .map((src) =>
+    siteUrl ? new URL(withSiteMountPath(src!), siteUrl).toString() : src!,
+  );
+const imageUrls = [imageUrl, ...workflowImageUrls].filter(Boolean);
+const author = await getAuthorProfile({
+  lang,
+  authorSlug: audienceEntry.data.author,
+  siteUrl,
+});
+const allUseCases = await getSinglePage(USE_CASES_CONTENT_FOLDER, lang);
+const allPrompts = await getSinglePage(PROMPTS_CONTENT_FOLDER, lang);
+const relatedUseCases = related_use_cases
+  .map((slug) =>
+    allUseCases.find((useCase) => stripLocaleFromId(useCase.id) === slug),
+  )
+  .filter(Boolean);
+const relatedPrompts = related_prompts
+  .map((slug) =>
+    allPrompts.find((prompt) => stripLocaleFromId(prompt.id) === slug),
+  )
+  .filter(Boolean);
+const relatedItems = [
+  ...relatedUseCases.map((useCase) => ({
+    name: useCase!.data.title,
+    url: siteUrl
+      ? new URL(useCasePath(stripLocaleFromId(useCase!.id), lang), siteUrl)
+          .toString()
+      : useCasePath(stripLocaleFromId(useCase!.id), lang),
+  })),
+  ...relatedPrompts.map((prompt) => ({
+    name: prompt!.data.title,
+    url: siteUrl
+      ? new URL(promptPath(stripLocaleFromId(prompt!.id), lang), siteUrl)
+          .toString()
+      : promptPath(stripLocaleFromId(prompt!.id), lang),
+  })),
+];
+const audienceJsonLd = [
+  author.personJsonLd,
+  {
+    "@type": "WebPage",
+    "@id": `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
+    name: title,
+    headline: title,
+    description: plainDescription,
+    image: imageUrls,
+    inLanguage: lang,
+    about: [
+      audience_label,
+      "AI architectural visualization",
+      "AI rendering",
+      ...categories,
+    ],
+    keywords: tags.join(", "),
+    author: author.id ? { "@id": author.id } : author.personJsonLd,
+  },
+  {
+    "@type": "BreadcrumbList",
+    "@id": `${canonicalUrl}#breadcrumb`,
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "For",
+        item: indexUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: title,
+        item: canonicalUrl,
+      },
+    ],
+  },
+  {
+    "@type": "SoftwareApplication",
+    "@id": `${
+      siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/"
+    }#software`,
+    name: "QuickArchViz",
+    applicationCategory: "DesignApplication",
+    operatingSystem: "Web",
+    url: siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/",
+    description: siteConfig.metadata.meta_description,
+  },
+  relatedItems.length > 0
+    ? {
+        "@type": "ItemList",
+        "@id": `${canonicalUrl}#related-resources`,
+        itemListElement: relatedItems.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.name,
+          url: item.url,
+        })),
+      }
+    : undefined,
+  faq.length > 0
+    ? {
+        "@type": "FAQPage",
+        "@id": `${canonicalUrl}#faq`,
+        mainEntity: faq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: plainify(item.answer),
+          },
+        })),
+      }
+    : undefined,
+].filter(Boolean);
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={plainDescription}
+  image={image}
+  canonical={canonicalPath}
+  lang={lang}
+  jsonLd={audienceJsonLd}
+>
+  <AudienceSingle
+    audienceEntry={audienceEntry}
+    lang={lang}
+    author={author}
+    relatedUseCases={relatedUseCases}
+    relatedPrompts={relatedPrompts}
+  />
+</Base>

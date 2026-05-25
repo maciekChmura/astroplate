@@ -1,0 +1,56 @@
+---
+import {
+  getLangFromUrl,
+  getTranslations,
+  stripLocaleFromId,
+} from "@/lib/utils/languageParser";
+import { audiencePath } from "@/lib/utils/audienceRoutes";
+import { humanize, plainify } from "@/lib/utils/textConverter";
+import ImageMod from "./ImageMod.astro";
+
+const { data } = Astro.props;
+const { title, description, image, categories, audience_label } = data.data;
+const lang = getLangFromUrl(Astro.url);
+const translations = (await getTranslations(lang)) as Record<string, string>;
+const viewAudiencePage =
+  translations.view_audience_page || "View audience page";
+const audienceSlug = stripLocaleFromId(data.id);
+---
+
+<article class="h-full rounded bg-light p-6 dark:bg-darkmode-light">
+  {
+    image && (
+      <ImageMod
+        class="mb-6 aspect-[16/10] w-full rounded object-cover"
+        src={image}
+        alt={title}
+        width={640}
+        height={400}
+        fit="cover"
+        format="webp"
+      />
+    )
+  }
+  <div class="mb-4 flex flex-wrap gap-2">
+    <span class="rounded bg-body px-3 py-1 text-sm text-text dark:bg-darkmode-body dark:text-darkmode-text">
+      {audience_label}
+    </span>
+    {
+      categories.map((category: string) => (
+        <span class="rounded bg-body px-3 py-1 text-sm text-text dark:bg-darkmode-body dark:text-darkmode-text">
+          {humanize(category)}
+        </span>
+      ))
+    }
+  </div>
+  <h3 class="h5 mb-3">
+    <a href={audiencePath(audienceSlug, lang)}>{title}</a>
+  </h3>
+  <p class="mb-6">{plainify(description)}</p>
+  <a
+    class="btn btn-outline-primary btn-sm"
+    href={audiencePath(audienceSlug, lang)}
+  >
+    {viewAudiencePage}
+  </a>
+</article>

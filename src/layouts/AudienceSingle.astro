@@ -1,0 +1,280 @@
+---
+import PromptCard from "@/components/PromptCard.astro";
+import UseCaseCard from "@/components/UseCaseCard.astro";
+import ImageMod from "@/components/ImageMod.astro";
+import { getTranslations, slugSelector } from "@/lib/utils/languageParser";
+import { humanize, markdownify } from "@/lib/utils/textConverter";
+import { render } from "astro:content";
+import { FaRegFolder, FaRegUser } from "react-icons/fa";
+
+type AudienceImage = {
+  src: string;
+  alt: string;
+  caption?: string;
+};
+
+type AudienceWorkflow = {
+  title: string;
+  description: string;
+  link?: string;
+  image?: AudienceImage;
+};
+
+type AudienceFaq = {
+  question: string;
+  answer: string;
+};
+
+const { audienceEntry, lang, author, relatedUseCases, relatedPrompts } =
+  Astro.props;
+const { Content } = await render(audienceEntry);
+const {
+  title,
+  description,
+  image,
+  categories,
+  tags,
+  audience_label,
+  pain_points,
+  workflows,
+  faq,
+  cta,
+} = audienceEntry.data;
+const translations = (await getTranslations(lang)) as Record<string, string>;
+const painPointsLabel =
+  translations.audience_pain_points || "What this helps with";
+const workflowsLabel = translations.audience_workflows || "Workflows";
+const relatedUseCasesLabel =
+  translations.audience_related_use_cases || "Related use cases";
+const relatedPromptsLabel =
+  translations.audience_related_prompts || "Related prompts";
+const faqLabel = translations.use_case_faq || "FAQ";
+const hasBodyContent = Boolean(audienceEntry.body?.trim());
+const showMeta = Boolean(author?.name || categories.length > 0);
+---
+
+<section class="section pt-7">
+  <div class="container">
+    <div class="row justify-center">
+      <article class="lg:col-10">
+        <header class="mb-14 max-w-4xl">
+          <div class="mb-6 flex flex-wrap gap-2">
+            <span class="rounded bg-light px-3 py-1 text-sm font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+              {audience_label}
+            </span>
+          </div>
+          <h1 set:html={markdownify(title)} class="h1 mb-5" />
+          <p
+            class="mb-6 text-lg leading-8 text-text dark:text-darkmode-text"
+            set:html={markdownify(description)}
+          />
+          {
+            showMeta && (
+              <ul class="mb-0 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                {author?.name && (
+                  <li>
+                    <FaRegUser className={"mr-2 -mt-1 inline-block"} />
+                    {author?.url ? (
+                      <a href={author.url}>{author.name}</a>
+                    ) : (
+                      <span>{author.name}</span>
+                    )}
+                  </li>
+                )}
+                {categories.length > 0 && (
+                  <li>
+                    <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
+                    {categories.map((category: string, index: number) => (
+                      <span>
+                        {humanize(category)}
+                        {index !== categories.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </li>
+                )}
+              </ul>
+            )
+          }
+        </header>
+
+        {
+          image && (
+            <div class="mb-16">
+              <ImageMod
+                src={image}
+                alt={title}
+                width={1200}
+                height={640}
+                fit="cover"
+                class="aspect-[15/8] w-full rounded object-cover"
+                format="webp"
+              />
+            </div>
+          )
+        }
+
+        {
+          pain_points.length > 0 && (
+            <section class="mb-16">
+              <h2 class="h3 mb-6">{painPointsLabel}</h2>
+              <div class="grid gap-3 sm:grid-cols-2">
+                {pain_points.map((item: string) => (
+                  <div class="rounded bg-light px-5 py-4 font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          workflows.length > 0 && (
+            <section class="mb-16">
+              <h2 class="h3 mb-8 text-center">{workflowsLabel}</h2>
+              <div class="grid gap-10">
+                {workflows.map((workflow: AudienceWorkflow, index: number) => (
+                  <article class="grid items-center gap-8 border-b border-border pb-10 last:border-b-0 last:pb-0 md:grid-cols-2 dark:border-darkmode-border">
+                    <div>
+                      {workflow.image ? (
+                        <figure class="overflow-hidden rounded bg-light dark:bg-darkmode-light">
+                          <ImageMod
+                            src={workflow.image.src}
+                            alt={workflow.image.alt}
+                            width={900}
+                            height={600}
+                            loading={index === 0 ? "eager" : undefined}
+                            decoding={index === 0 ? "async" : undefined}
+                            fit="cover"
+                            class="aspect-[3/2] w-full object-cover"
+                            format="webp"
+                          />
+                          {workflow.image.caption && (
+                            <figcaption class="px-4 py-3 text-sm">
+                              {workflow.image.caption}
+                            </figcaption>
+                          )}
+                        </figure>
+                      ) : (
+                        <div class="rounded bg-light p-8 dark:bg-darkmode-light">
+                          <h3 class="h4 mb-0">{workflow.title}</h3>
+                        </div>
+                      )}
+                    </div>
+                    <div class="md:pl-8">
+                      <h3 class="h3 mb-4">{workflow.title}</h3>
+                      <div
+                        class="content mb-5"
+                        set:html={markdownify(workflow.description, true)}
+                      />
+                      {workflow.link && (
+                        <a
+                          class="btn btn-outline-primary btn-sm"
+                          href={slugSelector(workflow.link, lang)}
+                        >
+                          {workflow.title}
+                        </a>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          hasBodyContent && (
+            <div class="content mb-16">
+              <Content />
+            </div>
+          )
+        }
+
+        {
+          relatedUseCases.length > 0 && (
+            <section class="mb-16">
+              <h2 class="h3 mb-8">{relatedUseCasesLabel}</h2>
+              <div class="row">
+                {relatedUseCases.map((useCase: any) => (
+                  <div class="mb-10 md:col-6 lg:col-4">
+                    <UseCaseCard data={useCase} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          relatedPrompts.length > 0 && (
+            <section class="mb-16">
+              <h2 class="h3 mb-8">{relatedPromptsLabel}</h2>
+              <div class="row">
+                {relatedPrompts.map((prompt: any) => (
+                  <div class="mb-10 md:col-6 lg:col-4">
+                    <PromptCard data={prompt} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          faq.length > 0 && (
+            <section class="mb-16">
+              <h2 class="h3 mb-6">{faqLabel}</h2>
+              <div class="grid gap-4">
+                {faq.map((item: AudienceFaq) => (
+                  <details class="rounded bg-light p-5 dark:bg-darkmode-light">
+                    <summary class="cursor-pointer font-secondary text-lg font-semibold text-text-dark dark:text-darkmode-text">
+                      {item.question}
+                    </summary>
+                    <p
+                      class="mb-0 mt-4"
+                      set:html={markdownify(item.answer)}
+                    />
+                  </details>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          cta?.enable && (
+            <section class="mb-10 rounded bg-gradient-to-br from-[#f8f1e7] via-[#efe2d0] to-[#d9c1a2] p-8 text-center text-[#3a332a] shadow-sm ring-1 ring-[#eadfce]">
+              {cta.title && (
+                <h2 class="h3 mb-4 text-[#3a332a]">{cta.title}</h2>
+              )}
+              {cta.description && (
+                <p class="mx-auto mb-6 max-w-2xl text-[#5a5044]">
+                  {cta.description}
+                </p>
+              )}
+              <a
+                class="btn border-[#3a332a] bg-[#3a332a] text-[#f8f1e7] hover:border-[#2a241e] hover:bg-[#2a241e] hover:text-white"
+                href={slugSelector(cta.link, lang)}
+              >
+                {cta.label}
+              </a>
+            </section>
+          )
+        }
+
+        {
+          tags.length > 0 && (
+            <div class="flex flex-wrap items-center gap-2">
+              {tags.map((tag: string) => (
+                <span class="rounded bg-light px-3 py-1 text-sm dark:bg-darkmode-light">
+                  {humanize(tag)}
+                </span>
+              ))}
+            </div>
+          )
+        }
+      </article>
+    </div>
+  </div>
+</section>

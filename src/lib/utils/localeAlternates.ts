@@ -1,6 +1,7 @@
 import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { getTaxonomy } from "@/lib/taxonomyParser.astro";
+import { audiencePath, audiencesIndexPath } from "@/lib/utils/audienceRoutes";
 import { blogPostPath } from "@/lib/utils/blogRoutes";
 import {
   enabledLanguages,
@@ -11,10 +12,12 @@ import {
 } from "@/lib/utils/languageParser";
 
 const BLOG_FOLDER = "blog";
+const AUDIENCES_FOLDER = "for";
 const PAGE_SIZE = siteConfig.settings.pagination;
 const { default_language, default_language_in_subdir } = siteConfig.settings;
 
 const blogPostSlugs = new Map<string, Set<string>>();
+const audienceSlugs = new Map<string, Set<string>>();
 const regularPageSlugs = new Map<string, Set<string>>();
 const authorSlugs = new Map<string, Set<string>>();
 const categorySlugs = new Map<string, Set<string>>();
@@ -72,6 +75,18 @@ async function getPageSlugs(lang: string) {
   return regularPageSlugs.get(lang)!;
 }
 
+async function getAudienceSlugs(lang: string) {
+  if (!audienceSlugs.has(lang)) {
+    const audiences = await getSinglePage(AUDIENCES_FOLDER, lang);
+    audienceSlugs.set(
+      lang,
+      new Set(audiences.map((audience) => stripLocaleFromId(audience.id))),
+    );
+  }
+
+  return audienceSlugs.get(lang)!;
+}
+
 async function getAuthorSlugs(lang: string) {
   if (!authorSlugs.has(lang)) {
     const authors = await getSinglePage("authors", lang);
@@ -113,6 +128,7 @@ async function resolveAlternateForLang(basePath: string, targetLang: string) {
     basePath === "/contact" ||
     basePath === "/authors" ||
     basePath === "/categories" ||
+    basePath === "/for" ||
     basePath === "/tags"
   ) {
     return slugSelector(basePath, normalizedLang);
@@ -138,6 +154,15 @@ async function resolveAlternateForLang(basePath: string, targetLang: string) {
     return slugs.has(slug)
       ? blogPostPath(slug, normalizedLang)
       : slugSelector("/blog", normalizedLang);
+  }
+
+  const audienceMatch = basePath.match(/^\/for\/([^/]+)$/);
+  if (audienceMatch) {
+    const slug = audienceMatch[1];
+    const slugs = await getAudienceSlugs(normalizedLang);
+    return slugs.has(slug)
+      ? audiencePath(slug, normalizedLang)
+      : audiencesIndexPath(normalizedLang);
   }
 
   const authorMatch = basePath.match(/^\/authors\/([^/]+)$/);
