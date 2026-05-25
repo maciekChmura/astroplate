@@ -27,6 +27,19 @@ const DEFAULT_EXCLUDES = [
 
 // ─── URL path prefixes that are API / system routes ──────────────────────────
 const API_ROUTE_PREFIXES = ["/api/", "/_", "/cdn-cgi/"];
+const QUICKARCHVIZ_HUB_ROUTE_PREFIXES = [
+  "/authors",
+  "/blog",
+  "/categories",
+  "/knowledge-hub",
+  "/privacy-policy",
+  "/prompts",
+  "/tags",
+  "/use-cases",
+];
+const QUICKARCHVIZ_EXCLUDED_HUB_ROUTES = new Set([
+  "/use-cases/przeglad-bryly-elewacji-na-spotkanie-z-klientem",
+]);
 
 function isApiRoute(urlPath) {
   return API_ROUTE_PREFIXES.some((prefix) => urlPath.startsWith(prefix));
@@ -34,6 +47,27 @@ function isApiRoute(urlPath) {
 
 function isNotFoundRoute(urlPath) {
   return urlPath === "/404";
+}
+
+function normalizeUrlPath(urlPath) {
+  return urlPath.length > 1 ? urlPath.replace(/\/+$/g, "") : urlPath || "/";
+}
+
+function isQuickArchVizContentDeploy() {
+  return selectedSite.id.startsWith("quickarchviz-");
+}
+
+function isQuickArchVizHubRoute(urlPath) {
+  const normalizedPath = normalizeUrlPath(urlPath);
+
+  if (QUICKARCHVIZ_EXCLUDED_HUB_ROUTES.has(normalizedPath)) {
+    return false;
+  }
+
+  return QUICKARCHVIZ_HUB_ROUTE_PREFIXES.some(
+    (prefix) =>
+      normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`),
+  );
 }
 
 // ─── Config ──────────────────────────────────────────────────────────────────
@@ -503,6 +537,7 @@ function generateLlmsTxtContent(
   siteName,
   siteDescription,
   generateIndividualMd,
+  homePath,
 ) {
   let content = `# ${siteName}\n\n`;
 
@@ -510,6 +545,7 @@ function generateLlmsTxtContent(
     content += `> ${siteDescription}\n\n`;
   }
 
+  content += `URL: ${withMountUrl(siteUrl, homePath, mountPath)}\n\n`;
   content +=
     "This file helps language models discover the most useful content on this site.\n\n";
 
@@ -558,9 +594,15 @@ function generateLlmsTxtContent(
   return content;
 }
 
-function generateLlmsFullTxtContent(pages, siteUrl, mountPath, siteName) {
+function generateLlmsFullTxtContent(
+  pages,
+  siteUrl,
+  mountPath,
+  siteName,
+  homePath,
+) {
   let content = `# ${siteName}\n\n`;
-  content += `URL: ${withMountUrl(siteUrl, "/", mountPath)}\n\n`;
+  content += `URL: ${withMountUrl(siteUrl, homePath, mountPath)}\n\n`;
 
   pages.forEach((page, index) => {
     const url = withMountUrl(siteUrl, page.urlPath, mountPath);
@@ -620,6 +662,8 @@ async function generateLlmsFiles() {
   const basePath = (config.site.base_path || "/").replace(/\/$/, "") || "/";
   const siteName = config.site.title;
   const siteDescription = config.metadata?.meta_description || "";
+  const isHubContentDeploy = isQuickArchVizContentDeploy();
+  const homePath = isHubContentDeploy ? "/knowledge-hub" : "/";
 
   // ── Step 1: Discover pre-rendered HTML files ────────────────────────────
   console.log("\n🔍 Discovering pre-rendered HTML files...");
@@ -644,6 +688,11 @@ async function generateLlmsFiles() {
 
       if (isNotFoundRoute(urlPath)) {
         console.log(`   ⤷ Skipping 404 route: ${urlPath}`);
+        continue;
+      }
+
+      if (isHubContentDeploy && !isQuickArchVizHubRoute(urlPath)) {
+        console.log(`   ⤷ Skipping non-public hub route: ${urlPath}`);
         continue;
       }
 
@@ -739,6 +788,11 @@ async function generateLlmsFiles() {
             continue;
           }
 
+          if (isHubContentDeploy && !isQuickArchVizHubRoute(route)) {
+            console.log("⤷ non-public hub route, skipping");
+            continue;
+          }
+
           seenPaths.add(route);
           pages.push({
             urlPath: route,
@@ -811,6 +865,7 @@ async function generateLlmsFiles() {
       siteName,
       siteDescription,
       llms.generate_individual_md,
+      homePath,
     );
     const llmsTxtPath = path.join(clientDir, "llms.txt");
 
@@ -827,6 +882,7 @@ async function generateLlmsFiles() {
       siteUrl,
       mountPath,
       siteName,
+      homePath,
     );
     const llmsFullPath = path.join(clientDir, "llms-full.txt");
 

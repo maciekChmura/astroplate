@@ -5,6 +5,10 @@
       "url": "/"
     },
     {
+      "name": "Knowledge Base",
+      "url": "/knowledge-hub"
+    },
+    {
       "name": "Blog",
       "url": "/blog"
     },

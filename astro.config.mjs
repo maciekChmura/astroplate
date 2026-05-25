@@ -34,6 +34,20 @@ const resolvedSiteUrl = resolveSiteUrl({
   allowConfigSiteUrl: false,
 });
 const siteMountPath = normalizeMountPath(process.env.PUBLIC_SITE_MOUNT_PATH);
+const quickArchVizHubRoutePrefixes = [
+  "/authors",
+  "/blog",
+  "/categories",
+  "/knowledge-hub",
+  "/privacy-policy",
+  "/prompts",
+  "/tags",
+  "/use-cases",
+];
+const quickArchVizExcludedHubRoutes = new Set([
+  "/use-cases/przeglad-bryly-elewacji-na-spotkanie-z-klientem",
+]);
+const isQuickArchVizContentDeploy = selectedSite.id.startsWith("quickarchviz-");
 
 const enabledLocales = languages
   .map(({ languageCode }) => languageCode)
@@ -91,6 +105,24 @@ function withSiteMountUrl(url) {
   return parsedUrl.toString();
 }
 
+function normalizePathname(pathname) {
+  return pathname.length > 1 ? pathname.replace(/\/+$/g, "") : pathname || "/";
+}
+
+function isQuickArchVizHubRoute(pathname) {
+  const normalizedPathname = normalizePathname(pathname);
+
+  if (quickArchVizExcludedHubRoutes.has(normalizedPathname)) {
+    return false;
+  }
+
+  return quickArchVizHubRoutePrefixes.some(
+    (prefix) =>
+      normalizedPathname === prefix ||
+      normalizedPathname.startsWith(`${prefix}/`),
+  );
+}
+
 // Build fonts configuration from theme.json
 const fontSubsets = theme.fonts.font_subsets || ["latin"];
 const fontsConfig = Object.entries(theme.fonts.font_family)
@@ -136,6 +168,13 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
+      filter(page) {
+        if (!isQuickArchVizContentDeploy) {
+          return true;
+        }
+
+        return isQuickArchVizHubRoute(new URL(page).pathname);
+      },
       serialize(item) {
         return {
           ...item,

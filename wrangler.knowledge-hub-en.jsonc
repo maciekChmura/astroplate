@@ -6,7 +6,79 @@
   "workers_dev": false,
   "routes": [
     {
-      "pattern": "quickarchviz.com/knowledge-hub*",
+      "pattern": "quickarchviz.com/knowledge-hub",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/knowledge-hub/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/knowledge-hub-assets/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/blog",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/blog/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/prompts",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/prompts/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/use-cases",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/use-cases/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/authors",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/authors/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/categories",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/categories/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/tags",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/tags/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/privacy-policy",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/sitemap*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/llms.txt",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/llms-full.txt",
       "zone_name": "quickarchviz.com",
     },
   ],

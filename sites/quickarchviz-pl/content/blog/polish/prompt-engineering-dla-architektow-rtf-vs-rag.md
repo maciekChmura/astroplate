@@ -16,8 +16,8 @@ W 2026 roku podstawą profesjonalnej pracy z AI nie jest już samo „zadawanie 
 
 To właśnie jakość promptu najczęściej decyduje o tym, czy AI:
 
-* wygeneruje ogólną i mało użyteczną odpowiedź,
-* czy stanie się realnym wsparciem w procesie projektowym.
+- wygeneruje ogólną i mało użyteczną odpowiedź,
+- czy stanie się realnym wsparciem w procesie projektowym.
 
 Dla architektów ma to szczególne znaczenie. Praca projektowa wymaga kontekstu, lokalnych przepisów, źródeł, standardów biura oraz odpowiedzialności zawodowej. Dlatego dobry prompt nie jest dodatkiem. Jest częścią profesjonalnego workflow.
 
@@ -27,9 +27,9 @@ RTF i RAG rozwiązują dwa różne problemy podczas pracy z AI.
 
 RTF (Role -> Task -> Format) to framework prompt engineeringu, który pomaga lepiej „rozmawiać” z modelem AI. Określasz w nim:
 
-* kim AI ma być,
-* jakie zadanie ma wykonać,
-* oraz w jakim formacie ma odpowiedzieć.
+- kim AI ma być,
+- jakie zadanie ma wykonać,
+- oraz w jakim formacie ma odpowiedzieć.
 
 Dzięki temu AI otrzymuje jasny kontekst i generuje bardziej trafne oraz uporządkowane odpowiedzi.
 
@@ -37,16 +37,16 @@ RAG (Retrieval-Augmented Generation) działa inaczej. Zamiast polegać wyłączn
 
 Najprościej mówiąc:
 
-* RTF pomaga AI lepiej zrozumieć pytanie,
-* a RAG dostarcza AI właściwe źródła wiedzy.
+- RTF pomaga AI lepiej zrozumieć pytanie,
+- a RAG dostarcza AI właściwe źródła wiedzy.
 
 To właśnie połączenie dobrego promptu i pracy na własnej dokumentacji sprawia, że AI zaczyna działać jak realny asystent architekta, a nie przypadkowy chatbot z internetu.
 
-| Cecha | RTF (Prompt Engineering) | RAG (Retrieval) |
-|---|---|---|
-| Główny cel | Styl, ton i struktura wypowiedzi. | Precyzja merytoryczna i aktualne dane. |
-| Gdzie leży zmiana? | W samym pytaniu (input). | W bazie danych, do której AI ma dostęp. |
-| Analogia | Jak asystent ma do Ciebie mówić. | Jakie książki asystent ma na biurku. |
+| Cecha              | RTF (Prompt Engineering)          | RAG (Retrieval)                         |
+| ------------------ | --------------------------------- | --------------------------------------- |
+| Główny cel         | Styl, ton i struktura wypowiedzi. | Precyzja merytoryczna i aktualne dane.  |
+| Gdzie leży zmiana? | W samym pytaniu (input).          | W bazie danych, do której AI ma dostęp. |
+| Analogia           | Jak asystent ma do Ciebie mówić.  | Jakie książki asystent ma na biurku.    |
 
 ## RTF = Role -> Task -> Format
 
@@ -60,11 +60,11 @@ To prosty model, który znacząco ogranicza halucynacje AI, poprawia trafność 
 
 Taki prompt nie zawiera:
 
-* kontekstu,
-* rodzaju budynku,
-* kraju,
-* aktualnych przepisów,
-* ani oczekiwanego formatu odpowiedzi.
+- kontekstu,
+- rodzaju budynku,
+- kraju,
+- aktualnych przepisów,
+- ani oczekiwanego formatu odpowiedzi.
 
 W efekcie AI zaczyna zgadywać.
 
@@ -79,13 +79,13 @@ W efekcie AI zaczyna zgadywać.
 > **[FORMAT]**  
 > Przygotuj odpowiedź w formie tabeli zawierającej:
 >
-> * szerokość schodów,
-> * wysokość stopnia,
-> * wymagane materiały,
-> * odporność ogniową,
-> * wymagania ewakuacyjne.
+> - szerokość schodów,
+> - wysokość stopnia,
+> - wymagane materiały,
+> - odporność ogniową,
+> - wymagania ewakuacyjne.
 
-Więcej przykładów znajdziesz w sekcji promptów: [quickarchviz.com/pl/knowledge-hub/prompts](https://quickarchviz.com/pl/knowledge-hub/prompts).
+Więcej przykładów znajdziesz w sekcji promptów: [quickarchviz.com/pl/prompts](https://quickarchviz.com/pl/prompts).
 
 ## Dlaczego framework RTF działa?
 
@@ -101,9 +101,9 @@ Im bardziej precyzyjne zadanie, tym większa szansa na poprawną odpowiedź. Dob
 
 Określenie formatu odpowiedzi:
 
-* oszczędza czas,
-* poprawia czytelność,
-* oraz wymusza bardziej uporządkowane i praktyczne rezultaty.
+- oszczędza czas,
+- poprawia czytelność,
+- oraz wymusza bardziej uporządkowane i praktyczne rezultaty.
 
 To właśnie tutaj pojawia się różnica między AI używanym jak ciekawostka technologiczna, a AI działającym jako profesjonalne narzędzie wspierające architekta w codziennej pracy projektowej.
 
@@ -119,9 +119,9 @@ W standardowym modelu AI model odpowiada na podstawie swojej pamięci treningowe
 
 W NotebookLM model:
 
-* najpierw analizuje Twoje dokumenty,
-* wyszukuje informacje w dostarczonych materiałach,
-* a dopiero później generuje odpowiedź.
+- najpierw analizuje Twoje dokumenty,
+- wyszukuje informacje w dostarczonych materiałach,
+- a dopiero później generuje odpowiedź.
 
 Dzięki temu AI przestaje działać jak „generator odpowiedzi z internetu”, a zaczyna przypominać asystenta pracującego bezpośrednio na dokumentacji projektowej biura.
 
@@ -129,16 +129,16 @@ Dzięki temu AI przestaje działać jak „generator odpowiedzi z internetu”, 
 
 Architekci mogą budować własne bazy wiedzy AI oparte np. na:
 
-* MPZP,
-* Warunkach Technicznych,
-* PFU,
-* normach budowlanych,
-* ekspertyzach,
-* dokumentacji projektowej,
-* specyfikacjach technicznych,
-* wytycznych inwestora,
-* standardach biura projektowego,
-* oraz wcześniejszych projektach.
+- MPZP,
+- Warunkach Technicznych,
+- PFU,
+- normach budowlanych,
+- ekspertyzach,
+- dokumentacji projektowej,
+- specyfikacjach technicznych,
+- wytycznych inwestora,
+- standardach biura projektowego,
+- oraz wcześniejszych projektach.
 
 Im lepiej przygotowana baza wiedzy, tym bardziej użyteczne staje się AI.
 
@@ -154,13 +154,13 @@ W praktyce oznacza to, że architekt może szybciej przejść od pytania do spra
 
 AI już dziś pozwala:
 
-* skrócić analizę dokumentacji z kilku godzin do kilku minut,
-* szybciej analizować MPZP,
-* tworzyć checklisty projektowe,
-* automatycznie porównywać przepisy,
-* budować bazy wiedzy biura,
-* wspierać juniorów,
-* oraz ograniczać liczbę błędów projektowych.
+- skrócić analizę dokumentacji z kilku godzin do kilku minut,
+- szybciej analizować MPZP,
+- tworzyć checklisty projektowe,
+- automatycznie porównywać przepisy,
+- budować bazy wiedzy biura,
+- wspierać juniorów,
+- oraz ograniczać liczbę błędów projektowych.
 
 Największa zmiana nie polega jednak na samej szybkości. Chodzi o to, że wiedza projektowa przestaje być rozproszona między PDF-ami, mailami, notatkami i pamięcią zespołu. Zaczyna być dostępna w bardziej uporządkowanym workflow.
 
@@ -168,11 +168,11 @@ Największa zmiana nie polega jednak na samej szybkości. Chodzi o to, że wiedz
 
 RTF i RAG nie są alternatywami. Najlepiej działają razem.
 
-| Podejście | Do czego służy | Przykład w pracy architekta |
-|---|---|---|
-| RTF | Porządkuje instrukcję dla modelu | „Działaj jako ekspert prawa budowlanego, przeanalizuj wymagania i podaj odpowiedź w tabeli” |
-| RAG | Dostarcza modelowi źródła | MPZP, Warunki Techniczne, PFU, dokumentacja projektu |
-| RTF + RAG | Łączy precyzyjne polecenie z pracą na dokumentach | Analiza konkretnej działki na podstawie przesłanych dokumentów |
+| Podejście | Do czego służy                                    | Przykład w pracy architekta                                                                 |
+| --------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| RTF       | Porządkuje instrukcję dla modelu                  | „Działaj jako ekspert prawa budowlanego, przeanalizuj wymagania i podaj odpowiedź w tabeli” |
+| RAG       | Dostarcza modelowi źródła                         | MPZP, Warunki Techniczne, PFU, dokumentacja projektu                                        |
+| RTF + RAG | Łączy precyzyjne polecenie z pracą na dokumentach | Analiza konkretnej działki na podstawie przesłanych dokumentów                              |
 
 Jeśli używasz tylko promptu, AI nadal może zgadywać. Jeśli używasz tylko dokumentów bez dobrego polecenia, odpowiedź może być chaotyczna. Profesjonalny workflow łączy jedno i drugie.
 
@@ -184,11 +184,11 @@ To właśnie kontekst decyduje dziś o jakości odpowiedzi generowanych przez AI
 
 Nowoczesne biura architektoniczne coraz częściej wykorzystują AI do:
 
-* analizy MPZP i Warunków Technicznych,
-* interpretacji przepisów budowlanych,
-* organizacji wiedzy projektowej,
-* tworzenia checklist projektowych,
-* oraz automatyzacji researchu i analizy dokumentacji.
+- analizy MPZP i Warunków Technicznych,
+- interpretacji przepisów budowlanych,
+- organizacji wiedzy projektowej,
+- tworzenia checklist projektowych,
+- oraz automatyzacji researchu i analizy dokumentacji.
 
 AI nie zastępuje architekta. Pomaga natomiast szybciej analizować informacje, ograniczać błędy i lepiej zarządzać wiedzą całego biura projektowego.
 

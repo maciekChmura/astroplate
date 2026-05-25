@@ -13,6 +13,74 @@
       "pattern": "quickarchviz.com/pl/knowledge-hub/*",
       "zone_name": "quickarchviz.com",
     },
+    {
+      "pattern": "quickarchviz.com/pl/knowledge-hub-assets/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/blog",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/blog/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/prompts",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/prompts/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/use-cases",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/use-cases/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/authors",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/authors/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/categories",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/categories/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/tags",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/tags/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/privacy-policy",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/sitemap*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/llms.txt",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/llms-full.txt",
+      "zone_name": "quickarchviz.com",
+    },
   ],
   "observability": {
     "enabled": true,
