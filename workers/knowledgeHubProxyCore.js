@@ -180,10 +180,6 @@ export function createKnowledgeHubProxy(userConfig) {
   }
 
   function getOldHubRedirectTarget(pathname) {
-    if (pathname === `${config.hubPath}/`) {
-      return config.hubPath;
-    }
-
     if (!pathname.startsWith(`${config.hubPath}/`)) {
       return undefined;
     }
