@@ -35,6 +35,7 @@ const resolvedSiteUrl = resolveSiteUrl({
 });
 const siteMountPath = normalizeMountPath(process.env.PUBLIC_SITE_MOUNT_PATH);
 const quickArchVizHubRoutePrefixes = [
+  "/alternatives",
   "/authors",
   "/blog",
   "/categories",

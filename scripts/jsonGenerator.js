@@ -9,6 +9,7 @@ const BLOG_FOLDER = path.join(selectedSite.contentDir, "blog");
 const PROMPTS_FOLDER = path.join(selectedSite.contentDir, "prompts");
 const USE_CASES_FOLDER = path.join(selectedSite.contentDir, "use-cases");
 const AUDIENCES_FOLDER = path.join(selectedSite.contentDir, "for");
+const ALTERNATIVES_FOLDER = path.join(selectedSite.contentDir, "alternatives");
 const languages = JSON.parse(
   fs.readFileSync(path.join(selectedSite.configDir, "language.json"), "utf8"),
 );
@@ -102,6 +103,40 @@ function getSearchableContent(data, content, group) {
     return [content, ...structuredParts].filter(Boolean).join("\n\n");
   }
 
+  if (group === "alternatives") {
+    const comparisonRows = (data.comparison_rows || []).flatMap((row) => [
+      row.label,
+      row.competitor,
+      row.quickarchviz,
+    ]);
+    const featureComparison = (data.feature_comparison || []).flatMap(
+      (item) => [item.title, item.competitor, item.quickarchviz, item.summary],
+    );
+    const namedSections = [
+      ...(data.pricing_comparison || []),
+      ...(data.use_cases || []),
+      ...(data.common_alternatives || []),
+    ].flatMap((item) => [item.title, item.description]);
+    const faq = (data.faq || []).flatMap((item) => [
+      item.question,
+      item.answer,
+    ]);
+    const structuredParts = [
+      data.competitor_name,
+      data.competitor_url,
+      data.competitor_summary,
+      data.quickarchviz_summary,
+      ...(data.best_for_competitor || []),
+      ...(data.best_for_quickarchviz || []),
+      ...comparisonRows,
+      ...featureComparison,
+      ...namedSections,
+      ...faq,
+    ];
+
+    return [content, ...structuredParts].filter(Boolean).join("\n\n");
+  }
+
   return content;
 }
 
@@ -179,6 +214,11 @@ try {
     JSON.stringify(getData(AUDIENCES_FOLDER, "for")),
   );
 
+  fs.writeFileSync(
+    `${JSON_FOLDER}/alternatives.json`,
+    JSON.stringify(getData(ALTERNATIVES_FOLDER, "alternatives")),
+  );
+
   // merger json files for search
   const postsPath = new URL(`../${JSON_FOLDER}/posts.json`, import.meta.url);
   const promptsPath = new URL(
@@ -190,11 +230,22 @@ try {
     import.meta.url,
   );
   const audiencesPath = new URL(`../${JSON_FOLDER}/for.json`, import.meta.url);
+  const alternativesPath = new URL(
+    `../${JSON_FOLDER}/alternatives.json`,
+    import.meta.url,
+  );
   const posts = JSON.parse(fs.readFileSync(postsPath, "utf8"));
   const prompts = JSON.parse(fs.readFileSync(promptsPath, "utf8"));
   const useCases = JSON.parse(fs.readFileSync(useCasesPath, "utf8"));
   const audiences = JSON.parse(fs.readFileSync(audiencesPath, "utf8"));
-  const search = [...posts, ...prompts, ...useCases, ...audiences];
+  const alternatives = JSON.parse(fs.readFileSync(alternativesPath, "utf8"));
+  const search = [
+    ...posts,
+    ...prompts,
+    ...useCases,
+    ...audiences,
+    ...alternatives,
+  ];
   fs.writeFileSync(`${JSON_FOLDER}/search.json`, JSON.stringify(search));
 } catch (err) {
   console.error(err);

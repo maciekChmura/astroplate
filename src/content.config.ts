@@ -13,6 +13,9 @@ const useCasesBase = fs.existsSync(path.join(contentBase, "use-cases"))
 const audiencesBase = fs.existsSync(path.join(contentBase, "for"))
   ? path.join(contentBase, "for")
   : path.join(selectedSite.projectRoot, "src", "content-empty", "for");
+const alternativesBase = fs.existsSync(path.join(contentBase, "alternatives"))
+  ? path.join(contentBase, "alternatives")
+  : path.join(selectedSite.projectRoot, "src", "content-empty", "alternatives");
 
 const commonFields = {
   title: z.string(),
@@ -201,6 +204,66 @@ const audiencesCollection = defineCollection({
   }),
 });
 
+const comparisonRowField = z.object({
+  label: z.string(),
+  competitor: z.string(),
+  quickarchviz: z.string(),
+});
+
+const featureComparisonField = z.object({
+  title: z.string(),
+  competitor: z.string(),
+  quickarchviz: z.string(),
+  summary: z.string().optional(),
+});
+
+const namedDescriptionField = z.object({
+  title: z.string(),
+  description: z.string(),
+});
+
+const alternativeFaqField = z.object({
+  question: z.string(),
+  answer: z.string(),
+});
+
+// Competitor alternatives collection schema
+const alternativesCollection = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: alternativesBase }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    meta_title: z.string().optional(),
+    image: z.string().optional(),
+    categories: z.array(z.string()).min(1),
+    tags: z.array(z.string()).min(1),
+    author: z.string().optional(),
+    popular: z.boolean().optional(),
+    draft: z.boolean(),
+    competitor_name: z.string(),
+    competitor_url: z.string().optional(),
+    competitor_summary: z.string(),
+    quickarchviz_summary: z.string(),
+    best_for_competitor: z.array(z.string()).default([]),
+    best_for_quickarchviz: z.array(z.string()).default([]),
+    comparison_rows: z.array(comparisonRowField).default([]),
+    feature_comparison: z.array(featureComparisonField).default([]),
+    pricing_comparison: z.array(namedDescriptionField).default([]),
+    use_cases: z.array(namedDescriptionField).default([]),
+    common_alternatives: z.array(namedDescriptionField).default([]),
+    faq: z.array(alternativeFaqField).default([]),
+    cta: z
+      .object({
+        enable: z.boolean(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        label: z.string(),
+        link: z.string(),
+      })
+      .optional(),
+  }),
+});
+
 // Author collection schema
 const authorsCollection = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: `${contentBase}/authors` }),
@@ -361,6 +424,7 @@ export const collections = {
   prompts: promptsCollection,
   "use-cases": useCasesCollection,
   for: audiencesCollection,
+  alternatives: alternativesCollection,
   authors: authorsCollection,
   pages: pagesCollection,
   about: aboutCollection,

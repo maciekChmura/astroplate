@@ -1,6 +1,10 @@
 import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { getTaxonomy } from "@/lib/taxonomyParser.astro";
+import {
+  alternativePath,
+  alternativesIndexPath,
+} from "@/lib/utils/alternativeRoutes";
 import { audiencePath, audiencesIndexPath } from "@/lib/utils/audienceRoutes";
 import { blogPostPath } from "@/lib/utils/blogRoutes";
 import {
@@ -12,11 +16,13 @@ import {
 } from "@/lib/utils/languageParser";
 
 const BLOG_FOLDER = "blog";
+const ALTERNATIVES_FOLDER = "alternatives";
 const AUDIENCES_FOLDER = "for";
 const PAGE_SIZE = siteConfig.settings.pagination;
 const { default_language, default_language_in_subdir } = siteConfig.settings;
 
 const blogPostSlugs = new Map<string, Set<string>>();
+const alternativeSlugs = new Map<string, Set<string>>();
 const audienceSlugs = new Map<string, Set<string>>();
 const regularPageSlugs = new Map<string, Set<string>>();
 const authorSlugs = new Map<string, Set<string>>();
@@ -75,6 +81,20 @@ async function getPageSlugs(lang: string) {
   return regularPageSlugs.get(lang)!;
 }
 
+async function getAlternativeSlugs(lang: string) {
+  if (!alternativeSlugs.has(lang)) {
+    const alternatives = await getSinglePage(ALTERNATIVES_FOLDER, lang);
+    alternativeSlugs.set(
+      lang,
+      new Set(
+        alternatives.map((alternative) => stripLocaleFromId(alternative.id)),
+      ),
+    );
+  }
+
+  return alternativeSlugs.get(lang)!;
+}
+
 async function getAudienceSlugs(lang: string) {
   if (!audienceSlugs.has(lang)) {
     const audiences = await getSinglePage(AUDIENCES_FOLDER, lang);
@@ -124,6 +144,7 @@ async function resolveAlternateForLang(basePath: string, targetLang: string) {
   if (
     basePath === "/" ||
     basePath === "/about" ||
+    basePath === "/alternatives" ||
     basePath === "/blog" ||
     basePath === "/contact" ||
     basePath === "/authors" ||
@@ -132,6 +153,15 @@ async function resolveAlternateForLang(basePath: string, targetLang: string) {
     basePath === "/tags"
   ) {
     return slugSelector(basePath, normalizedLang);
+  }
+
+  const alternativeMatch = basePath.match(/^\/alternatives\/([^/]+)$/);
+  if (alternativeMatch) {
+    const slug = alternativeMatch[1];
+    const slugs = await getAlternativeSlugs(normalizedLang);
+    return slugs.has(slug)
+      ? alternativePath(slug, normalizedLang)
+      : alternativesIndexPath(normalizedLang);
   }
 
   const archiveMatch = basePath.match(/^\/blog\/page\/(\d+)$/);

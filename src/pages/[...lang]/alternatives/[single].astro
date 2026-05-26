@@ -1,0 +1,185 @@
+---
+import AlternativeSingle from "@/layouts/AlternativeSingle.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
+import {
+  alternativePath,
+  alternativesIndexPath,
+  ALTERNATIVES_CONTENT_FOLDER,
+} from "@/lib/utils/alternativeRoutes";
+import { getAuthorProfile } from "@/lib/utils/authors";
+import {
+  normalizeLang,
+  stripLocaleFromId,
+  supportedLang,
+} from "@/lib/utils/languageParser";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
+import { plainify } from "@/lib/utils/textConverter";
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const routeLang of supportedLang) {
+    const lang = normalizeLang(routeLang);
+    const alternatives = await getSinglePage(ALTERNATIVES_CONTENT_FOLDER, lang);
+
+    paths.push(
+      ...alternatives.map((alternativeEntry) => ({
+        params: {
+          lang: routeLang || undefined,
+          single: stripLocaleFromId(alternativeEntry.id),
+        },
+        props: { alternativeEntry, lang },
+      })),
+    );
+  }
+
+  return paths;
+}
+
+const { alternativeEntry, lang } = Astro.props;
+const {
+  title,
+  meta_title,
+  description,
+  image,
+  categories,
+  tags,
+  competitor_name,
+  comparison_rows,
+  feature_comparison,
+  use_cases,
+  common_alternatives,
+  faq,
+} = alternativeEntry.data;
+const alternativeSlug = stripLocaleFromId(alternativeEntry.id);
+const plainDescription = plainify(description);
+const canonicalPath = alternativePath(alternativeSlug, lang);
+const siteUrl =
+  Astro.site ||
+  (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
+const canonicalUrl = siteUrl
+  ? new URL(canonicalPath, siteUrl).toString()
+  : canonicalPath;
+const indexUrl = siteUrl
+  ? new URL(alternativesIndexPath(lang), siteUrl).toString()
+  : alternativesIndexPath(lang);
+const imageUrl =
+  siteUrl && image ? new URL(withSiteMountPath(image), siteUrl).toString() : image;
+const author = await getAuthorProfile({
+  lang,
+  authorSlug: alternativeEntry.data.author,
+  siteUrl,
+});
+const relatedItems = [
+  ...comparison_rows.map((row) => ({
+    name: row.label,
+    description: `${competitor_name}: ${row.competitor} QuickArchViz: ${row.quickarchviz}`,
+  })),
+  ...feature_comparison.map((item) => ({
+    name: item.title,
+    description: item.summary || item.quickarchviz,
+  })),
+  ...use_cases.map((item) => ({
+    name: item.title,
+    description: item.description,
+  })),
+  ...common_alternatives.map((item) => ({
+    name: item.title,
+    description: item.description,
+  })),
+];
+const alternativeJsonLd = [
+  author.personJsonLd,
+  {
+    "@type": "WebPage",
+    "@id": `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
+    name: title,
+    headline: title,
+    description: plainDescription,
+    image: [imageUrl].filter(Boolean),
+    inLanguage: lang,
+    about: [
+      `${competitor_name} alternative`,
+      "AI architectural visualization",
+      "AI rendering",
+      ...categories,
+    ],
+    keywords: tags.join(", "),
+    author: author.id ? { "@id": author.id } : author.personJsonLd,
+  },
+  {
+    "@type": "BreadcrumbList",
+    "@id": `${canonicalUrl}#breadcrumb`,
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Alternatives",
+        item: indexUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: title,
+        item: canonicalUrl,
+      },
+    ],
+  },
+  {
+    "@type": "SoftwareApplication",
+    "@id": `${
+      siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/"
+    }#software`,
+    name: "QuickArchViz",
+    applicationCategory: "DesignApplication",
+    operatingSystem: "Web",
+    url: siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/",
+    description: siteConfig.metadata.meta_description,
+  },
+  relatedItems.length > 0
+    ? {
+        "@type": "ItemList",
+        "@id": `${canonicalUrl}#comparison-items`,
+        itemListElement: relatedItems.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.name,
+          description: plainify(item.description),
+        })),
+      }
+    : undefined,
+  faq.length > 0
+    ? {
+        "@type": "FAQPage",
+        "@id": `${canonicalUrl}#faq`,
+        mainEntity: faq.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: plainify(item.answer),
+          },
+        })),
+      }
+    : undefined,
+].filter(Boolean);
+---
+
+<Base
+  title={title}
+  meta_title={meta_title}
+  description={plainDescription}
+  image={image}
+  canonical={canonicalPath}
+  lang={lang}
+  jsonLd={alternativeJsonLd}
+>
+  <AlternativeSingle
+    alternativeEntry={alternativeEntry}
+    lang={lang}
+    author={author}
+  />
+</Base>

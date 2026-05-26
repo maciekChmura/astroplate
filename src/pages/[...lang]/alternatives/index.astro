@@ -1,0 +1,61 @@
+---
+import AlternativeCard from "@/components/AlternativeCard.astro";
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import {
+  getContentDir,
+  normalizeLang,
+  supportedLang,
+} from "@/lib/utils/languageParser";
+import { ALTERNATIVES_CONTENT_FOLDER } from "@/lib/utils/alternativeRoutes";
+import PageHeader from "@/partials/PageHeader.astro";
+import { getEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const routeLang of supportedLang) {
+    const lang = normalizeLang(routeLang);
+    const contentDir = getContentDir(lang);
+    const alternativesIndex = await getEntry(
+      ALTERNATIVES_CONTENT_FOLDER,
+      `${contentDir}/-index`,
+    );
+
+    if (alternativesIndex && !alternativesIndex.data.draft) {
+      paths.push({
+        params: { lang: routeLang || undefined },
+        props: { alternativesIndex, lang },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { alternativesIndex, lang } = Astro.props;
+const alternatives = await getSinglePage(ALTERNATIVES_CONTENT_FOLDER, lang);
+---
+
+<Base
+  title={alternativesIndex.data.title}
+  meta_title={alternativesIndex.data.meta_title}
+  description={alternativesIndex.data.description}
+  image={alternativesIndex.data.image}
+  lang={lang}
+>
+  <PageHeader title={alternativesIndex.data.title} />
+  <section class="section-sm pb-0">
+    <div class="container">
+      <div class="row justify-center">
+        {
+          alternatives.map((alternative) => (
+            <div class="mb-14 md:col-6 lg:col-4">
+              <AlternativeCard data={alternative} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>

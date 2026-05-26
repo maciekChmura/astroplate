@@ -1,6 +1,10 @@
 import { siteConfig } from "@/lib/siteConfig";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { getTaxonomy } from "@/lib/taxonomyParser.astro";
+import {
+  alternativePath,
+  alternativesIndexPath,
+} from "@/lib/utils/alternativeRoutes";
 import { audiencePath, audiencesIndexPath } from "@/lib/utils/audienceRoutes";
 import { blogPostPath } from "@/lib/utils/blogRoutes";
 import { promptPath, promptsIndexPath } from "@/lib/utils/promptRoutes";
@@ -14,6 +18,7 @@ import {
 } from "@/lib/utils/languageParser";
 
 const BLOG_FOLDER = "blog";
+const ALTERNATIVES_FOLDER = "alternatives";
 const AUDIENCES_FOLDER = "for";
 const PROMPTS_FOLDER = "prompts";
 const USE_CASES_FOLDER = "use-cases";
@@ -51,6 +56,7 @@ export async function getLocaleSwitchTargets(pathname: string) {
   const basePath = normalizePath(getPathWithoutLocale(pathname, currentLang));
 
   const blogPostSlugs = new Map<string, Set<string>>();
+  const alternativeSlugs = new Map<string, Set<string>>();
   const audienceSlugs = new Map<string, Set<string>>();
   const promptSlugs = new Map<string, Set<string>>();
   const useCaseSlugs = new Map<string, Set<string>>();
@@ -83,6 +89,20 @@ export async function getLocaleSwitchTargets(pathname: string) {
     }
 
     return regularPageSlugs.get(lang)!;
+  }
+
+  async function getAlternativeSlugs(lang: string) {
+    if (!alternativeSlugs.has(lang)) {
+      const alternatives = await getSinglePage(ALTERNATIVES_FOLDER, lang);
+      alternativeSlugs.set(
+        lang,
+        new Set(
+          alternatives.map((alternative) => stripLocaleFromId(alternative.id)),
+        ),
+      );
+    }
+
+    return alternativeSlugs.get(lang)!;
   }
 
   async function getAudienceSlugs(lang: string) {
@@ -159,6 +179,10 @@ export async function getLocaleSwitchTargets(pathname: string) {
       return slugSelector("/", normalizedLang);
     }
 
+    if (basePath === "/alternatives") {
+      return slugSelector("/alternatives", normalizedLang);
+    }
+
     if (basePath === "/blog") {
       return slugSelector("/blog", normalizedLang);
     }
@@ -194,12 +218,22 @@ export async function getLocaleSwitchTargets(pathname: string) {
     if (
       basePath === "/authors" ||
       basePath === "/categories" ||
+      basePath === "/alternatives" ||
       basePath === "/for" ||
       basePath === "/prompts" ||
       basePath === "/use-cases" ||
       basePath === "/tags"
     ) {
       return slugSelector(basePath, normalizedLang);
+    }
+
+    const alternativeMatch = basePath.match(/^\/alternatives\/([^/]+)$/);
+    if (alternativeMatch) {
+      const slug = alternativeMatch[1];
+      const slugs = await getAlternativeSlugs(normalizedLang);
+      return slugs.has(slug)
+        ? alternativePath(slug, normalizedLang)
+        : alternativesIndexPath(normalizedLang);
     }
 
     const audienceMatch = basePath.match(/^\/for\/([^/]+)$/);

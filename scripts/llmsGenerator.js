@@ -28,6 +28,7 @@ const DEFAULT_EXCLUDES = [
 // ─── URL path prefixes that are API / system routes ──────────────────────────
 const API_ROUTE_PREFIXES = ["/api/", "/_", "/cdn-cgi/"];
 const QUICKARCHVIZ_HUB_ROUTE_PREFIXES = [
+  "/alternatives",
   "/authors",
   "/blog",
   "/categories",
