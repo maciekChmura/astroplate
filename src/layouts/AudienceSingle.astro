@@ -17,6 +17,7 @@ type AudienceWorkflow = {
   title: string;
   description: string;
   link?: string;
+  label?: string;
   image?: AudienceImage;
 };
 
@@ -35,6 +36,8 @@ const {
   categories,
   tags,
   audience_label,
+  pain_points_heading,
+  workflow_heading,
   pain_points,
   workflows,
   faq,
@@ -42,8 +45,11 @@ const {
 } = audienceEntry.data;
 const translations = (await getTranslations(lang)) as Record<string, string>;
 const painPointsLabel =
-  translations.audience_pain_points || "What this helps with";
-const workflowsLabel = translations.audience_workflows || "Workflows";
+  pain_points_heading ||
+  translations.audience_pain_points ||
+  "What this helps with";
+const workflowsLabel =
+  workflow_heading || translations.audience_workflows || "Workflows";
 const relatedUseCasesLabel =
   translations.audience_related_use_cases || "Related use cases";
 const relatedPromptsLabel =
@@ -57,7 +63,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
   <div class="container">
     <div class="row justify-center">
       <article class="lg:col-10">
-        <header class="mb-14 max-w-4xl">
+        <header class="mb-14">
           <div class="mb-6 flex flex-wrap gap-2">
             <span class="rounded bg-light px-3 py-1 text-sm font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
               {audience_label}
@@ -119,8 +125,11 @@ const showMeta = Boolean(author?.name || categories.length > 0);
               <h2 class="h3 mb-6">{painPointsLabel}</h2>
               <div class="grid gap-3 sm:grid-cols-2">
                 {pain_points.map((item: string) => (
-                  <div class="rounded bg-light px-5 py-4 font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
-                    {item}
+                  <div class="rounded bg-light px-5 py-4 text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+                    <div
+                      class="content [&_p:last-child]:mb-0"
+                      set:html={markdownify(item, true)}
+                    />
                   </div>
                 ))}
               </div>
@@ -131,7 +140,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
         {
           workflows.length > 0 && (
             <section class="mb-16">
-              <h2 class="h3 mb-8 text-center">{workflowsLabel}</h2>
+              <h2 class="h3 mb-8">{workflowsLabel}</h2>
               <div class="grid gap-10">
                 {workflows.map((workflow: AudienceWorkflow, index: number) => (
                   <article class="grid items-center gap-8 border-b border-border pb-10 last:border-b-0 last:pb-0 md:grid-cols-2 dark:border-darkmode-border">
@@ -172,7 +181,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
                           class="btn btn-outline-primary btn-sm"
                           href={slugSelector(workflow.link, lang)}
                         >
-                          {workflow.title}
+                          {workflow.label || workflow.title}
                         </a>
                       )}
                     </div>
@@ -185,7 +194,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
 
         {
           hasBodyContent && (
-            <div class="content mb-16">
+            <div class="content audience-body mb-16">
               <Content />
             </div>
           )

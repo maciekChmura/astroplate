@@ -165,6 +165,7 @@ const audienceWorkflowField = z.object({
   title: z.string(),
   description: z.string(),
   link: z.string().optional(),
+  label: z.string().optional(),
   image: imageField.optional(),
 });
 
@@ -187,6 +188,8 @@ const audiencesCollection = defineCollection({
     popular: z.boolean().optional(),
     draft: z.boolean(),
     audience_label: z.string(),
+    pain_points_heading: z.string().optional(),
+    workflow_heading: z.string().optional(),
     pain_points: z.array(z.string()).default([]),
     workflows: z.array(audienceWorkflowField).default([]),
     related_use_cases: z.array(z.string()).default([]),
@@ -215,6 +218,19 @@ const featureComparisonField = z.object({
   competitor: z.string(),
   quickarchviz: z.string(),
   summary: z.string().optional(),
+});
+
+const comparisonMatrixField = z.object({
+  title: z.string().optional(),
+  columns: z.array(z.string()).min(2),
+  rows: z
+    .array(
+      z.object({
+        label: z.string(),
+        values: z.array(z.string()).min(2),
+      }),
+    )
+    .default([]),
 });
 
 const namedDescriptionField = z.object({
@@ -247,6 +263,7 @@ const alternativesCollection = defineCollection({
     best_for_competitor: z.array(z.string()).default([]),
     best_for_quickarchviz: z.array(z.string()).default([]),
     comparison_rows: z.array(comparisonRowField).default([]),
+    comparison_matrix: comparisonMatrixField.optional(),
     feature_comparison: z.array(featureComparisonField).default([]),
     pricing_comparison: z.array(namedDescriptionField).default([]),
     use_cases: z.array(namedDescriptionField).default([]),

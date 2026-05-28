@@ -19,6 +19,14 @@
     {
       "name": "Przypadki użycia",
       "url": "/use-cases"
+    },
+    {
+      "name": "Dla",
+      "url": "/for"
+    },
+    {
+      "name": "Porównanie",
+      "url": "/alternatives"
     }
   ],
   "footer": [

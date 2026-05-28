@@ -3,7 +3,7 @@
     "title": "QuickArchViz",
     "base_url": "https://quickarchviz.pl",
     "base_path": "/",
-    "trailing_slash": false,
+    "trailing_slash": true,
     "favicon": "/sites/quickarchviz/images/favicon.png",
     "logo_layout": "lockup",
     "logo": "/sites/quickarchviz/images/q-logo.svg",

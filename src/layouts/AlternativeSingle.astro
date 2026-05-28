@@ -11,6 +11,14 @@ type ComparisonRow = {
   quickarchviz: string;
 };
 
+type ComparisonMatrix = {
+  columns: string[];
+  rows: {
+    label: string;
+    values: string[];
+  }[];
+};
+
 type FeatureComparison = ComparisonRow & {
   title: string;
   summary?: string;
@@ -41,6 +49,7 @@ const {
   best_for_competitor,
   best_for_quickarchviz,
   comparison_rows,
+  comparison_matrix,
   feature_comparison,
   pricing_comparison,
   use_cases,
@@ -51,6 +60,14 @@ const {
 const translations = (await getTranslations(lang)) as Record<string, string>;
 const comparisonLabel =
   translations.alternative_quick_comparison || "Quick comparison";
+const alternativeBadgeLabel = (
+  translations.alternative_badge || "{competitor} alternative"
+).replace("{competitor}", competitor_name);
+const whatIsCompetitorLabel = (
+  translations.alternative_what_is_competitor || "What Is {competitor}?"
+).replace("{competitor}", competitor_name);
+const whatIsQuickArchVizLabel =
+  translations.alternative_what_is_quickarchviz || "What Is QuickArchViz?";
 const chooseCompetitorLabel = (
   translations.alternative_choose_competitor || "Choose {competitor} if..."
 ).replace("{competitor}", competitor_name);
@@ -63,6 +80,9 @@ const pricingComparisonLabel =
 const useCasesLabel = translations.alternative_use_cases || "Use cases";
 const commonAlternativesLabel =
   translations.alternative_common_alternatives || "Common alternatives";
+const matrixDefaultLabel =
+  translations.alternative_matrix_default || "Comparison matrix";
+const matrixFeatureLabel = translations.alternative_matrix_feature || "Feature / Vector";
 const faqLabel = translations.use_case_faq || "FAQ";
 const hasBodyContent = Boolean(alternativeEntry.body?.trim());
 const showMeta = Boolean(author?.name || categories.length > 0);
@@ -72,15 +92,15 @@ const showMeta = Boolean(author?.name || categories.length > 0);
   <div class="container">
     <div class="row justify-center">
       <article class="lg:col-10">
-        <header class="mb-14 max-w-4xl">
+        <header class="mb-12 rounded bg-light p-8 ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border lg:p-10">
           <div class="mb-6 flex flex-wrap gap-2">
-            <span class="rounded bg-light px-3 py-1 text-sm font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
-              {competitor_name} alternative
+            <span class="rounded border border-border bg-white px-3 py-1 text-sm font-medium text-text-dark dark:border-darkmode-border dark:bg-darkmode-body dark:text-darkmode-text">
+              {alternativeBadgeLabel}
             </span>
           </div>
-          <h1 set:html={markdownify(title)} class="h1 mb-5" />
+          <h1 set:html={markdownify(title)} class="h1 mb-5 max-w-5xl" />
           <p
-            class="mb-6 text-lg leading-8 text-text dark:text-darkmode-text"
+            class="mb-6 max-w-4xl text-lg leading-8 text-text dark:text-darkmode-text"
             set:html={markdownify(description)}
           />
           {
@@ -128,9 +148,17 @@ const showMeta = Boolean(author?.name || categories.length > 0);
           )
         }
 
+        {
+          hasBodyContent && (
+            <div class="content alternative-body mb-16">
+              <Content />
+            </div>
+          )
+        }
+
         <section class="mb-16 grid gap-8 md:grid-cols-2">
-          <article class="rounded bg-light p-6 dark:bg-darkmode-light">
-            <h2 class="h3 mb-4">What Is {competitor_name}?</h2>
+          <article class="rounded bg-light p-6 ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border">
+            <h2 class="h3 mb-4">{whatIsCompetitorLabel}</h2>
             <div
               class="content"
               set:html={markdownify(competitor_summary, true)}
@@ -148,8 +176,8 @@ const showMeta = Boolean(author?.name || categories.length > 0);
               )
             }
           </article>
-          <article class="rounded bg-light p-6 dark:bg-darkmode-light">
-            <h2 class="h3 mb-4">What Is QuickArchViz?</h2>
+          <article class="rounded bg-light p-6 ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border">
+            <h2 class="h3 mb-4">{whatIsQuickArchVizLabel}</h2>
             <div
               class="content"
               set:html={markdownify(quickarchviz_summary, true)}
@@ -161,7 +189,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
           comparison_rows.length > 0 && (
             <section class="mb-16">
               <h2 class="h3 mb-6">{comparisonLabel}</h2>
-              <div class="overflow-x-auto rounded bg-light dark:bg-darkmode-light">
+              <div class="overflow-x-auto rounded bg-light ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border">
                 <table class="w-full min-w-[680px] text-left">
                   <thead>
                     <tr class="border-b border-border dark:border-darkmode-border">
@@ -187,6 +215,50 @@ const showMeta = Boolean(author?.name || categories.length > 0);
           )
         }
 
+        {
+          comparison_matrix?.rows?.length > 0 && (
+            <section class="mb-16">
+              <h2 class="h3 mb-6">
+                {comparison_matrix.title || matrixDefaultLabel}
+              </h2>
+              <div class="overflow-x-auto rounded bg-light ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border">
+                <table class="w-full min-w-[780px] text-left">
+                  <thead>
+                    <tr class="border-b border-border dark:border-darkmode-border">
+                      <th class="p-4">{matrixFeatureLabel}</th>
+                      {comparison_matrix.columns.map((column: string) => (
+                        <th class="p-4">{column}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {comparison_matrix.rows.map(
+                      (row: ComparisonMatrix["rows"][number]) => (
+                        <tr class="border-b border-border last:border-b-0 dark:border-darkmode-border">
+                          <th class="p-4 align-top font-semibold text-text-dark dark:text-darkmode-text">
+                            {row.label}
+                          </th>
+                          {row.values.map((value: string, index: number) => (
+                            <td
+                              class:list={[
+                                "p-4 align-top",
+                                index === comparison_matrix.columns.length - 1 &&
+                                  "bg-white/70 font-medium text-text-dark dark:bg-darkmode-body/40 dark:text-darkmode-text",
+                              ]}
+                            >
+                              {value}
+                            </td>
+                          ))}
+                        </tr>
+                      ),
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )
+        }
+
         <section class="mb-16 grid gap-8 md:grid-cols-2">
           {
             best_for_competitor.length > 0 && (
@@ -194,7 +266,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
                 <h2 class="h3 mb-6">{chooseCompetitorLabel}</h2>
                 <div class="grid gap-3">
                   {best_for_competitor.map((item: string) => (
-                    <div class="rounded bg-light px-5 py-4 font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+                    <div class="rounded bg-light px-5 py-4 font-medium text-text-dark ring-1 ring-border dark:bg-darkmode-light dark:text-darkmode-text dark:ring-darkmode-border">
                       {item}
                     </div>
                   ))}
@@ -208,7 +280,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
                 <h2 class="h3 mb-6">{chooseQuickArchVizLabel}</h2>
                 <div class="grid gap-3">
                   {best_for_quickarchviz.map((item: string) => (
-                    <div class="rounded bg-light px-5 py-4 font-medium text-text-dark dark:bg-darkmode-light dark:text-darkmode-text">
+                    <div class="rounded bg-light px-5 py-4 font-medium text-text-dark ring-1 ring-border dark:bg-darkmode-light dark:text-darkmode-text dark:ring-darkmode-border">
                       {item}
                     </div>
                   ))}
@@ -224,7 +296,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
               <h2 class="h3 mb-8">{featureComparisonLabel}</h2>
               <div class="grid gap-6">
                 {feature_comparison.map((item: FeatureComparison) => (
-                  <article class="rounded bg-light p-6 dark:bg-darkmode-light">
+                  <article class="rounded bg-light p-6 ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border">
                     <h3 class="h4 mb-4">{item.title}</h3>
                     <div class="grid gap-4 md:grid-cols-2">
                       <div>
@@ -270,7 +342,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
               <h2 class="h3 mb-6">{useCasesLabel}</h2>
               <div class="grid gap-4 md:grid-cols-2">
                 {use_cases.map((item: NamedDescription) => (
-                  <article class="rounded bg-light p-5 dark:bg-darkmode-light">
+                  <article class="rounded bg-light p-5 ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border">
                     <h3 class="h5 mb-3">{item.title}</h3>
                     <p class="mb-0">{item.description}</p>
                   </article>
@@ -286,7 +358,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
               <h2 class="h3 mb-6">{commonAlternativesLabel}</h2>
               <div class="grid gap-4 md:grid-cols-2">
                 {common_alternatives.map((item: NamedDescription) => (
-                  <article class="rounded bg-light p-5 dark:bg-darkmode-light">
+                  <article class="rounded bg-light p-5 ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border">
                     <h3 class="h5 mb-3">{item.title}</h3>
                     <p class="mb-0">{item.description}</p>
                   </article>
@@ -297,20 +369,12 @@ const showMeta = Boolean(author?.name || categories.length > 0);
         }
 
         {
-          hasBodyContent && (
-            <div class="content mb-16">
-              <Content />
-            </div>
-          )
-        }
-
-        {
           faq.length > 0 && (
             <section class="mb-16">
               <h2 class="h3 mb-6">{faqLabel}</h2>
               <div class="grid gap-4">
                 {faq.map((item: AlternativeFaq) => (
-                  <details class="rounded bg-light p-5 dark:bg-darkmode-light">
+                  <details class="rounded bg-light p-5 ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border">
                     <summary class="cursor-pointer font-secondary text-lg font-semibold text-text-dark dark:text-darkmode-text">
                       {item.question}
                     </summary>
@@ -327,17 +391,17 @@ const showMeta = Boolean(author?.name || categories.length > 0);
 
         {
           cta?.enable && (
-            <section class="mb-10 rounded bg-gradient-to-br from-[#f8f1e7] via-[#efe2d0] to-[#d9c1a2] p-8 text-center text-[#3a332a] shadow-sm ring-1 ring-[#eadfce]">
+            <section class="mb-10 rounded bg-[#101828] p-8 text-center text-white shadow-sm ring-1 ring-[#263248]">
               {cta.title && (
-                <h2 class="h3 mb-4 text-[#3a332a]">{cta.title}</h2>
+                <h2 class="h3 mb-4 text-white">{cta.title}</h2>
               )}
               {cta.description && (
-                <p class="mx-auto mb-6 max-w-2xl text-[#5a5044]">
+                <p class="mx-auto mb-6 max-w-2xl text-white/80">
                   {cta.description}
                 </p>
               )}
               <a
-                class="btn border-[#3a332a] bg-[#3a332a] text-[#f8f1e7] hover:border-[#2a241e] hover:bg-[#2a241e] hover:text-white"
+                class="btn border-white bg-white text-[#101828] hover:border-white hover:bg-transparent hover:text-white"
                 href={slugSelector(cta.link, lang)}
               >
                 {cta.label}

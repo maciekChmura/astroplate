@@ -109,6 +109,14 @@ function getSearchableContent(data, content, group) {
       row.competitor,
       row.quickarchviz,
     ]);
+    const comparisonMatrix = [
+      data.comparison_matrix?.title,
+      ...(data.comparison_matrix?.columns || []),
+      ...((data.comparison_matrix?.rows || []).flatMap((row) => [
+        row.label,
+        ...(row.values || []),
+      ])),
+    ];
     const featureComparison = (data.feature_comparison || []).flatMap(
       (item) => [item.title, item.competitor, item.quickarchviz, item.summary],
     );
@@ -129,6 +137,7 @@ function getSearchableContent(data, content, group) {
       ...(data.best_for_competitor || []),
       ...(data.best_for_quickarchviz || []),
       ...comparisonRows,
+      ...comparisonMatrix,
       ...featureComparison,
       ...namedSections,
       ...faq,

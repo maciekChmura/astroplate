@@ -173,3 +173,47 @@
 .content :where(h2, h3) {
   scroll-margin-top: 6rem;
 }
+
+.audience-body {
+  @apply rounded bg-light p-6 md:p-8 dark:bg-darkmode-light;
+}
+
+.audience-body :where(h2) {
+  @apply mt-10 mb-4 border-l-4 border-primary pl-4 text-3xl leading-tight md:text-4xl dark:border-darkmode-primary;
+}
+
+.audience-body :where(h2:first-child) {
+  @apply mt-0;
+}
+
+.audience-body :where(p) {
+  @apply max-w-5xl leading-8;
+}
+
+.audience-body :where(h3) {
+  @apply mt-8 mb-0 rounded-t bg-body px-5 pt-5 text-xl leading-snug md:text-2xl dark:bg-darkmode-body;
+}
+
+.audience-body :where(h3 + p) {
+  @apply mt-0 rounded-b bg-body px-5 pb-5 pt-3 dark:bg-darkmode-body;
+}
+
+.alternative-body {
+  @apply rounded bg-light p-6 ring-1 ring-border md:p-8 dark:bg-darkmode-light dark:ring-darkmode-border;
+}
+
+.alternative-body :where(h2) {
+  @apply mt-10 mb-4 border-l-4 border-primary pl-4 text-3xl leading-tight md:text-4xl dark:border-darkmode-primary;
+}
+
+.alternative-body :where(h2:first-child) {
+  @apply mt-0;
+}
+
+.alternative-body :where(p, li) {
+  @apply leading-8;
+}
+
+.alternative-body :where(ul) {
+  @apply rounded bg-body p-5 dark:bg-darkmode-body;
+}

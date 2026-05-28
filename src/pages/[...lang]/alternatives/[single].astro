@@ -13,6 +13,7 @@ import {
   normalizeLang,
   stripLocaleFromId,
   supportedLang,
+  getTranslations,
 } from "@/lib/utils/languageParser";
 import { withSiteMountPath } from "@/lib/utils/mountPath";
 import { plainify } from "@/lib/utils/textConverter";
@@ -48,6 +49,7 @@ const {
   tags,
   competitor_name,
   comparison_rows,
+  comparison_matrix,
   feature_comparison,
   use_cases,
   common_alternatives,
@@ -72,10 +74,25 @@ const author = await getAuthorProfile({
   authorSlug: alternativeEntry.data.author,
   siteUrl,
 });
+const translations = (await getTranslations(lang)) as Record<string, string>;
+const alternativesBreadcrumbLabel =
+  translations.alternatives_breadcrumb || "Alternatives";
 const relatedItems = [
   ...comparison_rows.map((row) => ({
     name: row.label,
     description: `${competitor_name}: ${row.competitor} QuickArchViz: ${row.quickarchviz}`,
+  })),
+  ...(comparison_matrix?.title
+    ? [
+        {
+          name: comparison_matrix.title,
+          description: comparison_matrix.columns.join(" "),
+        },
+      ]
+    : []),
+  ...(comparison_matrix?.rows || []).map((row) => ({
+    name: row.label,
+    description: row.values.join(" "),
   })),
   ...feature_comparison.map((item) => ({
     name: item.title,
@@ -117,7 +134,7 @@ const alternativeJsonLd = [
       {
         "@type": "ListItem",
         position: 1,
-        name: "Alternatives",
+        name: alternativesBreadcrumbLabel,
         item: indexUrl,
       },
       {

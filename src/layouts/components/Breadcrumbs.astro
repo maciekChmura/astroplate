@@ -1,13 +1,26 @@
 ---
 import { humanize } from "@/lib/utils/textConverter";
 import { withSiteMountPath } from "@/lib/utils/mountPath";
+import { getTranslations, normalizeLang } from "@/lib/utils/languageParser";
 
 const { className }: { className?: string } = Astro.props;
+const lang = normalizeLang(Astro.currentLocale);
+const translations = (await getTranslations(lang)) as Record<string, string>;
+
+const breadcrumbLabels: Record<string, string> = {
+  home: translations.breadcrumb_home || "Home",
+  for: translations.breadcrumb_for || "For",
+};
+
+const getBreadcrumbLabel = (label: string) => {
+  const normalizedLabel = label.replace(".html", "").replace(/[-_]/g, " ");
+  return breadcrumbLabels[normalizedLabel] || humanize(normalizedLabel) || "";
+};
 
 const paths = Astro.url.pathname.split("/").filter((x) => x);
 let parts = [
   {
-    label: "Home",
+    label: getBreadcrumbLabel("home"),
     href: withSiteMountPath("/"),
     "aria-label": Astro.url.pathname === "/" ? "page" : undefined,
   },
@@ -17,7 +30,7 @@ paths.forEach((label: string, i: number) => {
   const href = `/${paths.slice(0, i + 1).join("/")}`;
   label !== "page" &&
     parts.push({
-      label: humanize(label.replace(".html", "").replace(/[-_]/g, " ")) || "",
+      label: getBreadcrumbLabel(label),
       href: withSiteMountPath(href),
       "aria-label": Astro.url.pathname === href ? "page" : undefined,
     });
