@@ -27,14 +27,14 @@ workflows:
     description: "Use visual direction studies to test warm modern, organic, neutral, or more dramatic interior moods before the design team spends time polishing one direction."
     link: "/use-cases/interior-visualization-from-screenshot"
     image:
-      src: "/sites/quickarchviz/images/ui_interior_glamour_neutral.jpeg"
+      src: "/sites/quickarchviz/images/ui_interior_glamour_neutral.webp"
       alt: "Neutral glamour interior visualization style thumbnail"
   - title: "Help clients feel the space with short walkthrough videos"
     description: "Turn a still visualization into a subtle architectural video that shows mood, scale, and spatial flow — ideal for client meetings, concept presentations, and faster project approval."
     link: "/use-cases/architectural-walkthrough-video"
     label: "Create a walkthrough video"
     image:
-      src: "/sites/quickarchviz/images/video.png"
+      src: "/sites/quickarchviz/images/video.webp"
       alt: "Walkthrough video preview generated from an interior visualization"
 related_use_cases:
   - "interior-visualization-from-screenshot"

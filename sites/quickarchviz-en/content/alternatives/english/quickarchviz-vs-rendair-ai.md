@@ -2,7 +2,7 @@
 title: "QuickArchViz vs Rendair AI: Which AI Rendering Workflow Is Better for Professional Architects?"
 description: "Compare QuickArchViz and Rendair AI for AI architectural rendering, geometry preservation, fixed camera views, client presentations, iteration costs, and professional studio workflows."
 meta_title: "QuickArchViz vs Rendair AI: AI Rendering for Professional Architects"
-image: "/sites/quickarchviz/images/rendair_vs_quickarchviz.png"
+image: "/sites/quickarchviz/images/rendair_vs_quickarchviz.webp"
 categories: ["alternatives"]
 tags: ["quickarchviz-vs-rendair-ai", "rendair-ai-alternative", "ai-rendering-for-architecture", "architectural-rendering-software", "render-from-sketchup-screenshot", "render-from-revit-screenshot"]
 author: "jowita-chmura"
@@ -140,7 +140,7 @@ QuickArchViz takes a different approach. It is not designed as a generalized cre
 ### 1. Geometry Preservation vs Multi-Tool Complexity
 A common challenge with broad AI rendering assistants is that generative models can interpret technical lines as flexible artwork. Structural lines, window mullions, roof pitches, or vertical columns may need extra checking before the output is ready for a formal client deck.
 
-![Geometry preservation comparison](/sites/quickarchviz/images/preserve-geometry.png)
+![Geometry preservation comparison](/sites/quickarchviz/images/preserve-geometry.webp)
 
 Rendair AI offers a wide sandbox of tools, including generation, editing, upscaling, and image modification workflows. That breadth is useful during exploration, but switching between tools can slow production when the team needs one reliable, high-quality image under a tight deadline.
 
@@ -169,7 +169,7 @@ QuickArchViz is built for active production, tight deadlines, and client deliver
 ## Screenshot-to-Presentation Pipeline
 The QuickArchViz pipeline eliminates manual texturing and complex lighting setup through a streamlined process.
 
-![Screenshot-to-presentation pipeline](/sites/quickarchviz/images/simple-ai-visualisation.png)
+![Screenshot-to-presentation pipeline](/sites/quickarchviz/images/simple-ai-visualisation.webp)
 
 ### Step 1: Capture Your View
 Take a clean screenshot of your active work viewport inside Revit, SketchUp, Rhino, ArchiCAD, Blender, or another modeling tool. You can also scan a hand-drawn sketch.

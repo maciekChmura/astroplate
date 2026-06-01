@@ -2,7 +2,7 @@
 title: "QuickArchViz for Architecture Students"
 description: "Generate Jury-Ready Project Previews Directly From Your Viewport in Under 60 Seconds. Stop losing sleep over crash-prone rendering engines at 3 AM. Use an AI platform built to keep your original model geometry unchanged while instantly upgrading your lighting, materials, and atmosphere."
 meta_title: "QuickArchViz for Architecture Students | AI Rendering for Studio and Portfolio Work"
-image: "/sites/quickarchviz/images/AI_Portfolio_for_students.png"
+image: "/sites/quickarchviz/images/AI_Portfolio_for_students.webp"
 categories: ["Architecture education"]
 tags: ["ai-rendering-for-students", "architecture-portfolio", "studio-presentation", "concept-visualization"]
 author: "jowita-chmura"
@@ -42,7 +42,7 @@ workflows:
     link: "/use-cases/hand-sketch-to-ai-visualization"
     label: "Create a concept visual"
     image:
-      src: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.png"
+      src: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.webp"
       alt: "AI architectural visualization generated from a student sketch"
       caption: "Sketch-based visuals help explain intent during studio critique."
   - title: "Improve rough model views for portfolio storytelling"
@@ -57,7 +57,7 @@ workflows:
     link: "/use-cases/architectural-walkthrough-video"
     label: "Create a walkthrough video"
     image:
-      src: "/sites/quickarchviz/images/Video-waklthrough.png"
+      src: "/sites/quickarchviz/images/Video-waklthrough.webp"
       alt: "Architectural walkthrough video preview generated from a student visualization"
 related_use_cases:
   - "hand-sketch-to-ai-visualization"

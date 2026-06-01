@@ -1,7 +1,7 @@
 ---
 title: "Documentation as a Project Deliverable"
 description: "Plan architectural documentation as a managed deliverable across every project phase."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Delivery And Handover"]
 tags: ["documentation","delivery","quality-control"]
 popular: false

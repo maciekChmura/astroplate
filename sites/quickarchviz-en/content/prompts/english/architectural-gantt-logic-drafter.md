@@ -1,7 +1,7 @@
 ---
 title: "Architectural Gantt Logic Drafter"
 description: "Convert architectural scope into a schedule-ready task list with dependencies."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budget And Schedule"]
 tags: ["schedule","gantt","project-management"]
 popular: false

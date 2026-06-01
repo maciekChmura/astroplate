@@ -2,7 +2,7 @@
 title: "AI vs V-Ray vs Lumion: Które narzędzie do renderingu wybrać w 2026 roku?"
 description: "Porównanie QuickArchViz, V-Ray, Corona, Lumion i D5 Render według fazy projektu, szybkości pracy, wymagań sprzętowych, kosztu iteracji i kontroli geometrii."
 meta_title: "AI vs V-Ray vs Lumion | Porównanie QuickArchViz 2026"
-image: "/sites/quickarchviz/images/vray-lumion-quickqrchviz.png"
+image: "/sites/quickarchviz/images/vray-lumion-quickqrchviz.webp"
 categories: ["porownania"]
 tags: ["ai-vs-vray", "ai-vs-lumion", "rendering-architektoniczny", "quickarchviz", "narzedzia-do-renderingu"]
 author: "jowita-chmura"

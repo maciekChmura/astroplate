@@ -3,7 +3,7 @@
 banner:
   title: "The AI Knowledge Hub for Architects"
   content: "Poznaj praktyczne workflow AI dla architektów, a potem stwórz swoją pierwszą wizualizację w QuickArchViz."
-  image: "/sites/quickarchviz/images/banner.png"
+  image: "/sites/quickarchviz/images/banner.webp"
   button:
     enable: true
     label: "Stwórz pierwszą wizualizację"
@@ -12,7 +12,7 @@ banner:
 # Features
 features:
   - title: "What's Included in QuickArchViz"
-    image: "/sites/quickarchviz/images/service-1.png"
+    image: "/sites/quickarchviz/images/service-1.webp"
     content: "QuickArchViz is a comprehensive starter template that includes everything you need to get started with your Astro project. What's Included in QuickArchViz"
     bulletpoints:
       - "10+ Pre-build pages"
@@ -27,7 +27,7 @@ features:
       link: "#"
 
   - title: "Discover the Key Features Of Astro"
-    image: "/sites/quickarchviz/images/service-2.png"
+    image: "/sites/quickarchviz/images/service-2.webp"
     content: "Astro is an all-in-one web framework for building fast, content-focused websites. It offers a range of exciting features for developers and website creators. Some of the key features are:"
     bulletpoints:
       - "Zero JS, by default: No JavaScript runtime overhead to slow you down."
@@ -39,7 +39,7 @@ features:
       link: "https://github.com/zeon-studio/astroplate"
 
   - title: "The Top Reasons to Choose Astro for Your Next Project"
-    image: "/sites/quickarchviz/images/service-3.png"
+    image: "/sites/quickarchviz/images/service-3.webp"
     content: "With Astro, you can build modern and content-focused websites without sacrificing performance or ease of use."
     bulletpoints:
       - "Instantly load static sites for better user experience and SEO."

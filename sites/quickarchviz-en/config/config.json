@@ -4,7 +4,7 @@
     "base_url": "https://quickarchviz.com",
     "base_path": "/",
     "trailing_slash": true,
-    "favicon": "/sites/quickarchviz/images/favicon.png",
+    "favicon": "/sites/quickarchviz/images/favicon.webp",
     "logo_layout": "lockup",
     "logo": "/sites/quickarchviz/images/q-logo.svg",
     "logo_darkmode": "/sites/quickarchviz/images/q-logo.svg",
@@ -57,7 +57,7 @@
   "metadata": {
     "meta_author": "QuickArchViz",
     "default_author": "jowita-chmura",
-    "meta_image": "/sites/quickarchviz/images/og-image.png",
+    "meta_image": "/sites/quickarchviz/images/og-image.webp",
     "meta_description": "QuickArchViz English resources"
   },
 

@@ -1,7 +1,7 @@
 ---
 title: "Scope vs Budget Impact Visualizer"
 description: "Show clients how a design change affects budget, schedule, and coordination effort."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budget And Schedule"]
 tags: ["budget","scope-control","client-communication"]
 popular: false

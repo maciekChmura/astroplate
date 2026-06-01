@@ -1,7 +1,7 @@
 ---
 title: "Final Architectural Handover Checklist (WBS)"
 description: "Generate a WBS-style final handover checklist for architectural project closeout."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Delivery And Handover"]
 tags: ["handover","closeout","checklists"]
 popular: false

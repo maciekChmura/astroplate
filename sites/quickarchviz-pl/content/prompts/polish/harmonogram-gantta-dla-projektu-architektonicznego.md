@@ -1,7 +1,7 @@
 ---
 title: "Generator logiki Gantta dla projektu architektonicznego"
 description: "Zamień zakres architektoniczny w listę zadań gotową do harmonogramu z zależnościami."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budżet i harmonogram"]
 tags: ["harmonogram", "gantt", "zarzadzanie-projektem"]
 keywords:

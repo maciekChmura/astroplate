@@ -2,7 +2,7 @@
 title: "QuickArchViz vs V-Ray: Which Rendering Workflow Is Better for Fast Architectural Visualisations?"
 description: "Compare QuickArchViz and V-Ray for architectural visualisations, client presentations, concept renders, and fast design iteration. Learn when to use AI rendering and when V-Ray is still the better choice."
 meta_title: "QuickArchViz vs V-Ray: AI Rendering vs Traditional Archviz Workflow"
-image: "/sites/quickarchviz/images/v-ray_vs_quickarchviz.png"
+image: "/sites/quickarchviz/images/v-ray_vs_quickarchviz.webp"
 categories: ["alternatives"]
 tags: ["quickarchviz-vs-vray", "v-ray-alternative", "ai-rendering-for-architecture", "architectural-visualisation-software", "fast-architectural-rendering", "client-presentation-renders"]
 author: "jowita-chmura"

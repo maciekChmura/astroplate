@@ -2,7 +2,7 @@
 title: "QuickArchViz dla studentów architektury"
 description: "Generuj podglądy projektu gotowe na jury bezpośrednio z viewportu w mniej niż 60 sekund. Przestań tracić sen przez zawieszające się silniki renderujące o 3 nad ranem. Użyj platformy AI, która zachowuje geometrię modelu, a jednocześnie poprawia światło, materiały i atmosferę."
 meta_title: "QuickArchViz dla studentów architektury | Rendering AI do studia i portfolio"
-image: "/sites/quickarchviz/images/professional-architecture-portfolio.png"
+image: "/sites/quickarchviz/images/professional-architecture-portfolio.webp"
 categories: ["Edukacja architektoniczna"]
 tags: ["rendering-ai-dla-studentow", "portfolio-architektoniczne", "prezentacja-na-studio", "wizualizacja-koncepcyjna"]
 author: "jowita-chmura"
@@ -42,7 +42,7 @@ workflows:
     link: "/use-cases/wizualizacja-ze-szkicu-odrecznego"
     label: "Utwórz wizualizację koncepcyjną"
     image:
-      src: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.png"
+      src: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.webp"
       alt: "Wizualizacja AI wygenerowana ze szkicu studenckiego"
       caption: "Wizualizacje ze szkicu pomagają tłumaczyć intencję podczas krytyki na studio."
   - title: "Popraw surowe widoki modelu do portfolio"
@@ -57,7 +57,7 @@ workflows:
     link: "/use-cases/video-z-wizualizacji-architektonicznej"
     label: "Utwórz walkthrough video"
     image:
-      src: "/sites/quickarchviz/images/Video-waklthrough.png"
+      src: "/sites/quickarchviz/images/Video-waklthrough.webp"
       alt: "Podgląd architektonicznego walkthrough video wygenerowanego z wizualizacji studenckiej"
 related_use_cases:
   - "wizualizacja-ze-szkicu-odrecznego"

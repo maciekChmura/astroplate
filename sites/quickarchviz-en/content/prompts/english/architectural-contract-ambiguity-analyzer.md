@@ -1,7 +1,7 @@
 ---
 title: "Architectural Contract Ambiguity Analyzer"
 description: "Flag ambiguous architectural contract language before it becomes a scope dispute."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Contracts And Scope"]
 tags: ["contracts","scope-control","risk"]
 popular: false

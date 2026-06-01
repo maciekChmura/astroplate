@@ -1,7 +1,7 @@
 ---
 title: "Planowanie scenariuszy w projekcie architektonicznym"
 description: "Zbuduj scenariusz optymistyczny, realistyczny i pesymistyczny dla niepewności projektowej."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Zarządzanie ryzykiem"]
 tags: ["planowanie-scenariuszy", "ryzyko", "harmonogram"]
 keywords:

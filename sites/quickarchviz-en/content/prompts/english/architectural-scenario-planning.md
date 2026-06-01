@@ -1,7 +1,7 @@
 ---
 title: "Architectural Scenario Planning (What-if)"
 description: "Build optimistic, realistic, and worst-case delivery scenarios for project uncertainty."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Risk Management"]
 tags: ["scenario-planning","risk","schedule"]
 popular: false

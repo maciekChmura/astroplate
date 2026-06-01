@@ -1,7 +1,7 @@
 ---
 title: "Dokumentacja jako deliverable projektu"
 description: "Zaplanuj dokumentację architektoniczną jako zarządzany deliverable przez wszystkie fazy projektu."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Dostarczenie i handover"]
 tags: ["dokumentacja", "dostarczanie", "kontrola-jakosci"]
 keywords:

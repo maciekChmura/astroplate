@@ -1,7 +1,7 @@
 ---
 title: "Odpowiedź deeskalująca dla zdenerwowanego klienta"
 description: "Przygotuj spokojną odpowiedź do zdenerwowanego klienta, zachowując kontrolę nad projektem."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Komunikacja z klientem"]
 tags: ["komunikacja-z-klientem", "konflikt", "ryzyko"]
 keywords:

@@ -2,7 +2,7 @@
 title: "Porównania QuickArchViz"
 description: "Porównaj QuickArchViz z popularnymi narzędziami do renderingu architektonicznego i wybierz workflow dopasowany do etapu projektu."
 meta_title: "Porównania narzędzi do renderingu | QuickArchViz"
-image: "/sites/quickarchviz/images/vray-lumion-quickqrchviz.png"
+image: "/sites/quickarchviz/images/vray-lumion-quickqrchviz.webp"
 categories: ["porownania"]
 tags: ["quickarchviz", "rendering-ai", "wizualizacja-architektoniczna"]
 author: "jowita-chmura"

@@ -5,7 +5,7 @@ description: |
 
   **Rendering AI pomaga architektom szybciej prezentować pomysły, jaśniej tłumaczyć intencję projektową i podejmować lepsze decyzje wizualne z klientami.**
 meta_title: "QuickArchViz dla architektów | Rendering AI do przeglądów projektowych"
-image: "/sites/quickarchviz/images/AI-for-Architects.png"
+image: "/sites/quickarchviz/images/AI-for-Architects.webp"
 categories: ["Zespoły architektoniczne"]
 tags: ["rendering-ai-dla-architektow", "wizualizacja-architektoniczna", "prezentacje-dla-klienta", "projekt-koncepcyjny"]
 author: "jowita-chmura"
@@ -44,14 +44,14 @@ workflows:
     description: "Prześlij szkic lub screenshot prostego modelu i użyj QuickArchViz, aby dodać światło, kierunek materiałowy, kontekst i atmosferę bez utraty głównych proporcji."
     link: "/use-cases/wizualizacja-zewnetrzna-ze-screenshotu"
     image:
-      src: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.png"
+      src: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.webp"
       alt: "Wizualizacja architektoniczna AI wygenerowana ze szkicu"
       caption: "Prosta analiza bryłowa może stać się czytelniejszym materiałem do rozmowy przed finalnym renderingiem."
   - title: "Testuj warianty materiałowe i pomagaj klientom szybciej podejmować decyzje."
     description: "Szybko porównuj wykończenia, kolory i materiały, aby klient rozumiał warianty i podejmował decyzje z większą pewnością."
     link: "/use-cases/definiowanie-materialow"
     image:
-      src: "/sites/quickarchviz/images/use-cases/different-material-options.png"
+      src: "/sites/quickarchviz/images/use-cases/different-material-options.webp"
       alt: "Różne warianty materiałowe elewacji wygenerowane przez AI"
   - title: "Pomóż klientom poczuć przestrzeń dzięki krótkim filmom walkthrough"
     description: "Zamień statyczną wizualizację w subtelne wideo architektoniczne pokazujące nastrój, skalę i przepływ przestrzeni, idealne na spotkania z klientem i szybsze akceptacje."

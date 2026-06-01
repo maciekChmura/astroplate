@@ -1,7 +1,7 @@
 ---
 title: "Raport wpływu opóźnionej decyzji klienta"
 description: "Wyjaśnij, jak zaległa decyzja klienta wpływa na harmonogram, honorarium i deliverables."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Komunikacja z klientem"]
 tags: ["komunikacja-z-klientem", "blokery", "harmonogram"]
 keywords:

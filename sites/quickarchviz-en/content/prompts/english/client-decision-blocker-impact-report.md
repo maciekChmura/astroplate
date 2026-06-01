@@ -1,7 +1,7 @@
 ---
 title: "Client Decision Blocker Impact Report"
 description: "Explain how an overdue client decision affects schedule, fees, and deliverables."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Client Communication"]
 tags: ["client-communication","blockers","schedule"]
 popular: false

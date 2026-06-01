@@ -1,7 +1,7 @@
 ---
 title: "Profesjonalna odpowiedź na scope creep w projekcie architektonicznym"
 description: "Odpowiedz na prośby poza zakresem, proponując formalną ścieżkę dalszych działań."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Umowy i zakres"]
 tags: ["kontrola-zakresu", "komunikacja-z-klientem", "change-request"]
 keywords:

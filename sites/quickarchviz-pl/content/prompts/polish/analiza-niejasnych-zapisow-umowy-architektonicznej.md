@@ -1,7 +1,7 @@
 ---
 title: "Analiza niejasności w umowie architektonicznej"
 description: "Wychwyć niejednoznaczne zapisy umowy, zanim staną się sporem o zakres."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Umowy i zakres"]
 tags: ["umowy", "kontrola-zakresu", "ryzyko"]
 keywords:

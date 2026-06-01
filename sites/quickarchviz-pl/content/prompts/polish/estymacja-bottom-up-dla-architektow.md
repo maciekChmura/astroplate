@@ -1,7 +1,7 @@
 ---
 title: "Szablon estymacji bottom-up dla zespołów architektonicznych"
 description: "Stwórz estymację nakładu pracy dla architektów i konsultantów."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budżet i harmonogram"]
 tags: ["estymacja", "zasoby", "honorarium"]
 keywords:

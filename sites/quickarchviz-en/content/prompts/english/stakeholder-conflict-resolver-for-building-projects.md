@@ -1,7 +1,7 @@
 ---
 title: "Stakeholder Conflict Resolver for Building Projects"
 description: "Structure stakeholder disagreements into a fair architectural decision process."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Stakeholder Management"]
 tags: ["stakeholders","decision-making","meetings"]
 popular: false

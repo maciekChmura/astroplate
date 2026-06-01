@@ -47,22 +47,22 @@ style_selection:
     - title: "Clean Daylight"
       description: "A neutral, bright style for clear concept presentations."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.webp"
         alt: "Clean Daylight architectural visualization style thumbnail"
     - title: "Golden Hour"
       description: "Warm light for a more emotional investor presentation."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.webp"
         alt: "Golden Hour architectural visualization style thumbnail"
     - title: "Evening Glow"
       description: "An evening mood with stronger lighting and atmosphere."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.webp"
         alt: "Evening Glow architectural visualization style thumbnail"
     - title: "Overcast"
       description: "A calm, cloudy style for evaluating materials without harsh contrast."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.webp"
         alt: "Overcast architectural visualization style thumbnail"
 result:
   title: "Receive a Presentation-Ready Visualization"

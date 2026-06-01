@@ -46,22 +46,22 @@ style_selection:
     - title: "Clean Daylight"
       description: "A neutral style for clearly showing the building mass and facade."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.webp"
         alt: "Clean Daylight style for architecture visualization from a sketch"
     - title: "Golden Hour"
       description: "Warm light for investor presentations and emotional project storytelling."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.webp"
         alt: "Golden Hour style for fast exterior rendering"
     - title: "Evening Glow"
       description: "Evening atmosphere with highlighted facade lighting."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.webp"
         alt: "Evening Glow style for building facade visualization"
     - title: "Overcast"
       description: "A calm cloudy option for material and proportion review."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.webp"
         alt: "Overcast style for public architecture visualization"
 result:
   title: "Receive a 4K Visualization and Video"

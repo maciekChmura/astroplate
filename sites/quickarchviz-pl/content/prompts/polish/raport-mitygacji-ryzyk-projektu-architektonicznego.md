@@ -1,7 +1,7 @@
 ---
 title: "Raport postępu mitygacji ryzyk w projekcie architektonicznym"
 description: "Stwórz raport pokazujący, jak ryzyka projektu architektonicznego są kontrolowane."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Zarządzanie ryzykiem"]
 tags: ["ryzyko", "raportowanie", "zarzadzanie-projektem"]
 keywords:

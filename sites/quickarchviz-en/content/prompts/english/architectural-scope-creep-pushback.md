@@ -1,7 +1,7 @@
 ---
 title: "Architectural Scope Creep Pushback"
 description: "Respond professionally to out-of-scope requests while offering a formal path forward."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Contracts And Scope"]
 tags: ["scope-control","client-communication","change-requests"]
 popular: true

@@ -2,7 +2,7 @@
 title: "Best AI Tools for Architectural Rendering (2026)"
 description: "Discover how architects use AI to turn sketches, BIM models, and CAD screenshots into photorealistic renders in minutes. Learn which AI rendering tools matter in 2026, where traditional rendering still wins, and how modern firms combine both workflows."
 date: 2026-05-12T11:00:00Z
-image: "/sites/quickarchviz/images/AI-prompt-for-architects.png"
+image: "/sites/quickarchviz/images/AI-prompt-for-architects.webp"
 categories: ["AI in Architecture", "Architectural Visualization"]
 tags: ["AI rendering", "Architectural rendering", "QuickArchViz", "Midjourney", "Veras", "SketchUp Diffusion", "BIM visualization"]
 draft: false

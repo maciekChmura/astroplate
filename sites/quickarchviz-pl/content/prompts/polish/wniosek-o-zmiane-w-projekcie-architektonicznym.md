@@ -1,7 +1,7 @@
 ---
 title: "Projekt formalnego Change Request w architekturze"
 description: "Zamień nieformalną zmianę projektową lub zakresową w formalny wniosek o zmianę."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Zarządzanie zmianą"]
 tags: ["change-request", "kontrola-zakresu", "komunikacja-z-klientem"]
 keywords:

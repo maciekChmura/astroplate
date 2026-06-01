@@ -1,7 +1,7 @@
 ---
 title: "Generator kompletnej checklisty projektu architektonicznego"
 description: "Wygeneruj checklistę projektu architektonicznego faza po fazie z luźnych notatek."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Zarządzanie projektem"]
 tags: ["zarzadzanie-projektem", "checklisty", "dostarczanie"]
 keywords:

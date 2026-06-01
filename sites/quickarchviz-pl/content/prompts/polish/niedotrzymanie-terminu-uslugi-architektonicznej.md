@@ -1,7 +1,7 @@
 ---
 title: "Powiadomienie o niedotrzymaniu zobowiązania w dostarczaniu usług architektonicznych"
 description: "Przygotuj spokojne powiadomienie o przekroczonym terminie lub niespełnionym zobowiązaniu usługowym."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Umowy i zakres"]
 tags: ["poziomy-uslug", "umowy", "komunikacja"]
 keywords:

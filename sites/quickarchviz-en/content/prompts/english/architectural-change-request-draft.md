@@ -1,7 +1,7 @@
 ---
 title: "Architectural Change Request Draft"
 description: "Turn an informal design or scope change into a formal architectural change request."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Change Management"]
 tags: ["change-requests","scope-control","client-communication"]
 popular: false

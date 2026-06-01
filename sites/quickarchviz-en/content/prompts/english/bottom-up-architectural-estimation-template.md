@@ -1,7 +1,7 @@
 ---
 title: "Bottom-Up Architectural Estimation Template"
 description: "Create a deliverable-based effort estimate for architecture teams and consultants."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budget And Schedule"]
 tags: ["estimation","resourcing","fees"]
 popular: false

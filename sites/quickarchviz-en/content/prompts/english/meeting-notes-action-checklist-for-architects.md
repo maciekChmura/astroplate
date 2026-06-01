@@ -1,7 +1,7 @@
 ---
 title: "Meeting Notes Action Checklist for Architects"
 description: "Turn messy architecture project meeting notes into a clear action checklist with owners, deadlines, dependencies, and open questions."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Meeting workflows"]
 tags: ["meetings", "checklists", "project-management"]
 popular: true

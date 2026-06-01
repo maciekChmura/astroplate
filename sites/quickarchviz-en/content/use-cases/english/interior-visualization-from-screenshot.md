@@ -2,7 +2,7 @@
 title: "How to Create a Photorealistic Interior Visualization from a Model Screenshot"
 description: "Create photorealistic interior visualizations without render farms, expensive workstations, or hours spent setting materials and lighting. Upload a screenshot or sketch and QuickArchViz generates a presentation-ready image in your chosen style."
 meta_title: "Interior Visualization from Screenshot | QuickArchViz"
-image: "/sites/quickarchviz/images/styles/ui_interior_modern_organic.jpeg"
+image: "/sites/quickarchviz/images/styles/ui_interior_modern_organic.webp"
 categories: ["Rendering AI", "Interior visualization"]
 tags:
   [
@@ -56,7 +56,7 @@ result:
     * Top quality: use the Upscaler to get a sharp 4K render.
     * Ideal for AI architecture portfolios, investor presentations, and quick concept validation.
   image:
-    src: "/sites/quickarchviz/images/styles/ui_interior_modern_organic.jpeg"
+    src: "/sites/quickarchviz/images/styles/ui_interior_modern_organic.webp"
     alt: "Photorealistic AI interior visualization in Modern Organic style"
     caption: "Output: presentation-ready interior visualization."
 hero_before:
@@ -64,7 +64,7 @@ hero_before:
   alt: "Interior model screenshot before AI visualization"
   caption: "Input: simple interior model screenshot."
 hero_after:
-  src: "/sites/quickarchviz/images/styles/ui_interior_modern_organic.jpeg"
+  src: "/sites/quickarchviz/images/styles/ui_interior_modern_organic.webp"
   alt: "Photorealistic AI interior visualization in Modern Organic style"
   caption: "Output: photorealistic visualization ready for a client meeting."
 preserved:

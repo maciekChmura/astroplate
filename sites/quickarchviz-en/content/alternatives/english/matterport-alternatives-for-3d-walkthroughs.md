@@ -2,7 +2,7 @@
 title: "Best Matterport Alternatives for Selling Property Before It Is Ready to Scan"
 description: "Compare hardware-free Matterport alternatives for 3D walkthroughs, virtual tours, pre-construction marketing, mobile performance, dollhouse views, and high-volume real estate listings."
 meta_title: "Matterport Alternatives for 3D Walkthroughs | QuickArchViz"
-image: "/sites/quickarchviz/images/matterport.png"
+image: "/sites/quickarchviz/images/matterport.webp"
 categories: ["alternatives"]
 tags: ["Matterport alternatives", "3D walkthroughs", "virtual tour software", "property marketing AI tools", "real estate listing optimization", "QuickArchViz"]
 author: "jowita-chmura"

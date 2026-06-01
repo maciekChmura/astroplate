@@ -2,7 +2,7 @@
 title: "Automated 2D to 3D Floor Plan Generator: Scale Real Estate Marketing With AI"
 description: "Learn how an automated 2D to 3D floor plan generator turns flat blueprints into sales-ready property visuals, where AI automation saves time, and when manual 3D rendering is still the better choice."
 date: 2026-05-28T09:00:00Z
-image: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.png"
+image: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.webp"
 categories: ["AI in Architecture", "Architectural Visualization"]
 tags: ["automated 2D to 3D floor plan generator", "2D blueprint to 3D floor plan", "AI architecture software", "property marketing AI tools", "real estate listing optimization", "QuickArchViz"]
 draft: false

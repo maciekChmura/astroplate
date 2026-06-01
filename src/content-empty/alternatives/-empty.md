@@ -1,7 +1,7 @@
 ---
 title: "Empty alternative page"
 description: "Empty alternative fallback."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["alternatives"]
 tags: ["alternatives"]
 draft: true

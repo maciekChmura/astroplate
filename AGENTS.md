@@ -41,7 +41,7 @@
   - Polish content: `sites/quickarchviz-pl/content/.../polish/`
 - Keep language separation strict. Do not add Polish content to `quickarchviz-en`, and do not add English content to `quickarchviz-pl`.
 - Before adding or modifying content, inspect the relevant existing file or `-template.md` in the same collection and language.
-- Prefer shared QuickArchViz images in `public/sites/quickarchviz/images/` and reference them with absolute paths such as `/sites/quickarchviz/images/cover.png`.
+- Prefer shared QuickArchViz images in `public/sites/quickarchviz/images/` and reference them with absolute paths such as `/sites/quickarchviz/images/cover.webp`.
 - Do not add QuickArchViz media under the EN or PL public site roots; both language sites share the canonical `public/sites/quickarchviz/images/` root.
 - Keep generated output, `dist/`, `.astro/`, and search/LLM build artifacts out of manual content edits unless the task explicitly asks for generated files.
 

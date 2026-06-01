@@ -1,7 +1,7 @@
 ---
 title: "Architectural Budget Overrun Negotiator"
 description: "Prepare a professional client proposal for fee recovery or controlled scope reduction."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budget And Schedule"]
 tags: ["budget","fee-recovery","client-communication"]
 popular: false

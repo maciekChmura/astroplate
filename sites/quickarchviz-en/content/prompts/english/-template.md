@@ -1,7 +1,7 @@
 ---
 title: "Replace with your prompt title"
 description: "Write a clear one-sentence summary of the workflow this prompt supports."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Project phases"]
 tags: ["meetings", "checklists"]
 author: "jowita-chmura"

@@ -2,7 +2,7 @@
 title: "Hey, I am John Doe!"
 meta_title: "About"
 description: "Poznaj Johna Doe, tlo projektu oraz idee, ktore ksztaltuja publikowane artykuly."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 draft: false
 ---
 

@@ -2,7 +2,7 @@
 title: "QuickArchViz vs Lumion: Which Tool Is Better for Architectural Visualisations and Walkthroughs?"
 description: "Compare QuickArchViz and Lumion for architectural visualisations, walkthroughs, client presentations, and fast design marketing. Learn when AI rendering is faster and when Lumion is the better choice."
 meta_title: "QuickArchViz vs Lumion: AI Visualisations vs Real-Time Rendering"
-image: "/sites/quickarchviz/images/lumion-vs-quickarchviz.png"
+image: "/sites/quickarchviz/images/lumion-vs-quickarchviz.webp"
 categories: ["alternatives"]
 tags: ["quickarchviz-vs-lumion", "lumion-alternative", "ai-rendering-for-architecture", "architectural-walkthrough-software", "ai-architectural-visualisation", "fast-architectural-rendering"]
 author: "jowita-chmura"

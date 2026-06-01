@@ -2,7 +2,7 @@
 title: "Facade massing review for an early client meeting"
 description: "Use QuickArchViz to turn a simple concept massing image into a warmer architectural preview before the design is ready for full production rendering."
 meta_title: "Facade Massing Review Use Case | QuickArchViz"
-image: "/sites/quickarchviz/images/use-cases/facade-massing-after.png"
+image: "/sites/quickarchviz/images/use-cases/facade-massing-after.webp"
 categories: ["Client presentations"]
 tags: ["facade-design", "concept-review", "before-after", "ai-visualization"]
 author: "jowita-chmura"
@@ -16,7 +16,7 @@ input_example:
   description: "Upload a massing export, clay render, screenshot, or early facade view that already shows the camera angle and core proportions you want to preserve."
   accepted_formats: ["JPG", "PNG"]
   image:
-    src: "/sites/quickarchviz/images/use-cases/facade-massing-before.png"
+    src: "/sites/quickarchviz/images/use-cases/facade-massing-before.webp"
     alt: "Simple grey architectural massing model with minimal facade detail"
     caption: "Input: early massing exported before materials and atmosphere were developed."
 style_selection:
@@ -26,36 +26,36 @@ style_selection:
     - title: "Daylight"
       description: "Use this when the client needs a clearer first read of material mood, light, and scale."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.webp"
         alt: "Daylight architectural visualization style thumbnail"
     - title: "Golden Hour"
       description: "Use this when the facade needs a warmer presentation mood for an early client conversation."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.webp"
         alt: "Golden hour architectural visualization style thumbnail"
     - title: "Overcast"
       description: "Use this when the design should read clearly without dramatic light or heavy contrast."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.webp"
         alt: "Overcast architectural visualization style thumbnail"
     - title: "Evening"
       description: "Use this when the concept needs a softer dusk mood with more atmospheric depth."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.webp"
         alt: "Evening architectural visualization style thumbnail"
 result:
   title: "Review the presentation-ready result"
   description: "QuickArchViz keeps the main architectural structure visible while adding material definition, lighting, context, and atmosphere. The result becomes a faster discussion artifact before the final render package is ready."
   image:
-    src: "/sites/quickarchviz/images/use-cases/facade-massing-after.png"
+    src: "/sites/quickarchviz/images/use-cases/facade-massing-after.webp"
     alt: "Warm architectural visualization of the same facade concept with material definition and surrounding context"
     caption: "Output: QuickArchViz preview with clearer material intent, lighting, and context."
 hero_before:
-  src: "/sites/quickarchviz/images/use-cases/facade-massing-before.png"
+  src: "/sites/quickarchviz/images/use-cases/facade-massing-before.webp"
   alt: "Simple grey architectural massing model with minimal facade detail"
   caption: "Input: early massing exported before materials and atmosphere were developed."
 hero_after:
-  src: "/sites/quickarchviz/images/use-cases/facade-massing-after.png"
+  src: "/sites/quickarchviz/images/use-cases/facade-massing-after.webp"
   alt: "Warm architectural visualization of the same facade concept with material definition and surrounding context"
   caption: "Output: QuickArchViz preview with clearer material intent, lighting, and context."
 preserved:

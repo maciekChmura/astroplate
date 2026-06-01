@@ -1,7 +1,7 @@
 ---
 title: "Upward Escalation Email for Project Blockers"
 description: "Draft a factual internal escalation email for unresolved architectural project blockers."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Meetings And Communication"]
 tags: ["escalation","blockers","project-management"]
 popular: false

@@ -1,7 +1,7 @@
 ---
 title: "Negocjator przekroczenia budżetu w projekcie architektonicznym"
 description: "Przygotuj profesjonalną propozycję odzyskania budżetu lub kontrolowanego ograniczenia zakresu."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budżet i harmonogram"]
 tags: ["budzet", "odzyskanie-wynagrodzenia", "komunikacja-z-klientem"]
 keywords:

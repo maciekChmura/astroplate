@@ -1,7 +1,7 @@
 ---
 title: "Pitch zmiany kierunku projektu architektonicznego"
 description: "Przygotuj argumentację dla zmiany kierunku projektu, gdy dane pokazują, że obecna ścieżka jest słaba."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Strategia projektu"]
 tags: ["strategia", "komunikacja-z-klientem", "decyzje"]
 keywords:

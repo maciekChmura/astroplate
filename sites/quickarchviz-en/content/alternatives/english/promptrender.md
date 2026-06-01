@@ -2,7 +2,7 @@
 title: "QuickArchViz vs PromptRender: Which Is Better for Fast Architectural Visuals?"
 description: "Draft comparison of PromptRender and QuickArchViz for prompt-based rendering, architectural AI visualization, pricing, and use cases."
 meta_title: "PromptRender Alternative | QuickArchViz"
-image: "/sites/quickarchviz/images/AI-prompt-for-architects.png"
+image: "/sites/quickarchviz/images/AI-prompt-for-architects.webp"
 categories: ["alternatives"]
 tags: ["promptrender-alternative", "prompt-rendering", "ai-architecture-rendering", "quickarchviz"]
 author: "jowita-chmura"

@@ -1,7 +1,7 @@
 ---
 title: "Zastap tytulem promptu"
 description: "Napisz jednozdaniowe podsumowanie workflow, ktory wspiera ten prompt."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Etapy projektu"]
 tags: ["spotkania", "checklisty"]
 popular: false

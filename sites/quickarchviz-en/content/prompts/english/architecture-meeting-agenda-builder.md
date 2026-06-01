@@ -1,7 +1,7 @@
 ---
 title: "Architecture Meeting Agenda Builder"
 description: "Turn loose meeting topics into a focused architectural meeting agenda."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Meetings And Communication"]
 tags: ["meetings","agendas","decision-making"]
 popular: false

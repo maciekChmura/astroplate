@@ -1,7 +1,7 @@
 ---
 title: "Budget-to-Schedule Alignment Checker"
 description: "Check whether financial deadlines and architectural milestones are aligned."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budget And Schedule"]
 tags: ["budget","schedule","milestones"]
 popular: false

@@ -2,7 +2,7 @@
 title: "About QuickArchViz Knowledge Hub"
 meta_title: "About QuickArchViz Knowledge Hub"
 description: "Learn why QuickArchViz publishes practical AI, visualization, and project workflow resources for architects."
-image: "/sites/quickarchviz/images/banner.png"
+image: "/sites/quickarchviz/images/banner.webp"
 draft: false
 ---
 

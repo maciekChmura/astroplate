@@ -1,7 +1,7 @@
 ---
 enable: true
 title: "Ready to build your next project with Astro?"
-image: "/sites/quickarchviz/images/call-to-action.png"
+image: "/sites/quickarchviz/images/call-to-action.webp"
 description: "Experience the future of web development with QuickArchViz and Astro. Build lightning-fast static sites with ease and flexibility."
 button:
   enable: true

@@ -1,7 +1,7 @@
 ---
 title: "Generator agendy spotkania architektonicznego"
 description: "Zamień luźne tematy spotkania w uporządkowaną agendę projektową."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Spotkania i komunikacja"]
 tags: ["spotkania", "agendy", "decyzje"]
 keywords:

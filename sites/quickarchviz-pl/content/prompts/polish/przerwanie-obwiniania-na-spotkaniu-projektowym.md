@@ -1,7 +1,7 @@
 ---
 title: "Przerwanie szukania winnych na spotkaniach projektowych i budowlanych"
 description: "Przygotuj język, który przekierowuje trudne spotkanie z obwiniania na rozwiązania."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Spotkania i komunikacja"]
 tags: ["spotkania", "konflikt", "liderstwo-zespolu"]
 keywords:

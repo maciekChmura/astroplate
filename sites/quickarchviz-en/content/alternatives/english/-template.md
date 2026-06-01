@@ -2,7 +2,7 @@
 title: "QuickArchViz vs [Competitor]: Which Is Better for Fast Architectural Visuals?"
 description: "Compare [Competitor] and QuickArchViz for architectural visualization workflows, speed, pricing, use cases, and concept rendering needs."
 meta_title: "[Competitor] Alternative | QuickArchViz"
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["alternatives"]
 tags: ["competitor-alternative", "quickarchviz-alternative", "ai-rendering"]
 author: "jowita-chmura"

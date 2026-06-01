@@ -1,7 +1,7 @@
 ---
 title: "Architectural Project Pivot Pitch"
 description: "Build a client-ready case for changing architectural direction when evidence supports it."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Project Strategy"]
 tags: ["strategy","client-communication","decision-making"]
 popular: false

@@ -2,7 +2,7 @@
 title: "Notatki architektoniczne dla skalowalnych platform"
 description: "Przejrzyj zasady architektury platform webowych z jasnymi granicami, szybkimi stronami i miejscem na wzrost."
 date: 2022-04-04T05:00:00Z
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Architecture"]
 tags: ["silicon", "technology"]
 draft: true

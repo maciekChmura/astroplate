@@ -27,14 +27,14 @@ workflows:
     description: "Użyj szybkich studiów wizualnych, aby przetestować ciepły modernizm, organiczny minimalizm, neutralny glamour albo bardziej dramatyczny nastrój wnętrza."
     link: "/use-cases/wizualizacja-wnetrza"
     image:
-      src: "/sites/quickarchviz/images/ui_interior_glamour_neutral.jpeg"
+      src: "/sites/quickarchviz/images/ui_interior_glamour_neutral.webp"
       alt: "Miniatura wizualizacji wnętrza w neutralnym stylu glamour"
   - title: "Pomóż klientom poczuć przestrzeń dzięki krótkim filmom walkthrough"
     description: "Zamień statyczną wizualizację w subtelne wideo architektoniczne pokazujące nastrój, skalę i przepływ przestrzeni, idealne na spotkania z klientem, prezentacje koncepcji i szybszą akceptację."
     link: "/use-cases/video-z-wizualizacji-architektonicznej"
     label: "Utwórz walkthrough video"
     image:
-      src: "/sites/quickarchviz/images/video.png"
+      src: "/sites/quickarchviz/images/video.webp"
       alt: "Podgląd walkthrough video wygenerowanego z wizualizacji wnętrza"
 related_use_cases:
   - "wizualizacja-wnetrza"

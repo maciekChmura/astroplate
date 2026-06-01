@@ -1,7 +1,7 @@
 ---
 title: "Milestone Completion Forecast for Building Projects"
 description: "Forecast whether an architectural milestone can be met and what must happen next."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budget And Schedule"]
 tags: ["milestones","schedule","forecasting"]
 popular: false

@@ -1,7 +1,7 @@
 ---
 title: "Końcowa checklista projektu architektonicznego."
 description: "Wygeneruj checklistę końcowego przekazania projektu w stylu WBS."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Dostarczenie i handover"]
 tags: ["handover", "zamkniecie-projektu", "checklisty"]
 keywords:

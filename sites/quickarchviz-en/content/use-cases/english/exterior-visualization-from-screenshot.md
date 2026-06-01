@@ -54,22 +54,22 @@ style_selection:
     - title: "Clean Daylight"
       description: "A bright, neutral style for clear massing and facade presentations."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.webp"
         alt: "Clean Daylight ready style for AI exterior visualization"
     - title: "Golden Hour"
       description: "Warm light for a more emotional investor presentation."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.webp"
         alt: "Golden Hour ready style for fast architectural rendering"
     - title: "Evening Glow"
       description: "An evening mood with stronger light and atmosphere."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.webp"
         alt: "Evening Glow ready style for exterior visualization"
     - title: "Overcast"
       description: "A calm cloudy style for evaluating materials without harsh contrast."
       image:
-        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.webp"
         alt: "Overcast ready style for architectural visualization"
 result:
   title: "Refine Details Without Rebuilding the Render Scene"

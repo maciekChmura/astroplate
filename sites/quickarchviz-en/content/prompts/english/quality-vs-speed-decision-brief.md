@@ -1,7 +1,7 @@
 ---
 title: "Quality vs Speed Decision Brief"
 description: "Compare fast issue versus proper review for architectural deliverables under pressure."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Risk Management"]
 tags: ["quality-control","risk","schedule"]
 popular: false

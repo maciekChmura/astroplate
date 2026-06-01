@@ -1,7 +1,7 @@
 ---
 title: "Blame Game Interrupter for Design and Construction Meetings"
 description: "Prepare live language for redirecting blame-heavy project meetings toward resolution."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Meetings And Communication"]
 tags: ["meetings","conflict","team-leadership"]
 popular: false

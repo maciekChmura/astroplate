@@ -1,7 +1,7 @@
 ---
 title: "Service Level Breach Notification for Architecture Delivery"
 description: "Prepare a calm notice for missed architectural service commitments or deliverable dates."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Contracts And Scope"]
 tags: ["service-levels","contracts","communication"]
 popular: false

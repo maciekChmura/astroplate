@@ -1,7 +1,7 @@
 ---
 title: "Brief decyzyjny: jakość kontra szybkość"
 description: "Porównaj szybkie wydanie z pełnym przeglądem deliverables pod presją terminu."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Zarządzanie ryzykiem"]
 tags: ["kontrola-jakosci", "ryzyko", "harmonogram"]
 keywords:

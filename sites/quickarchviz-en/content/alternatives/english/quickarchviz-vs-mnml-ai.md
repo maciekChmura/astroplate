@@ -2,7 +2,7 @@
 title: "QuickArchViz vs mnml.ai: Which AI Rendering Workflow Is Better for Professional Architects?"
 description: "Compare QuickArchViz and mnml.ai for AI architectural rendering, geometry preservation, camera consistency, studio workflows, iteration costs, and professional presentation visuals."
 meta_title: "QuickArchViz vs mnml.ai: AI Rendering for Professional Architects"
-image: "/sites/quickarchviz/images/quickarchvia-vs-mnml.png"
+image: "/sites/quickarchviz/images/quickarchvia-vs-mnml.webp"
 categories: ["alternatives"]
 tags: ["quickarchviz-vs-mnml-ai", "mnml-ai-alternative", "ai-rendering-for-architecture", "architectural-visualisation-software", "screenshot-to-render", "client-presentation-renders"]
 author: "jowita-chmura"
@@ -132,7 +132,7 @@ QuickArchViz is a specialized cloud rendering workflow engineered for profession
 ### 1. Geometry Preservation vs Stylistic Fluidity
 A common challenge with generalized AI architecture rendering workflows is that generative models can interpret precise structural components as flexible visual shapes. Window mullions may soften, roof pitches may shift, or vertical columns may lose alignment if the system prioritizes style over architectural constraints.
 
-![Geometry preservation comparison](/sites/quickarchviz/images/preserve-geometry.png)
+![Geometry preservation comparison](/sites/quickarchviz/images/preserve-geometry.webp)
 
 mnml.ai is strongest when high stylistic variance is the goal. That is useful for abstract brainstorming, but professional client presentation work often needs stricter control.
 
@@ -158,7 +158,7 @@ QuickArchViz is built for the production presentation phase. When you have an ac
 ## Screenshot-to-Presentation Pipeline
 The QuickArchViz pipeline bypasses manual UV texturing and complex lighting setup through a streamlined three-step process.
 
-![Screenshot-to-presentation pipeline](/sites/quickarchviz/images/simple-ai-visualisation.png)
+![Screenshot-to-presentation pipeline](/sites/quickarchviz/images/simple-ai-visualisation.webp)
 
 ### Step 1: Capture Your View
 Take a clean screenshot of your active work viewport inside your preferred modeling software, such as Revit, SketchUp, Rhino, ArchiCAD, Blender, or another CAD/BIM tool.

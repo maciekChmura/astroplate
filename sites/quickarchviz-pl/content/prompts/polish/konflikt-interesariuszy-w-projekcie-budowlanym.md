@@ -1,7 +1,7 @@
 ---
 title: "Resolver konfliktów interesariuszy w projektach budowlanych"
 description: "Ustrukturyzuj spór interesariuszy w uczciwy proces decyzyjny."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Zarządzanie interesariuszami"]
 tags: ["interesariusze", "decyzje", "spotkania"]
 keywords:

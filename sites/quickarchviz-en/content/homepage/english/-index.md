@@ -3,7 +3,7 @@
 banner:
   title: "The AI Knowledge Hub for Architects"
   content: "Explore practical AI workflows for architects, then create your first QuickArchViz visualization when you're ready."
-  image: "/sites/quickarchviz/images/banner.png"
+  image: "/sites/quickarchviz/images/banner.webp"
   button:
     enable: true
     label: "Create your first visualization"
@@ -12,7 +12,7 @@ banner:
 # Features
 features:
   - title: "AI workflows for architecture teams"
-    image: "/sites/quickarchviz/images/service-1.png"
+    image: "/sites/quickarchviz/images/service-1.webp"
     content: "Learn how to use AI as a practical design and delivery assistant, from early visual direction to clearer client communication."
     bulletpoints:
       - "Prompting guides written for architectural work"
@@ -25,7 +25,7 @@ features:
       link: "/blog"
 
   - title: "Prompt library for project delivery"
-    image: "/sites/quickarchviz/images/service-2.png"
+    image: "/sites/quickarchviz/images/service-2.webp"
     content: "Use reusable prompts to turn messy inputs into structured architectural deliverables, checklists, reports, and stakeholder updates."
     bulletpoints:
       - "Meeting notes to action lists"
@@ -38,7 +38,7 @@ features:
       link: "/prompts"
 
   - title: "Visualize architecture faster"
-    image: "/sites/quickarchviz/images/service-3.png"
+    image: "/sites/quickarchviz/images/service-3.webp"
     content: "QuickArchViz helps architects turn sketches, references, and early design ideas into stronger visual stories without waiting for a full production render."
     bulletpoints:
       - "Explore facade, interior, and massing directions"

@@ -5,7 +5,7 @@ description: |
 
   **AI rendering helps architects present ideas faster, explain design intent more clearly, and make better visual decisions with clients.**
 meta_title: "QuickArchViz for Architects | AI Rendering for Design Reviews"
-image: "/sites/quickarchviz/images/AI-for-Architects.png"
+image: "/sites/quickarchviz/images/AI-for-Architects.webp"
 categories: ["Architecture teams"]
 tags: ["ai-rendering-for-architects", "architecture-visualization", "client-presentations", "concept-design"]
 author: "jowita-chmura"
@@ -44,14 +44,14 @@ workflows:
     description: "Upload sketch or screenshot of simple model and use QuickArchViz to add lighting, material direction, context, and atmosphere while keeping the main proportions readable."
     link: "/use-cases/facade-massing-for-client-review"
     image:
-      src: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.png"
+      src: "/sites/quickarchviz/images/use-cases/sketch_to_ai_visualisation.webp"
       alt: "AI architectural visualization generated from a sketch"
       caption: "A massing study can become a clearer discussion artifact before final rendering."
   - title: "Test material options and help clients make faster design decisions."
     description: "Quickly compare different finishes, colors, and materials so clients can understand the options and make confident decisions sooner."
     link: "/use-cases/exterior-visualization-from-screenshot"
     image:
-      src: "/sites/quickarchviz/images/use-cases/different-material-options.png"
+      src: "/sites/quickarchviz/images/use-cases/different-material-options.webp"
       alt: "Different architectural material options for a facade concept"
   - title: "Help clients feel the space with short walkthrough videos"
     description: "Turn a still visualization into a subtle architectural video that shows mood, scale, and spatial flow — ideal for client meetings, concept presentations, and faster project approval."

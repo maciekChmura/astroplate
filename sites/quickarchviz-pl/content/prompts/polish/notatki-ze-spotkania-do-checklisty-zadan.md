@@ -1,7 +1,7 @@
 ---
 title: "Notatki ze spotkania do checklisty zadan"
 description: "Zamien chaotyczne notatki projektowe w czytelna checkliste dzialan dla zespolu."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Workflow spotkan"]
 tags: ["spotkania", "checklisty", "zarzadzanie-projektem"]
 keywords:

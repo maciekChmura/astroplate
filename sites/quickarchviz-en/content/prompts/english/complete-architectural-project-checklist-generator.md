@@ -1,7 +1,7 @@
 ---
 title: "Complete Architectural Project Checklist Generator"
 description: "Generate a phase-by-phase architectural project checklist from rough project notes."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Project Management"]
 tags: ["project-management","checklists","delivery"]
 popular: true

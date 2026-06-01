@@ -1,7 +1,7 @@
 ---
 title: "Wizualizacja wpływu zakresu na budżet"
 description: "Pokaż klientowi, jak zmiana projektowa wpływa na budżet, harmonogram i koordynację."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budżet i harmonogram"]
 tags: ["budzet", "kontrola-zakresu", "komunikacja-z-klientem"]
 keywords:

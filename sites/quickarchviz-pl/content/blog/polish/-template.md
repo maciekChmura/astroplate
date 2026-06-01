@@ -2,7 +2,7 @@
 title: "Replace with your post title"
 description: "Write a clear one-sentence summary for search and social previews."
 date: 2026-05-04T09:00:00Z
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Category"]
 tags: ["tag-one", "tag-two"]
 draft: true
@@ -24,6 +24,6 @@ Pisz zwiezle akapity, odpowiadaj na kolejne pytanie czytelnika i dodawaj linki w
 
 - Uzywaj `draft: true` podczas pisania.
 - Zmien nazwe pliku, aby kontrolowac finalny URL.
-- Trzymaj obrazy w `public/sites/quickarchviz/images/` i odwoluj sie do nich absolutnie, np. `/sites/quickarchviz/images/your-cover-image.png`.
+- Trzymaj obrazy w `public/sites/quickarchviz/images/` i odwoluj sie do nich absolutnie, np. `/sites/quickarchviz/images/your-cover-image.webp`.
 - Zastap obraz tymczasowy i opisy konkretnymi materialami dla wpisu.
 - Uzywaj kategorii jako hubow tematycznych, a tagow tylko jako przydatnych linkow krzyzowych.

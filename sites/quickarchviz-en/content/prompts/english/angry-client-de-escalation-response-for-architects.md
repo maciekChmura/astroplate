@@ -1,7 +1,7 @@
 ---
 title: "Angry Client De-escalation Response for Architects"
 description: "Draft a calm response to an angry client while protecting project control."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Client Communication"]
 tags: ["client-communication","conflict","risk"]
 popular: false

@@ -1,7 +1,7 @@
 ---
 title: "Mail eskalacyjny do przełożonych w sprawie blockerów projektu"
 description: "Przygotuj rzeczowy mail eskalacyjny dla nierozwiązanych blockerów projektu architektonicznego."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Spotkania i komunikacja"]
 tags: ["eskalacja", "blockery", "zarzadzanie-projektem"]
 keywords:

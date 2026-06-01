@@ -1,7 +1,7 @@
 ---
 title: "Prognoza ukończenia kamienia milowego w projekcie budowlanym"
 description: "Oceń, czy kamień milowy projektu architektonicznego jest osiągalny i co musi się wydarzyć dalej."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budżet i harmonogram"]
 tags: ["kamienie-milowe", "harmonogram", "prognozowanie"]
 keywords:

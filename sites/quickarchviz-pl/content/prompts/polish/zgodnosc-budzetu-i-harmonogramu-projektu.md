@@ -1,7 +1,7 @@
 ---
 title: "Sprawdzenie zgodności budżetu i harmonogramu"
 description: "Sprawdź, czy terminy finansowe i kamienie milowe projektu architektonicznego są ze sobą spójne."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Budżet i harmonogram"]
 tags: ["budzet", "harmonogram", "kamienie-milowe"]
 keywords:

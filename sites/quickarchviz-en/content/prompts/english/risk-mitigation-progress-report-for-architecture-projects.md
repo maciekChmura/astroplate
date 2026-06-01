@@ -1,7 +1,7 @@
 ---
 title: "Risk Mitigation Progress Report for Architecture Projects"
 description: "Create a progress report showing how architectural project risks are being controlled."
-image: "/sites/quickarchviz/images/image-placeholder.png"
+image: "/sites/quickarchviz/images/image-placeholder.webp"
 categories: ["Risk Management"]
 tags: ["risk","reporting","project-management"]
 popular: false
