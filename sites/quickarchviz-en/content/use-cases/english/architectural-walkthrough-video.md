@@ -2,7 +2,7 @@
 title: "Create a Walkthrough Video with One Click"
 description: "You do not need 3D animation, a powerful workstation, or video editing. Generate a short architectural film ready to show a client."
 meta_title: "AI Video from Architectural Visualization | QuickArchViz"
-image: "/sites/quickarchviz-pl/use-cases/video/generate-walkthrough-video.webp"
+image: "/sites/quickarchviz/images/use-cases/video/generate-walkthrough-video.webp"
 categories: ["Rendering AI", "Architectural video"]
 tags:
   [
@@ -32,7 +32,7 @@ input_example:
     * Professional presentation effect.
     * Ready for social media, architecture portfolios, and client meetings.
   image:
-    src: "/sites/quickarchviz-pl/use-cases/video/generate-walkthrough-video.webp"
+    src: "/sites/quickarchviz/images/use-cases/video/generate-walkthrough-video.webp"
     alt: "Generate walkthrough video button on an architectural visualization in QuickArchViz"
     caption: "From a finished visualization to an 8-second cinematic walkthrough in one click."
 faq:

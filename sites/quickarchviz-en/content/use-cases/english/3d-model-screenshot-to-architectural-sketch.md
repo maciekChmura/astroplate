@@ -2,7 +2,7 @@
 title: "Turn a Raw 3D Model into an Artistic Sketch That Sells Emotion"
 description: "Not every project needs photorealism. Use AI to give your concept an expressive architectural mood in 60 seconds, creating images that look like marker, ink, or watercolor sketches."
 meta_title: "3D Model to Architectural Sketch AI | QuickArchViz"
-image: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+image: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
 categories: ["Rendering AI", "Architectural sketch"]
 tags:
   [
@@ -32,7 +32,7 @@ input_example:
     * Your concept is ready for an early client conversation.
   accepted_formats: ["JPG", "PNG", "WEBP"]
   image:
-    src: "/sites/quickarchviz-pl/use-cases/sketch/3d-to-sketch.webp"
+    src: "/sites/quickarchviz/images/use-cases/sketch/3d-to-sketch.webp"
     alt: "3D architectural model screenshot prepared for AI sketch generation"
     caption: "Input: simple 3D model view with preserved geometry and perspective."
 style_selection:
@@ -47,17 +47,17 @@ style_selection:
     - title: "Marker"
       description: "A marker-style render with soft color and presentation sketch lines."
       image:
-        src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-copic.webp"
+        src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-copic.webp"
         alt: "Architectural marker sketch generated from a Revit model"
     - title: "Ink"
       description: "A clean ink sketch for technical and competition concept presentations."
       image:
-        src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-ink.webp"
+        src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-ink.webp"
         alt: "Black-and-white architectural ink sketch generated from a 3D model"
     - title: "Watercolor"
       description: "AI watercolor visualization with painterly light and mood."
       image:
-        src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+        src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
         alt: "AI watercolor visualization of a single-family house"
 result:
   title: "Get the Finished Sketch"
@@ -69,15 +69,15 @@ result:
     * 4K Upscaler: prepare the project for print, portfolio, or competition boards.
     * Use the sketch in PDFs, social media, and investor presentations.
   image:
-    src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+    src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
     alt: "AI watercolor architectural visualization ready for a client presentation"
     caption: "Output: artistic watercolor visualization ready for a concept presentation."
 hero_before:
-  src: "/sites/quickarchviz-pl/use-cases/sketch/3d-to-sketch.webp"
+  src: "/sites/quickarchviz/images/use-cases/sketch/3d-to-sketch.webp"
   alt: "Modern house 3D model before conversion into an architectural sketch"
   caption: "Input: raw 3D model view."
 hero_after:
-  src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+  src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
   alt: "Watercolor architectural sketch generated from a 3D model"
   caption: "Output: hand-drawn-looking watercolor visualization."
 preserved:

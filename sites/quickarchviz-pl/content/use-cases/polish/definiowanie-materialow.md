@@ -2,7 +2,7 @@
 title: "Jak ustawić materiały?"
 description: "Wystarczy prosty zrzut ekranu z Revita, SketchUpa lub Archicada — QuickArchViz automatycznie przygotuje fotorealistyczną wizualizację albo dzięki funkcji Advanced Mode sam możesz przypisać własne materiały na podstawie kolorów użytych w modelu. W kilka sekund otrzymasz gotowy efekt do prezentacji klientowi lub inwestorowi."
 meta_title: "Rendering AI ze screenshotu CAD/BIM | QuickArchViz Advanced Mode"
-image: "/sites/quickarchviz-pl/use-cases/material-id/modern-residence-client-render.webp"
+image: "/sites/quickarchviz/images/use-cases/material-id/modern-residence-client-render.webp"
 categories: ["Rendering AI", "Advanced Mode"]
 tags:
   [
@@ -29,7 +29,7 @@ input_example:
     * Zachowuje perspektywę i kamerę
   accepted_formats: ["JPG", "PNG", "WEBP"]
   image:
-    src: "/sites/quickarchviz-pl/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
+    src: "/sites/quickarchviz/images/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
     alt: "Kolorowy screenshot modelu 3D domu jednorodzinnego przygotowany do mapowania materiałów w QuickArchViz"
     caption: "Screenshot modelu 3D z kolorami, które mogą zostać przypisane do konkretnych materiałów."
 style_selection:
@@ -47,22 +47,22 @@ style_selection:
     - title: "Clean Daylight"
       description: "Neutralny, jasny styl do czytelnych prezentacji koncepcji."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
         alt: "Miniatura stylu Clean Daylight dla wizualizacji architektonicznej"
     - title: "Golden Hour"
       description: "Ciepłe światło dla bardziej emocjonalnej prezentacji inwestorskiej."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
         alt: "Miniatura stylu Golden Hour dla wizualizacji architektonicznej"
     - title: "Evening Glow"
       description: "Wieczorny klimat z podkreślonym światłem i atmosferą."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
         alt: "Miniatura stylu Evening Glow dla wizualizacji architektonicznej"
     - title: "Overcast"
       description: "Spokojny, pochmurny styl do oceny materiałów bez mocnego kontrastu."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
         alt: "Miniatura stylu Overcast dla wizualizacji architektonicznej"
 result:
   title: "Odbierz gotową wizualizację"
@@ -74,15 +74,15 @@ result:
       * jednym kliknięciem wygeneruj 8s wideo;
       * użyj Upscalera, by uzyskać rozdzielczość 4K;
   image:
-    src: "/sites/quickarchviz-pl/use-cases/material-id/modern-residence-client-render.webp"
+    src: "/sites/quickarchviz/images/use-cases/material-id/modern-residence-client-render.webp"
     alt: "Fotorealistyczny render nowoczesnego domu jednorodzinnego wygenerowany z surowego screenshotu modelu 3D"
     caption: "Fotorealistyczna wizualizacja z materiałami, światłem i zielenią gotowa do prezentacji."
 hero_before:
-  src: "/sites/quickarchviz-pl/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
+  src: "/sites/quickarchviz/images/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
   alt: "Kolorowy screenshot modelu 3D domu jednorodzinnego przed mapowaniem materiałów"
   caption: "Input: screenshot modelu CAD/BIM z kolorami użytymi jako logika materiałów."
 hero_after:
-  src: "/sites/quickarchviz-pl/use-cases/material-id/modern-residence-client-render.webp"
+  src: "/sites/quickarchviz/images/use-cases/material-id/modern-residence-client-render.webp"
   alt: "Fotorealistyczny render domu jednorodzinnego po mapowaniu materiałów w QuickArchViz"
   caption: "Wynik: gotowa wizualizacja AI z realistycznymi materiałami, światłem i otoczeniem."
 preserved:

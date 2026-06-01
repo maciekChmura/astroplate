@@ -2,7 +2,7 @@
 title: "Zamień screenshot modelu 3D w wizualizację w mniej niż 60 sekund"
 description: "Nie trać czasu na ręczne ustawianie materiałów, świateł i silników renderujących. Wystarczy prosty screenshot z Archicada, Revita lub SketchUpa, wybór gotowego stylu i QuickArchViz automatycznie stworzy wizualizację gotową do prezentacji klientowi."
 meta_title: "Wizualizacja zewnętrzna ze screenshotu 3D | QuickArchViz"
-image: "/sites/quickarchviz-pl/use-cases/exterior/ai-exterior-visualisation.webp"
+image: "/sites/quickarchviz/images/use-cases/exterior/ai-exterior-visualisation.webp"
 categories: ["Rendering AI", "Exterior"]
 tags:
   [
@@ -36,7 +36,7 @@ input_example:
     * błyskawicznych iteracji projektu.
   accepted_formats: ["JPG", "PNG", "WEBP"]
   image:
-    src: "/sites/quickarchviz-pl/use-cases/exterior/ai-3d-screenshot-to-visualisation.webp"
+    src: "/sites/quickarchviz/images/use-cases/exterior/ai-3d-screenshot-to-visualisation.webp"
     alt: "Screenshot modelu 3D budynku przygotowany do automatycznej wizualizacji zewnętrznej AI"
     caption: "Input: zwykły screenshot modelu bez ręcznie ustawionych materiałów i oświetlenia."
 style_selection:
@@ -55,22 +55,22 @@ style_selection:
     - title: "Clean Daylight"
       description: "Jasny, neutralny styl do czytelnej prezentacji bryły i elewacji."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
         alt: "Gotowy styl Clean Daylight dla wizualizacji zewnętrznej AI"
     - title: "Golden Hour"
       description: "Ciepłe światło dla bardziej emocjonalnej prezentacji inwestorskiej."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
         alt: "Gotowy styl Golden Hour dla szybkiego renderingu architektonicznego"
     - title: "Evening Glow"
       description: "Wieczorny klimat z podkreślonym światłem i mocniejszą atmosferą."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
         alt: "Gotowy styl Evening Glow dla wizualizacji exterior"
     - title: "Overcast"
       description: "Spokojny, pochmurny styl do oceny materiałów bez ostrego kontrastu."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
         alt: "Gotowy styl Overcast dla wizualizacji architektonicznej"
 result:
   title: "Dopracuj detale bez ponownego renderowania sceny"
@@ -90,15 +90,15 @@ result:
     * "dodaj ludzi spacerujących przy wejściu".
 
   image:
-    src: "/sites/quickarchviz-pl/use-cases/exterior/ai-exterior-visualisation.webp"
+    src: "/sites/quickarchviz/images/use-cases/exterior/ai-exterior-visualisation.webp"
     alt: "Fotorealistyczna wizualizacja zewnętrzna budynku wygenerowana automatycznie przez QuickArchViz"
     caption: "Wynik: gotowa wizualizacja exterior z automatycznie dobranymi materiałami, światłem i otoczeniem."
 hero_before:
-  src: "/sites/quickarchviz-pl/use-cases/exterior/ai-3d-screenshot-to-visualisation.webp"
+  src: "/sites/quickarchviz/images/use-cases/exterior/ai-3d-screenshot-to-visualisation.webp"
   alt: "Surowy screenshot modelu 3D budynku przed automatycznym renderingiem AI"
   caption: "Input: screenshot modelu 3D bez ręcznej konfiguracji renderu."
 hero_after:
-  src: "/sites/quickarchviz-pl/use-cases/exterior/ai-exterior-visualisation.webp"
+  src: "/sites/quickarchviz/images/use-cases/exterior/ai-exterior-visualisation.webp"
   alt: "Fotorealistyczny render zewnętrzny budynku po automatycznej wizualizacji AI"
   caption: "Wynik: gotowa wizualizacja zewnętrzna do prezentacji klientowi."
 preserved:

@@ -2,7 +2,7 @@
 title: "Szkic, który sprzedaje emocje"
 description: "Nie każdemu projektowi potrzebny jest fotorealizm. Wykorzystaj potencjał AI, aby w 60 sekund nadać swojej koncepcji duszę i stworzyć wizualizację wyglądającą jak szkic markerem, tuszem lub akwarelą."
 meta_title: "Model 3D do szkicu architektonicznego AI | QuickArchViz"
-image: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+image: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
 categories: ["Rendering AI", "Szkic architektoniczny"]
 tags:
   [
@@ -32,7 +32,7 @@ input_example:
     * Koncepcja architektoniczna jest gotowa do pokazania klientowi już na wczesnym etapie.
   accepted_formats: ["JPG", "PNG", "WEBP"]
   image:
-    src: "/sites/quickarchviz-pl/use-cases/sketch/3d-to-sketch.webp"
+    src: "/sites/quickarchviz/images/use-cases/sketch/3d-to-sketch.webp"
     alt: "Screenshot modelu 3D domu jednorodzinnego przygotowany do zamiany w szkic architektoniczny AI"
     caption: "Input: prosty zrzut ekranu modelu 3D z zachowaną geometrią i perspektywą."
 style_selection:
@@ -47,17 +47,17 @@ style_selection:
     - title: "Marker"
       description: "Render w stylu markera z miękkim kolorem i lekką kreską prezentacyjną."
       image:
-        src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-copic.webp"
+        src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-copic.webp"
         alt: "Architektoniczny szkic markerem z modelu Revit"
     - title: "Ink"
       description: "Czysty szkic tuszem do technicznych i konkursowych prezentacji koncepcji."
       image:
-        src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-ink.webp"
+        src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-ink.webp"
         alt: "Czarno-biały szkic architektoniczny tuszem wygenerowany z modelu 3D"
     - title: "Watercolor"
       description: "Wizualizacja akwarelowa AI z malarskim światłem i nastrojem."
       image:
-        src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+        src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
         alt: "Wizualizacja akwarelowa domu jednorodzinnego AI"
 result:
   title: "Odbierz gotowy szkic"
@@ -69,15 +69,15 @@ result:
     * Upscaler 4K: przygotuj projekt do druku, portfolio lub planszy konkursowej w najwyższej jakości.
     * Gotowy szkic architektoniczny możesz wykorzystać w PDF, social mediach i prezentacji inwestorskiej.
   image:
-    src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+    src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
     alt: "Wizualizacja akwarelowa domu jednorodzinnego AI gotowa do prezentacji klientowi"
     caption: "Wynik: artystyczna wizualizacja akwarelowa gotowa do prezentacji koncepcji."
 hero_before:
-  src: "/sites/quickarchviz-pl/use-cases/sketch/3d-to-sketch.webp"
+  src: "/sites/quickarchviz/images/use-cases/sketch/3d-to-sketch.webp"
   alt: "Model 3D nowoczesnego domu przed zamianą w szkic architektoniczny"
   caption: "Input: surowy widok modelu 3D."
 hero_after:
-  src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+  src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
   alt: "Akwarelowy szkic architektoniczny wygenerowany z modelu 3D"
   caption: "Wynik: ręcznie wyglądająca wizualizacja akwarelowa."
 preserved:

@@ -189,6 +189,11 @@ export function resolveSite(options = {}) {
   ensureCurrentSiteLink(siteDir);
   process.env.SITE_ID = siteId;
 
+  const publicImagesSiteId =
+    siteId === "quickarchviz-en" || siteId === "quickarchviz-pl"
+      ? "quickarchviz"
+      : siteId;
+
   return {
     id: siteId,
     projectRoot,
@@ -197,7 +202,13 @@ export function resolveSite(options = {}) {
     configDir,
     contentDir,
     envPath,
-    publicImagesDir: path.join(projectRoot, "public", "sites", siteId, "images"),
+    publicImagesDir: path.join(
+      projectRoot,
+      "public",
+      "sites",
+      publicImagesSiteId,
+      "images",
+    ),
     generatedThemePath: path.join(projectRoot, ".astro", "generated-theme.css"),
   };
 }

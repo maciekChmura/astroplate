@@ -26,22 +26,22 @@ style_selection:
     - title: "Daylight"
       description: "Use this when the client needs a clearer first read of material mood, light, and scale."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
         alt: "Daylight architectural visualization style thumbnail"
     - title: "Golden Hour"
       description: "Use this when the facade needs a warmer presentation mood for an early client conversation."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
         alt: "Golden hour architectural visualization style thumbnail"
     - title: "Overcast"
       description: "Use this when the design should read clearly without dramatic light or heavy contrast."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
         alt: "Overcast architectural visualization style thumbnail"
     - title: "Evening"
       description: "Use this when the concept needs a softer dusk mood with more atmospheric depth."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
         alt: "Evening architectural visualization style thumbnail"
 result:
   title: "Review the presentation-ready result"

@@ -2,7 +2,7 @@
 title: "Jak stworzyć wizualizację wnętrza ze screenshotu modelu?"
 description: "Twórz fotorealistyczne wizualizacje wnętrz bez render farm, drogich stacji roboczych i godzin spędzonych na ustawianiu materiałów oraz świateł. Wystarczy screenshot modelu lub prosty szkic, a QuickArchViz automatycznie wygeneruje gotową wizualizację w wybranym stylu."
 meta_title: "Wizualizacja wnętrza ze screenshotu | QuickArchViz"
-image: "/sites/quickarchviz-pl/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
+image: "/sites/quickarchviz/images/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
 categories: ["Rendering AI", "Wizualizacja wnętrz"]
 tags:
   [
@@ -31,7 +31,7 @@ input_example:
     * Zachowuje perspektywę i kamerę
   accepted_formats: ["JPG", "PNG", "WEBP"]
   image:
-    src: "/sites/quickarchviz-pl/use-cases/interiors/screenshot-interior-visualisation.webp"
+    src: "/sites/quickarchviz/images/use-cases/interiors/screenshot-interior-visualisation.webp"
     alt: "Screenshot z Archicad do wizualizacji AI w stylu Modern Organic"
     caption: "Prosty zrzut ekranu modelu wnętrza."
 style_selection:
@@ -44,7 +44,7 @@ style_selection:
       * **Custom**: opisz własny styl, detale, materiały i atmosferę, które mają pojawić się na wizualizacji.
     
   image:
-    src: "/sites/quickarchviz-pl/use-cases/interiors/interior-design-style.webp"
+    src: "/sites/quickarchviz/images/use-cases/interiors/interior-design-style.webp"
     alt: "Panel wyboru stylu wizualizacji wnętrza w QuickArchViz"
     caption: "Wybór przestrzeni i stylu wizualizacji wnętrza."
 result:
@@ -57,15 +57,15 @@ result:
     * Topowa jakość: 1 kliknięcie w Upscaler i render w krystalicznym 4K.
     * Idealne do portfolio architekta AI, prezentacji inwestorskiej i szybkiej weryfikacji koncepcji.
   image:
-    src: "/sites/quickarchviz-pl/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
+    src: "/sites/quickarchviz/images/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
     alt: "Fotorealistyczna wizualizacja wnętrza AI w stylu Modern Dark"
     caption: "Wynik: gotowa wizualizacja wnętrza w jakości prezentacyjnej."
 hero_before:
-  src: "/sites/quickarchviz-pl/use-cases/interiors/screenshot-interior-visualisation.webp"
+  src: "/sites/quickarchviz/images/use-cases/interiors/screenshot-interior-visualisation.webp"
   alt: "Screenshot z Archicad do wizualizacji AI w stylu Modern Organic"
   caption: "Dodaj prosty zrzut ekranu modelu wnętrza."
 hero_after:
-  src: "/sites/quickarchviz-pl/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
+  src: "/sites/quickarchviz/images/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
   alt: "Fotorealistyczna wizualizacja wnętrza AI w stylu Modern Organic"
   caption: "Wynik: fotorealistyczna wizualizacja gotowa na spotkanie z inwestorem."
 preserved:

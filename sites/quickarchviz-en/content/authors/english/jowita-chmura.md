@@ -5,7 +5,7 @@ last_name: "Chmura"
 job_title: "IT Project Owner"
 statement: "Architect by education (MArch, RIBA), technology leader by choice."
 description: "My professional journey has been an evolution from designing large-scale buildings to managing complex systems in the Fintech industry."
-image: "/sites/quickarchviz-en/avatars/JowitaChmura.png"
+image: "/sites/quickarchviz/images/avatars/JowitaChmura.png"
 years_experience: 15+
 expertise:
   - "Architectural Design & BIM Coordination"

@@ -5,7 +5,7 @@ last_name: "Chmura"
 job_title: "IT Project Owner"
 statement: "Architekt z wykształcenia (MArch, RIBA), manager i lider zespołow w IT wyboru."
 description: "Moja droga zawodowa to historia o tym, jak świat architektury spotkał się z dynamicznym światem technologii."
-image: "/sites/quickarchviz-pl/avatars/JowitaChmura.webp"
+image: "/sites/quickarchviz/images/avatars/JowitaChmura.webp"
 years_experience: "15+"
 expertise:
   - "Projektowanie architektoniczne i koordynacja BIM"

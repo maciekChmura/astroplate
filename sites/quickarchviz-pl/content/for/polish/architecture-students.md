@@ -2,7 +2,7 @@
 title: "QuickArchViz dla studentów architektury"
 description: "Generuj podglądy projektu gotowe na jury bezpośrednio z viewportu w mniej niż 60 sekund. Przestań tracić sen przez zawieszające się silniki renderujące o 3 nad ranem. Użyj platformy AI, która zachowuje geometrię modelu, a jednocześnie poprawia światło, materiały i atmosferę."
 meta_title: "QuickArchViz dla studentów architektury | Rendering AI do studia i portfolio"
-image: "/sites/quickarchviz-en/professional-architecture-portfolio.png"
+image: "/sites/quickarchviz/images/professional-architecture-portfolio.png"
 categories: ["Edukacja architektoniczna"]
 tags: ["rendering-ai-dla-studentow", "portfolio-architektoniczne", "prezentacja-na-studio", "wizualizacja-koncepcyjna"]
 author: "jowita-chmura"
@@ -50,7 +50,7 @@ workflows:
     link: "/use-cases/model-3d-do-szkicu"
     label: "Popraw screenshot modelu"
     image:
-      src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+      src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
       alt: "Wizualizacja AI w stylu akwareli wygenerowana ze screenshotu modelu 3D"
   - title: "Pomóż jury poczuć przestrzeń dzięki krótkim filmom walkthrough"
     description: "Zamień statyczną wizualizację w subtelne wideo architektoniczne pokazujące nastrój, skalę i przepływ przestrzeni, przydatne na przeglądy, portfolio reels i finalne prezentacje."

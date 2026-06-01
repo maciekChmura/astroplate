@@ -2,7 +2,7 @@
 title: "Bądź gotowy na spotkanie w kilka minut!"
 description: "Jak zmienić rysunek z Twojego szkicownika w profesjonalną wizualizację, która sprzeda projekt inwestorowi? QuickArchViz pozwala przejść od odręcznego szkicu do renderu 4K bez modelowania 3D."
 meta_title: "Wizualizacja ze szkicu odręcznego | QuickArchViz"
-image: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
+image: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
 categories: ["Rendering AI", "Wizualizacja ze szkicu"]
 tags:
   [
@@ -30,7 +30,7 @@ input_example:
     * Szkic budynku do wizualizacji AI możesz sfotografować telefonem tuż przed spotkaniem.
   accepted_formats: ["JPG", "PNG", "WEBP"]
   image:
-    src: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-AI-3d-sketch.webp"
+    src: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-AI-3d-sketch.webp"
     alt: "Odręczny szkic budynku przygotowany do wizualizacji AI"
     caption: "Szybki szkic koncepcyjny sfotografowany przed spotkaniem."
 style_selection:
@@ -47,22 +47,22 @@ style_selection:
     - title: "Clean Daylight"
       description: "Neutralny styl do czytelnego pokazania bryły i elewacji."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
         alt: "Styl Clean Daylight dla wizualizacji architektury ze szkicu"
     - title: "Golden Hour"
       description: "Ciepłe światło do prezentacji inwestorskiej i emocjonalnego odbioru projektu."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
         alt: "Styl Golden Hour dla szybkiego renderu zewnętrznego"
     - title: "Evening Glow"
       description: "Wieczorna atmosfera z podkreślonym światłem na fasadzie."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
         alt: "Styl Evening Glow dla wizualizacji elewacji budynku"
     - title: "Overcast"
       description: "Spokojny, pochmurny wariant do oceny materiałów i proporcji."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
         alt: "Styl Overcast dla wizualizacji architektury publicznej"
 result:
   title: "Odbierz wizualizację 4K i wideo"
@@ -74,15 +74,15 @@ result:
     * 1 kliknięcie: użyj Upscalera, aby uzyskać krystaliczną jakość 4K gotową do druku.
     * Gotowy render możesz wykorzystać w portfolio architekta AI, prezentacji inwestorskiej lub planszy koncepcyjnej.
   image:
-    src: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
+    src: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
     alt: "Fotorealistyczny render architektury wygenerowany ze szkicu odręcznego"
     caption: "Wynik: gotowa wizualizacja zewnętrzna z odręcznego szkicu."
 hero_before:
-  src: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-AI-3d-sketch.webp"
+  src: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-AI-3d-sketch.webp"
   alt: "Odręczny szkic budynku przed wygenerowaniem wizualizacji"
   caption: "Input: szkic koncepcji wykonany na papierze."
 hero_after:
-  src: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
+  src: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
   alt: "Wizualizacja zewnętrzna budynku wygenerowana AI ze szkicu odręcznego"
   caption: "Wynik: wizualizacja gotowa do prezentacji inwestorowi."
 preserved:

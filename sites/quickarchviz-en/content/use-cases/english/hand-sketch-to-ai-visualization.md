@@ -2,7 +2,7 @@
 title: "Be Ready for a Client Meeting in Minutes"
 description: "Turn a drawing from your sketchbook into a professional visualization that helps sell the project. QuickArchViz takes you from a hand sketch to a 4K render without 3D modeling."
 meta_title: "Hand Sketch to AI Architectural Visualization | QuickArchViz"
-image: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
+image: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
 categories: ["Rendering AI", "Sketch to visualization"]
 tags:
   [
@@ -30,7 +30,7 @@ input_example:
     * Take a phone photo of your sketch just before a meeting.
   accepted_formats: ["JPG", "PNG", "WEBP"]
   image:
-    src: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-AI-3d-sketch.webp"
+    src: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-AI-3d-sketch.webp"
     alt: "Hand-drawn building sketch prepared for AI visualization"
     caption: "Input: quick concept sketch photographed before a meeting."
 style_selection:
@@ -46,22 +46,22 @@ style_selection:
     - title: "Clean Daylight"
       description: "A neutral style for clearly showing the building mass and facade."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
         alt: "Clean Daylight style for architecture visualization from a sketch"
     - title: "Golden Hour"
       description: "Warm light for investor presentations and emotional project storytelling."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
         alt: "Golden Hour style for fast exterior rendering"
     - title: "Evening Glow"
       description: "Evening atmosphere with highlighted facade lighting."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
         alt: "Evening Glow style for building facade visualization"
     - title: "Overcast"
       description: "A calm cloudy option for material and proportion review."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
         alt: "Overcast style for public architecture visualization"
 result:
   title: "Receive a 4K Visualization and Video"
@@ -73,15 +73,15 @@ result:
     * 1 click: use the Upscaler for 4K print-ready quality.
     * Use the render in an AI architecture portfolio, investor deck, or concept board.
   image:
-    src: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
+    src: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
     alt: "Photorealistic architectural render generated from a hand sketch"
     caption: "Output: exterior visualization generated from a hand sketch."
 hero_before:
-  src: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-AI-3d-sketch.webp"
+  src: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-AI-3d-sketch.webp"
   alt: "Hand-drawn building sketch before AI visualization"
   caption: "Input: concept sketch on paper."
 hero_after:
-  src: "/sites/quickarchviz-pl/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
+  src: "/sites/quickarchviz/images/use-cases/2d to 3d/2d-to-3d-sketch-visualisation.webp"
   alt: "AI exterior visualization generated from a hand-drawn sketch"
   caption: "Output: visualization ready for an investor presentation."
 preserved:

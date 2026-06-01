@@ -2,7 +2,7 @@
 title: "QuickArchViz vs EazyRender: Which Is Better for Fast Architectural Visuals?"
 description: "Draft comparison of EazyRender and QuickArchViz for architectural rendering workflows, AI concept visualization, pricing, and use cases."
 meta_title: "EazyRender Alternative | QuickArchViz"
-image: "/sites/quickarchviz-pl/use-cases/exterior/ai-exterior-visualisation.webp"
+image: "/sites/quickarchviz/images/use-cases/exterior/ai-exterior-visualisation.webp"
 categories: ["alternatives"]
 tags: ["eazyrender-alternative", "ai-rendering", "architectural-visualization", "quickarchviz"]
 author: "jowita-chmura"

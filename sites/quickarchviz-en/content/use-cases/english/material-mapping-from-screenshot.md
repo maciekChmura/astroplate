@@ -2,7 +2,7 @@
 title: "How to Set Materials from a Screenshot"
 description: "A simple screenshot from Revit, SketchUp, or Archicad is enough. QuickArchViz can automatically prepare a photorealistic visualization, or you can use Advanced Mode to map your own materials based on the colors used in the model."
 meta_title: "AI Rendering from CAD/BIM Screenshot | QuickArchViz Advanced Mode"
-image: "/sites/quickarchviz-pl/use-cases/material-id/modern-residence-client-render.webp"
+image: "/sites/quickarchviz/images/use-cases/material-id/modern-residence-client-render.webp"
 categories: ["Rendering AI", "Advanced Mode"]
 tags:
   [
@@ -30,7 +30,7 @@ input_example:
     * QuickArchViz preserves the perspective and camera angle.
   accepted_formats: ["JPG", "PNG", "WEBP"]
   image:
-    src: "/sites/quickarchviz-pl/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
+    src: "/sites/quickarchviz/images/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
     alt: "Colored 3D model screenshot prepared for material mapping in QuickArchViz"
     caption: "Input: a 3D model screenshot with colors that can be mapped to architectural materials."
 style_selection:
@@ -47,22 +47,22 @@ style_selection:
     - title: "Clean Daylight"
       description: "A neutral, bright style for clear concept presentations."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_daylight.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_daylight.jpeg"
         alt: "Clean Daylight architectural visualization style thumbnail"
     - title: "Golden Hour"
       description: "Warm light for a more emotional investor presentation."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_golden.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_golden.jpeg"
         alt: "Golden Hour architectural visualization style thumbnail"
     - title: "Evening Glow"
       description: "An evening mood with stronger lighting and atmosphere."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_evening.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_evening.jpeg"
         alt: "Evening Glow architectural visualization style thumbnail"
     - title: "Overcast"
       description: "A calm, cloudy style for evaluating materials without harsh contrast."
       image:
-        src: "/sites/quickarchviz-en/styles/ui_overcast.jpeg"
+        src: "/sites/quickarchviz/images/styles/ui_overcast.jpeg"
         alt: "Overcast architectural visualization style thumbnail"
 result:
   title: "Receive a Presentation-Ready Visualization"
@@ -74,15 +74,15 @@ result:
     * Generate an 8-second video with one click.
     * Use the Upscaler to get 4K resolution.
   image:
-    src: "/sites/quickarchviz-pl/use-cases/material-id/modern-residence-client-render.webp"
+    src: "/sites/quickarchviz/images/use-cases/material-id/modern-residence-client-render.webp"
     alt: "Photorealistic render of a modern house generated from a raw 3D model screenshot"
     caption: "Output: photorealistic visualization with materials, light, and landscape ready for presentation."
 hero_before:
-  src: "/sites/quickarchviz-pl/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
+  src: "/sites/quickarchviz/images/use-cases/material-id/AI_visualisations_ID_materials_changes.webp"
   alt: "Colored 3D model screenshot before material mapping"
   caption: "Input: CAD/BIM screenshot with colors used as material logic."
 hero_after:
-  src: "/sites/quickarchviz-pl/use-cases/material-id/modern-residence-client-render.webp"
+  src: "/sites/quickarchviz/images/use-cases/material-id/modern-residence-client-render.webp"
   alt: "Photorealistic house render after material mapping in QuickArchViz"
   caption: "Output: AI visualization with realistic materials, light, and surroundings."
 preserved:

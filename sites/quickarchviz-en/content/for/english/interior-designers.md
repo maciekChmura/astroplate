@@ -2,7 +2,7 @@
 title: "QuickArchViz for Interior Designers"
 description: "QuickArchViz for Interior Designers is a tool that transforms raw CAD/SketchUp viewports or room sketches into photorealistic concept previews in under 60 seconds. Powered by a dedicated Geometry Preservation layer, the platform automatically maps realistic textures (marble, timber, fabrics) and environment lighting while keeping your walls, layout, and furniture dimensions 100% stable. It allows you to test finish variants instantly with clients, entirely eliminating the risk of AI distorting your actual spatial design."
 meta_title: "QuickArchViz for Interior Designers | AI Interior Visualization"
-image: "/sites/quickarchviz-pl/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
+image: "/sites/quickarchviz/images/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
 categories: ["Design teams"]
 tags: ["ai-interior-rendering", "interior-design-visualization", "material-direction", "client-feedback"]
 author: "jowita-chmura"
@@ -20,7 +20,7 @@ workflows:
     description: "Start with a simple room view and use QuickArchViz to explore lighting, finishes, furniture mood, and atmosphere while keeping the room layout understandable."
     link: "/use-cases/interior-visualization-from-screenshot"
     image:
-      src: "/sites/quickarchviz-pl/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
+      src: "/sites/quickarchviz/images/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
       alt: "AI interior visualization generated from an interior design screenshot"
       caption: "Interior screenshots become faster feedback assets when clients can see mood and material intent."
   - title: "Compare style directions before detailed rendering"

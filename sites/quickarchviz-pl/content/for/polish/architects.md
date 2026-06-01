@@ -5,7 +5,7 @@ description: |
 
   **Rendering AI pomaga architektom szybciej prezentować pomysły, jaśniej tłumaczyć intencję projektową i podejmować lepsze decyzje wizualne z klientami.**
 meta_title: "QuickArchViz dla architektów | Rendering AI do przeglądów projektowych"
-image: "/sites/quickarchviz-en/AI-for-Architects.png"
+image: "/sites/quickarchviz/images/AI-for-Architects.png"
 categories: ["Zespoły architektoniczne"]
 tags: ["rendering-ai-dla-architektow", "wizualizacja-architektoniczna", "prezentacje-dla-klienta", "projekt-koncepcyjny"]
 author: "jowita-chmura"
@@ -58,7 +58,7 @@ workflows:
     link: "/use-cases/video-z-wizualizacji-architektonicznej"
     label: "Utwórz walkthrough video"
     image:
-      src: "/sites/quickarchviz-pl/use-cases/video/generate-walkthrough-video.webp"
+      src: "/sites/quickarchviz/images/use-cases/video/generate-walkthrough-video.webp"
       alt: "Podgląd architektonicznego walkthrough video wygenerowanego ze statycznej wizualizacji"
 related_use_cases:
   - "wizualizacja-zewnetrzna-ze-screenshotu"

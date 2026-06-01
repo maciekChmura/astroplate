@@ -5,7 +5,7 @@ description: |
 
   **AI rendering helps architects present ideas faster, explain design intent more clearly, and make better visual decisions with clients.**
 meta_title: "QuickArchViz for Architects | AI Rendering for Design Reviews"
-image: "/sites/quickarchviz-en/AI-for-Architects.png"
+image: "/sites/quickarchviz/images/AI-for-Architects.png"
 categories: ["Architecture teams"]
 tags: ["ai-rendering-for-architects", "architecture-visualization", "client-presentations", "concept-design"]
 author: "jowita-chmura"
@@ -58,7 +58,7 @@ workflows:
     link: "/use-cases/architectural-walkthrough-video"
     label: "Create a walkthrough video"
     image:
-      src: "/sites/quickarchviz-pl/use-cases/video/generate-walkthrough-video.webp"
+      src: "/sites/quickarchviz/images/use-cases/video/generate-walkthrough-video.webp"
       alt: "Architectural walkthrough video preview generated from a still visualization"
 related_use_cases:
   - "facade-massing-for-client-review"

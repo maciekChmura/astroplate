@@ -2,7 +2,7 @@
 title: "QuickArchViz dla projektantów wnętrz"
 description: "QuickArchViz dla projektantów wnętrz zamienia surowe viewporty CAD/SketchUp albo szkice pomieszczeń w fotorealistyczne podglądy koncepcyjne w mniej niż 60 sekund. Dzięki warstwie Geometry Preservation platforma mapuje realistyczne tekstury, materiały i światło, zachowując układ ścian, mebli i proporcje przestrzeni."
 meta_title: "QuickArchViz dla projektantów wnętrz | Wizualizacja wnętrz AI"
-image: "/sites/quickarchviz-pl/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
+image: "/sites/quickarchviz/images/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
 categories: ["Zespoły projektowe"]
 tags: ["rendering-ai-wnetrz", "wizualizacja-wnetrz", "kierunek-materialowy", "feedback-klienta"]
 author: "jowita-chmura"
@@ -20,7 +20,7 @@ workflows:
     description: "Zacznij od prostego widoku pomieszczenia i użyj QuickArchViz, aby sprawdzić światło, wykończenia, nastrój mebli i atmosferę, zachowując czytelny układ pokoju."
     link: "/use-cases/wizualizacja-wnetrza"
     image:
-      src: "/sites/quickarchviz-pl/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
+      src: "/sites/quickarchviz/images/use-cases/interiors/Gemini_Generated_Image_kd89lukd89lukd89.webp"
       alt: "Wizualizacja wnętrza AI wygenerowana ze screenshotu projektu"
       caption: "Screenshoty wnętrz stają się szybszym materiałem do feedbacku, gdy klient widzi nastrój i intencję materiałową."
   - title: "Porównaj kierunki stylistyczne przed detalowaniem renderu"

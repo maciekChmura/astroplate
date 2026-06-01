@@ -50,7 +50,7 @@ workflows:
     link: "/use-cases/3d-model-screenshot-to-architectural-sketch"
     label: "Improve a model screenshot"
     image:
-      src: "/sites/quickarchviz-pl/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
+      src: "/sites/quickarchviz/images/use-cases/sketch/AI-visualisation--sketch-watercolor.webp"
       alt: "Watercolor-style AI visualization generated from a 3D model screenshot"
   - title: "Help juries feel the space with short walkthrough videos"
     description: "Turn a still visualization into a subtle architectural video that shows mood, scale, and spatial flow, useful for reviews, portfolio reels, and final presentations."

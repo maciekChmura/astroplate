@@ -2,7 +2,7 @@
 title: "AI Prompting for Architects (2026): Master Guide to Building Compliance, RAG Systems & Reliable Architectural AI"
 description: "Master AI prompting for architects in 2026. Learn how UK architects reduce hallucinations in Building Regulations analysis using RAG systems, NotebookLM, Custom Agents, and structured compliance workflows."
 date: 2026-05-12T10:00:00Z
-image: "/sites/quickarchviz-en/NotebookLM-for-Architects.png"
+image: "/sites/quickarchviz/images/NotebookLM-for-Architects.png"
 categories: ["AI in Architecture", "Building Safety"]
 tags: ["AI prompting", "RAG", "Building Regulations", "Golden Thread", "NotebookLM", "Custom Agents", "ISO 19650"]
 draft: false
