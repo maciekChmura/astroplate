@@ -17,16 +17,16 @@ const viewAlternativePage =
 const alternativeSlug = stripLocaleFromId(data.id);
 ---
 
-<article class="h-full rounded bg-light p-6 dark:bg-darkmode-light">
+<article class="flex h-full flex-col rounded bg-light p-6 dark:bg-darkmode-light">
   {
     image && (
       <ImageMod
-        class="mb-6 aspect-[16/10] w-full rounded object-cover"
+        class="mb-5 aspect-[4/3] w-full rounded bg-white object-contain object-center dark:bg-darkmode-body"
         src={image}
         alt={title}
         width={640}
-        height={400}
-        fit="cover"
+        height={480}
+        fit="contain"
         format="webp"
       />
     )
@@ -48,7 +48,7 @@ const alternativeSlug = stripLocaleFromId(data.id);
   </h3>
   <p class="mb-6">{plainify(description)}</p>
   <a
-    class="btn btn-outline-primary btn-sm"
+    class="btn btn-outline-primary btn-sm mt-auto self-start"
     href={alternativePath(alternativeSlug, lang)}
   >
     {viewAlternativePage}

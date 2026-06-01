@@ -8,13 +8,17 @@ type Heading = {
 const {
   headings = [],
   title = "Table of contents",
+  minDepth = 2,
+  maxDepth = 3,
 }: {
   headings?: Heading[];
   title?: string;
+  minDepth?: number;
+  maxDepth?: number;
 } = Astro.props;
 
 const tocHeadings = headings.filter(
-  (heading) => heading.depth >= 2 && heading.depth <= 3,
+  (heading) => heading.depth >= minDepth && heading.depth <= maxDepth,
 );
 const shouldRender = tocHeadings.length > 0;
 ---
@@ -30,7 +34,7 @@ const shouldRender = tocHeadings.length > 0;
       </h2>
       <ol class="space-y-2">
         {tocHeadings.map((heading) => (
-          <li class={heading.depth === 3 ? "pl-4" : undefined}>
+          <li class={heading.depth > minDepth ? "pl-4" : undefined}>
             <a
               class="text-text hover:text-primary dark:text-darkmode-text dark:hover:text-darkmode-primary"
               href={`#${heading.slug}`}

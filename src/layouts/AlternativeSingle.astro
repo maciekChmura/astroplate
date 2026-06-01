@@ -139,9 +139,9 @@ const showMeta = Boolean(author?.name || categories.length > 0);
                 src={image}
                 alt={title}
                 width={1200}
-                height={640}
+                height={460}
                 fit="cover"
-                class="aspect-[15/8] w-full rounded object-cover"
+                class="aspect-[24/9] w-full rounded object-cover"
                 format="webp"
               />
             </div>
@@ -293,20 +293,20 @@ const showMeta = Boolean(author?.name || categories.length > 0);
         {
           feature_comparison.length > 0 && (
             <section class="mb-16">
-              <h2 class="h3 mb-8">{featureComparisonLabel}</h2>
+              <h2 class="h3 mb-8 text-center">{featureComparisonLabel}</h2>
               <div class="grid gap-6">
                 {feature_comparison.map((item: FeatureComparison) => (
                   <article class="rounded bg-light p-6 ring-1 ring-border dark:bg-darkmode-light dark:ring-darkmode-border">
-                    <h3 class="h4 mb-4">{item.title}</h3>
+                    <h3 class="h4 mb-4 text-center">{item.title}</h3>
                     <div class="grid gap-4 md:grid-cols-2">
                       <div>
-                        <p class="mb-2 font-semibold text-text-dark dark:text-darkmode-text">
+                        <p class="mb-2 text-center font-semibold text-text-dark dark:text-darkmode-text">
                           {competitor_name}
                         </p>
                         <p class="mb-0">{item.competitor}</p>
                       </div>
                       <div>
-                        <p class="mb-2 font-semibold text-text-dark dark:text-darkmode-text">
+                        <p class="mb-2 text-center font-semibold text-text-dark dark:text-darkmode-text">
                           QuickArchViz
                         </p>
                         <p class="mb-0">{item.quickarchviz}</p>

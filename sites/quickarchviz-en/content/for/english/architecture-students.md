@@ -2,7 +2,7 @@
 title: "QuickArchViz for Architecture Students"
 description: "Generate Jury-Ready Project Previews Directly From Your Viewport in Under 60 Seconds. Stop losing sleep over crash-prone rendering engines at 3 AM. Use an AI platform built to keep your original model geometry unchanged while instantly upgrading your lighting, materials, and atmosphere."
 meta_title: "QuickArchViz for Architecture Students | AI Rendering for Studio and Portfolio Work"
-image: "/sites/quickarchviz-en/professional-architecture-portfolio.png"
+image: "/sites/quickarchviz/images/AI_Portfolio_for_students.png"
 categories: ["Architecture education"]
 tags: ["ai-rendering-for-students", "architecture-portfolio", "studio-presentation", "concept-visualization"]
 author: "jowita-chmura"

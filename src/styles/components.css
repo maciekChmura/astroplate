@@ -129,6 +129,40 @@
   @apply max-h-screen;
 }
 
+.faq-accordion-list {
+  @apply my-10 space-y-5;
+}
+
+.faq-accordion {
+  @apply overflow-hidden rounded-lg border border-border bg-body shadow-sm transition-colors duration-200 dark:border-darkmode-border dark:bg-darkmode-body;
+}
+
+.faq-accordion[open] {
+  @apply border-border bg-light dark:border-darkmode-border dark:bg-darkmode-light;
+}
+
+.faq-accordion summary {
+  @apply flex cursor-pointer list-none items-center justify-between gap-6 px-6 py-5 text-lg font-medium leading-snug text-text-dark dark:text-darkmode-text-dark;
+}
+
+.faq-accordion summary::-webkit-details-marker {
+  @apply hidden;
+}
+
+.faq-accordion summary::after {
+  content: "+";
+  @apply shrink-0 text-2xl font-normal leading-none text-text-light transition-transform duration-200 dark:text-darkmode-text-light;
+}
+
+.faq-accordion[open] summary::after {
+  content: "x";
+  @apply text-xl;
+}
+
+.faq-accordion p {
+  @apply mb-0 px-6 pb-6 text-base leading-7 text-text dark:text-darkmode-text;
+}
+
 /* modal */
 .modal {
   @apply fixed inset-0 z-40 hidden h-full w-full overflow-auto;

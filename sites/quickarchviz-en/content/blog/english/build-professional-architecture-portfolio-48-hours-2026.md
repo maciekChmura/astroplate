@@ -2,7 +2,7 @@
 title: "Build a Professional Architecture Portfolio in 48 Hours (2026 Guide)"
 description: "Learn how to build a professional architecture portfolio in 48 hours using structured storytelling and modern AI workflows. Designed for students and early-career architects applying to leading practices."
 date: 2026-05-12T12:00:00Z
-image: "/sites/quickarchviz-en/professional-architecture-portfolio.png"
+image: "/sites/quickarchviz/images/AI_Portfolio_for_students.png"
 categories: ["Architecture Careers", "AI in Architecture"]
 tags: ["architecture portfolio", "portfolio design", "architecture students", "early-career architects", "AI visualization", "QuickArchViz"]
 draft: false

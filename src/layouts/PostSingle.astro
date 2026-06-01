@@ -49,21 +49,7 @@ const readTime = readingTime(post.body || "");
 <section class="section pt-7">
   <div class="container">
     <div class="row justify-center">
-      <article class="lg:col-10">
-        {
-          image && (
-            <div class="mb-10">
-              <ImageMod
-                src={image}
-                height={500}
-                width={1200}
-                alt={title}
-                class="w-full rounded"
-                format="webp"
-              />
-            </div>
-          )
-        }
+      <article class="xl:col-11">
         <h1 set:html={markdownify(title)} class="h2 mb-4" />
         <ul class="mb-8">
           <li class="mr-4 inline-block">
@@ -100,43 +86,69 @@ const readTime = readingTime(post.body || "");
             <span aria-label={reading_time}>{readTime}</span>
           </li>
         </ul>
-        <TableOfContents headings={headings} title={table_of_contents} />
-        <div class="content mb-10">
-          <Content />
-        </div>
-        <div class="row items-start justify-between gap-y-8">
-          <div class="mb-10 flex items-start gap-3 lg:col-5 lg:mb-0">
-            <h5 class="mb-0 shrink-0 whitespace-nowrap">{tagsLabel}:</h5>
-            <ul class="flex flex-wrap">
-              {
-                tags.map((tag: string) => (
-                  <li class="inline-block">
-                    <a
-                      class="m-1 block rounded bg-light px-3 py-1 hover:bg-primary hover:text-white dark:bg-darkmode-light dark:hover:bg-darkmode-primary dark:hover:text-text-dark"
-                      href={slugSelector(`/tags/${slugify(tag)}`, lang)}
-                    >
-                      {humanize(tag)}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-          <div class="flex items-start gap-3 lg:col-5">
-            <h5 class="mb-0 shrink-0 whitespace-nowrap">{share}:</h5>
-            <Share
-              className="social-icons flex flex-wrap gap-3"
-              title={title}
-              description={description}
-              path={blogPostPath(postSlug, lang)}
-            />
-          </div>
-        </div>
         {
-          siteConfig.disqus.enable && (
-            <Disqus className="mt-20" client:only="react" />
+          image && (
+            <div class="mb-10">
+              <ImageMod
+                src={image}
+                height={500}
+                width={1200}
+                alt={title}
+                class="w-full rounded"
+                format="webp"
+              />
+            </div>
           )
         }
+        <div class="row gx-5 items-start">
+          <div class="lg:col-8">
+            <div class="content mb-10">
+              <Content />
+            </div>
+            <div class="row items-start justify-between gap-y-8">
+              <div class="mb-10 flex items-start gap-3 lg:col-5 lg:mb-0">
+                <h5 class="mb-0 shrink-0 whitespace-nowrap">{tagsLabel}:</h5>
+                <ul class="flex flex-wrap">
+                  {
+                    tags.map((tag: string) => (
+                      <li class="inline-block">
+                        <a
+                          class="m-1 block rounded bg-light px-3 py-1 hover:bg-primary hover:text-white dark:bg-darkmode-light dark:hover:bg-darkmode-primary dark:hover:text-text-dark"
+                          href={slugSelector(`/tags/${slugify(tag)}`, lang)}
+                        >
+                          {humanize(tag)}
+                        </a>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+              <div class="flex items-start gap-3 lg:col-5">
+                <h5 class="mb-0 shrink-0 whitespace-nowrap">{share}:</h5>
+                <Share
+                  className="social-icons flex flex-wrap gap-3"
+                  title={title}
+                  description={description}
+                  path={blogPostPath(postSlug, lang)}
+                />
+              </div>
+            </div>
+            {
+              siteConfig.disqus.enable && (
+                <Disqus className="mt-20" client:only="react" />
+              )
+            }
+          </div>
+          <aside class="mt-10 lg:col-4 lg:mt-0">
+            <div class="lg:sticky lg:top-28">
+              <TableOfContents
+                headings={headings}
+                title={table_of_contents}
+                maxDepth={2}
+              />
+            </div>
+          </aside>
+        </div>
       </article>
     </div>
 

@@ -15,14 +15,19 @@ const translations = (await getTranslations(lang)) as Record<string, string>;
 const viewAudiencePage =
   translations.view_audience_page || "View audience page";
 const audienceSlug = stripLocaleFromId(data.id);
+const cardImage =
+  image ||
+  (audienceSlug === "architecture-students"
+    ? "/sites/quickarchviz/images/AI_Portfolio_for_students.png"
+    : "");
 ---
 
 <article class="h-full rounded bg-light p-6 dark:bg-darkmode-light">
   {
-    image && (
+    cardImage && (
       <ImageMod
         class="mb-6 aspect-[16/10] w-full rounded object-cover"
-        src={image}
+        src={cardImage}
         alt={title}
         width={640}
         height={400}

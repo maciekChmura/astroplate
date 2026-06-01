@@ -7,9 +7,6 @@ categories: ["AI in Architecture", "Building Safety"]
 tags: ["AI prompting", "RAG", "Building Regulations", "Golden Thread", "NotebookLM", "Custom Agents", "ISO 19650"]
 draft: false
 ---
-
-## TL;DR
-
 In 2026, architectural AI workflows typically operate across three layers:
 
 - Legal Mode (Compliance Layer): UK Building Regulations, Approved Documents, and planning policy.
