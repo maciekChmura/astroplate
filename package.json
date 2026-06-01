@@ -60,14 +60,14 @@
     "eslint": "^10.2.0",
     "glob": "^13.0.6",
     "node-html-parser": "^7.1.0",
-    "turndown": "^7.2.4",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwind-bootstrap-grid": "^7.0.0",
     "tailwindcss": "^4.2.2",
+    "turndown": "^7.2.4",
     "typescript": "^6.0.2",
-    "wrangler": "^4.80.0"
+    "wrangler": "^4.95.0"
   },
   "overrides": {
     "typescript": "$typescript",

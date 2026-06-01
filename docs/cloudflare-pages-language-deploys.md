@@ -44,7 +44,7 @@ Production project:
 `PUBLIC_SITE_URL` must be the public origin without a path. Leave
 `PUBLIC_SITE_MOUNT_PATH` unset or empty for the English content deploy. The
 Worker owns the public route families such as `/blog`, `/prompts`,
-`/use-cases`, and `/knowledge-hub`.
+`/alternatives`, `/for`, `/use-cases`, and `/knowledge-hub`.
 
 ## Polish Pages project
 
@@ -92,6 +92,10 @@ quickarchviz.com/blog
 quickarchviz.com/blog/*
 quickarchviz.com/prompts
 quickarchviz.com/prompts/*
+quickarchviz.com/alternatives
+quickarchviz.com/alternatives/*
+quickarchviz.com/for
+quickarchviz.com/for/*
 quickarchviz.com/use-cases
 quickarchviz.com/use-cases/*
 quickarchviz.com/authors
@@ -133,6 +137,10 @@ quickarchviz.com/pl/blog
 quickarchviz.com/pl/blog/*
 quickarchviz.com/pl/prompts
 quickarchviz.com/pl/prompts/*
+quickarchviz.com/pl/alternatives
+quickarchviz.com/pl/alternatives/*
+quickarchviz.com/pl/for
+quickarchviz.com/pl/for/*
 quickarchviz.com/pl/use-cases
 quickarchviz.com/pl/use-cases/*
 quickarchviz.com/pl/authors

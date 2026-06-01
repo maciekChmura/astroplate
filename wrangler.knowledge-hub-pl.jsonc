@@ -34,6 +34,22 @@
       "zone_name": "quickarchviz.com",
     },
     {
+      "pattern": "quickarchviz.com/pl/alternatives",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/alternatives/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/for",
+      "zone_name": "quickarchviz.com",
+    },
+    {
+      "pattern": "quickarchviz.com/pl/for/*",
+      "zone_name": "quickarchviz.com",
+    },
+    {
       "pattern": "quickarchviz.com/pl/use-cases",
       "zone_name": "quickarchviz.com",
     },

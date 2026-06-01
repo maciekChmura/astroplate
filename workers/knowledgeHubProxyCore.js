@@ -1,7 +1,9 @@
 const defaultContentPrefixes = [
+  "/alternatives",
   "/authors",
   "/blog",
   "/categories",
+  "/for",
   "/knowledge-hub",
   "/privacy-policy",
   "/prompts",
@@ -10,9 +12,11 @@ const defaultContentPrefixes = [
 ];
 
 const defaultOldHubRedirectPrefixes = [
+  "/alternatives",
   "/authors",
   "/blog",
   "/categories",
+  "/for",
   "/privacy-policy",
   "/prompts",
   "/tags",
