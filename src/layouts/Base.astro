@@ -80,6 +80,22 @@ const socialImage = siteUrl
       siteUrl,
     ).toString()
   : image || siteConfig.metadata.meta_image;
+const faviconTypeByExtension: Record<string, string> = {
+  ico: "image/x-icon",
+  jpeg: "image/jpeg",
+  jpg: "image/jpeg",
+  png: "image/png",
+  svg: "image/svg+xml",
+  webp: "image/webp",
+};
+const faviconExtension = siteConfig.site.favicon
+  .split("?")[0]
+  .split(".")
+  .pop()
+  ?.toLowerCase();
+const faviconType = faviconExtension
+  ? faviconTypeByExtension[faviconExtension]
+  : undefined;
 const ogType = og_type || "website";
 const siteRootUrl = siteUrl
   ? new URL(withSiteMountPath("/"), siteUrl).toString()
@@ -156,6 +172,13 @@ const structuredData =
       )
     }
     <!-- favicon -->
+    {
+      faviconType ? (
+        <link rel="icon" href={siteConfig.site.favicon} type={faviconType} />
+      ) : (
+        <link rel="icon" href={siteConfig.site.favicon} />
+      )
+    }
     <link rel="shortcut icon" href={siteConfig.site.favicon} />
     <!-- theme meta -->
     <meta name="theme-name" content="quickarchviz" />
