@@ -27,22 +27,29 @@ const lang = getLangFromUrl(Astro.url);
 const posts = await getSinglePage(COLLECTION_FOLDER, lang);
 const similarPosts = similarItems(post, posts);
 const { Content, headings } = await render(post);
-const { title, description, categories, image, date, tags } = post.data;
+const { title, description, categories, image, date, updated, tags } = post.data;
 const {
   tags: tagsLabel,
   related_posts,
   share,
   table_of_contents,
   reading_time,
+  updated: updatedLabel = "Updated",
 } = (await getTranslations(lang)) as unknown as {
   tags: string;
   related_posts: string;
   share: string;
   table_of_contents: string;
   reading_time: string;
+  updated?: string;
 };
 const postSlug = stripLocaleFromId(post.id);
 const publishedDate = date instanceof Date ? date : new Date(date);
+const updatedDate = updated
+  ? updated instanceof Date
+    ? updated
+    : new Date(updated)
+  : undefined;
 const readTime = readingTime(post.body || "");
 ---
 
@@ -81,6 +88,17 @@ const readTime = readingTime(post.body || "");
               {dateFormat(publishedDate)}
             </time>
           </li>
+          {
+            updatedDate && (
+              <li class="mr-4 inline-block">
+                <FaRegClock className={"mr-2 -mt-1 inline-block"} />
+                <span>{updatedLabel}: </span>
+                <time datetime={updatedDate.toISOString()}>
+                  {dateFormat(updatedDate)}
+                </time>
+              </li>
+            )
+          }
           <li class="mr-4 inline-block">
             <FaRegClock className={"mr-2 -mt-1 inline-block"} />
             <span aria-label={reading_time}>{readTime}</span>

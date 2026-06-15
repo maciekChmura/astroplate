@@ -10,6 +10,17 @@ QuickArchViz Knowledge Hub is a practical resource library for architects who wa
 
 The hub connects architectural visualization, AI prompting, project communication, and delivery workflows. The goal is simple: help architects move from loose design material to clearer decisions, stronger visuals, and better client conversations.
 
+<figure class="not-prose my-8 flex max-w-2xl items-center gap-5 rounded border border-border bg-light/40 p-5">
+  <img
+    src="/sites/quickarchviz/images/avatars/JowitaChmura.webp"
+    alt="Jowita Chmura, architect and creator of QuickArchViz Knowledge Hub"
+    class="h-20 w-20 shrink-0 rounded-full object-cover"
+  />
+  <figcaption class="text-base leading-relaxed text-text">
+    QuickArchViz is shaped by Jowita Chmura, an architect by education and a technology project leader by practice. The goal is to keep AI rendering practical, structured, and grounded in real architectural judgment.
+  </figcaption>
+</figure>
+
 ### What We Publish
 
 - AI prompting guides for architecture and design work

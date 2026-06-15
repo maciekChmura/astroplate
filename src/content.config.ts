@@ -34,6 +34,7 @@ const blogCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
     image: z.string(),
     // Use factory functions for mutable array defaults (Zod 4 best practice)
     categories: z.array(z.string()).min(1),

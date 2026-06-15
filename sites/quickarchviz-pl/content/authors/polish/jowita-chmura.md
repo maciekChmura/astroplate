@@ -97,3 +97,20 @@ Piszę o:
 * oraz o tym, jak budować projekty z mocnymi fundamentami, niezależnie od branży.
 
 Bo dobre projekty, podobnie jak dobra architektura, zawsze zaczynają się od solidnej konstrukcji.
+
+### **Referencje**
+
+<figure class="not-prose mx-auto mt-6 max-w-3xl">
+  <img
+    src="/sites/quickarchviz/images/Ambroziak_references.jpeg"
+    alt="List referencyjny dla Jowity Chmury od Briana Ambroziaka"
+    class="w-full rounded border border-border shadow-sm"
+  />
+  <figcaption class="mt-4 text-base leading-relaxed text-text">
+    Jowita Gawrecka otrzymała najwyższą rekomendację od
+    <a href="https://archdesign.utk.edu/directory/brian-ambroziak/">profesora Briana Ambroziaka</a>
+    z
+    <a href="https://archdesign.utk.edu/">University of Tennessee College of Architecture &amp; Design</a>.
+    Wybrana jako jedna z najlepszych międzynarodowych studentek projektowania, Jowita wykazała się wyjątkowym talentem, wymagającą etyką pracy i głęboką pasją do projektowania podczas seminarium Visual Thinking in Digital Media. Profesor Ambroziak podkreśla, że konsekwentnie podnosiła poziom pracy swoich rówieśników, zwracając uwagę na jej silne umiejętności analityczne i opisując ją jako "outstanding hire for any architectural firm".
+  </figcaption>
+</figure>
