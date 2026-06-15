@@ -57,6 +57,11 @@ const imageUrl =
 const organizationId = siteRootUrl ? `${siteRootUrl}#organization` : undefined;
 const publishedDate =
   post.data.date instanceof Date ? post.data.date : new Date(post.data.date);
+const modifiedDate = post.data.updated
+  ? post.data.updated instanceof Date
+    ? post.data.updated
+    : new Date(post.data.updated)
+  : publishedDate;
 const author = await getAuthorProfile({
   lang,
   authorSlug: post.data.author,
@@ -71,7 +76,7 @@ const articleJsonLd = [
     description,
     image: imageUrl,
     datePublished: publishedDate.toISOString(),
-    dateModified: publishedDate.toISOString(),
+    dateModified: modifiedDate.toISOString(),
     author: author.id ? { "@id": author.id } : author.personJsonLd,
     publisher: organizationId
       ? {
@@ -120,7 +125,7 @@ const articleJsonLd = [
   lang={lang}
   jsonLd={articleJsonLd}
   articlePublishedTime={publishedDate}
-  articleModifiedTime={publishedDate}
+  articleModifiedTime={modifiedDate}
   articleSection={categories[0]}
   articleTags={tags}
   articleAuthor={author.absoluteUrl || author.name}

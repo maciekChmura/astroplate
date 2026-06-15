@@ -15,16 +15,24 @@ import ImageMod from "./ImageMod.astro";
 
 const { summary_length }: { summary_length: number } = siteConfig.settings;
 const { data } = Astro.props;
-const { title, image, date, categories } = data.data;
+const { title, image, date, updated, categories } = data.data;
 const lang = getLangFromUrl(Astro.url);
 const author = await getAuthorProfile({
   lang,
   authorSlug: data.data.author,
 });
-const { read_more } = (await getTranslations(lang)) as unknown as {
+const { read_more, updated: updatedLabel = "Updated" } = (await getTranslations(
+  lang,
+)) as unknown as {
   read_more: string;
+  updated?: string;
 };
 const postSlug = stripLocaleFromId(data.id);
+const updatedDate = updated
+  ? updated instanceof Date
+    ? updated
+    : new Date(updated)
+  : undefined;
 ---
 
 <div class="bg-body dark:bg-darkmode-body">
@@ -67,6 +75,16 @@ const postSlug = stripLocaleFromId(data.id);
       }
     </li>
     {date && <li class="inline-block">{dateFormat(date)}</li>}
+    {
+      updatedDate && (
+        <li class="mt-2 block">
+          {updatedLabel}:{" "}
+          <time datetime={updatedDate.toISOString()}>
+            {dateFormat(updatedDate)}
+          </time>
+        </li>
+      )
+    }
   </ul>
   <p class="mb-6">{plainify(data.body?.slice(0, Number(summary_length)))}</p>
   <a class="btn btn-outline-primary btn-sm" href={blogPostPath(postSlug, lang)}>

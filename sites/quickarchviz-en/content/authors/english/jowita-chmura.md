@@ -85,3 +85,20 @@ I write about:
 * and building projects with strong foundations , regardless of industry.
 
 Because good projects, just like good architecture, always start with a solid structure.
+
+### **References**
+
+<figure class="not-prose mx-auto mt-6 max-w-3xl">
+  <img
+    src="/sites/quickarchviz/images/Ambroziak_references.jpeg"
+    alt="Reference letter for Jowita Chmura from Ambroziak"
+    class="w-full rounded border border-border shadow-sm"
+  />
+  <figcaption class="mt-4 text-base leading-relaxed text-text">
+    Jowita Gawrecka comes with the highest recommendation from
+    <a href="https://archdesign.utk.edu/directory/brian-ambroziak/">Professor Brian Ambroziak</a>
+    at the
+    <a href="https://archdesign.utk.edu/">University of Tennessee College of Architecture &amp; Design</a>.
+    Selected as a top international design student, Jowita demonstrated exceptional talent, a demanding work ethic, and a deep passion for design in his Visual Thinking in Digital Media seminar. Professor Ambroziak praises her for consistently elevating the standard of her peers, noting her strong analytical skills and describing her as an "outstanding hire for any architectural firm."
+  </figcaption>
+</figure>
