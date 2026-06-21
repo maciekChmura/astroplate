@@ -7,7 +7,7 @@
 - 🌑 Dark Mode
 - 🏷️ Tags & Categories
 - 🗂️ Multiple site instances and knowledge hubs from one shared codebase
-- 🔗 Netlify setting pre-configured
+- 🔗 Cloudflare Pages deploys
 - 📞 Support contact form
 - 📱 Fully responsive
 - 📝 Write and update content in Markdown / MDX
@@ -258,7 +258,7 @@ PUBLIC_SITE_URL=https://aibrandscan.com npm run build -- --site aibrandscan
 You can also select the site with an environment variable:
 
 ```bash
-SITE_ID=astroplate npm run build
+SITE_ID=astroplate PUBLIC_SITE_URL=https://your-demo-domain.com npm run build
 SITE_ID=quickarchviz-en PUBLIC_SITE_URL=https://quickarchviz.com npm run build
 SITE_ID=quickarchviz-pl PUBLIC_SITE_URL=https://quickarchviz.com PUBLIC_SITE_MOUNT_PATH=/pl npm run build
 SITE_ID=aibrandscan PUBLIC_SITE_URL=https://aibrandscan.com npm run build

@@ -33,22 +33,33 @@
 ## Multi-Site Content Guide
 
 - Content lives under `sites/<site-id>/content/`, not under `src/content/`.
+- Current first-class site ids:
+  - Demo/starter: `astroplate`
+  - QuickArchViz English: `quickarchviz-en`
+  - QuickArchViz Polish: `quickarchviz-pl`
+  - AIBrandScan English: `aibrandscan`
 - QuickArchViz uses separate site ids for each language:
   - English: `quickarchviz-en`
   - Polish: `quickarchviz-pl`
+- AIBrandScan uses a single English site id:
+  - English: `aibrandscan`
 - QuickArchViz content roots:
   - English content: `sites/quickarchviz-en/content/.../english/`
   - Polish content: `sites/quickarchviz-pl/content/.../polish/`
+- AIBrandScan content root:
+  - English content: `sites/aibrandscan/content/.../english/`
 - Keep language separation strict. Do not add Polish content to `quickarchviz-en`, and do not add English content to `quickarchviz-pl`.
 - Before adding or modifying content, inspect the relevant existing file or `-template.md` in the same collection and language.
 - Prefer shared QuickArchViz images in `public/sites/quickarchviz/images/` and reference them with absolute paths such as `/sites/quickarchviz/images/cover.webp`.
 - Do not add QuickArchViz media under the EN or PL public site roots; both language sites share the canonical `public/sites/quickarchviz/images/` root.
+- Keep AIBrandScan images in `public/sites/aibrandscan/images/` and reference them with absolute paths such as `/sites/aibrandscan/images/cover.png`.
 - Keep generated output, `dist/`, `.astro/`, and search/LLM build artifacts out of manual content edits unless the task explicitly asks for generated files.
 
 ### Blog Posts
 
 - Add English blog posts to `sites/quickarchviz-en/content/blog/english/`.
 - Add Polish blog posts to `sites/quickarchviz-pl/content/blog/polish/`.
+- Add AIBrandScan blog posts to `sites/aibrandscan/content/blog/english/`.
 - Start from the nearest blog `-template.md` and rename the file to the intended slug.
 - Blog URLs come from filenames:
   - `sites/quickarchviz-en/content/blog/english/my-post.md` becomes `/blog/my-post`.
@@ -74,6 +85,7 @@ draft:
 
 - Add English prompts to `sites/quickarchviz-en/content/prompts/english/`.
 - Add Polish prompts to `sites/quickarchviz-pl/content/prompts/polish/`.
+- Add AIBrandScan prompts to `sites/aibrandscan/content/prompts/english/`.
 - Prompt URLs come from filenames under `/prompts/<slug>`.
 - Prompt frontmatter must include `title`, `description`, `categories`, `tags`, `prompt`, and `draft`.
 - `prompt` should be a YAML block scalar containing the reusable prompt text:
@@ -98,9 +110,11 @@ prompt: |
 
 - Check English QuickArchViz content with `npm run check -- --site quickarchviz-en`.
 - Check Polish QuickArchViz content with `npm run check -- --site quickarchviz-pl`.
+- Check AIBrandScan content with `npm run check -- --site aibrandscan`.
 - Start English local dev with `npm run dev -- --site quickarchviz-en`.
 - Start Polish local dev with `npm run dev -- --site quickarchviz-pl`.
-- Production builds require a real HTTPS `PUBLIC_SITE_URL` or `SITE_URL`, for example `PUBLIC_SITE_URL=https://quickarchviz.com npm run build -- --site quickarchviz-en`.
+- Start AIBrandScan local dev with `npm run dev -- --site aibrandscan`.
+- Production builds require a real HTTPS `PUBLIC_SITE_URL` or `SITE_URL`, for example `PUBLIC_SITE_URL=https://quickarchviz.com npm run build -- --site quickarchviz-en` or `PUBLIC_SITE_URL=https://aibrandscan.com npm run build -- --site aibrandscan`.
 
 ## Package Manager Policy
 
@@ -111,10 +125,8 @@ prompt: |
 
 ## Known Inconsistencies
 
-- `package.json` still declares `"packageManager": "yarn@1.22.22"`.
-- The `remove-darkmode` script still calls `yarn format`.
-- `readme.md`, `netlify.toml`, and some generated/help text still mention `yarn`.
-- Both `package-lock.json` and `yarn.lock` are present in the repo today.
+- Some generated/help text outside the primary docs may still mention historical package-manager choices.
+- The shared alternatives schema still uses QuickArchViz-named fields such as `quickarchviz_summary` and `best_for_quickarchviz`; layouts render the active site title, but content frontmatter keeps those field names for compatibility.
 
 ## Preferred Cleanup Direction
 
