@@ -1,5 +1,6 @@
 ---
 import ImageMod from "@/components/ImageMod.astro";
+import { siteConfig } from "@/lib/siteConfig";
 import { getTranslations, slugSelector } from "@/lib/utils/languageParser";
 import { humanize, markdownify } from "@/lib/utils/textConverter";
 import { render } from "astro:content";
@@ -58,6 +59,9 @@ const {
   cta,
 } = alternativeEntry.data;
 const translations = (await getTranslations(lang)) as Record<string, string>;
+const productName = siteConfig.site.title;
+const withProductName = (value: string) =>
+  value.replaceAll("QuickArchViz", productName);
 const comparisonLabel =
   translations.alternative_quick_comparison || "Quick comparison";
 const alternativeBadgeLabel = (
@@ -66,13 +70,15 @@ const alternativeBadgeLabel = (
 const whatIsCompetitorLabel = (
   translations.alternative_what_is_competitor || "What Is {competitor}?"
 ).replace("{competitor}", competitor_name);
-const whatIsQuickArchVizLabel =
-  translations.alternative_what_is_quickarchviz || "What Is QuickArchViz?";
+const whatIsQuickArchVizLabel = withProductName(
+  translations.alternative_what_is_quickarchviz || "What Is QuickArchViz?",
+);
 const chooseCompetitorLabel = (
   translations.alternative_choose_competitor || "Choose {competitor} if..."
 ).replace("{competitor}", competitor_name);
-const chooseQuickArchVizLabel =
-  translations.alternative_choose_quickarchviz || "Choose QuickArchViz if...";
+const chooseQuickArchVizLabel = withProductName(
+  translations.alternative_choose_quickarchviz || "Choose QuickArchViz if...",
+);
 const featureComparisonLabel =
   translations.alternative_feature_comparison || "Feature comparison";
 const pricingComparisonLabel =
@@ -195,7 +201,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
                     <tr class="border-b border-border dark:border-darkmode-border">
                       <th class="p-4">Criteria</th>
                       <th class="p-4">{competitor_name}</th>
-                      <th class="p-4">QuickArchViz</th>
+                      <th class="p-4">{productName}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -307,7 +313,7 @@ const showMeta = Boolean(author?.name || categories.length > 0);
                       </div>
                       <div>
                         <p class="mb-2 text-center font-semibold text-text-dark dark:text-darkmode-text">
-                          QuickArchViz
+                          {productName}
                         </p>
                         <p class="mb-0">{item.quickarchviz}</p>
                       </div>

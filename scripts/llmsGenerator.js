@@ -27,7 +27,7 @@ const DEFAULT_EXCLUDES = [
 
 // ─── URL path prefixes that are API / system routes ──────────────────────────
 const API_ROUTE_PREFIXES = ["/api/", "/_", "/cdn-cgi/"];
-const QUICKARCHVIZ_HUB_ROUTE_PREFIXES = [
+const KNOWLEDGE_HUB_ROUTE_PREFIXES = [
   "/alternatives",
   "/authors",
   "/blog",
@@ -39,7 +39,7 @@ const QUICKARCHVIZ_HUB_ROUTE_PREFIXES = [
   "/tags",
   "/use-cases",
 ];
-const QUICKARCHVIZ_EXCLUDED_HUB_ROUTES = new Set([
+const KNOWLEDGE_HUB_EXCLUDED_ROUTES = new Set([
   "/use-cases/przeglad-bryly-elewacji-na-spotkanie-z-klientem",
 ]);
 
@@ -55,18 +55,21 @@ function normalizeUrlPath(urlPath) {
   return urlPath.length > 1 ? urlPath.replace(/\/+$/g, "") : urlPath || "/";
 }
 
-function isQuickArchVizContentDeploy() {
-  return selectedSite.id.startsWith("quickarchviz-");
+function isKnowledgeHubContentDeploy(config) {
+  return (
+    config.settings?.knowledge_hub_content_deploy === true ||
+    selectedSite.id.startsWith("quickarchviz-")
+  );
 }
 
-function isQuickArchVizHubRoute(urlPath) {
+function isKnowledgeHubRoute(urlPath) {
   const normalizedPath = normalizeUrlPath(urlPath);
 
-  if (QUICKARCHVIZ_EXCLUDED_HUB_ROUTES.has(normalizedPath)) {
+  if (KNOWLEDGE_HUB_EXCLUDED_ROUTES.has(normalizedPath)) {
     return false;
   }
 
-  return QUICKARCHVIZ_HUB_ROUTE_PREFIXES.some(
+  return KNOWLEDGE_HUB_ROUTE_PREFIXES.some(
     (prefix) =>
       normalizedPath === prefix || normalizedPath.startsWith(`${prefix}/`),
   );
@@ -664,7 +667,7 @@ async function generateLlmsFiles() {
   const basePath = (config.site.base_path || "/").replace(/\/$/, "") || "/";
   const siteName = config.site.title;
   const siteDescription = config.metadata?.meta_description || "";
-  const isHubContentDeploy = isQuickArchVizContentDeploy();
+  const isHubContentDeploy = isKnowledgeHubContentDeploy(config);
   const homePath = isHubContentDeploy ? "/knowledge-hub" : "/";
 
   // ── Step 1: Discover pre-rendered HTML files ────────────────────────────
@@ -693,7 +696,7 @@ async function generateLlmsFiles() {
         continue;
       }
 
-      if (isHubContentDeploy && !isQuickArchVizHubRoute(urlPath)) {
+      if (isHubContentDeploy && !isKnowledgeHubRoute(urlPath)) {
         console.log(`   ⤷ Skipping non-public hub route: ${urlPath}`);
         continue;
       }
@@ -790,7 +793,7 @@ async function generateLlmsFiles() {
             continue;
           }
 
-          if (isHubContentDeploy && !isQuickArchVizHubRoute(route)) {
+          if (isHubContentDeploy && !isKnowledgeHubRoute(route)) {
             console.log("⤷ non-public hub route, skipping");
             continue;
           }

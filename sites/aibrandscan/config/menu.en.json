@@ -1,0 +1,38 @@
+{
+  "main": [
+    {
+      "name": "Home",
+      "url": "https://aibrandscan.com"
+    },
+    {
+      "name": "Knowledge Base",
+      "url": "/knowledge-hub"
+    },
+    {
+      "name": "Blog",
+      "url": "/blog"
+    },
+    {
+      "name": "Prompts",
+      "url": "/prompts"
+    },
+    {
+      "name": "Use Cases",
+      "url": "/use-cases"
+    },
+    {
+      "name": "Alternatives",
+      "url": "/alternatives"
+    },
+    {
+      "name": "For",
+      "url": "/for"
+    }
+  ],
+  "footer": [
+    {
+      "name": "Privacy Policy",
+      "url": "/privacy-policy"
+    }
+  ]
+}

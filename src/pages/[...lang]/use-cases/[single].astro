@@ -64,6 +64,7 @@ const canonicalPath = useCasePath(useCaseSlug, lang);
 const siteUrl =
   Astro.site ||
   (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
+const productName = siteConfig.site.title;
 const canonicalUrl = siteUrl
   ? new URL(canonicalPath, siteUrl).toString()
   : canonicalPath;
@@ -155,7 +156,7 @@ const useCaseJsonLd = [
     "@id": `${
       siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/"
     }#software`,
-    name: "QuickArchViz",
+    name: productName,
     applicationCategory: "DesignApplication",
     operatingSystem: "Web",
     url: siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/",

@@ -100,6 +100,15 @@ test("knowledge hub Wrangler configs include alternatives and audience routes", 
         "quickarchviz.com/pl/for/*",
       ],
     },
+    {
+      path: "../wrangler.knowledge-hub-aibrandscan.jsonc",
+      requiredPatterns: [
+        "aibrandscan.com/alternatives",
+        "aibrandscan.com/alternatives/*",
+        "aibrandscan.com/for",
+        "aibrandscan.com/for/*",
+      ],
+    },
   ];
 
   for (const config of configs) {

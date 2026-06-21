@@ -34,7 +34,7 @@ const resolvedSiteUrl = resolveSiteUrl({
   allowConfigSiteUrl: false,
 });
 const siteMountPath = normalizeMountPath(process.env.PUBLIC_SITE_MOUNT_PATH);
-const quickArchVizHubRoutePrefixes = [
+const knowledgeHubRoutePrefixes = [
   "/alternatives",
   "/authors",
   "/blog",
@@ -46,10 +46,12 @@ const quickArchVizHubRoutePrefixes = [
   "/tags",
   "/use-cases",
 ];
-const quickArchVizExcludedHubRoutes = new Set([
+const knowledgeHubExcludedRoutes = new Set([
   "/use-cases/przeglad-bryly-elewacji-na-spotkanie-z-klientem",
 ]);
-const isQuickArchVizContentDeploy = selectedSite.id.startsWith("quickarchviz-");
+const isKnowledgeHubContentDeploy =
+  config.settings.knowledge_hub_content_deploy === true ||
+  selectedSite.id.startsWith("quickarchviz-");
 
 const enabledLocales = languages
   .map(({ languageCode }) => languageCode)
@@ -111,14 +113,14 @@ function normalizePathname(pathname) {
   return pathname.length > 1 ? pathname.replace(/\/+$/g, "") : pathname || "/";
 }
 
-function isQuickArchVizHubRoute(pathname) {
+function isKnowledgeHubRoute(pathname) {
   const normalizedPathname = normalizePathname(pathname);
 
-  if (quickArchVizExcludedHubRoutes.has(normalizedPathname)) {
+  if (knowledgeHubExcludedRoutes.has(normalizedPathname)) {
     return false;
   }
 
-  return quickArchVizHubRoutePrefixes.some(
+  return knowledgeHubRoutePrefixes.some(
     (prefix) =>
       normalizedPathname === prefix ||
       normalizedPathname.startsWith(`${prefix}/`),
@@ -171,11 +173,11 @@ export default defineConfig({
     react(),
     sitemap({
       filter(page) {
-        if (!isQuickArchVizContentDeploy) {
+        if (!isKnowledgeHubContentDeploy) {
           return true;
         }
 
-        return isQuickArchVizHubRoute(new URL(page).pathname);
+        return isKnowledgeHubRoute(new URL(page).pathname);
       },
       serialize(item) {
         return {

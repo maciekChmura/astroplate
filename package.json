@@ -23,7 +23,9 @@
     "preview:knowledge-hub-en-proxy": "wrangler dev --config wrangler.knowledge-hub-en.jsonc",
     "deploy:knowledge-hub-pl-proxy": "wrangler deploy --config wrangler.knowledge-hub-pl.jsonc",
     "preview:knowledge-hub-pl-proxy": "wrangler dev --config wrangler.knowledge-hub-pl.jsonc",
-    "deploy:knowledge-hubs": "npm run deploy:prod && npm run deploy:knowledge-hub-en-proxy && npm run deploy:knowledge-hub-pl-proxy"
+    "deploy:knowledge-hub-aibrandscan-proxy": "wrangler deploy --config wrangler.knowledge-hub-aibrandscan.jsonc",
+    "preview:knowledge-hub-aibrandscan-proxy": "wrangler dev --config wrangler.knowledge-hub-aibrandscan.jsonc",
+    "deploy:knowledge-hubs": "npm run deploy:prod && npm run deploy:knowledge-hub-en-proxy && npm run deploy:knowledge-hub-pl-proxy && npm run deploy:knowledge-hub-aibrandscan-proxy"
   },
   "dependencies": {
     "@astrojs/check": "0.9.8",

@@ -75,12 +75,13 @@ const author = await getAuthorProfile({
   siteUrl,
 });
 const translations = (await getTranslations(lang)) as Record<string, string>;
+const productName = siteConfig.site.title;
 const alternativesBreadcrumbLabel =
   translations.alternatives_breadcrumb || "Alternatives";
 const relatedItems = [
   ...comparison_rows.map((row) => ({
     name: row.label,
-    description: `${competitor_name}: ${row.competitor} QuickArchViz: ${row.quickarchviz}`,
+    description: `${competitor_name}: ${row.competitor} ${productName}: ${row.quickarchviz}`,
   })),
   ...(comparison_matrix?.title
     ? [
@@ -150,7 +151,7 @@ const alternativeJsonLd = [
     "@id": `${
       siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/"
     }#software`,
-    name: "QuickArchViz",
+    name: productName,
     applicationCategory: "DesignApplication",
     operatingSystem: "Web",
     url: siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/",

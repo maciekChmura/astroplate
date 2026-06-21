@@ -1,5 +1,6 @@
 ---
 import BeforeAfter from "@/components/BeforeAfter.astro";
+import { siteConfig } from "@/lib/siteConfig";
 import { getTranslations, slugSelector } from "@/lib/utils/languageParser";
 import { humanize, markdownify } from "@/lib/utils/textConverter";
 import { render } from "astro:content";
@@ -73,13 +74,19 @@ const {
   cta,
 } = useCaseEntry.data;
 const translations = (await getTranslations(lang)) as Record<string, string>;
+const productName = siteConfig.site.title;
+const withProductName = (value: string) =>
+  value.replaceAll("QuickArchViz", productName);
 const beforeLabel = translations.input || "Input";
-const afterLabel = translations.quickarchviz_result || "QuickArchViz Result";
+const afterLabel = withProductName(
+  translations.quickarchviz_result || "QuickArchViz Result",
+);
 const howItWorksLabel = translations.use_case_how_it_works || "How It Works";
 const stepLabel = translations.use_case_step || "Step";
 const comparisonLabel = translations.use_case_comparison || "Before and After";
-const preservesLabel =
-  translations.use_case_preserves || "What QuickArchViz Preserves";
+const preservesLabel = withProductName(
+  translations.use_case_preserves || "What QuickArchViz Preserves",
+);
 const faqLabel = translations.use_case_faq || "FAQ";
 const formatLabel =
   translations.use_case_accepted_formats || "Accepted formats";
