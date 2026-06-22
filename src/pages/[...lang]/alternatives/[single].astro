@@ -1,5 +1,6 @@
 ---
 import AlternativeSingle from "@/layouts/AlternativeSingle.astro";
+import AIBrandScanAlternativeArticle from "@/layouts/AIBrandScanAlternativeArticle.astro";
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
@@ -78,6 +79,9 @@ const translations = (await getTranslations(lang)) as Record<string, string>;
 const productName = siteConfig.site.title;
 const alternativesBreadcrumbLabel =
   translations.alternatives_breadcrumb || "Alternatives";
+const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
+const isEditorialArticle =
+  isAIBrandScan && alternativeEntry.data.article_style;
 const relatedItems = [
   ...comparison_rows.map((row) => ({
     name: row.label,
@@ -111,7 +115,7 @@ const relatedItems = [
 const alternativeJsonLd = [
   author.personJsonLd,
   {
-    "@type": "WebPage",
+    "@type": isEditorialArticle ? "Article" : "WebPage",
     "@id": `${canonicalUrl}#webpage`,
     url: canonicalUrl,
     name: title,
@@ -119,12 +123,19 @@ const alternativeJsonLd = [
     description: plainDescription,
     image: [imageUrl].filter(Boolean),
     inLanguage: lang,
-    about: [
-      `${competitor_name} alternative`,
-      "AI architectural visualization",
-      "AI rendering",
-      ...categories,
-    ],
+    about: isAIBrandScan
+      ? [
+          `${competitor_name} alternatives`,
+          "AI visibility monitoring",
+          "Generative engine optimization",
+          ...categories,
+        ]
+      : [
+          `${competitor_name} alternative`,
+          "AI architectural visualization",
+          "AI rendering",
+          ...categories,
+        ],
     keywords: tags.join(", "),
     author: author.id ? { "@id": author.id } : author.personJsonLd,
   },
@@ -152,7 +163,9 @@ const alternativeJsonLd = [
       siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/"
     }#software`,
     name: productName,
-    applicationCategory: "DesignApplication",
+    applicationCategory: isAIBrandScan
+      ? "BusinessApplication"
+      : "DesignApplication",
     operatingSystem: "Web",
     url: siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/",
     description: siteConfig.metadata.meta_description,
@@ -195,9 +208,19 @@ const alternativeJsonLd = [
   lang={lang}
   jsonLd={alternativeJsonLd}
 >
-  <AlternativeSingle
-    alternativeEntry={alternativeEntry}
-    lang={lang}
-    author={author}
-  />
+  {
+    isEditorialArticle ? (
+      <AIBrandScanAlternativeArticle
+        alternativeEntry={alternativeEntry}
+        lang={lang}
+        author={author}
+      />
+    ) : (
+      <AlternativeSingle
+        alternativeEntry={alternativeEntry}
+        lang={lang}
+        author={author}
+      />
+    )
+  }
 </Base>

@@ -1,0 +1,89 @@
+---
+import { alternativePath } from "@/lib/utils/alternativeRoutes";
+import { stripLocaleFromId } from "@/lib/utils/languageParser";
+import { humanize, plainify } from "@/lib/utils/textConverter";
+import type { CollectionEntry } from "astro:content";
+import { FaArrowRight, FaChartLine, FaCheck, FaSearch } from "react-icons/fa";
+
+const { alternativesIndex, alternatives, lang } = Astro.props as {
+  alternativesIndex: CollectionEntry<"alternatives">;
+  alternatives: CollectionEntry<"alternatives">[];
+  lang: string;
+};
+---
+
+<section class="relative overflow-hidden bg-slate-950 py-16 text-white lg:py-24">
+  <div class="absolute inset-0 opacity-40" aria-hidden="true">
+    <div class="absolute -left-20 top-0 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl"></div>
+    <div class="absolute right-0 top-12 h-96 w-96 rounded-full bg-violet-500/20 blur-3xl"></div>
+  </div>
+  <div class="container relative">
+    <div class="mx-auto max-w-4xl text-center">
+      <p class="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-cyan-300">Independent comparison guides</p>
+      <h1 class="mb-6 text-4xl font-bold leading-tight text-white md:text-6xl">{alternativesIndex.data.title}</h1>
+      <p class="mx-auto mb-0 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl">
+        {alternativesIndex.data.description}
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="border-b border-border bg-light py-7 dark:border-darkmode-border dark:bg-darkmode-light">
+  <div class="container">
+    <div class="mx-auto grid max-w-5xl gap-5 md:grid-cols-3">
+      <div class="flex items-center gap-3">
+        <FaSearch className="shrink-0 text-cyan-600 dark:text-cyan-300" />
+        <span class="font-semibold text-text-dark dark:text-darkmode-text">Compare real monitoring workflows</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <FaChartLine className="shrink-0 text-cyan-600 dark:text-cyan-300" />
+        <span class="font-semibold text-text-dark dark:text-darkmode-text">Evaluate metrics that matter</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <FaCheck className="shrink-0 text-cyan-600 dark:text-cyan-300" />
+        <span class="font-semibold text-text-dark dark:text-darkmode-text">Choose for your team and goals</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="mx-auto max-w-6xl">
+      <div class="mb-10 max-w-3xl">
+        <p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">Latest guide</p>
+        <h2 class="h2 mb-4">Find the right AI visibility platform</h2>
+        <p class="mb-0 text-lg leading-8">
+          Compare tools by brand monitoring depth, prompt tracking, citations, answer accuracy, reporting, and the ability to turn findings into action.
+        </p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-2">
+        {alternatives.map((alternative) => {
+          const slug = stripLocaleFromId(alternative.id);
+          return (
+            <article class="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-darkmode-border dark:bg-darkmode-light md:p-9">
+              <div class="mb-5 flex flex-wrap gap-2">
+                {alternative.data.categories.map((category: string) => (
+                  <span class="rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800 dark:bg-cyan-950/50 dark:text-cyan-200">
+                    {humanize(category)}
+                  </span>
+                ))}
+              </div>
+              <h3 class="h3 mb-4">
+                <a class="after:absolute after:inset-0" href={alternativePath(slug, lang)}>
+                  {alternative.data.title}
+                </a>
+              </h3>
+              <p class="mb-7 text-base leading-7">{plainify(alternative.data.description)}</p>
+              <span class="mt-auto inline-flex items-center gap-2 font-bold text-cyan-700 dark:text-cyan-300">
+                Read the comparison
+                <FaArrowRight className="transition group-hover:translate-x-1" />
+              </span>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>

@@ -24,9 +24,9 @@ features:
       label: "Read the guides"
       link: "/blog"
 
-  - title: "Reusable analysis prompts"
+  - title: "AI Visibility Prompt Library"
     image: "/sites/aibrandscan/images/image-placeholder.png"
-    content: "Use draft-ready prompts for brand audits, competitor comparisons, positioning checks, and content gap analysis."
+    content: "Use advanced prompts for brand audits, competitor comparisons, GEO content planning, buyer research, and recurring AI visibility monitoring."
     bulletpoints:
       - "AI visibility audits"
       - "Competitor mention analysis"
@@ -34,8 +34,8 @@ features:
       - "Content gap briefs"
     button:
       enable: true
-      label: "Browse prompts"
-      link: "/prompts"
+      label: "Browse the prompt library"
+      link: "/prompt-library"
 
   - title: "Brand monitoring workflows"
     image: "/sites/aibrandscan/images/image-placeholder.png"

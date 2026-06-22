@@ -32,6 +32,7 @@ const blogCollection = defineCollection({
   loader: glob({ pattern: "**/*.md", base: `${contentBase}/blog` }),
   schema: z.object({
     title: z.string(),
+    meta_title: z.string().optional(),
     description: z.string(),
     date: z.coerce.date(),
     image: z.string(),
@@ -48,6 +49,7 @@ const promptsCollection = defineCollection({
   loader: glob({ pattern: "**/*.md", base: `${contentBase}/prompts` }),
   schema: z.object({
     title: z.string(),
+    meta_title: z.string().optional(),
     description: z.string(),
     image: z.string().optional(),
     categories: z.array(z.string()).min(1),
@@ -56,6 +58,13 @@ const promptsCollection = defineCollection({
     author: z.string().optional(),
     what_it_does: z.string().optional(),
     best_input: z.string().optional(),
+    use_case: z.string().optional(),
+    when_to_use: z.array(z.string()).default([]),
+    required_inputs: z.array(z.string()).default([]),
+    outputs: z.array(z.string()).default([]),
+    best_for: z.string().optional(),
+    how_to_use_results: z.array(z.string()).default([]),
+    library_category: z.string().optional(),
     prompt: z.string(),
     popular: z.boolean().optional(),
     draft: z.boolean(),
@@ -87,6 +96,7 @@ const useCasesCollection = defineCollection({
     author: z.string().optional(),
     popular: z.boolean().optional(),
     draft: z.boolean(),
+    article_style: z.boolean().default(false),
     software: z.string().optional(),
     workflow: z.string().optional(),
     rendering_intent: z.string().optional(),
@@ -174,6 +184,17 @@ const audienceFaqField = z.object({
   answer: z.string(),
 });
 
+const audienceCardField = z.object({
+  title: z.string(),
+  description: z.string(),
+  outcome: z.string().optional(),
+});
+
+const audienceMetricField = z.object({
+  label: z.string(),
+  description: z.string(),
+});
+
 // Audience/persona collection schema
 const audiencesCollection = defineCollection({
   loader: glob({ pattern: "**/*.md", base: audiencesBase }),
@@ -194,6 +215,11 @@ const audiencesCollection = defineCollection({
     workflows: z.array(audienceWorkflowField).default([]),
     related_use_cases: z.array(z.string()).default([]),
     related_prompts: z.array(z.string()).default([]),
+    audience_groups: z.array(audienceCardField).default([]),
+    measurements: z.array(audienceMetricField).default([]),
+    example_prompts: z.array(z.string()).default([]),
+    best_fit: z.array(z.string()).default([]),
+    less_suitable: z.array(z.string()).default([]),
     faq: z.array(audienceFaqField).default([]),
     cta: z
       .object({
@@ -256,6 +282,8 @@ const alternativesCollection = defineCollection({
     author: z.string().optional(),
     popular: z.boolean().optional(),
     draft: z.boolean(),
+    article_style: z.boolean().default(false),
+    reviewed_date: z.string().optional(),
     competitor_name: z.string(),
     competitor_url: z.string().optional(),
     competitor_summary: z.string(),

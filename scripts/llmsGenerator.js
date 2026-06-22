@@ -35,6 +35,7 @@ const KNOWLEDGE_HUB_ROUTE_PREFIXES = [
   "/for",
   "/knowledge-hub",
   "/privacy-policy",
+  "/prompt-library",
   "/prompts",
   "/tags",
   "/use-cases",
@@ -55,6 +56,21 @@ function normalizeUrlPath(urlPath) {
   return urlPath.length > 1 ? urlPath.replace(/\/+$/g, "") : urlPath || "/";
 }
 
+function isExcludedPublicRoute(urlPath) {
+  const normalizedPath = normalizeUrlPath(urlPath);
+
+  if (KNOWLEDGE_HUB_EXCLUDED_ROUTES.has(normalizedPath)) {
+    return true;
+  }
+
+  return (
+    selectedSite.id === "aibrandscan" &&
+    (normalizedPath === "/prompts" ||
+      normalizedPath.startsWith("/prompts/") ||
+      normalizedPath === "/knowledge-hub")
+  );
+}
+
 function isKnowledgeHubContentDeploy(config) {
   return (
     config.settings?.knowledge_hub_content_deploy === true ||
@@ -65,7 +81,7 @@ function isKnowledgeHubContentDeploy(config) {
 function isKnowledgeHubRoute(urlPath) {
   const normalizedPath = normalizeUrlPath(urlPath);
 
-  if (KNOWLEDGE_HUB_EXCLUDED_ROUTES.has(normalizedPath)) {
+  if (isExcludedPublicRoute(normalizedPath)) {
     return false;
   }
 
@@ -696,6 +712,11 @@ async function generateLlmsFiles() {
         continue;
       }
 
+      if (isExcludedPublicRoute(urlPath)) {
+        console.log(`   ⤷ Skipping excluded public route: ${urlPath}`);
+        continue;
+      }
+
       if (isHubContentDeploy && !isKnowledgeHubRoute(urlPath)) {
         console.log(`   ⤷ Skipping non-public hub route: ${urlPath}`);
         continue;
@@ -790,6 +811,11 @@ async function generateLlmsFiles() {
 
           if (!pageData.title) {
             console.log("⚠️  no title, skipping");
+            continue;
+          }
+
+          if (isExcludedPublicRoute(route)) {
+            console.log("⤷ excluded public route, skipping");
             continue;
           }
 

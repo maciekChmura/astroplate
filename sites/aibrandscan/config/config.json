@@ -22,7 +22,7 @@
     "default_language": "en",
     "disable_languages": [],
     "default_language_in_subdir": false,
-    "knowledge_hub_content_deploy": true,
+    "knowledge_hub_content_deploy": false,
     "pagination": 6,
     "summary_length": 200
   },
@@ -57,9 +57,9 @@
 
   "metadata": {
     "meta_author": "AIBrandScan",
-    "default_author": "aibrandscan-team",
+    "default_author": "jowita-chmura",
     "meta_image": "/sites/aibrandscan/images/og-image.png",
-    "meta_description": "AIBrandScan knowledge hub resources"
+    "meta_description": "Monitor how AI assistants mention, describe, compare, and recommend your brand."
   },
 
   "language_switcher": {

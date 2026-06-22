@@ -1,0 +1,219 @@
+---
+import { getTranslations, slugSelector } from "@/lib/utils/languageParser";
+import { humanize, markdownify } from "@/lib/utils/textConverter";
+import { render } from "astro:content";
+import {
+  FaArrowRight,
+  FaBolt,
+  FaCheck,
+  FaRegCalendarCheck,
+  FaRegFolder,
+  FaRegUser,
+} from "react-icons/fa";
+
+type AlternativeFaq = {
+  question: string;
+  answer: string;
+};
+
+const { alternativeEntry, lang, author } = Astro.props;
+const { Content } = await render(alternativeEntry);
+const {
+  title,
+  description,
+  categories,
+  tags,
+  reviewed_date,
+  faq,
+  cta,
+} = alternativeEntry.data;
+const translations = (await getTranslations(lang)) as Record<string, string>;
+const faqLabel = translations.use_case_faq || "Frequently asked questions";
+
+const sectionLinks = [
+  { label: "Quick answer", href: "#quick-answer" },
+  { label: "What to measure", href: "#what-should-an-ai-visibility-tool-measure" },
+  { label: "Compare tools", href: "#best-ai-visibility-tools-compared" },
+  { label: "Tool reviews", href: "#1-ai-brand-scan" },
+  { label: "How to choose", href: "#which-ai-visibility-tool-should-you-choose" },
+  { label: "FAQ", href: "#faq" },
+];
+---
+
+<section class="relative overflow-hidden bg-slate-950 py-16 text-white lg:py-24">
+  <div class="absolute inset-0 opacity-40" aria-hidden="true">
+    <div class="absolute -left-24 top-0 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl"></div>
+    <div class="absolute right-0 top-20 h-96 w-96 rounded-full bg-violet-500/20 blur-3xl"></div>
+  </div>
+
+  <div class="container relative">
+    <div class="mx-auto max-w-5xl">
+      <a
+        class="mb-7 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-200"
+        href={slugSelector("/alternatives", lang)}
+      >
+        <FaBolt />
+        AI visibility tool comparison
+      </a>
+
+      <h1 class="mb-6 max-w-5xl text-4xl font-bold leading-tight text-white md:text-6xl" set:html={markdownify(title)} />
+      <p class="mb-8 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl" set:html={markdownify(description)} />
+
+      <div class="flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-300">
+        {author?.name && (
+          <span class="inline-flex items-center gap-2">
+            <FaRegUser className="text-cyan-300" />
+            {author.url ? <a class="text-white hover:text-cyan-200" href={author.url}>{author.name}</a> : author.name}
+          </span>
+        )}
+        {reviewed_date && (
+          <span class="inline-flex items-center gap-2">
+            <FaRegCalendarCheck className="text-cyan-300" />
+            Reviewed {reviewed_date}
+          </span>
+        )}
+        {categories.length > 0 && (
+          <span class="inline-flex items-center gap-2">
+            <FaRegFolder className="text-cyan-300" />
+            {categories.map(humanize).join(", ")}
+          </span>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="sticky top-[70px] z-20 border-b border-border bg-white/95 backdrop-blur dark:border-darkmode-border dark:bg-darkmode-body/95">
+  <div class="container overflow-x-auto">
+    <div class="flex min-w-max gap-1 py-3">
+      {sectionLinks.map((item) => (
+        <a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-light hover:text-primary dark:hover:bg-darkmode-light" href={item.href}>
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<section class="section pt-12">
+  <div class="container">
+    <article class="mx-auto max-w-5xl">
+      <aside class="mb-12 grid gap-4 rounded-2xl border border-cyan-200 bg-cyan-50 p-6 dark:border-cyan-900 dark:bg-cyan-950/30 md:grid-cols-3">
+        <div>
+          <p class="mb-1 text-sm font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-300">7 tools</p>
+          <p class="mb-0 font-semibold text-text-dark dark:text-darkmode-text">Compared by workflow</p>
+        </div>
+        <div>
+          <p class="mb-1 text-sm font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-300">9 criteria</p>
+          <p class="mb-0 font-semibold text-text-dark dark:text-darkmode-text">From mentions to action plans</p>
+        </div>
+        <div>
+          <p class="mb-1 text-sm font-semibold uppercase tracking-wider text-cyan-700 dark:text-cyan-300">No universal winner</p>
+          <p class="mb-0 font-semibold text-text-dark dark:text-darkmode-text">Choose for your team and goals</p>
+        </div>
+      </aside>
+
+      <div class="alternative-guide content">
+        <Content />
+      </div>
+
+      {faq.length > 0 && (
+        <section id="faq" class="mt-16 scroll-mt-32">
+          <p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">Decision support</p>
+          <h2 class="h2 mb-8">{faqLabel}</h2>
+          <div class="grid gap-4">
+            {faq.map((item: AlternativeFaq) => (
+              <details class="group rounded-2xl border border-border bg-light p-6 open:bg-white dark:border-darkmode-border dark:bg-darkmode-light dark:open:bg-darkmode-body">
+                <summary class="cursor-pointer list-none pr-8 font-secondary text-lg font-semibold text-text-dark dark:text-darkmode-text">
+                  {item.question}
+                </summary>
+                <p class="mb-0 mt-4 max-w-3xl leading-7" set:html={markdownify(item.answer)} />
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {cta?.enable && (
+        <section class="relative mt-16 overflow-hidden rounded-3xl bg-slate-950 p-8 text-white shadow-xl md:p-12">
+          <div class="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl" aria-hidden="true"></div>
+          <div class="relative max-w-3xl">
+            <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-300 text-slate-950">
+              <FaCheck />
+            </div>
+            {cta.title && <h2 class="h2 mb-4 text-white">{cta.title}</h2>}
+            {cta.description && <p class="mb-7 text-lg leading-8 text-slate-300">{cta.description}</p>}
+            <a class="inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-6 py-3.5 font-bold text-slate-950 hover:bg-cyan-200" href={slugSelector(cta.link, lang)}>
+              {cta.label}
+              <FaArrowRight />
+            </a>
+          </div>
+        </section>
+      )}
+
+      {tags.length > 0 && (
+        <div class="mt-10 flex flex-wrap gap-2">
+          {tags.map((tag: string) => (
+            <span class="rounded-full bg-light px-3 py-1.5 text-sm dark:bg-darkmode-light">{humanize(tag)}</span>
+          ))}
+        </div>
+      )}
+    </article>
+  </div>
+</section>
+
+<style>
+  .alternative-guide :global(h2) {
+    margin-top: 4rem;
+    scroll-margin-top: 9rem;
+  }
+
+  .alternative-guide :global(h3) {
+    margin-top: 2.25rem;
+    scroll-margin-top: 9rem;
+  }
+
+  .alternative-guide :global(h2 + p),
+  .alternative-guide :global(h3 + p) {
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .alternative-guide :global(table) {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+  }
+
+  .alternative-guide :global(th) {
+    background: #0f172a;
+    color: white;
+    white-space: nowrap;
+  }
+
+  .alternative-guide :global(th),
+  .alternative-guide :global(td) {
+    min-width: 150px;
+    padding: 1rem;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .alternative-guide :global(blockquote) {
+    margin: 2rem 0;
+    border-left: 4px solid #22d3ee;
+    border-radius: 0 1rem 1rem 0;
+    background: #ecfeff;
+    padding: 1.25rem 1.5rem;
+    color: #164e63;
+  }
+
+  :global(.dark) .alternative-guide :global(blockquote) {
+    background: rgba(8, 145, 178, 0.12);
+    color: #a5f3fc;
+  }
+</style>

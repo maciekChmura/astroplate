@@ -1,0 +1,201 @@
+---
+import { humanize } from "@/lib/utils/textConverter";
+import {
+  FaArrowRight,
+  FaCheck,
+  FaClipboard,
+  FaRegLightbulb,
+  FaRobot,
+} from "react-icons/fa6";
+
+const { promptEntry, author } = Astro.props;
+const {
+  title,
+  description,
+  categories,
+  tags,
+  use_case,
+  when_to_use,
+  required_inputs,
+  outputs,
+  best_for,
+  how_to_use_results,
+  prompt,
+} = promptEntry.data;
+---
+
+<div class="bg-body dark:bg-darkmode-body">
+  <section class="relative border-b border-border py-14 sm:py-20 dark:border-darkmode-border">
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+      <div class="absolute left-[8%] top-0 h-64 w-64 rounded-full bg-cyan-300/15 blur-3xl dark:bg-cyan-400/10"></div>
+      <div class="absolute right-[5%] top-20 h-72 w-72 rounded-full bg-blue-400/15 blur-3xl dark:bg-blue-500/10"></div>
+    </div>
+    <div class="container relative">
+      <div class="mx-auto max-w-4xl text-center">
+        <div class="mb-5 flex flex-wrap justify-center gap-2">
+          {categories.map((category: string) => (
+            <span class="rounded-full border border-cyan-200 bg-cyan-50 px-3 py-1.5 text-xs font-semibold text-cyan-800 dark:border-cyan-800 dark:bg-cyan-950/50 dark:text-cyan-200">
+              {category}
+            </span>
+          ))}
+        </div>
+        <h1 class="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-text-dark sm:text-5xl dark:text-darkmode-text-dark">
+          {title}
+        </h1>
+        <p class="mx-auto mb-7 max-w-3xl text-lg leading-8">{description}</p>
+        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-text-light dark:text-darkmode-text-light">
+          <span>Advanced prompt</span>
+          <span>Copy-ready</span>
+          {author?.name && (
+            <a href={author.url}>{author.name}</a>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)]">
+        <aside class="hidden lg:block">
+          <nav class="sticky top-28 rounded-2xl border border-border bg-light p-5 dark:border-darkmode-border dark:bg-darkmode-light">
+            <p class="mb-4 text-xs font-bold uppercase tracking-[.16em] text-text-light dark:text-darkmode-text-light">On this page</p>
+            <ul class="space-y-3 text-sm">
+              <li><a href="#what-this-prompt-does">What this prompt does</a></li>
+              <li><a href="#when-to-use">When to use it</a></li>
+              <li><a href="#required-inputs">Required inputs</a></li>
+              <li><a href="#what-you-get">What you will get</a></li>
+              <li><a href="#advanced-prompt">Advanced Prompt</a></li>
+              <li><a href="#use-results">How to use results</a></li>
+              <li><a href="#next-action">Recommended action</a></li>
+            </ul>
+          </nav>
+        </aside>
+
+        <article class="min-w-0">
+          <section id="what-this-prompt-does" class="mb-12 scroll-mt-28">
+            <div class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/50 dark:text-cyan-200">
+              <FaRegLightbulb />
+            </div>
+            <h2 class="h3 mb-4">What this prompt does</h2>
+            <p class="max-w-3xl text-lg leading-8">{use_case}</p>
+            {best_for && (
+              <div class="mt-6 rounded-xl border border-border bg-light p-5 dark:border-darkmode-border dark:bg-darkmode-light">
+                <strong class="mb-2 block text-text-dark dark:text-darkmode-text-dark">Best for</strong>
+                <p class="mb-0 leading-7">{best_for}</p>
+              </div>
+            )}
+          </section>
+
+          <div class="mb-12 grid gap-5 md:grid-cols-2">
+            <section id="when-to-use" class="scroll-mt-28 rounded-2xl border border-border p-6 dark:border-darkmode-border">
+              <h2 class="h4 mb-5">When to use this prompt</h2>
+              <ul class="space-y-3">
+                {when_to_use.map((item: string) => (
+                  <li class="flex gap-3 leading-7">
+                    <FaCheck className="mt-1.5 shrink-0 text-cyan-600 dark:text-cyan-300" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+            <section id="required-inputs" class="scroll-mt-28 rounded-2xl border border-border p-6 dark:border-darkmode-border">
+              <h2 class="h4 mb-5">Required inputs</h2>
+              <ul class="space-y-3">
+                {required_inputs.map((item: string) => (
+                  <li class="flex gap-3 leading-7">
+                    <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-cyan-500"></span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
+
+          <section id="what-you-get" class="mb-12 scroll-mt-28">
+            <h2 class="h3 mb-6">What you will get</h2>
+            <div class="grid gap-3 sm:grid-cols-2">
+              {outputs.map((item: string) => (
+                <div class="flex items-start gap-3 rounded-xl bg-light p-4 dark:bg-darkmode-light">
+                  <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-200">✓</span>
+                  <span class="text-sm leading-6">{item}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section id="advanced-prompt" class="mb-12 scroll-mt-28">
+            <div class="overflow-hidden rounded-2xl border border-slate-700 bg-slate-950 shadow-xl" data-prompt-container>
+              <div class="flex flex-col justify-between gap-4 border-b border-white/10 px-5 py-4 sm:flex-row sm:items-center">
+                <div class="flex items-center gap-3">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300">
+                    <FaRobot />
+                  </div>
+                  <div>
+                    <h2 class="mb-0 text-lg font-bold text-white">Advanced Prompt</h2>
+                    <p class="mb-0 text-xs text-slate-400">Copy the full prompt and replace the bracketed inputs.</p>
+                  </div>
+                </div>
+                <button class="inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-300 px-4 py-2.5 text-sm font-bold text-slate-950 hover:bg-cyan-200" type="button" data-copy-prompt>
+                  <FaClipboard /> <span data-copy-label>Copy prompt</span>
+                </button>
+              </div>
+              <pre class="max-h-[760px] overflow-auto whitespace-pre-wrap break-words p-5 text-sm leading-7 text-slate-300 sm:p-7"><code data-prompt-text>{prompt}</code></pre>
+            </div>
+          </section>
+
+          <section id="use-results" class="mb-12 scroll-mt-28">
+            <h2 class="h3 mb-6">How to use the results</h2>
+            <ol class="grid gap-3">
+              {how_to_use_results.map((item: string, index: number) => (
+                <li class="flex items-start gap-4 rounded-xl border border-border p-5 dark:border-darkmode-border">
+                  <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white dark:bg-cyan-300 dark:text-slate-950">{index + 1}</span>
+                  <span class="pt-1 leading-7">{item}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <section id="next-action" class="scroll-mt-28 overflow-hidden rounded-3xl bg-slate-950 p-7 text-white sm:p-9">
+            <span class="mb-3 block text-sm font-bold uppercase tracking-[.16em] text-cyan-300">Want to monitor this automatically?</span>
+            <h2 class="mb-4 text-3xl font-bold">Turn one-time testing into a repeatable visibility system</h2>
+            <p class="mb-6 max-w-3xl leading-8 text-slate-300">
+              Manual testing is useful for investigation, but hard to repeat and compare.
+              AI Brand Scan monitors brand mentions, competitors, recommendations,
+              answer accuracy, sentiment, Share of Voice, and content gaps over time.
+            </p>
+            <a class="inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-6 py-3 font-bold text-slate-950 hover:bg-cyan-200" href="https://aibrandscan.com">
+              Explore AI Brand Scan <FaArrowRight />
+            </a>
+          </section>
+
+          <div class="mt-8 flex flex-wrap gap-2">
+            {tags.map((tag: string) => (
+              <span class="rounded-full bg-light px-3 py-1.5 text-xs dark:bg-darkmode-light">{humanize(tag)}</span>
+            ))}
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  document.querySelectorAll("[data-copy-prompt]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const container = button.closest("[data-prompt-container]");
+      const text = container?.querySelector("[data-prompt-text]")?.textContent || "";
+      const label = button.querySelector("[data-copy-label]");
+
+      try {
+        await navigator.clipboard.writeText(text);
+        if (label) label.textContent = "Copied";
+        setTimeout(() => {
+          if (label) label.textContent = "Copy prompt";
+        }, 2000);
+      } catch {
+        if (label) label.textContent = "Select and copy";
+      }
+    });
+  });
+</script>

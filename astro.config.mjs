@@ -42,6 +42,7 @@ const knowledgeHubRoutePrefixes = [
   "/for",
   "/knowledge-hub",
   "/privacy-policy",
+  "/prompt-library",
   "/prompts",
   "/tags",
   "/use-cases",
@@ -120,6 +121,15 @@ function isKnowledgeHubRoute(pathname) {
     return false;
   }
 
+  if (
+    selectedSite.id === "aibrandscan" &&
+    (normalizedPathname === "/prompts" ||
+      normalizedPathname.startsWith("/prompts/") ||
+      normalizedPathname === "/knowledge-hub")
+  ) {
+    return false;
+  }
+
   return knowledgeHubRoutePrefixes.some(
     (prefix) =>
       normalizedPathname === prefix ||
@@ -173,11 +183,24 @@ export default defineConfig({
     react(),
     sitemap({
       filter(page) {
+        const pathname = new URL(page).pathname;
+        const normalizedPathname = normalizePathname(pathname);
+
+        if (
+          selectedSite.id === "aibrandscan" &&
+          (knowledgeHubExcludedRoutes.has(normalizedPathname) ||
+            normalizedPathname === "/prompts" ||
+            normalizedPathname.startsWith("/prompts/") ||
+            normalizedPathname === "/knowledge-hub")
+        ) {
+          return false;
+        }
+
         if (!isKnowledgeHubContentDeploy) {
           return true;
         }
 
-        return isKnowledgeHubRoute(new URL(page).pathname);
+        return isKnowledgeHubRoute(pathname);
       },
       serialize(item) {
         return {

@@ -7,6 +7,7 @@ import PromptCard from "@/components/PromptCard.astro";
 import UseCaseCard from "@/components/UseCaseCard.astro";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
 import {
   alternativesIndexPath,
   ALTERNATIVES_CONTENT_FOLDER,
@@ -37,6 +38,10 @@ const HOMEPAGE_FOLDER = "homepage";
 const HOMEPAGE_ITEMS = 3;
 
 export function getStaticPaths() {
+  if (siteConfig.site.title === "AIBrandScan") {
+    return [];
+  }
+
   return supportedLang.map((lang) => ({
     params: { lang: lang || undefined },
   }));

@@ -1,6 +1,6 @@
 ---
+import AIBrandScanPromptSingle from "@/layouts/AIBrandScanPromptSingle.astro";
 import Base from "@/layouts/Base.astro";
-import PromptSingle from "@/layouts/PromptSingle.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
 import { getAuthorProfile } from "@/lib/utils/authors";
@@ -13,6 +13,8 @@ import {
 import { withSiteMountPath } from "@/lib/utils/mountPath";
 
 export async function getStaticPaths() {
+  if (siteConfig.site.title !== "AIBrandScan") return [];
+
   const paths = [];
 
   for (const routeLang of supportedLang) {
@@ -34,14 +36,9 @@ export async function getStaticPaths() {
 }
 
 const { promptEntry, lang } = Astro.props;
-const promptSlug = stripLocaleFromId(promptEntry.id);
-
-if (siteConfig.site.title === "AIBrandScan") {
-  return Astro.redirect(promptPath(promptSlug, lang), 301);
-}
-
-const { title, description, image, categories, tags, keywords } =
+const { title, meta_title, description, image, categories, tags, keywords } =
   promptEntry.data;
+const promptSlug = stripLocaleFromId(promptEntry.id);
 const canonicalPath = promptPath(promptSlug, lang);
 const siteUrl =
   Astro.site ||
@@ -62,10 +59,10 @@ const promptKeywords = Array.from(new Set([...tags, ...keywords]));
 const promptJsonLd = [
   author.personJsonLd,
   {
-    "@type": "CreativeWork",
+    "@type": "HowTo",
     "@id": `${canonicalUrl}#prompt`,
-    headline: title,
     name: title,
+    headline: title,
     description,
     image: imageUrl,
     url: canonicalUrl,
@@ -73,18 +70,48 @@ const promptJsonLd = [
     about: categories,
     keywords: promptKeywords.join(", "),
     author: author.id ? { "@id": author.id } : author.personJsonLd,
-    creator: author.id ? { "@id": author.id } : author.personJsonLd,
+    supply: promptEntry.data.required_inputs.map((item) => ({
+      "@type": "HowToSupply",
+      name: item,
+    })),
+    step: [
+      {
+        "@type": "HowToStep",
+        name: "Prepare the inputs",
+        text: "Collect verified brand facts, market context, competitors, buyer questions, and relevant AI answers.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Run the Advanced Prompt",
+        text: "Copy the prompt, replace bracketed inputs, and run it in the selected AI assistant.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Review and validate",
+        text: "Validate important findings against primary sources and qualified subject matter experts.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Monitor change",
+        text: "Repeat important tests consistently or use AI Brand Scan for recurring monitoring.",
+      },
+    ],
   },
 ];
 ---
 
 <Base
   title={title}
+  meta_title={meta_title}
   description={description}
   image={image}
   canonical={canonicalPath}
   lang={lang}
   jsonLd={promptJsonLd}
 >
-  <PromptSingle promptEntry={promptEntry} lang={lang} author={author} />
+  <AIBrandScanPromptSingle
+    promptEntry={promptEntry}
+    lang={lang}
+    author={author}
+  />
 </Base>

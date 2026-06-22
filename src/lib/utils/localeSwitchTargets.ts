@@ -221,6 +221,7 @@ export async function getLocaleSwitchTargets(pathname: string) {
       basePath === "/alternatives" ||
       basePath === "/for" ||
       basePath === "/prompts" ||
+      basePath === "/prompt-library" ||
       basePath === "/use-cases" ||
       basePath === "/tags"
     ) {
@@ -254,7 +255,9 @@ export async function getLocaleSwitchTargets(pathname: string) {
         : useCasesIndexPath(normalizedLang);
     }
 
-    const promptMatch = basePath.match(/^\/prompts\/([^/]+)$/);
+    const promptMatch = basePath.match(
+      /^\/(?:prompts|prompt-library)\/([^/]+)$/,
+    );
     if (promptMatch) {
       const slug = promptMatch[1];
       const slugs = await getPromptSlugs(normalizedLang);

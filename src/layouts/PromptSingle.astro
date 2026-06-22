@@ -160,8 +160,16 @@ const promptHeadings = hasStructuredSections
         textarea.style.top = "-9999px";
         document.body.appendChild(textarea);
         textarea.select();
-        const copied = document.execCommand("copy");
+        const legacyDocument = document as unknown as {
+          execCommand(commandId: string): boolean;
+        };
+        const copied = legacyDocument.execCommand("copy");
         textarea.remove();
+
+        if (!copied) {
+          throw new Error("Legacy clipboard copy failed");
+        }
+
         return copied;
       };
 

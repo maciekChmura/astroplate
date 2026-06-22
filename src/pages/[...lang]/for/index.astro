@@ -1,13 +1,21 @@
 ---
 import AudienceCard from "@/components/AudienceCard.astro";
+import AIBrandScanForLanding from "@/layouts/AIBrandScanForLanding.astro";
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
+import {
+  audiencesIndexPath,
+  AUDIENCES_CONTENT_FOLDER,
+} from "@/lib/utils/audienceRoutes";
+import { getAuthorProfile } from "@/lib/utils/authors";
 import {
   getContentDir,
   normalizeLang,
   supportedLang,
 } from "@/lib/utils/languageParser";
-import { AUDIENCES_CONTENT_FOLDER } from "@/lib/utils/audienceRoutes";
+import { withSiteMountPath } from "@/lib/utils/mountPath";
+import { plainify } from "@/lib/utils/textConverter";
 import PageHeader from "@/partials/PageHeader.astro";
 import { getEntry } from "astro:content";
 
@@ -35,6 +43,77 @@ export async function getStaticPaths() {
 
 const { audienceIndex, lang } = Astro.props;
 const audiences = await getSinglePage(AUDIENCES_CONTENT_FOLDER, lang);
+const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
+const canonicalPath = audiencesIndexPath(lang);
+const siteUrl =
+  Astro.site ||
+  (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
+const canonicalUrl = siteUrl
+  ? new URL(canonicalPath, siteUrl).toString()
+  : canonicalPath;
+const imageUrl =
+  siteUrl && audienceIndex.data.image
+    ? new URL(withSiteMountPath(audienceIndex.data.image), siteUrl).toString()
+    : audienceIndex.data.image;
+const author = await getAuthorProfile({
+  lang,
+  authorSlug: audienceIndex.data.author,
+  siteUrl,
+});
+const faq = audienceIndex.data.faq || [];
+const jsonLd = isAIBrandScan
+  ? [
+      author.personJsonLd,
+      {
+        "@type": "WebPage",
+        "@id": `${canonicalUrl}#webpage`,
+        url: canonicalUrl,
+        name: audienceIndex.data.title,
+        headline: audienceIndex.data.title,
+        description: plainify(audienceIndex.data.description),
+        image: imageUrl,
+        inLanguage: lang,
+        about: [
+          "AI brand visibility",
+          "Generative Engine Optimization",
+          "Answer Engine Optimization",
+          "Brand monitoring",
+          ...audienceIndex.data.categories,
+        ],
+        keywords: audienceIndex.data.tags.join(", "),
+        author: author.id ? { "@id": author.id } : author.personJsonLd,
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": `${
+          siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/"
+        }#software`,
+        name: siteConfig.site.title,
+        applicationCategory: "BusinessApplication",
+        operatingSystem: "Web",
+        url: siteUrl
+          ? new URL(withSiteMountPath("/"), siteUrl).toString()
+          : "/",
+        description: siteConfig.metadata.meta_description,
+      },
+      ...(faq.length > 0
+        ? [
+            {
+              "@type": "FAQPage",
+              "@id": `${canonicalUrl}#faq`,
+              mainEntity: faq.map((item) => ({
+                "@type": "Question",
+                name: item.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: plainify(item.answer),
+                },
+              })),
+            },
+          ]
+        : []),
+    ]
+  : undefined;
 ---
 
 <Base
@@ -42,20 +121,45 @@ const audiences = await getSinglePage(AUDIENCES_CONTENT_FOLDER, lang);
   meta_title={audienceIndex.data.meta_title}
   description={audienceIndex.data.description}
   image={audienceIndex.data.image}
+  canonical={canonicalPath}
   lang={lang}
+  jsonLd={jsonLd}
 >
-  <PageHeader title={audienceIndex.data.title} />
-  <section class="section-sm pb-0">
-    <div class="container">
-      <div class="row justify-center">
-        {
-          audiences.map((audience) => (
-            <div class="mb-14 md:col-6 lg:col-4">
-              <AudienceCard data={audience} />
+  {
+    isAIBrandScan ? (
+      <AIBrandScanForLanding audienceEntry={audienceIndex} />
+    ) : (
+      <>
+        <PageHeader title={audienceIndex.data.title} />
+        <section class="section-sm pb-0">
+          <div class="container">
+            <div class="row justify-center">
+              {audiences.map((audience) => (
+                <div class="mb-14 md:col-6 lg:col-4">
+                  <AudienceCard data={audience} />
+                </div>
+              ))}
             </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+          </div>
+        </section>
+      </>
+    )
+  }
+
+  {
+    isAIBrandScan && audiences.length > 0 && (
+      <section class="section-sm pt-0">
+        <div class="container">
+          <h2 class="h3 mb-8 text-center">Audience-specific guides</h2>
+          <div class="row justify-center">
+            {audiences.map((audience) => (
+              <div class="mb-14 md:col-6 lg:col-4">
+                <AudienceCard data={audience} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 </Base>

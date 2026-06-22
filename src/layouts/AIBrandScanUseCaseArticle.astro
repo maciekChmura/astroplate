@@ -1,0 +1,176 @@
+---
+import { markdownify } from "@/lib/utils/textConverter";
+import { render } from "astro:content";
+import {
+  FaArrowRight,
+  FaBuilding,
+  FaChartLine,
+  FaCheck,
+  FaRegUser,
+  FaRobot,
+} from "react-icons/fa6";
+
+const { useCaseEntry, author } = Astro.props;
+const { Content } = await render(useCaseEntry);
+const { title, description, categories, tags, cta } = useCaseEntry.data;
+
+const sectionLinks = [
+  { label: "Agency service", href: "#turn-ai-search-into-a-new-agency-service" },
+  { label: "How it helps", href: "#how-ai-brand-scan-helps-agencies" },
+  { label: "What to sell", href: "#what-your-agency-can-sell-with-ai-brand-scan" },
+  { label: "Workflow", href: "#agency-workflow" },
+  { label: "Metrics", href: "#what-ai-brand-scan-measures" },
+  { label: "Revenue", href: "#why-this-helps-agency-revenue" },
+];
+---
+
+<section class="relative overflow-hidden bg-slate-950 py-16 text-white lg:py-24">
+  <div class="absolute inset-0 opacity-40" aria-hidden="true">
+    <div class="absolute -left-24 top-0 h-80 w-80 rounded-full bg-cyan-500/20 blur-3xl"></div>
+    <div class="absolute right-0 top-16 h-96 w-96 rounded-full bg-violet-500/20 blur-3xl"></div>
+  </div>
+
+  <div class="container relative">
+    <div class="mx-auto max-w-5xl">
+      <div class="mb-7 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-200">
+        <FaBuilding />
+        Built for SEO and GEO agencies
+      </div>
+
+      <h1 class="mb-6 max-w-5xl text-4xl font-bold leading-tight text-white md:text-6xl" set:html={markdownify(title)} />
+      <p class="mb-8 max-w-3xl text-lg leading-8 text-slate-300 md:text-xl" set:html={markdownify(description)} />
+
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-slate-300">
+        {author?.name && (
+          <span class="inline-flex items-center gap-2">
+            <FaRegUser className="text-cyan-300" />
+            {author.url ? <a class="text-white hover:text-cyan-200" href={author.url}>{author.name}</a> : author.name}
+          </span>
+        )}
+        {categories.map((category: string) => (
+          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1">{category}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="sticky top-[70px] z-20 border-b border-border bg-white/95 backdrop-blur dark:border-darkmode-border dark:bg-darkmode-body/95">
+  <div class="container overflow-x-auto">
+    <div class="flex min-w-max gap-1 py-3">
+      {sectionLinks.map((item) => (
+        <a class="rounded-lg px-4 py-2 text-sm font-semibold hover:bg-light hover:text-primary dark:hover:bg-darkmode-light" href={item.href}>
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<section class="section pt-12">
+  <div class="container">
+    <article class="mx-auto max-w-5xl">
+      <aside class="mb-12 grid gap-4 rounded-2xl border border-cyan-200 bg-cyan-50 p-6 dark:border-cyan-900 dark:bg-cyan-950/30 md:grid-cols-3">
+        <div class="flex gap-3">
+          <FaRobot className="mt-1 shrink-0 text-cyan-700 dark:text-cyan-300" />
+          <div>
+            <strong class="block text-text-dark dark:text-darkmode-text">Repeatable audits</strong>
+            <span class="text-sm">Replace scattered screenshots with a consistent workflow.</span>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <FaChartLine className="mt-1 shrink-0 text-cyan-700 dark:text-cyan-300" />
+          <div>
+            <strong class="block text-text-dark dark:text-darkmode-text">Client-ready reporting</strong>
+            <span class="text-sm">Show Share of Voice, competitors, accuracy, and gaps.</span>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <FaCheck className="mt-1 shrink-0 text-cyan-700 dark:text-cyan-300" />
+          <div>
+            <strong class="block text-text-dark dark:text-darkmode-text">Recurring revenue</strong>
+            <span class="text-sm">Turn a first audit into monthly monitoring.</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="agency-use-case content">
+        <Content />
+      </div>
+
+      {cta?.enable && (
+        <section class="relative mt-16 overflow-hidden rounded-3xl bg-slate-950 p-8 text-white shadow-xl md:p-12">
+          <div class="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl" aria-hidden="true"></div>
+          <div class="relative max-w-3xl">
+            <div class="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-300 text-slate-950">
+              <FaRobot />
+            </div>
+            {cta.title && <h2 class="h2 mb-4 text-white">{cta.title}</h2>}
+            {cta.description && <p class="mb-7 text-lg leading-8 text-slate-300">{cta.description}</p>}
+            <a class="inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-6 py-3.5 font-bold text-slate-950 hover:bg-cyan-200" href={cta.link}>
+              {cta.label}
+              <FaArrowRight />
+            </a>
+          </div>
+        </section>
+      )}
+
+      <div class="mt-10 flex flex-wrap gap-2">
+        {tags.map((tag: string) => (
+          <span class="rounded-full bg-light px-3 py-1.5 text-sm dark:bg-darkmode-light">{tag}</span>
+        ))}
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .agency-use-case :global(h2) {
+    margin-top: 4rem;
+    scroll-margin-top: 9rem;
+  }
+
+  .agency-use-case :global(h3) {
+    margin-top: 2.25rem;
+    scroll-margin-top: 9rem;
+  }
+
+  .agency-use-case :global(h2 + p),
+  .agency-use-case :global(h3 + p) {
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .agency-use-case :global(table) {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+  }
+
+  .agency-use-case :global(th) {
+    background: #0f172a;
+    color: white;
+    white-space: nowrap;
+  }
+
+  .agency-use-case :global(th),
+  .agency-use-case :global(td) {
+    min-width: 180px;
+    padding: 1rem;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .agency-use-case :global(blockquote) {
+    margin: 2rem 0;
+    border-left: 4px solid #22d3ee;
+    border-radius: 0 1rem 1rem 0;
+    background: #ecfeff;
+    padding: 1.25rem 1.5rem;
+    color: #164e63;
+  }
+</style>

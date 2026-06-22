@@ -1,0 +1,266 @@
+---
+import { promptPath } from "@/lib/utils/promptRoutes";
+import {
+  FaArrowRight,
+  FaChartLine,
+  FaCodeCompare,
+  FaFileLines,
+  FaMagnifyingGlassChart,
+  FaRobot,
+} from "react-icons/fa6";
+
+const { prompts, lang } = Astro.props;
+
+const categoryOrder = [
+  "Diagnose AI Visibility",
+  "Compare Against Competitors",
+  "Build AI-Friendly Content",
+  "Buyer Research",
+  "Monitor and Report",
+];
+
+const categoryDescriptions: Record<string, string> = {
+  "Diagnose AI Visibility":
+    "Understand whether AI assistants know, mention, describe, and recommend your brand correctly.",
+  "Compare Against Competitors":
+    "Find out why competitors appear more often and where their evidence or content is stronger.",
+  "Build AI-Friendly Content":
+    "Create clearer pages, FAQs, entity information, and publishing plans for AI search.",
+  "Buyer Research":
+    "Discover the real questions buyers may ask AI before choosing a vendor or product.",
+  "Monitor and Report":
+    "Turn visibility data into recurring reports, leadership summaries, and client deliverables.",
+};
+
+const categoryIcons: Record<string, any> = {
+  "Diagnose AI Visibility": FaMagnifyingGlassChart,
+  "Compare Against Competitors": FaCodeCompare,
+  "Build AI-Friendly Content": FaFileLines,
+  "Buyer Research": FaRobot,
+  "Monitor and Report": FaChartLine,
+};
+
+const groupedPrompts = categoryOrder
+  .map((category) => ({
+    category,
+    prompts: prompts.filter(
+      (entry: any) => entry.data.library_category === category,
+    ),
+  }))
+  .filter((group) => group.prompts.length > 0);
+---
+
+<div class="overflow-hidden bg-body dark:bg-darkmode-body">
+  <section class="relative border-b border-border py-16 sm:py-20 lg:py-24 dark:border-darkmode-border">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute left-[10%] top-0 h-72 w-72 rounded-full bg-cyan-300/15 blur-3xl dark:bg-cyan-400/10"></div>
+      <div class="absolute right-[5%] top-20 h-80 w-80 rounded-full bg-blue-400/15 blur-3xl dark:bg-blue-500/10"></div>
+      <div class="absolute inset-0 opacity-[0.035] dark:opacity-[0.06] [background-image:radial-gradient(currentColor_1px,transparent_1px)] [background-size:24px_24px]"></div>
+    </div>
+    <div class="container relative">
+      <div class="mx-auto max-w-4xl text-center">
+        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-4 py-2 text-sm font-semibold text-cyan-800 dark:border-cyan-800 dark:bg-cyan-950/50 dark:text-cyan-200">
+          <FaRobot />
+          15 advanced prompts · 5 practical workflows
+        </div>
+        <h1 class="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-text-dark sm:text-5xl lg:text-6xl dark:text-darkmode-text-dark">
+          AI Visibility Prompt Library
+        </h1>
+        <p class="mx-auto mb-8 max-w-3xl text-lg leading-8 sm:text-xl">
+          Diagnose, monitor, and improve how ChatGPT, Claude, Gemini,
+          Perplexity, Copilot, and Google AI Overviews understand, compare, and
+          recommend your brand.
+        </p>
+        <div class="flex flex-col justify-center gap-3 sm:flex-row">
+          <a class="btn btn-primary inline-flex items-center justify-center gap-2" href="#prompt-categories">
+            Browse the library <FaArrowRight />
+          </a>
+          <a class="inline-flex items-center justify-center rounded-lg border border-cyan-300 px-6 py-3 font-semibold text-cyan-700 transition hover:bg-cyan-50 dark:text-cyan-200 dark:hover:bg-cyan-950/50" href="https://aibrandscan.com">
+            Automate brand monitoring
+          </a>
+        </div>
+      </div>
+
+      <div class="mx-auto mt-12 grid max-w-4xl gap-3 sm:grid-cols-3">
+        {[
+          ["15", "Advanced prompts"],
+          ["5", "Workflow categories"],
+          ["30/60/90", "Action-ready planning"],
+        ].map(([value, label]) => (
+          <div class="rounded-2xl border border-border bg-body/80 p-5 text-center shadow-sm backdrop-blur dark:border-darkmode-border dark:bg-darkmode-light/80">
+            <strong class="block text-3xl text-text-dark dark:text-darkmode-text-dark">{value}</strong>
+            <span class="text-sm text-text-light dark:text-darkmode-text-light">{label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="grid gap-10 lg:grid-cols-[.85fr_1.15fr]">
+        <div>
+          <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-cyan-600 dark:text-cyan-300">
+            More than a prompt list
+          </span>
+          <h2 class="h2 mb-5">A structured toolkit for AI brand visibility work</h2>
+          <p class="mb-6 text-lg leading-8">
+            Every resource explains the business use case, required inputs,
+            expected outputs, full Advanced Prompt, and the next action to take.
+          </p>
+          <p class="mb-0 leading-7">
+            Prepare your brand, website, market, audience, competitors, buyer
+            questions, and examples of current AI answers before you begin.
+          </p>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {[
+            "Check whether AI assistants mention your brand",
+            "Understand why competitors appear instead",
+            "Identify missing content and proof points",
+            "Improve brand entity clarity",
+            "Build AI-friendly FAQ and comparison pages",
+            "Track AI Share of Voice over time",
+            "Prepare executive reports",
+            "Create client-ready audit proposals",
+          ].map((item) => (
+            <div class="flex items-start gap-3 rounded-xl border border-border bg-light p-4 dark:border-darkmode-border dark:bg-darkmode-light">
+              <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cyan-100 text-xs font-bold text-cyan-700 dark:bg-cyan-900/60 dark:text-cyan-200">✓</span>
+              <span class="text-sm leading-6">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-border bg-light py-12 dark:border-darkmode-border dark:bg-darkmode-light">
+    <div class="container">
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {[
+          ["1", "Choose a workflow", "Start with the business question you need to answer."],
+          ["2", "Prepare inputs", "Use verified brand facts, competitors, queries, and AI answers."],
+          ["3", "Run the prompt", "Test manually across several AI assistants and save the evidence."],
+          ["4", "Monitor change", "Repeat important queries or automate tracking with AI Brand Scan."],
+        ].map(([number, title, description]) => (
+          <article>
+            <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 font-bold text-white dark:bg-cyan-300 dark:text-slate-950">{number}</span>
+            <h3 class="mb-2 text-lg font-bold text-text-dark dark:text-darkmode-text-dark">{title}</h3>
+            <p class="mb-0 text-sm leading-6">{description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="prompt-categories" class="section-sm scroll-mt-24">
+    <div class="container">
+      <div class="mb-12 max-w-3xl">
+        <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-cyan-600 dark:text-cyan-300">
+          Prompt categories
+        </span>
+        <h2 class="h2 mb-4">Choose the outcome you need</h2>
+        <p class="text-lg leading-8">
+          Start with diagnosis, comparison, content, buyer research, or
+          reporting. Each prompt is built as a professional working asset.
+        </p>
+      </div>
+
+      <div class="space-y-16">
+        {groupedPrompts.map((group, groupIndex) => {
+          const Icon = categoryIcons[group.category];
+          return (
+            <section id={`category-${groupIndex + 1}`} class="scroll-mt-24">
+              <div class="mb-7 flex flex-col justify-between gap-5 border-b border-border pb-6 sm:flex-row sm:items-end dark:border-darkmode-border">
+                <div>
+                  <div class="mb-3 flex items-center gap-3">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/50 dark:text-cyan-200">
+                      <Icon />
+                    </div>
+                    <h3 class="h3 mb-0">{group.category}</h3>
+                  </div>
+                  <p class="mb-0 max-w-3xl leading-7">
+                    {categoryDescriptions[group.category]}
+                  </p>
+                </div>
+                <span class="shrink-0 rounded-full bg-body px-3 py-1.5 text-sm font-semibold dark:bg-darkmode-body">
+                  {group.prompts.length} prompts
+                </span>
+              </div>
+
+              <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                {group.prompts.map((entry: any, index: number) => (
+                  <article class="group flex h-full flex-col rounded-2xl border border-border bg-body p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:shadow-xl dark:border-darkmode-border dark:bg-darkmode-body dark:hover:border-cyan-700">
+                    <div class="mb-5 flex items-center justify-between">
+                      <span class="rounded-full bg-light px-3 py-1 text-xs font-semibold text-text-light dark:bg-darkmode-light dark:text-darkmode-text-light">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      {entry.data.popular && (
+                        <span class="rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-800 dark:bg-cyan-900/50 dark:text-cyan-200">
+                          Popular
+                        </span>
+                      )}
+                    </div>
+                    <h4 class="h5 mb-3">
+                      <a href={promptPath(entry.id.split("/").pop(), lang)}>
+                        {entry.data.title}
+                      </a>
+                    </h4>
+                    <p class="mb-5 grow leading-7">{entry.data.use_case}</p>
+                    <div class="mb-5 border-t border-border pt-4 dark:border-darkmode-border">
+                      <p class="mb-1 text-xs font-bold uppercase tracking-wider text-text-light dark:text-darkmode-text-light">
+                        Best for
+                      </p>
+                      <p class="mb-0 text-sm leading-6">{entry.data.best_for}</p>
+                    </div>
+                    <a class="inline-flex items-center gap-2 font-semibold text-text-dark group-hover:text-cyan-600 dark:text-darkmode-text-dark dark:group-hover:text-cyan-300" href={promptPath(entry.id.split("/").pop(), lang)}>
+                      Open advanced prompt <FaArrowRight className="transition group-hover:translate-x-1" />
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-border bg-slate-950 py-16 text-white sm:py-20 dark:border-darkmode-border">
+    <div class="container">
+      <div class="grid items-center gap-10 lg:grid-cols-[1.1fr_.9fr]">
+        <div>
+          <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-cyan-300">
+            Manual vs automated testing
+          </span>
+          <h2 class="mb-5 text-3xl font-bold sm:text-4xl">
+            Prompts diagnose the moment. Monitoring shows the trend.
+          </h2>
+          <p class="mb-0 max-w-2xl text-lg leading-8 text-slate-300">
+            Manual testing is useful for investigation, but difficult to
+            repeat, compare, and report consistently. AI Brand Scan turns
+            one-time tests into an ongoing visibility system.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/[.05] p-6">
+          <ul class="space-y-3 text-sm text-slate-300">
+            {[
+              "Brand and competitor mentions",
+              "Recommendation frequency",
+              "Answer accuracy and sentiment",
+              "AI Share of Voice over time",
+              "Content and reputation gaps",
+            ].map((item) => (
+              <li class="flex items-center gap-3">
+                <span class="h-2 w-2 rounded-full bg-cyan-300"></span>{item}
+              </li>
+            ))}
+          </ul>
+          <a class="mt-6 inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-6 py-3 font-bold text-slate-950 hover:bg-cyan-200" href="https://aibrandscan.com">
+            Explore AI Brand Scan <FaArrowRight />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

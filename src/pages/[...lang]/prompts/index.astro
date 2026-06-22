@@ -2,6 +2,7 @@
 import PromptCard from "@/components/PromptCard.astro";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
 import { PROMPTS_CONTENT_FOLDER } from "@/lib/utils/promptRoutes";
 import { normalizeLang, supportedLang } from "@/lib/utils/languageParser";
 import PageHeader from "@/partials/PageHeader.astro";
@@ -13,6 +14,11 @@ export function getStaticPaths() {
 }
 
 const lang = normalizeLang(Astro.params.lang);
+
+if (siteConfig.site.title === "AIBrandScan") {
+  return Astro.redirect("/prompt-library/", 301);
+}
+
 const promptIndex = await getListPage(PROMPTS_CONTENT_FOLDER, lang, "-index");
 
 if (promptIndex.data.draft) {

@@ -1,0 +1,83 @@
+---
+import AIBrandScanPromptLibrary from "@/layouts/AIBrandScanPromptLibrary.astro";
+import Base from "@/layouts/Base.astro";
+import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
+import {
+  PROMPTS_CONTENT_FOLDER,
+  promptsIndexPath,
+} from "@/lib/utils/promptRoutes";
+import { normalizeLang, supportedLang } from "@/lib/utils/languageParser";
+
+export function getStaticPaths() {
+  if (siteConfig.site.title !== "AIBrandScan") return [];
+
+  return supportedLang.map((lang) => ({
+    params: { lang: lang || undefined },
+  }));
+}
+
+const lang = normalizeLang(Astro.params.lang);
+const promptIndex = await getListPage(PROMPTS_CONTENT_FOLDER, lang, "-index");
+
+if (promptIndex.data.draft) {
+  return Astro.redirect("/404");
+}
+
+const prompts = await getSinglePage(PROMPTS_CONTENT_FOLDER, lang);
+const canonicalPath = promptsIndexPath(lang);
+const siteUrl =
+  Astro.site ||
+  (siteConfig.site.base_url ? new URL(siteConfig.site.base_url) : undefined);
+const canonicalUrl = siteUrl
+  ? new URL(canonicalPath, siteUrl).toString()
+  : canonicalPath;
+const jsonLd = [
+  {
+    "@type": "CollectionPage",
+    "@id": `${canonicalUrl}#collection`,
+    url: canonicalUrl,
+    name: promptIndex.data.title,
+    headline: promptIndex.data.meta_title || promptIndex.data.title,
+    description: promptIndex.data.description,
+    inLanguage: lang,
+    about: [
+      "AI visibility",
+      "Generative Engine Optimization",
+      "Brand monitoring",
+      "AI prompts",
+    ],
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: prompts.length,
+      itemListElement: prompts.map((entry, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: entry.data.title,
+        url: siteUrl
+          ? new URL(
+              `/prompt-library/${entry.id.split("/").pop()}/`,
+              siteUrl,
+            ).toString()
+          : `/prompt-library/${entry.id.split("/").pop()}/`,
+      })),
+    },
+  },
+];
+---
+
+<Base
+  title={promptIndex.data.title}
+  meta_title={promptIndex.data.meta_title}
+  description={promptIndex.data.description}
+  image={promptIndex.data.image}
+  canonical={canonicalPath}
+  lang={lang}
+  jsonLd={jsonLd}
+>
+  <AIBrandScanPromptLibrary
+    promptIndex={promptIndex}
+    prompts={prompts}
+    lang={lang}
+  />
+</Base>

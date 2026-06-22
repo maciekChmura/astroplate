@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import AIBrandScanUseCaseArticle from "@/layouts/AIBrandScanUseCaseArticle.astro";
 import UseCaseSingle from "@/layouts/UseCaseSingle.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
@@ -112,6 +113,9 @@ const author = await getAuthorProfile({
   authorSlug: useCaseEntry.data.author,
   siteUrl,
 });
+const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
+const isEditorialArticle =
+  isAIBrandScan && useCaseEntry.data.article_style;
 const useCaseJsonLd = [
   author.personJsonLd,
   {
@@ -124,7 +128,9 @@ const useCaseJsonLd = [
     image: imageUrls,
     inLanguage: lang,
     about: [
-      "AI architectural visualization",
+      isAIBrandScan
+        ? "AI visibility monitoring"
+        : "AI architectural visualization",
       software,
       workflow,
       rendering_intent,
@@ -157,7 +163,9 @@ const useCaseJsonLd = [
       siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/"
     }#software`,
     name: productName,
-    applicationCategory: "DesignApplication",
+    applicationCategory: isAIBrandScan
+      ? "BusinessApplication"
+      : "DesignApplication",
     operatingSystem: "Web",
     url: siteUrl ? new URL(withSiteMountPath("/"), siteUrl).toString() : "/",
     description: siteConfig.metadata.meta_description,
@@ -197,5 +205,15 @@ const useCaseJsonLd = [
   lang={lang}
   jsonLd={useCaseJsonLd}
 >
-  <UseCaseSingle useCaseEntry={useCaseEntry} lang={lang} author={author} />
+  {
+    isEditorialArticle ? (
+      <AIBrandScanUseCaseArticle
+        useCaseEntry={useCaseEntry}
+        lang={lang}
+        author={author}
+      />
+    ) : (
+      <UseCaseSingle useCaseEntry={useCaseEntry} lang={lang} author={author} />
+    )
+  }
 </Base>

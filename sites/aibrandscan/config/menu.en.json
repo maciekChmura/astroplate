@@ -5,16 +5,12 @@
       "url": "https://aibrandscan.com"
     },
     {
-      "name": "Knowledge Base",
-      "url": "/knowledge-hub"
-    },
-    {
       "name": "Blog",
       "url": "/blog"
     },
     {
-      "name": "Prompts",
-      "url": "/prompts"
+      "name": "Prompt Library",
+      "url": "/prompt-library"
     },
     {
       "name": "Use Cases",
