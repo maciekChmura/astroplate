@@ -97,6 +97,23 @@ const useCasesCollection = defineCollection({
     popular: z.boolean().optional(),
     draft: z.boolean(),
     article_style: z.boolean().default(false),
+    eyebrow: z.string().optional(),
+    section_links: z
+      .array(
+        z.object({
+          label: z.string(),
+          href: z.string(),
+        }),
+      )
+      .default([]),
+    highlights: z
+      .array(
+        z.object({
+          title: z.string(),
+          description: z.string(),
+        }),
+      )
+      .default([]),
     software: z.string().optional(),
     workflow: z.string().optional(),
     rendering_intent: z.string().optional(),

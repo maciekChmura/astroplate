@@ -1,7 +1,9 @@
 ---
 import UseCaseCard from "@/components/UseCaseCard.astro";
+import AIBrandScanArchiveHero from "@/components/AIBrandScanArchiveHero.astro";
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
+import { siteConfig } from "@/lib/siteConfig";
 import {
   getContentDir,
   normalizeLang,
@@ -48,6 +50,7 @@ const useCaseGroups = useCases.reduce((groups, useCase) => {
   return groups;
 }, new Map<string, { title: string; useCases: typeof useCases }>());
 const hiddenGroupTitleKeys = new Set(["rendering-ai", "render-ai"]);
+const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
 ---
 
 <Base
@@ -57,24 +60,51 @@ const hiddenGroupTitleKeys = new Set(["rendering-ai", "render-ai"]);
   image={useCaseIndex.data.image}
   lang={lang}
 >
-  <PageHeader title={useCaseIndex.data.title} />
-  <section class="section-sm pb-0">
+  {
+    isAIBrandScan ? (
+      <AIBrandScanArchiveHero
+        eyebrow="Practical AI visibility workflows"
+        title={useCaseIndex.data.title}
+        description={useCaseIndex.data.description}
+        primaryAction={{ label: "Browse use cases", href: "#use-case-library" }}
+        secondaryAction={{
+          label: "Scan your brand",
+          href: "https://aibrandscan.com/register",
+        }}
+      />
+    ) : (
+      <PageHeader title={useCaseIndex.data.title} />
+    )
+  }
+  <section id="use-case-library" class="section-sm scroll-mt-24 pb-0">
     <div class="container">
       {
-        Array.from(useCaseGroups.values()).map((group) => (
-          <div class="mb-16">
-            {!hiddenGroupTitleKeys.has(slugify(group.title)) && (
-              <h2 class="h3 mb-8 text-center">{humanize(group.title)}</h2>
-            )}
+        isAIBrandScan ? (
+          <div class="mx-auto max-w-5xl">
             <div class="row justify-center">
-              {group.useCases.map((useCase) => (
-                <div class="mb-14 md:col-6 lg:col-4">
-                  <UseCaseCard data={useCase} />
+              {useCases.map((useCase) => (
+                <div class="mb-8 flex md:col-6">
+                  <UseCaseCard data={useCase} headingLevel="h2" />
                 </div>
               ))}
             </div>
           </div>
-        ))
+        ) : (
+          Array.from(useCaseGroups.values()).map((group) => (
+            <div class="mb-16">
+              {!hiddenGroupTitleKeys.has(slugify(group.title)) && (
+                <h2 class="h3 mb-8 text-center">{humanize(group.title)}</h2>
+              )}
+              <div class="row justify-center">
+                {group.useCases.map((useCase) => (
+                  <div class="mb-8 flex md:col-6 lg:col-4">
+                    <UseCaseCard data={useCase} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        )
       }
     </div>
   </section>

@@ -9,6 +9,27 @@ author: "aibrandscan-team"
 popular: true
 draft: false
 article_style: true
+eyebrow: "Built for SEO and GEO agencies"
+section_links:
+  - label: "Agency service"
+    href: "#turn-ai-search-into-a-new-agency-service"
+  - label: "How it helps"
+    href: "#how-ai-brand-scan-helps-agencies"
+  - label: "What to sell"
+    href: "#what-your-agency-can-sell-with-ai-brand-scan"
+  - label: "Workflow"
+    href: "#agency-workflow"
+  - label: "Metrics"
+    href: "#what-ai-brand-scan-measures"
+  - label: "Revenue"
+    href: "#why-this-helps-agency-revenue"
+highlights:
+  - title: "Repeatable audits"
+    description: "Replace scattered screenshots with a consistent workflow."
+  - title: "Client-ready reporting"
+    description: "Show Share of Voice, competitors, accuracy, and gaps."
+  - title: "Recurring revenue"
+    description: "Turn a first audit into monthly monitoring."
 software: "AI Brand Scan"
 workflow: "Agency AI visibility audits"
 rendering_intent: "Client reporting and recurring monitoring"

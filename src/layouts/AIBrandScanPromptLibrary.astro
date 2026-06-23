@@ -1,5 +1,6 @@
 ---
 import { promptPath } from "@/lib/utils/promptRoutes";
+import AIBrandScanArchiveHero from "@/components/AIBrandScanArchiveHero.astro";
 import {
   FaArrowRight,
   FaChartLine,
@@ -51,36 +52,13 @@ const groupedPrompts = categoryOrder
 ---
 
 <div class="overflow-hidden bg-body dark:bg-darkmode-body">
-  <section class="relative border-b border-border py-16 sm:py-20 lg:py-24 dark:border-darkmode-border">
-    <div class="pointer-events-none absolute inset-0">
-      <div class="absolute left-[10%] top-0 h-72 w-72 rounded-full bg-cyan-300/15 blur-3xl dark:bg-cyan-400/10"></div>
-      <div class="absolute right-[5%] top-20 h-80 w-80 rounded-full bg-blue-400/15 blur-3xl dark:bg-blue-500/10"></div>
-      <div class="absolute inset-0 opacity-[0.035] dark:opacity-[0.06] [background-image:radial-gradient(currentColor_1px,transparent_1px)] [background-size:24px_24px]"></div>
-    </div>
-    <div class="container relative">
-      <div class="mx-auto max-w-4xl text-center">
-        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-4 py-2 text-sm font-semibold text-cyan-800 dark:border-cyan-800 dark:bg-cyan-950/50 dark:text-cyan-200">
-          <FaRobot />
-          15 advanced prompts · 5 practical workflows
-        </div>
-        <h1 class="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-text-dark sm:text-5xl lg:text-6xl dark:text-darkmode-text-dark">
-          AI Visibility Prompt Library
-        </h1>
-        <p class="mx-auto mb-8 max-w-3xl text-lg leading-8 sm:text-xl">
-          Diagnose, monitor, and improve how ChatGPT, Claude, Gemini,
-          Perplexity, Copilot, and Google AI Overviews understand, compare, and
-          recommend your brand.
-        </p>
-        <div class="flex flex-col justify-center gap-3 sm:flex-row">
-          <a class="btn btn-primary inline-flex items-center justify-center gap-2" href="#prompt-categories">
-            Browse the library <FaArrowRight />
-          </a>
-          <a class="inline-flex items-center justify-center rounded-lg border border-cyan-300 px-6 py-3 font-semibold text-cyan-700 transition hover:bg-cyan-50 dark:text-cyan-200 dark:hover:bg-cyan-950/50" href="https://aibrandscan.com">
-            Automate brand monitoring
-          </a>
-        </div>
-      </div>
-
+  <AIBrandScanArchiveHero
+    eyebrow="15 advanced prompts, 5 practical workflows"
+    title="AI Visibility Prompt Library"
+    description="Diagnose, monitor, and improve how ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews understand, compare, and recommend your brand."
+    primaryAction={{ label: "Browse the library", href: "#prompt-categories" }}
+    secondaryAction={{ label: "Automate brand monitoring", href: "https://aibrandscan.com" }}
+  >
       <div class="mx-auto mt-12 grid max-w-4xl gap-3 sm:grid-cols-3">
         {[
           ["15", "Advanced prompts"],
@@ -93,8 +71,7 @@ const groupedPrompts = categoryOrder
           </div>
         ))}
       </div>
-    </div>
-  </section>
+  </AIBrandScanArchiveHero>
 
   <section class="section-sm">
     <div class="container">
@@ -213,7 +190,7 @@ const groupedPrompts = categoryOrder
                       </p>
                       <p class="mb-0 text-sm leading-6">{entry.data.best_for}</p>
                     </div>
-                    <a class="inline-flex items-center gap-2 font-semibold text-text-dark group-hover:text-cyan-600 dark:text-darkmode-text-dark dark:group-hover:text-cyan-300" href={promptPath(entry.id.split("/").pop(), lang)}>
+                    <a class="aibrandscan-button aibrandscan-button-primary aibrandscan-button-sm self-start" href={promptPath(entry.id.split("/").pop(), lang)}>
                       Open advanced prompt <FaArrowRight className="transition group-hover:translate-x-1" />
                     </a>
                   </article>
@@ -256,7 +233,7 @@ const groupedPrompts = categoryOrder
               </li>
             ))}
           </ul>
-          <a class="mt-6 inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-6 py-3 font-bold text-slate-950 hover:bg-cyan-200" href="https://aibrandscan.com">
+          <a class="aibrandscan-button aibrandscan-button-secondary mt-6" href="https://aibrandscan.com">
             Explore AI Brand Scan <FaArrowRight />
           </a>
         </div>

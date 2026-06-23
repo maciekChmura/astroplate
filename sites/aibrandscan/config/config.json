@@ -5,13 +5,13 @@
     "base_path": "/",
     "trailing_slash": true,
     "favicon": "/sites/aibrandscan/images/favicon.png",
-    "logo_layout": "text",
+    "logo_layout": "lockup",
     "logo": "/sites/aibrandscan/images/logo.svg",
-    "logo_darkmode": "/sites/aibrandscan/images/logo.svg",
+    "logo_darkmode": "/sites/aibrandscan/images/logo-dark.svg",
     "logo_url": "https://aibrandscan.com",
-    "logo_width": "36",
-    "logo_height": "36",
-    "logo_text": "AIBrandScan"
+    "logo_width": "28",
+    "logo_height": "28",
+    "logo_text": "AI Brand Scan"
   },
 
   "settings": {

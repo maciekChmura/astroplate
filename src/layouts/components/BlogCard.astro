@@ -9,13 +9,24 @@ import { blogPostPath } from "@/lib/utils/blogRoutes";
 import { getAuthorProfile } from "@/lib/utils/authors";
 import dateFormat from "@/lib/utils/dateFormat";
 import { humanize, plainify, slugify } from "@/lib/utils/textConverter";
-import { FaRegFolder, FaRegUser } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaRegCalendar,
+  FaRegFolder,
+  FaRegUser,
+} from "react-icons/fa";
 import { siteConfig } from "@/lib/siteConfig";
 import ImageMod from "./ImageMod.astro";
 
 const { summary_length }: { summary_length: number } = siteConfig.settings;
-const { data } = Astro.props;
-const { title, image, date, categories } = data.data;
+const {
+  data,
+  headingLevel = "h3",
+} = Astro.props as {
+  data: any;
+  headingLevel?: "h2" | "h3" | "h4";
+};
+const { title, description, image, date, categories } = data.data;
 const lang = getLangFromUrl(Astro.url);
 const author = await getAuthorProfile({
   lang,
@@ -25,51 +36,124 @@ const { read_more } = (await getTranslations(lang)) as unknown as {
   read_more: string;
 };
 const postSlug = stripLocaleFromId(data.id);
+const postUrl = blogPostPath(postSlug, lang);
+const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
+const Heading = headingLevel;
 ---
 
-<div class="bg-body dark:bg-darkmode-body">
-  {
-    image && (
-      <ImageMod
-        class="mb-6 h-[230px] w-full rounded object-cover"
-        src={image}
-        alt={title}
-        width={445}
-        height={230}
-        fit="cover"
-        format="webp"
-      />
-    )
-  }
-  <h4 class="mb-3">
-    <a href={blogPostPath(postSlug, lang)}>{title}</a>
-  </h4>
-  <ul class="mb-4">
-    <li class="mr-4 inline-block">
-      <FaRegUser className={"mr-2 -mt-1 inline-block"} />
+{
+  isAIBrandScan ? (
+    <article class="group flex h-full w-full flex-col overflow-hidden rounded-3xl border border-border bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:shadow-xl dark:border-darkmode-border dark:bg-darkmode-light dark:hover:border-cyan-700">
       {
-        author.url ? (
-          <a href={author.url}>{author.name}</a>
-        ) : (
-          <span>{author.name}</span>
+        image && (
+          <a class="block overflow-hidden" href={postUrl} tabindex="-1">
+            <ImageMod
+              class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+              src={image}
+              alt={title}
+              width={720}
+              height={405}
+              fit="cover"
+              format="webp"
+            />
+          </a>
         )
       }
-    </li>
-    <li class="mr-4 inline-block">
-      <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
-      {
-        categories.map((category: string, index: number) => (
-          <a href={slugSelector(`/categories/${slugify(category)}`, lang)}>
-            {humanize(category)}
-            {index !== categories.length - 1 && ","}
+      <div class="flex grow flex-col p-6 sm:p-7">
+        <div class="mb-4 flex flex-wrap gap-2">
+          {categories.map((category: string) => (
+            <a
+              class="rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800 transition hover:bg-cyan-100 dark:bg-cyan-950/50 dark:text-cyan-200 dark:hover:bg-cyan-900/60"
+              href={slugSelector(`/categories/${slugify(category)}`, lang)}
+            >
+              {humanize(category)}
+            </a>
+          ))}
+        </div>
+
+        <Heading class="mb-4 text-2xl font-bold leading-tight text-text-dark sm:text-[1.65rem] dark:text-darkmode-text-dark">
+          <a class="transition group-hover:text-cyan-700 dark:group-hover:text-cyan-300" href={postUrl}>
+            {title}
           </a>
-        ))
+        </Heading>
+
+        <p class="mb-6 line-clamp-3 leading-7 text-text dark:text-darkmode-text">
+          {plainify(description)}
+        </p>
+
+        <div class="mt-auto">
+          <div class="mb-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-5 text-sm text-text-light dark:border-darkmode-border dark:text-darkmode-text-light">
+            <span class="inline-flex items-center gap-2">
+              <FaRegUser className="shrink-0 text-cyan-700 dark:text-cyan-300" />
+              {author.url ? (
+                <a class="hover:text-cyan-700 dark:hover:text-cyan-300" href={author.url}>
+                  {author.name}
+                </a>
+              ) : (
+                author.name
+              )}
+            </span>
+            {date && (
+              <span class="inline-flex items-center gap-2">
+                <FaRegCalendar className="shrink-0 text-cyan-700 dark:text-cyan-300" />
+                <time datetime={new Date(date).toISOString()}>{dateFormat(date)}</time>
+              </span>
+            )}
+          </div>
+
+          <a class="aibrandscan-button aibrandscan-button-primary aibrandscan-button-sm" href={postUrl}>
+            {read_more}
+            <FaArrowRight className="transition-transform group-hover:translate-x-1" />
+          </a>
+        </div>
+      </div>
+    </article>
+  ) : (
+    <div class="bg-body dark:bg-darkmode-body">
+      {
+        image && (
+          <ImageMod
+            class="mb-6 h-[230px] w-full rounded object-cover"
+            src={image}
+            alt={title}
+            width={445}
+            height={230}
+            fit="cover"
+            format="webp"
+          />
+        )
       }
-    </li>
-    {date && <li class="inline-block">{dateFormat(date)}</li>}
-  </ul>
-  <p class="mb-6">{plainify(data.body?.slice(0, Number(summary_length)))}</p>
-  <a class="btn btn-outline-primary btn-sm" href={blogPostPath(postSlug, lang)}>
-    {read_more}
-  </a>
-</div>
+      <h4 class="mb-3">
+        <a href={postUrl}>{title}</a>
+      </h4>
+      <ul class="mb-4">
+        <li class="mr-4 inline-block">
+          <FaRegUser className={"mr-2 -mt-1 inline-block"} />
+          {
+            author.url ? (
+              <a href={author.url}>{author.name}</a>
+            ) : (
+              <span>{author.name}</span>
+            )
+          }
+        </li>
+        <li class="mr-4 inline-block">
+          <FaRegFolder className={"mr-2 -mt-1 inline-block"} />
+          {
+            categories.map((category: string, index: number) => (
+              <a href={slugSelector(`/categories/${slugify(category)}`, lang)}>
+                {humanize(category)}
+                {index !== categories.length - 1 && ","}
+              </a>
+            ))
+          }
+        </li>
+        {date && <li class="inline-block">{dateFormat(date)}</li>}
+      </ul>
+      <p class="mb-6">{plainify(data.body?.slice(0, Number(summary_length)))}</p>
+      <a class="btn btn-outline-primary btn-sm" href={postUrl}>
+        {read_more}
+      </a>
+    </div>
+  )
+}

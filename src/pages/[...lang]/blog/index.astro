@@ -1,5 +1,6 @@
 ---
 import BlogCard from "@/components/BlogCard.astro";
+import AIBrandScanArchiveHero from "@/components/AIBrandScanArchiveHero.astro";
 import Pagination from "@/components/Pagination.astro";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
@@ -40,6 +41,7 @@ const archiveDescription =
     ? `Read the latest articles from ${siteConfig.site.title}, organized by topic and published in reverse chronological order.`
     : postIndex.data.description;
 const archiveMetaTitle = `${postIndex.data.title} | ${siteConfig.site.title}`;
+const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
 ---
 
 <Base
@@ -49,16 +51,31 @@ const archiveMetaTitle = `${postIndex.data.title} | ${siteConfig.site.title}`;
   description={archiveDescription}
   lang={lang}
 >
-  <PageHeader title={postIndex?.data.title} />
-  <section class="section">
+  {
+    isAIBrandScan ? (
+      <AIBrandScanArchiveHero
+        eyebrow="AI visibility insights and practical guides"
+        title={postIndex.data.title}
+        description={archiveDescription}
+        primaryAction={{ label: "Browse articles", href: "#blog-articles" }}
+        secondaryAction={{
+          label: "Scan your brand",
+          href: "https://aibrandscan.com/register",
+        }}
+      />
+    ) : (
+      <PageHeader title={postIndex?.data.title} />
+    )
+  }
+  <section id="blog-articles" class="section scroll-mt-24">
     <div class="container">
       <div class="row gx-5">
         <div class="lg:col-8">
           <div class="row">
             {
               currentPosts.map((post) => (
-                <div class="mb-14 md:col-6">
-                  <BlogCard data={post} />
+                <div class="mb-8 flex md:col-6">
+                  <BlogCard data={post} headingLevel="h2" />
                 </div>
               ))
             }

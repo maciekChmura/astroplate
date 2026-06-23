@@ -50,14 +50,14 @@ const aiPlatforms = ["ChatGPT", "Gemini", "Claude", "Perplexity"];
           </h1>
           <p class="mb-8 max-w-2xl text-lg leading-8 text-text sm:text-xl dark:text-darkmode-text">
             Discover how leading AI platforms describe, compare, and recommend
-            your brand — then turn every visibility gap into a clear next step.
+            your brand, then turn every visibility gap into a clear next step.
           </p>
           <div class="mb-8 flex flex-col gap-3 sm:flex-row">
-            <a class="btn btn-primary inline-flex items-center justify-center gap-2" href={productUrl}>
+            <a class="aibrandscan-button aibrandscan-button-primary" href={productUrl}>
               Run your AI Brand Scan
               <FaArrowRight />
             </a>
-            <a class="btn btn-outline-primary inline-flex items-center justify-center" href="#use-cases">
+            <a class="aibrandscan-button aibrandscan-button-secondary" href="#use-cases">
               Explore use cases
             </a>
           </div>
@@ -264,7 +264,7 @@ const aiPlatforms = ["ChatGPT", "Gemini", "Claude", "Perplexity"];
             Replace random manual checks with a consistent view of how AI systems
             represent your brand across discovery and buying questions.
           </p>
-          <a class="btn btn-outline-primary inline-flex items-center gap-2" href={productUrl}>
+          <a class="aibrandscan-button aibrandscan-button-secondary" href={productUrl}>
             Start monitoring <FaArrowRight />
           </a>
         </div>
@@ -367,13 +367,13 @@ const aiPlatforms = ["ChatGPT", "Gemini", "Claude", "Perplexity"];
   {cta?.enable && (
     <section class="py-16 sm:py-20">
       <div class="container">
-        <div class="relative overflow-hidden rounded-[2rem] bg-slate-950 px-6 py-14 text-center text-white sm:px-12">
-          <div class="absolute -left-20 -top-24 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl"></div>
-          <div class="absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl"></div>
+        <div class="relative overflow-hidden rounded-[2rem] border border-cyan-200 bg-gradient-to-br from-cyan-50 via-white to-blue-100 px-6 py-14 text-center text-slate-950 shadow-xl shadow-cyan-950/10 sm:px-12 dark:border-cyan-800 dark:from-cyan-950 dark:via-slate-900 dark:to-blue-950 dark:text-white">
+          <div class="absolute -left-20 -top-24 h-64 w-64 rounded-full bg-cyan-300/35 blur-3xl dark:bg-cyan-400/20"></div>
+          <div class="absolute -bottom-24 -right-20 h-64 w-64 rounded-full bg-blue-300/35 blur-3xl dark:bg-blue-500/20"></div>
           <div class="relative mx-auto max-w-3xl">
-            <h2 class="mb-5 text-3xl font-bold sm:text-4xl">{cta.title}</h2>
-            <p class="mx-auto mb-8 max-w-2xl text-lg leading-8 text-slate-300">{cta.description}</p>
-            <a class="inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-7 py-4 font-bold text-slate-950 transition hover:bg-cyan-200" href={cta.link}>
+            <h2 class="mb-5 text-3xl font-bold text-slate-950 sm:text-4xl dark:text-white">{cta.title}</h2>
+            <p class="mx-auto mb-8 max-w-2xl text-lg leading-8 text-slate-700 dark:text-slate-200">{cta.description}</p>
+            <a class="aibrandscan-button aibrandscan-button-primary" href={cta.link}>
               {cta.label} <FaArrowRight />
             </a>
           </div>
