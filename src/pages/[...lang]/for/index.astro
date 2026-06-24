@@ -60,7 +60,6 @@ const author = await getAuthorProfile({
   authorSlug: audienceIndex.data.author,
   siteUrl,
 });
-const faq = audienceIndex.data.faq || [];
 const jsonLd = isAIBrandScan
   ? [
       author.personJsonLd,
@@ -96,22 +95,6 @@ const jsonLd = isAIBrandScan
           : "/",
         description: siteConfig.metadata.meta_description,
       },
-      ...(faq.length > 0
-        ? [
-            {
-              "@type": "FAQPage",
-              "@id": `${canonicalUrl}#faq`,
-              mainEntity: faq.map((item) => ({
-                "@type": "Question",
-                name: item.question,
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: plainify(item.answer),
-                },
-              })),
-            },
-          ]
-        : []),
     ]
   : undefined;
 ---
@@ -143,23 +126,6 @@ const jsonLd = isAIBrandScan
           </div>
         </section>
       </>
-    )
-  }
-
-  {
-    isAIBrandScan && audiences.length > 0 && (
-      <section class="section-sm pt-0">
-        <div class="container">
-          <h2 class="h3 mb-8 text-center">Audience-specific guides</h2>
-          <div class="row justify-center">
-            {audiences.map((audience) => (
-              <div class="mb-14 md:col-6 lg:col-4">
-                <AudienceCard data={audience} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     )
   }
 </Base>

@@ -7,7 +7,11 @@ import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
 import { getAllTaxonomy, getTaxonomy } from "@/lib/taxonomyParser.astro";
 import { BLOG_CONTENT_FOLDER } from "@/lib/utils/blogRoutes";
-import { normalizeLang, supportedLang } from "@/lib/utils/languageParser";
+import {
+  getTranslations,
+  normalizeLang,
+  supportedLang,
+} from "@/lib/utils/languageParser";
 import { sortByDate } from "@/lib/utils/sortFunctions";
 import PageHeader from "@/partials/PageHeader.astro";
 import PostSidebar from "@/partials/PostSidebar.astro";
@@ -61,6 +65,14 @@ const archiveDescription =
     ? `Browse page ${currentPage} of the latest articles from ${siteConfig.site.title}, organized by topic and published in reverse chronological order.`
     : `${postIndex.data.description} Page ${currentPage}.`;
 const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
+const translations = (await getTranslations(lang)) as Record<string, string>;
+const pageEyebrowTemplate =
+  translations.blog_archive_eyebrow_page || "AI visibility insights, page {page}";
+const blogEyebrow = pageEyebrowTemplate.replace("{page}", String(currentPage));
+const browseArticlesLabel =
+  translations.blog_archive_primary_cta || "Browse articles";
+const scanBrandLabel =
+  translations.blog_archive_secondary_cta || "Scan your brand";
 ---
 
 <Base
@@ -73,12 +85,12 @@ const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
   {
     isAIBrandScan ? (
       <AIBrandScanArchiveHero
-        eyebrow={`AI visibility insights, page ${currentPage}`}
+        eyebrow={blogEyebrow}
         title={postIndex.data.title}
         description={archiveDescription}
-        primaryAction={{ label: "Browse articles", href: "#blog-articles" }}
+        primaryAction={{ label: browseArticlesLabel, href: "#blog-articles" }}
         secondaryAction={{
-          label: "Scan your brand",
+          label: scanBrandLabel,
           href: "https://aibrandscan.com/register",
         }}
       />

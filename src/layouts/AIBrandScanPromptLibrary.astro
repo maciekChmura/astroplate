@@ -20,6 +20,28 @@ const categoryOrder = [
   "Monitor and Report",
 ];
 
+const promptOrder = [
+  "ai-brand-visibility-audit-prompt",
+  "why-chatgpt-is-not-mentioning-my-brand",
+  "ai-competitor-visibility-gap-prompt",
+  "ai-share-of-voice-tracking-prompt",
+  "ai-buyer-intent-prompt-generator",
+  "ai-answer-accuracy-evaluation-prompt",
+  "ai-content-gap-analysis-prompt",
+  "geo-content-roadmap-prompt",
+  "ai-friendly-faq-prompt",
+  "ai-brand-entity-profile-prompt",
+  "competitor-alternatives-page-brief",
+  "ai-reputation-risk-scanner",
+  "ceo-ai-visibility-summary-prompt",
+  "ai-visibility-audit-proposal-template",
+  "monthly-ai-visibility-monitoring-pack",
+];
+
+const promptRank = new Map(
+  promptOrder.map((slug, index) => [slug, index + 1]),
+);
+
 const categoryDescriptions: Record<string, string> = {
   "Diagnose AI Visibility":
     "Understand whether AI assistants know, mention, describe, and recommend your brand correctly.",
@@ -41,14 +63,32 @@ const categoryIcons: Record<string, any> = {
   "Monitor and Report": FaChartLine,
 };
 
+const getCategoryId = (category: string) =>
+  `prompt-${category
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")}`;
+
 const groupedPrompts = categoryOrder
   .map((category) => ({
     category,
+    id: getCategoryId(category),
     prompts: prompts.filter(
       (entry: any) => entry.data.library_category === category,
-    ),
+    ).sort((a: any, b: any) => {
+      const slugA = a.id.split("/").pop();
+      const slugB = b.id.split("/").pop();
+      return (
+        (promptRank.get(slugA) || Number.MAX_SAFE_INTEGER) -
+        (promptRank.get(slugB) || Number.MAX_SAFE_INTEGER)
+      );
+    }),
   }))
   .filter((group) => group.prompts.length > 0);
+const totalPrompts = groupedPrompts.reduce(
+  (total, group) => total + group.prompts.length,
+  0,
+);
 ---
 
 <div class="overflow-hidden bg-body dark:bg-darkmode-body">
@@ -58,61 +98,20 @@ const groupedPrompts = categoryOrder
     description="Diagnose, monitor, and improve how ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews understand, compare, and recommend your brand."
     primaryAction={{ label: "Browse the library", href: "#prompt-categories" }}
     secondaryAction={{ label: "Automate brand monitoring", href: "https://aibrandscan.com" }}
-  >
-      <div class="mx-auto mt-12 grid max-w-4xl gap-3 sm:grid-cols-3">
-        {[
-          ["15", "Advanced prompts"],
-          ["5", "Workflow categories"],
-          ["30/60/90", "Action-ready planning"],
-        ].map(([value, label]) => (
-          <div class="rounded-2xl border border-border bg-body/80 p-5 text-center shadow-sm backdrop-blur dark:border-darkmode-border dark:bg-darkmode-light/80">
-            <strong class="block text-3xl text-text-dark dark:text-darkmode-text-dark">{value}</strong>
-            <span class="text-sm text-text-light dark:text-darkmode-text-light">{label}</span>
-          </div>
-        ))}
-      </div>
-  </AIBrandScanArchiveHero>
+  />
 
-  <section class="section-sm">
+  <section class="border-y border-slate-200 bg-[#fbfaf8] py-12 dark:border-darkmode-border dark:bg-darkmode-light">
     <div class="container">
-      <div class="grid gap-10 lg:grid-cols-[.85fr_1.15fr]">
-        <div>
-          <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-cyan-600 dark:text-cyan-300">
-            More than a prompt list
-          </span>
-          <h2 class="h2 mb-5">A structured toolkit for AI brand visibility work</h2>
-          <p class="mb-6 text-lg leading-8">
-            Every resource explains the business use case, required inputs,
-            expected outputs, full Advanced Prompt, and the next action to take.
-          </p>
-          <p class="mb-0 leading-7">
-            Prepare your brand, website, market, audience, competitors, buyer
-            questions, and examples of current AI answers before you begin.
-          </p>
-        </div>
-        <div class="grid gap-3 sm:grid-cols-2">
-          {[
-            "Check whether AI assistants mention your brand",
-            "Understand why competitors appear instead",
-            "Identify missing content and proof points",
-            "Improve brand entity clarity",
-            "Build AI-friendly FAQ and comparison pages",
-            "Track AI Share of Voice over time",
-            "Prepare executive reports",
-            "Create client-ready audit proposals",
-          ].map((item) => (
-            <div class="flex items-start gap-3 rounded-xl border border-border bg-light p-4 dark:border-darkmode-border dark:bg-darkmode-light">
-              <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cyan-100 text-xs font-bold text-cyan-700 dark:bg-cyan-900/60 dark:text-cyan-200">✓</span>
-              <span class="text-sm leading-6">{item}</span>
-            </div>
-          ))}
-        </div>
+      <div class="mb-10 max-w-3xl">
+        <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-orange-600 dark:text-orange-300">
+          How to use this library
+        </span>
+        <h2 class="h2 mb-4">Start with a business question, then choose the right prompt</h2>
+        <p class="mb-0 text-lg leading-8">
+          Each prompt includes the use case, required inputs, expected outputs,
+          full Advanced Prompt, and the recommended next action.
+        </p>
       </div>
-    </div>
-  </section>
-
-  <section class="border-y border-border bg-light py-12 dark:border-darkmode-border dark:bg-darkmode-light">
-    <div class="container">
       <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
         {[
           ["1", "Choose a workflow", "Start with the business question you need to answer."],
@@ -121,9 +120,13 @@ const groupedPrompts = categoryOrder
           ["4", "Monitor change", "Repeat important queries or automate tracking with AI Brand Scan."],
         ].map(([number, title, description]) => (
           <article>
-            <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 font-bold text-white dark:bg-cyan-300 dark:text-slate-950">{number}</span>
-            <h3 class="mb-2 text-lg font-bold text-text-dark dark:text-darkmode-text-dark">{title}</h3>
-            <p class="mb-0 text-sm leading-6">{description}</p>
+            <div class="mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase tracking-[0.2em]">
+              <span class="text-slate-300">[</span>
+              <span class="text-orange-600">{String(number).padStart(2, "0")}</span>
+              <span class="text-slate-300">]</span>
+            </div>
+            <h3 class="mb-2 text-lg font-extrabold tracking-[-0.01em] text-slate-950 dark:text-darkmode-text-dark">{title}</h3>
+            <p class="mb-0 text-sm leading-6 text-slate-600 dark:text-darkmode-text">{description}</p>
           </article>
         ))}
       </div>
@@ -133,7 +136,7 @@ const groupedPrompts = categoryOrder
   <section id="prompt-categories" class="section-sm scroll-mt-24">
     <div class="container">
       <div class="mb-12 max-w-3xl">
-        <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-cyan-600 dark:text-cyan-300">
+        <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-orange-600 dark:text-orange-300">
           Prompt categories
         </span>
         <h2 class="h2 mb-4">Choose the outcome you need</h2>
@@ -143,15 +146,45 @@ const groupedPrompts = categoryOrder
         </p>
       </div>
 
-      <div class="space-y-16">
-        {groupedPrompts.map((group, groupIndex) => {
+      <div class="sticky top-[72px] z-20 -mx-4 mb-12 overflow-x-auto bg-white/90 px-4 py-3 backdrop-blur dark:bg-darkmode-body/90">
+        <nav
+          class="mx-auto flex min-w-max w-fit items-center gap-1 rounded-[1.5rem] bg-[#f1eee7] p-2 dark:bg-darkmode-light"
+          aria-label="Prompt library sections"
+          data-prompt-tabs
+        >
+          <button
+            type="button"
+            class="rounded-[1.15rem] px-5 py-3 text-sm font-semibold text-slate-500 no-underline transition hover:bg-white/70 hover:text-slate-950 data-[active=true]:bg-white data-[active=true]:text-slate-950 data-[active=true]:shadow-sm dark:text-darkmode-text dark:hover:bg-darkmode-body dark:hover:text-white data-[active=true]:dark:bg-darkmode-body data-[active=true]:dark:text-white"
+            data-prompt-filter="all"
+            data-active="true"
+            aria-pressed="true"
+          >
+            All prompts ({totalPrompts})
+          </button>
+          {groupedPrompts.map((group) => (
+            <button
+              type="button"
+              class="rounded-[1.15rem] px-5 py-3 text-sm font-semibold text-slate-500 no-underline transition hover:bg-white/70 hover:text-slate-950 data-[active=true]:bg-white data-[active=true]:text-slate-950 data-[active=true]:shadow-sm dark:text-darkmode-text dark:hover:bg-darkmode-body dark:hover:text-white data-[active=true]:dark:bg-darkmode-body data-[active=true]:dark:text-white"
+              data-prompt-filter={group.id}
+              data-active="false"
+              aria-pressed="false"
+            >
+              {group.category} ({group.prompts.length})
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      <div class="space-y-16" data-prompt-groups>
+        {groupedPrompts.map((group) => {
           const Icon = categoryIcons[group.category];
           return (
-            <section id={`category-${groupIndex + 1}`} class="scroll-mt-24">
-              <div class="mb-7 flex flex-col justify-between gap-5 border-b border-border pb-6 sm:flex-row sm:items-end dark:border-darkmode-border">
+            <section id={group.id} class="scroll-mt-36" data-prompt-group={group.id}>
+              <div class="mb-7 overflow-hidden rounded-[1.75rem] border border-slate-200 bg-[#fbfaf8] shadow-sm dark:border-darkmode-border dark:bg-darkmode-light">
+                <div class="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
                 <div>
                   <div class="mb-3 flex items-center gap-3">
-                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-100 text-cyan-700 dark:bg-cyan-900/50 dark:text-cyan-200">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-orange-600 shadow-sm dark:bg-darkmode-body dark:text-orange-300">
                       <Icon />
                     </div>
                     <h3 class="h3 mb-0">{group.category}</h3>
@@ -160,39 +193,62 @@ const groupedPrompts = categoryOrder
                     {categoryDescriptions[group.category]}
                   </p>
                 </div>
-                <span class="shrink-0 rounded-full bg-body px-3 py-1.5 text-sm font-semibold dark:bg-darkmode-body">
-                  {group.prompts.length} prompts
-                </span>
+                  <span class="w-fit rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-950 dark:border-darkmode-border dark:bg-darkmode-body dark:text-white">
+                    {group.prompts.length} prompts
+                  </span>
+                </div>
               </div>
 
-              <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              <div class="grid gap-5 2xl:grid-cols-2">
                 {group.prompts.map((entry: any, index: number) => (
-                  <article class="group flex h-full flex-col rounded-2xl border border-border bg-body p-6 transition duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:shadow-xl dark:border-darkmode-border dark:bg-darkmode-body dark:hover:border-cyan-700">
-                    <div class="mb-5 flex items-center justify-between">
-                      <span class="rounded-full bg-light px-3 py-1 text-xs font-semibold text-text-light dark:bg-darkmode-light dark:text-darkmode-text-light">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      {entry.data.popular && (
-                        <span class="rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-800 dark:bg-cyan-900/50 dark:text-cyan-200">
-                          Popular
+                  <article class="group flex h-full flex-col rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_18px_45px_rgba(15,23,42,0.1)] dark:border-darkmode-border dark:bg-darkmode-body dark:hover:border-orange-700 sm:p-6">
+                    <div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                      <div class="flex min-w-0 items-start gap-4">
+                        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-orange-50 text-base font-black text-slate-950 dark:bg-orange-950/40 dark:text-white">
+                          {String(
+                            promptRank.get(entry.id.split("/").pop()) ||
+                              index + 1,
+                          ).padStart(2, "0")}
                         </span>
-                      )}
+                        <div class="min-w-0 pt-2">
+                          <h4 class="mb-0 text-xl font-extrabold leading-tight tracking-[-0.02em] text-slate-950 dark:text-darkmode-text-dark">
+                            <a
+                              class="transition group-hover:text-orange-600 dark:group-hover:text-orange-300"
+                              href={promptPath(entry.id.split("/").pop(), lang)}
+                            >
+                              {entry.data.title}
+                            </a>
+                          </h4>
+                        </div>
+                      </div>
                     </div>
-                    <h4 class="h5 mb-3">
-                      <a href={promptPath(entry.id.split("/").pop(), lang)}>
-                        {entry.data.title}
-                      </a>
-                    </h4>
-                    <p class="mb-5 grow leading-7">{entry.data.use_case}</p>
-                    <div class="mb-5 border-t border-border pt-4 dark:border-darkmode-border">
-                      <p class="mb-1 text-xs font-bold uppercase tracking-wider text-text-light dark:text-darkmode-text-light">
-                        Best for
+
+                    <div class="grow rounded-2xl border border-slate-200 bg-[#fbfaf8] p-5 dark:border-darkmode-border dark:bg-darkmode-light/70">
+                      <p class="mb-2 text-xs font-black uppercase tracking-wider text-orange-600 dark:text-orange-300">
+                        Use case
                       </p>
-                      <p class="mb-0 text-sm leading-6">{entry.data.best_for}</p>
+                      <p class="mb-0 text-lg leading-8 text-slate-950 dark:text-darkmode-text-dark">
+                        {entry.data.use_case}
+                      </p>
                     </div>
-                    <a class="aibrandscan-button aibrandscan-button-primary aibrandscan-button-sm self-start" href={promptPath(entry.id.split("/").pop(), lang)}>
-                      Open advanced prompt <FaArrowRight className="transition group-hover:translate-x-1" />
-                    </a>
+
+                    <div class="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                      <div class="max-w-2xl">
+                        <p class="mb-2 text-xs font-black uppercase tracking-wider text-text-light dark:text-darkmode-text-light">
+                          Best for
+                        </p>
+                        <p class="mb-0 text-sm leading-6 text-text-light dark:text-darkmode-text-light">
+                          {entry.data.best_for}
+                        </p>
+                      </div>
+                      <a
+                        class="aibrandscan-button aibrandscan-button-primary aibrandscan-button-sm shrink-0 self-start sm:self-end"
+                        href={promptPath(entry.id.split("/").pop(), lang)}
+                      >
+                        Open prompt
+                        <FaArrowRight className="transition group-hover:translate-x-1" />
+                      </a>
+                    </div>
                   </article>
                 ))}
               </div>
@@ -203,41 +259,74 @@ const groupedPrompts = categoryOrder
     </div>
   </section>
 
-  <section class="border-y border-border bg-slate-950 py-16 text-white sm:py-20 dark:border-darkmode-border">
+  <section class="py-16 sm:py-20">
     <div class="container">
-      <div class="grid items-center gap-10 lg:grid-cols-[1.1fr_.9fr]">
-        <div>
-          <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-cyan-300">
-            Manual vs automated testing
-          </span>
-          <h2 class="mb-5 text-3xl font-bold sm:text-4xl">
-            Prompts diagnose the moment. Monitoring shows the trend.
+      <div class="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-[#fbfaf8] px-6 py-14 text-center text-slate-950 shadow-[0_18px_50px_rgba(15,23,42,0.08)] sm:px-12 dark:border-darkmode-border dark:bg-darkmode-light dark:text-white">
+        <div class="absolute inset-0 opacity-[0.5] [background-image:linear-gradient(to_right,#1118270a_1px,transparent_1px),linear-gradient(to_bottom,#1118270a_1px,transparent_1px)] [background-size:42px_42px] dark:opacity-[0.08]"></div>
+        <div class="relative mx-auto max-w-3xl">
+          <h2 class="mb-5 text-3xl font-bold text-slate-950 sm:text-4xl dark:text-white">
+            Want to monitor this automatically?
           </h2>
-          <p class="mb-0 max-w-2xl text-lg leading-8 text-slate-300">
-            Manual testing is useful for investigation, but difficult to
+          <p class="mx-auto mb-8 max-w-2xl text-lg leading-8 text-slate-700 dark:text-slate-200">
+            Manual prompt testing is useful for investigation, but difficult to
             repeat, compare, and report consistently. AI Brand Scan turns
-            one-time tests into an ongoing visibility system.
+            one-time prompt checks into a repeatable AI visibility monitoring
+            system.
           </p>
-        </div>
-        <div class="rounded-2xl border border-white/10 bg-white/[.05] p-6">
-          <ul class="space-y-3 text-sm text-slate-300">
-            {[
-              "Brand and competitor mentions",
-              "Recommendation frequency",
-              "Answer accuracy and sentiment",
-              "AI Share of Voice over time",
-              "Content and reputation gaps",
-            ].map((item) => (
-              <li class="flex items-center gap-3">
-                <span class="h-2 w-2 rounded-full bg-cyan-300"></span>{item}
-              </li>
-            ))}
-          </ul>
-          <a class="aibrandscan-button aibrandscan-button-secondary mt-6" href="https://aibrandscan.com">
-            Explore AI Brand Scan <FaArrowRight />
+          <a class="aibrandscan-button aibrandscan-button-primary" href="https://aibrandscan.com">
+            Run your AI Brand Scan <FaArrowRight />
           </a>
         </div>
       </div>
     </div>
   </section>
 </div>
+
+<script>
+  const promptTabs = document.querySelector("[data-prompt-tabs]");
+  const promptGroups = Array.from(
+    document.querySelectorAll<HTMLElement>("[data-prompt-group]"),
+  );
+  const promptButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-prompt-filter]"),
+  );
+
+  const setPromptFilter = (filter: string, options?: { updateHash?: boolean }) => {
+    const activeFilter = filter === "all" ? "all" : filter;
+
+    promptButtons.forEach((button) => {
+      const isActive = button.dataset.promptFilter === activeFilter;
+      button.dataset.active = String(isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+
+    promptGroups.forEach((group) => {
+      const shouldShow =
+        activeFilter === "all" || group.dataset.promptGroup === activeFilter;
+      group.hidden = !shouldShow;
+    });
+
+    if (options?.updateHash) {
+      const nextHash = activeFilter === "all" ? "#prompt-categories" : `#${activeFilter}`;
+      history.replaceState(null, "", nextHash);
+    }
+  };
+
+  promptTabs?.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    const button = target.closest<HTMLButtonElement>("[data-prompt-filter]");
+
+    if (!button) {
+      return;
+    }
+
+    setPromptFilter(button.dataset.promptFilter || "all", { updateHash: true });
+  });
+
+  const initialHash = window.location.hash.replace("#", "");
+  const hasMatchingGroup = promptGroups.some(
+    (group) => group.dataset.promptGroup === initialHash,
+  );
+
+  setPromptFilter(hasMatchingGroup ? initialHash : "all");
+</script>

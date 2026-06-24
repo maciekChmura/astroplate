@@ -4,7 +4,7 @@ import AIBrandScanArchiveHero from "@/components/AIBrandScanArchiveHero.astro";
 import { stripLocaleFromId } from "@/lib/utils/languageParser";
 import { humanize, plainify } from "@/lib/utils/textConverter";
 import type { CollectionEntry } from "astro:content";
-import { FaArrowRight, FaChartLine, FaCheck, FaSearch } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 const { alternativesIndex, alternatives, lang } = Astro.props as {
   alternativesIndex: CollectionEntry<"alternatives">;
@@ -21,30 +21,11 @@ const { alternativesIndex, alternatives, lang } = Astro.props as {
   secondaryAction={{ label: "Scan your brand", href: "https://aibrandscan.com/register" }}
 />
 
-<section class="border-b border-border bg-light py-7 dark:border-darkmode-border dark:bg-darkmode-light">
-  <div class="container">
-    <div class="mx-auto grid max-w-5xl gap-5 md:grid-cols-3">
-      <div class="flex items-center gap-3">
-        <FaSearch className="shrink-0 text-cyan-600 dark:text-cyan-300" />
-        <span class="font-semibold text-text-dark dark:text-darkmode-text">Compare real monitoring workflows</span>
-      </div>
-      <div class="flex items-center gap-3">
-        <FaChartLine className="shrink-0 text-cyan-600 dark:text-cyan-300" />
-        <span class="font-semibold text-text-dark dark:text-darkmode-text">Evaluate metrics that matter</span>
-      </div>
-      <div class="flex items-center gap-3">
-        <FaCheck className="shrink-0 text-cyan-600 dark:text-cyan-300" />
-        <span class="font-semibold text-text-dark dark:text-darkmode-text">Choose for your team and goals</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="comparison-guides" class="section scroll-mt-24">
   <div class="container">
     <div class="mx-auto max-w-6xl">
       <div class="mb-10 max-w-3xl">
-        <p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-cyan-700 dark:text-cyan-300">Latest guide</p>
+        <p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">Latest guide</p>
         <h2 class="h2 mb-4">Find the right AI visibility platform</h2>
         <p class="mb-0 text-lg leading-8">
           Compare tools by brand monitoring depth, prompt tracking, citations, answer accuracy, reporting, and the ability to turn findings into action.
@@ -58,7 +39,7 @@ const { alternativesIndex, alternatives, lang } = Astro.props as {
             <article class="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-darkmode-border dark:bg-darkmode-light md:p-9">
               <div class="mb-5 flex flex-wrap gap-2">
                 {alternative.data.categories.map((category: string) => (
-                  <span class="rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800 dark:bg-cyan-950/50 dark:text-cyan-200">
+                  <span class="rounded-full border border-orange-100 bg-[#fbfaf8] px-3 py-1 text-xs font-bold text-slate-950 dark:border-orange-900/50 dark:bg-orange-950/20 dark:text-orange-100">
                     {humanize(category)}
                   </span>
                 ))}

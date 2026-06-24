@@ -5,10 +5,9 @@ import {
   stripLocaleFromId,
 } from "@/lib/utils/languageParser";
 import { useCasePath } from "@/lib/utils/useCaseRoutes";
-import { getAuthorProfile } from "@/lib/utils/authors";
 import { siteConfig } from "@/lib/siteConfig";
 import { humanize, plainify } from "@/lib/utils/textConverter";
-import { FaArrowRight, FaRegFolder, FaRegUser } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import ImageMod from "./ImageMod.astro";
 
 const {
@@ -22,27 +21,26 @@ const { title, description, image, categories, hero_before, hero_after } =
   data.data;
 const lang = getLangFromUrl(Astro.url);
 const translations = (await getTranslations(lang)) as Record<string, string>;
-const viewUseCase = translations.view_use_case || "View use case";
 const useCaseSlug = stripLocaleFromId(data.id);
 const cardImage = image || hero_after?.src;
 const cardImageAlt = hero_after?.alt || title;
 const hasBeforeAfterThumbnail = Boolean(hero_before?.src && hero_after?.src);
 const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
+const viewUseCase =
+  isAIBrandScan && lang === "en"
+    ? "Read use case"
+    : translations.view_use_case || "View use case";
 const useCaseUrl = useCasePath(useCaseSlug, lang);
-const author = await getAuthorProfile({
-  lang,
-  authorSlug: data.data.author,
-});
 const Heading = headingLevel;
 ---
 
 {
   isAIBrandScan ? (
-    <article class="group flex h-full w-full flex-col overflow-hidden rounded-3xl border border-border bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:shadow-xl dark:border-darkmode-border dark:bg-darkmode-light dark:hover:border-cyan-700">
+    <article class="group flex h-full w-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_18px_45px_rgba(15,23,42,0.1)] dark:border-darkmode-border dark:bg-darkmode-light dark:hover:border-orange-700">
       {cardImage && (
-        <a class="block overflow-hidden" href={useCaseUrl} tabindex="-1">
+        <a class="-mx-px -mt-px block overflow-hidden bg-slate-50" href={useCaseUrl} tabindex="-1">
           <ImageMod
-            class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+            class="aspect-[1.9/1] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
             src={cardImage}
             alt={cardImageAlt}
             width={720}
@@ -56,44 +54,28 @@ const Heading = headingLevel;
       <div class="flex grow flex-col p-6 sm:p-7">
         <div class="mb-4 flex flex-wrap gap-2">
           {categories.map((category: string) => (
-            <span class="rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800 dark:bg-cyan-950/50 dark:text-cyan-200">
+            <span class="rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-bold text-slate-950 dark:border-orange-900/60 dark:bg-orange-950/40 dark:text-white">
               {humanize(category)}
             </span>
           ))}
         </div>
 
-        <Heading class="mb-4 text-2xl font-bold leading-tight text-text-dark sm:text-[1.65rem] dark:text-darkmode-text-dark">
+        <Heading class="mb-4 text-2xl font-extrabold leading-tight tracking-[-0.02em] text-slate-950 sm:text-[1.65rem] dark:text-darkmode-text-dark">
           <a
-            class="transition group-hover:text-cyan-700 dark:group-hover:text-cyan-300"
+            class="transition group-hover:text-orange-600 dark:group-hover:text-orange-300"
             href={useCaseUrl}
           >
             {title}
           </a>
         </Heading>
 
-        <p class="mb-6 line-clamp-3 leading-7 text-text dark:text-darkmode-text">
+        <p class="mb-6 line-clamp-3 leading-7 text-slate-600 dark:text-darkmode-text">
           {plainify(description)}
         </p>
 
         <div class="mt-auto">
-          <div class="mb-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-5 text-sm text-text-light dark:border-darkmode-border dark:text-darkmode-text-light">
-            <span class="inline-flex items-center gap-2">
-              <FaRegUser className="shrink-0 text-cyan-700 dark:text-cyan-300" />
-              {author.url ? (
-                <a
-                  class="hover:text-cyan-700 dark:hover:text-cyan-300"
-                  href={author.url}
-                >
-                  {author.name}
-                </a>
-              ) : (
-                author.name
-              )}
-            </span>
-            <span class="inline-flex items-center gap-2">
-              <FaRegFolder className="shrink-0 text-cyan-700 dark:text-cyan-300" />
-              Use case
-            </span>
+          <div class="mb-5 border-t border-slate-200 pt-5 text-sm font-semibold text-slate-500 dark:border-darkmode-border dark:text-darkmode-text-light">
+            <span>Use case · 4 min read</span>
           </div>
 
           <a

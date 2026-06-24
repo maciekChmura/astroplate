@@ -2,7 +2,7 @@
 title: "AI Visibility Monitoring for B2B SaaS Companies"
 meta_title: "AI Visibility Monitoring for B2B SaaS Companies"
 description: "AI Brand Scan helps B2B SaaS companies monitor whether AI assistants mention, compare and recommend their product across ChatGPT, Perplexity, Gemini and Google AI Overviews."
-image: "/sites/aibrandscan/images/og-image.png"
+image: "/sites/aibrandscan/images/use-cases/b2b-saas-monitoring-panel.svg"
 categories: ["B2B SaaS", "AI visibility monitoring"]
 tags: ["B2B SaaS", "AI Share of Voice", "product marketing", "GEO", "competitor monitoring"]
 author: "jowita-chmura"

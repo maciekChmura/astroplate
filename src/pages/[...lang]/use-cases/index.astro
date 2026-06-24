@@ -4,6 +4,7 @@ import AIBrandScanArchiveHero from "@/components/AIBrandScanArchiveHero.astro";
 import Base from "@/layouts/Base.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
+import { AUDIENCES_CONTENT_FOLDER } from "@/lib/utils/audienceRoutes";
 import {
   getContentDir,
   normalizeLang,
@@ -13,6 +14,7 @@ import { USE_CASES_CONTENT_FOLDER } from "@/lib/utils/useCaseRoutes";
 import { humanize, slugify } from "@/lib/utils/textConverter";
 import PageHeader from "@/partials/PageHeader.astro";
 import { getEntry } from "astro:content";
+import { FaArrowRight } from "react-icons/fa6";
 
 export async function getStaticPaths() {
   const paths = [];
@@ -38,6 +40,12 @@ export async function getStaticPaths() {
 
 const { useCaseIndex, lang } = Astro.props;
 const useCases = await getSinglePage(USE_CASES_CONTENT_FOLDER, lang);
+const contentDir = getContentDir(lang);
+const audienceIndex = await getEntry(
+  AUDIENCES_CONTENT_FOLDER,
+  `${contentDir}/-index`,
+);
+const movedWorkflows = audienceIndex?.data.workflows?.slice(0, 6) || [];
 const useCaseGroups = useCases.reduce((groups, useCase) => {
   const category = useCase.data.categories[0] || "General";
   const key = slugify(category);
@@ -51,6 +59,22 @@ const useCaseGroups = useCases.reduce((groups, useCase) => {
 }, new Map<string, { title: string; useCases: typeof useCases }>());
 const hiddenGroupTitleKeys = new Set(["rendering-ai", "render-ai"]);
 const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
+const workflowCopy =
+  lang === "pl"
+    ? {
+        label: "Zastosowania",
+        title: "Zamień pytania o widoczność w AI w konkretne decyzje",
+        description:
+          "Zacznij od pytania biznesowego, a potem sprawdź widoczność marki, konkurencję, dokładność odpowiedzi, ryzyka reputacyjne i luki contentowe.",
+        articleLabel: "Artykuły i przewodniki",
+      }
+    : {
+        label: "Use cases",
+        title: "Turn AI visibility questions into clear decisions",
+        description:
+          "Start with the business question, then check brand visibility, competitor presence, answer accuracy, reputation risk, and content gaps.",
+        articleLabel: "Articles and guides",
+      };
 ---
 
 <Base
@@ -76,11 +100,58 @@ const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
       <PageHeader title={useCaseIndex.data.title} />
     )
   }
+  {
+    isAIBrandScan && movedWorkflows.length > 0 && (
+      <section id="use-case-workflows" class="border-y border-slate-200 bg-[#fbfaf8] py-14 sm:py-16 dark:border-darkmode-border dark:bg-darkmode-light">
+        <div class="container">
+          <div class="grid gap-10 lg:grid-cols-[.8fr_1.2fr]">
+            <div>
+              <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-orange-600 dark:text-orange-300">
+                {workflowCopy.label}
+              </span>
+              <h2 class="h2 mb-5">{workflowCopy.title}</h2>
+              <p class="mb-0 text-lg leading-8 text-slate-600 dark:text-darkmode-text">
+                {workflowCopy.description}
+              </p>
+            </div>
+
+            <div class="grid gap-4 md:grid-cols-2">
+              {movedWorkflows.map((workflow: any, index: number) => (
+                <article class="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-300 dark:border-darkmode-border dark:bg-darkmode-body dark:hover:border-orange-700">
+                  <div class="mb-4 flex items-center gap-3">
+                    <span class="shrink-0 font-mono text-sm font-black tracking-[0.18em] text-orange-600 dark:text-orange-300">
+                      [{index + 1}]
+                    </span>
+                    <h3 class="mb-0 text-lg font-extrabold tracking-[-0.02em] text-slate-950 dark:text-darkmode-text-dark">
+                      {workflow.title}
+                    </h3>
+                  </div>
+                  <p class="mb-4 text-sm leading-6 text-slate-600 dark:text-darkmode-text">
+                    {workflow.description}
+                  </p>
+                  <a class="inline-flex items-center gap-2 text-sm font-bold text-orange-600 hover:text-orange-500 dark:text-orange-300" href={workflow.link}>
+                    {workflow.label}
+                    <FaArrowRight className="text-xs" />
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
   <section id="use-case-library" class="section-sm scroll-mt-24 pb-0">
     <div class="container">
       {
         isAIBrandScan ? (
           <div class="mx-auto max-w-5xl">
+            <div class="mx-auto mb-10 max-w-3xl text-center">
+              <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-orange-600 dark:text-orange-300">
+                {workflowCopy.articleLabel}
+              </span>
+              <h2 class="h2 mb-0">{useCaseIndex.data.title}</h2>
+            </div>
             <div class="row justify-center">
               {useCases.map((useCase) => (
                 <div class="mb-8 flex md:col-6">

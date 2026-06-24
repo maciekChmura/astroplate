@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">B2B SaaS AI visibility monitoring infographic</title>
+  <desc id="desc">A light product monitoring dashboard for B2B SaaS visibility in AI answers.</desc>
+  <defs>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#9a3412" flood-opacity=".12"/>
+    </filter>
+  </defs>
+  <g transform="translate(104 92)" filter="url(#soft)">
+    <rect width="992" height="491" rx="34" fill="#f8fafc"/>
+    <g transform="translate(54 52)">
+      <text x="0" y="42" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="900" fill="#0f172a">B2B SaaS visibility monitor</text>
+      <text x="0" y="82" font-family="Inter, Arial, sans-serif" font-size="22" fill="#475569">Track whether AI includes your product in software shortlists.</text>
+      <g transform="translate(0 136)">
+        <rect width="570" height="260" rx="28" fill="#ffffff" stroke="#fed7aa"/>
+        <text x="34" y="54" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="900" fill="#9a3412">Buyer prompt coverage</text>
+        <g transform="translate(34 88)">
+          <rect width="502" height="24" rx="12" fill="#e2e8f0"/>
+          <rect width="392" height="24" rx="12" fill="#f97316"/>
+          <text x="0" y="58" font-family="Inter, Arial, sans-serif" font-size="17" fill="#475569">“Best platform for B2B teams”</text>
+        </g>
+        <g transform="translate(34 168)">
+          <rect width="502" height="24" rx="12" fill="#e2e8f0"/>
+          <rect width="265" height="24" rx="12" fill="#fb923c"/>
+          <text x="0" y="58" font-family="Inter, Arial, sans-serif" font-size="17" fill="#475569">“Alternatives to competitor”</text>
+        </g>
+      </g>
+      <g transform="translate(630 136)">
+        <rect width="254" height="260" rx="28" fill="#fff7ed" stroke="#fdba74"/>
+        <circle cx="127" cy="86" r="52" fill="#0f172a"/>
+        <path d="M102 92c18 22 58 16 72-16" fill="none" stroke="#ffb86b" stroke-width="8" stroke-linecap="round"/>
+        <circle cx="108" cy="76" r="6" fill="#ffb86b"/>
+        <circle cx="146" cy="76" r="6" fill="#ffb86b"/>
+        <text x="127" y="176" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="900" fill="#0f172a">Recommended</text>
+        <text x="127" y="212" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" fill="#475569">Product fit + trust</text>
+      </g>
+    </g>
+  </g>
+</svg>

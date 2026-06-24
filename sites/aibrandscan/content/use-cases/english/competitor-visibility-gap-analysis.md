@@ -2,7 +2,7 @@
 title: "Competitor Visibility Gap Analysis for AI Search"
 meta_title: "Competitor Visibility Gap Analysis for AI Search"
 description: "AI Brand Scan helps marketing teams find where AI assistants mention, compare and recommend competitors instead of their brand across ChatGPT, Perplexity, Gemini and Google AI Overviews."
-image: "/sites/aibrandscan/images/og-image.png"
+image: "/sites/aibrandscan/images/use-cases/competitor-gap-panel.svg"
 categories: ["Competitor analysis", "AI visibility"]
 tags: ["competitor visibility", "AI Share of Voice", "GEO", "competitor monitoring", "AI search"]
 author: "jowita-chmura"

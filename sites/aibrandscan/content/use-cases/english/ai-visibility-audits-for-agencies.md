@@ -2,7 +2,7 @@
 title: "AI Visibility Audits for SEO and GEO Agencies"
 meta_title: "AI Visibility Audits for SEO and GEO Agencies"
 description: "AI Brand Scan helps SEO and GEO agencies turn AI search visibility into client-ready audits, AI Share of Voice reports, competitor visibility analysis and monthly monitoring services."
-image: "/sites/aibrandscan/images/og-image.png"
+image: "/sites/aibrandscan/images/use-cases/agency-audits-panel.svg"
 categories: ["Agency use cases", "AI visibility audits"]
 tags: ["SEO agencies", "GEO agencies", "AI Share of Voice", "client reporting", "AI monitoring"]
 author: "aibrandscan-team"

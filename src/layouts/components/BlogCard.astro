@@ -43,12 +43,12 @@ const Heading = headingLevel;
 
 {
   isAIBrandScan ? (
-    <article class="group flex h-full w-full flex-col overflow-hidden rounded-3xl border border-border bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-cyan-300 hover:shadow-xl dark:border-darkmode-border dark:bg-darkmode-light dark:hover:border-cyan-700">
+    <article class="group flex h-full w-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_18px_45px_rgba(15,23,42,0.1)] dark:border-darkmode-border dark:bg-darkmode-light dark:hover:border-orange-700">
       {
         image && (
-          <a class="block overflow-hidden" href={postUrl} tabindex="-1">
+          <a class="block overflow-hidden bg-slate-50" href={postUrl} tabindex="-1">
             <ImageMod
-              class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+              class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
               src={image}
               alt={title}
               width={720}
@@ -63,7 +63,7 @@ const Heading = headingLevel;
         <div class="mb-4 flex flex-wrap gap-2">
           {categories.map((category: string) => (
             <a
-              class="rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800 transition hover:bg-cyan-100 dark:bg-cyan-950/50 dark:text-cyan-200 dark:hover:bg-cyan-900/60"
+              class="rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-bold text-slate-950 transition hover:border-orange-300 hover:bg-orange-100 dark:border-orange-900/60 dark:bg-orange-950/40 dark:text-white dark:hover:bg-orange-900/60"
               href={slugSelector(`/categories/${slugify(category)}`, lang)}
             >
               {humanize(category)}
@@ -71,22 +71,22 @@ const Heading = headingLevel;
           ))}
         </div>
 
-        <Heading class="mb-4 text-2xl font-bold leading-tight text-text-dark sm:text-[1.65rem] dark:text-darkmode-text-dark">
-          <a class="transition group-hover:text-cyan-700 dark:group-hover:text-cyan-300" href={postUrl}>
+        <Heading class="mb-4 text-2xl font-extrabold leading-tight tracking-[-0.02em] text-slate-950 sm:text-[1.65rem] dark:text-darkmode-text-dark">
+          <a class="transition group-hover:text-orange-600 dark:group-hover:text-orange-300" href={postUrl}>
             {title}
           </a>
         </Heading>
 
-        <p class="mb-6 line-clamp-3 leading-7 text-text dark:text-darkmode-text">
+        <p class="mb-6 line-clamp-3 leading-7 text-slate-600 dark:text-darkmode-text">
           {plainify(description)}
         </p>
 
         <div class="mt-auto">
-          <div class="mb-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-5 text-sm text-text-light dark:border-darkmode-border dark:text-darkmode-text-light">
+          <div class="mb-5 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-200 pt-5 text-sm text-slate-500 dark:border-darkmode-border dark:text-darkmode-text-light">
             <span class="inline-flex items-center gap-2">
-              <FaRegUser className="shrink-0 text-cyan-700 dark:text-cyan-300" />
+              <FaRegUser className="shrink-0 text-orange-600 dark:text-orange-300" />
               {author.url ? (
-                <a class="hover:text-cyan-700 dark:hover:text-cyan-300" href={author.url}>
+                <a class="hover:text-orange-600 dark:hover:text-orange-300" href={author.url}>
                   {author.name}
                 </a>
               ) : (
@@ -95,7 +95,7 @@ const Heading = headingLevel;
             </span>
             {date && (
               <span class="inline-flex items-center gap-2">
-                <FaRegCalendar className="shrink-0 text-cyan-700 dark:text-cyan-300" />
+                <FaRegCalendar className="shrink-0 text-orange-600 dark:text-orange-300" />
                 <time datetime={new Date(date).toISOString()}>{dateFormat(date)}</time>
               </span>
             )}

@@ -23,24 +23,23 @@ const {
 }: Props = Astro.props;
 ---
 
-<section class="relative overflow-hidden border-b border-border py-16 sm:py-20 lg:py-24 dark:border-darkmode-border">
+<section class="relative overflow-hidden border-b border-slate-200 bg-[#fbfaf8] py-16 sm:py-20 lg:py-24 dark:border-darkmode-border dark:bg-darkmode-body">
   <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-    <div class="absolute -left-28 top-8 h-72 w-72 rounded-full bg-cyan-300/20 blur-3xl dark:bg-cyan-400/10"></div>
-    <div class="absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-blue-400/15 blur-3xl dark:bg-blue-500/10"></div>
-    <div class="absolute inset-0 opacity-[0.035] dark:opacity-[0.06] [background-image:linear-gradient(to_right,currentColor_1px,transparent_1px),linear-gradient(to_bottom,currentColor_1px,transparent_1px)] [background-size:48px_48px]"></div>
+    <div class="absolute inset-0 opacity-[0.45] [background-image:linear-gradient(to_right,#1118270a_1px,transparent_1px),linear-gradient(to_bottom,#1118270a_1px,transparent_1px)] [background-size:44px_44px] dark:opacity-[0.08]"></div>
+    <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white to-transparent dark:from-darkmode-body"></div>
   </div>
 
   <div class="container relative">
     <div class="mx-auto max-w-4xl text-center">
-      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-4 py-2 text-sm font-semibold text-cyan-800 dark:border-cyan-800/70 dark:bg-cyan-950/50 dark:text-cyan-200">
+      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm dark:border-orange-900/50 dark:bg-orange-950/30 dark:text-white">
         <FaRobot />
         {eyebrow}
       </div>
 
-      <h1 class="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-text-dark sm:text-5xl lg:text-6xl dark:text-darkmode-text-dark">
+      <h1 class="mb-6 text-4xl font-extrabold leading-[1.06] tracking-[-0.04em] text-slate-950 sm:text-5xl lg:text-7xl dark:text-darkmode-text-dark">
         {title}
       </h1>
-      <p class="mx-auto mb-8 max-w-3xl text-lg leading-8 text-text sm:text-xl dark:text-darkmode-text">
+      <p class="mx-auto mb-8 max-w-3xl text-lg leading-8 text-slate-600 sm:text-xl dark:text-darkmode-text">
         {description}
       </p>
 

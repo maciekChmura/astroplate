@@ -152,7 +152,7 @@ faq:
     answer: "Yes. Scan results can reveal prompts, questions, comparisons, FAQs, and topics that a website should answer more clearly. Agents can turn these gaps into briefs and page recommendations."
 cta:
   enable: true
-  title: "Do you know what AI says about your brand?"
+  title: "Do you know what AI says about your brand, and how to fix it?"
   description: "Run your AI Brand Scan to see whether AI recommends you, ignores you, misunderstands your offer, or sends buyers to competitors. Then turn the findings into practical improvements."
   label: "Run your AI Brand Scan"
   link: "https://aibrandscan.com"

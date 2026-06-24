@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">AI Share of Voice infographic</title>
+  <desc id="desc">A light dashboard showing brand visibility bars across AI answers.</desc>
+  <defs>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff9f43"/>
+      <stop offset="1" stop-color="#ff5a1f"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#9a3412" flood-opacity=".12"/>
+    </filter>
+  </defs>
+  <g transform="translate(86 70)">
+    <rect x="0" y="0" width="1028" height="535" rx="34" fill="#f8fafc" filter="url(#soft)"/>
+    <rect x="32" y="32" width="964" height="471" rx="26" fill="#ffffff" stroke="#fed7aa"/>
+    <g transform="translate(72 72)">
+      <rect width="180" height="42" rx="21" fill="#ffedd5"/>
+      <text x="90" y="28" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800" fill="#9a3412">AI visibility</text>
+      <text x="0" y="105" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="900" fill="#0f172a">Share of Voice</text>
+      <text x="0" y="146" font-family="Inter, Arial, sans-serif" font-size="22" fill="#475569">Measure how often AI mentions your brand vs competitors.</text>
+    </g>
+    <g transform="translate(78 278)">
+      <text x="0" y="-22" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800" fill="#0f172a">AI answer presence</text>
+      <g transform="translate(0 0)">
+        <text x="0" y="22" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#f97316">Your brand</text>
+        <rect x="150" y="4" width="560" height="22" rx="11" fill="#e2e8f0"/>
+        <rect x="150" y="4" width="392" height="22" rx="11" fill="url(#cyan)"/>
+        <text x="732" y="23" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800" fill="#0f172a">70%</text>
+      </g>
+      <g transform="translate(0 66)">
+        <text x="0" y="22" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#64748b">Competitor A</text>
+        <rect x="150" y="4" width="560" height="22" rx="11" fill="#e2e8f0"/>
+        <rect x="150" y="4" width="470" height="22" rx="11" fill="#94a3b8"/>
+        <text x="732" y="23" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800" fill="#475569">84%</text>
+      </g>
+      <g transform="translate(0 132)">
+        <text x="0" y="22" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#64748b">Competitor B</text>
+        <rect x="150" y="4" width="560" height="22" rx="11" fill="#e2e8f0"/>
+        <rect x="150" y="4" width="302" height="22" rx="11" fill="#cbd5e1"/>
+        <text x="732" y="23" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800" fill="#475569">54%</text>
+      </g>
+    </g>
+    <g transform="translate(815 78)">
+      <circle cx="70" cy="70" r="70" fill="#fff7ed"/>
+      <circle cx="70" cy="70" r="48" fill="none" stroke="#fed7aa" stroke-width="18"/>
+      <path d="M70 22a48 48 0 0 1 42 72" fill="none" stroke="#f97316" stroke-width="18" stroke-linecap="round"/>
+      <text x="70" y="79" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="900" fill="#9a3412">AI</text>
+    </g>
+  </g>
+</svg>

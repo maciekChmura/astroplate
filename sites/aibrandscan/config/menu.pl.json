@@ -1,4 +1,34 @@
 {
-  "main": [],
-  "footer": []
+  "main": [
+    {
+      "name": "Strona główna",
+      "url": "https://aibrandscan.com"
+    },
+    {
+      "name": "Blog",
+      "url": "/blog"
+    },
+    {
+      "name": "Biblioteka promptów",
+      "url": "/prompt-library"
+    },
+    {
+      "name": "Zastosowania",
+      "url": "/use-cases"
+    },
+    {
+      "name": "Alternatywy",
+      "url": "/alternatives"
+    },
+    {
+      "name": "Dla kogo",
+      "url": "/for"
+    }
+  ],
+  "footer": [
+    {
+      "name": "Polityka prywatności",
+      "url": "/privacy-policy"
+    }
+  ]
 }

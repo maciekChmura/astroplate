@@ -1,9 +1,9 @@
 ---
-title: "AI Share of Voice Tracking for Marketing Teams"
-meta_title: "AI Share of Voice Tracking for Marketing Teams"
-description: "AI Brand Scan helps marketing teams measure how often AI assistants mention, compare and recommend their brand versus competitors across ChatGPT, Perplexity, Gemini and Google AI Overviews."
-image: "/sites/aibrandscan/images/og-image.png"
-categories: ["Marketing teams", "AI Share of Voice"]
+title: "AI Share of Voice: How Marketing Teams Track Brand Visibility"
+meta_title: "AI Share of Voice: How Marketing Teams Track Brand Visibility"
+description: "Track how often AI assistants mention, compare and recommend your brand versus competitors across ChatGPT, Perplexity and other answer engines."
+image: "/sites/aibrandscan/images/use-cases/share-of-voice-panel.svg"
+categories: ["AI Visibility", "Marketing Teams"]
 tags: ["AI Share of Voice", "marketing measurement", "competitor visibility", "GEO", "AI monitoring"]
 author: "jowita-chmura"
 popular: true
