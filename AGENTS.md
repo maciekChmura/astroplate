@@ -49,6 +49,9 @@
 - AIBrandScan content root:
   - English content: `sites/aibrandscan/content/.../english/`
 - Keep language separation strict. Do not add Polish content to `quickarchviz-en`, and do not add English content to `quickarchviz-pl`.
+- Keep site UI and style changes isolated. When creating new pages or modifying existing pages, make sure site-specific layouts, components, CSS classes, colors, button styles, cards, typography, and visual treatments do not leak into other site ids.
+- When editing shared components, layouts, CSS, i18n, or generator behavior for one site, guard the site-specific branch with the active site config or use clearly site-specific classes/components. Preserve the current UI of unrelated sites unless the task explicitly asks for a cross-site change.
+- Before finishing changes that touch shared UI or styling, check the relevant sibling sites, especially `quickarchviz-en`, `quickarchviz-pl`, and `aibrandscan`, with the appropriate `npm run check -- --site <site-id>` command or a targeted build when the visual/routing risk is higher.
 - Before adding or modifying content, inspect the relevant existing file or `-template.md` in the same collection and language.
 - Prefer shared QuickArchViz images in `public/sites/quickarchviz/images/` and reference them with absolute paths such as `/sites/quickarchviz/images/cover.webp`.
 - Do not add QuickArchViz media under the EN or PL public site roots; both language sites share the canonical `public/sites/quickarchviz/images/` root.
