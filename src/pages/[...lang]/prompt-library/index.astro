@@ -24,7 +24,12 @@ if (promptIndex.data.draft) {
   return Astro.redirect("/404");
 }
 
-const prompts = await getSinglePage(PROMPTS_CONTENT_FOLDER, lang);
+let prompts = await getSinglePage(PROMPTS_CONTENT_FOLDER, lang);
+const promptLinkLang = prompts.length > 0 ? lang : undefined;
+
+if (prompts.length === 0 && lang !== "en") {
+  prompts = await getSinglePage(PROMPTS_CONTENT_FOLDER, "en");
+}
 const canonicalPath = promptsIndexPath(lang);
 const siteUrl =
   Astro.site ||
@@ -56,10 +61,10 @@ const jsonLd = [
         name: entry.data.title,
         url: siteUrl
           ? new URL(
-              `/prompt-library/${entry.id.split("/").pop()}/`,
+              promptPath(entry.id.split("/").pop() || "", promptLinkLang),
               siteUrl,
             ).toString()
-          : `/prompt-library/${entry.id.split("/").pop()}/`,
+          : promptPath(entry.id.split("/").pop() || "", promptLinkLang),
       })),
     },
   },
@@ -79,5 +84,6 @@ const jsonLd = [
     promptIndex={promptIndex}
     prompts={prompts}
     lang={lang}
+    promptLinkLang={promptLinkLang}
   />
 </Base>

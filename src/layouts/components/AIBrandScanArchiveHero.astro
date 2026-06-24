@@ -12,6 +12,7 @@ type Props = {
   description: string;
   primaryAction?: HeroAction;
   secondaryAction?: HeroAction;
+  showEyebrowIcon?: boolean;
 };
 
 const {
@@ -20,19 +21,23 @@ const {
   description,
   primaryAction,
   secondaryAction,
+  showEyebrowIcon = true,
 }: Props = Astro.props;
 ---
 
 <section class="relative overflow-hidden border-b border-slate-200 bg-[#fbfaf8] py-16 sm:py-20 lg:py-24 dark:border-darkmode-border dark:bg-darkmode-body">
   <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
     <div class="absolute inset-0 opacity-[0.45] [background-image:linear-gradient(to_right,#1118270a_1px,transparent_1px),linear-gradient(to_bottom,#1118270a_1px,transparent_1px)] [background-size:44px_44px] dark:opacity-[0.08]"></div>
+    <div class="aibrandscan-grid-sparkles" aria-hidden="true">
+      {Array.from({ length: 12 }).map(() => <span />)}
+    </div>
     <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white to-transparent dark:from-darkmode-body"></div>
   </div>
 
   <div class="container relative">
     <div class="mx-auto max-w-4xl text-center">
       <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm dark:border-orange-900/50 dark:bg-orange-950/30 dark:text-white">
-        <FaRobot />
+        {showEyebrowIcon && <FaRobot />}
         {eyebrow}
       </div>
 
