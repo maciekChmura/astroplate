@@ -36,7 +36,7 @@ const imageWidth = Number(logoWidth) * 2;
 const imageHeight = Number(logoHeight) * 2;
 const hasLogo = Boolean(activeLogo || activeDarkLogo);
 const logoLayout = logo_layout === "lockup" ? "lockup" : "image";
-const logoHref = logo_url || slugSelector("/", lang);
+const logoHref = logo_url ? slugSelector(logo_url, lang) : slugSelector("/", lang);
 ---
 
 <a href={logoHref} class="navbar-brand inline-flex items-center">

@@ -6,6 +6,8 @@ const LanguageSwitcher = ({
   lang,
   switchTargets,
   externalLinks = [],
+  wrapperClassName = "mr-5",
+  selectClassName = "border-dark text-text-dark rounded-sm border bg-transparent py-1 focus:border-dark focus:ring-0 dark:border-darkmode-primary dark:text-white dark:focus:border-darkmode-primary",
 }: {
   lang: string;
   switchTargets: Record<string, string>;
@@ -14,6 +16,8 @@ const LanguageSwitcher = ({
     languageName: string;
     url: string;
   }[];
+  wrapperClassName?: string;
+  selectClassName?: string;
 }) => {
   const { default_language, disable_languages } = siteConfig.settings;
   const disabledLanguages = disable_languages as string[];
@@ -32,9 +36,9 @@ const LanguageSwitcher = ({
   }
 
   return (
-    <div className="mr-5">
+    <div className={wrapperClassName}>
       <select
-        className="border-dark text-text-dark rounded-sm border bg-transparent py-1 focus:border-dark focus:ring-0 dark:border-darkmode-primary dark:text-white dark:focus:border-darkmode-primary"
+        className={selectClassName}
         onChange={(event) => {
           const selectedLang = event.target.value;
 

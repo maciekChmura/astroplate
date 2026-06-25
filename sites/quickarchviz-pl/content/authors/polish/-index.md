@@ -1,6 +1,6 @@
 ---
-title: "Authors"
-description: "Przegladaj autorow, ktorzy tworza artykuly, przewodniki i zasoby dla publikacji Astroplate."
+title: "Autorzy"
+description: "Przeglądaj autorów, którzy tworzą artykuły, przewodniki i zasoby dla publikacji QuickArchViz."
 image: ""
 draft: false
 ---

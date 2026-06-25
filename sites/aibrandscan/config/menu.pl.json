@@ -1,28 +1,39 @@
 {
   "main": [
     {
-      "name": "Strona główna",
-      "url": "https://aibrandscan.com"
+      "name": "Funkcje",
+      "url": "https://aibrandscan.com/#features"
     },
     {
-      "name": "Blog",
-      "url": "/blog"
+      "name": "Cennik",
+      "url": "https://aibrandscan.com/#pricing"
     },
     {
-      "name": "Biblioteka promptów",
-      "url": "/prompt-library"
-    },
-    {
-      "name": "Zastosowania",
-      "url": "/use-cases"
-    },
-    {
-      "name": "Alternatywy",
-      "url": "/alternatives"
-    },
-    {
-      "name": "Dla kogo",
-      "url": "/for"
+      "name": "Baza wiedzy",
+      "url": "/",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Blog",
+          "url": "/blog"
+        },
+        {
+          "name": "Biblioteka promptów",
+          "url": "/prompt-library"
+        },
+        {
+          "name": "Zastosowania",
+          "url": "/use-cases"
+        },
+        {
+          "name": "Alternatywy",
+          "url": "/alternatives"
+        },
+        {
+          "name": "Dla kogo",
+          "url": "/for"
+        }
+      ]
     }
   ],
   "footer": [

@@ -10,51 +10,103 @@ const { alternativesIndex, alternatives, lang } = Astro.props as {
   alternativesIndex: CollectionEntry<"alternatives">;
   alternatives: CollectionEntry<"alternatives">[];
   lang: string;
+  alternativeLinkLang?: string;
+};
+const { alternativeLinkLang } = Astro.props as { alternativeLinkLang?: string };
+const isPolish = lang === "pl";
+
+const copy = isPolish
+  ? {
+      eyebrow: "Niezależne przewodniki porównawcze",
+      primaryAction: "Przeglądaj porównania",
+      secondaryAction: "Sprawdź swoją markę",
+      latestGuide: "Najnowszy przewodnik",
+      sectionTitle: "Znajdź właściwą platformę do widoczności w AI",
+      sectionDescription:
+        "Porównuj narzędzia pod kątem monitoringu marki, śledzenia promptów, cytowań, dokładności odpowiedzi, raportowania i możliwości zamiany wyników w konkretne działania.",
+      readComparison: "Przeczytaj porównanie",
+    }
+  : {
+      eyebrow: "Independent comparison guides",
+      primaryAction: "Browse comparisons",
+      secondaryAction: "Scan your brand",
+      latestGuide: "Latest guide",
+      sectionTitle: "Find the right AI visibility platform",
+      sectionDescription:
+        "Compare tools by brand monitoring depth, prompt tracking, citations, answer accuracy, reporting, and the ability to turn findings into action.",
+      readComparison: "Read the comparison",
+    };
+
+const localizedAlternatives: Record<
+  string,
+  { title: string; description: string; categories: string[] }
+> = {
+  "best-ai-visibility-tools": {
+    title: "7 najlepszych narzędzi do widoczności marki w AI w 2026",
+    description:
+      "Porównaj wiodące narzędzia do monitorowania wzmiankowania marki, AI Share of Voice, widoczności konkurencji, cytowań, sentymentu i dokładności odpowiedzi.",
+    categories: ["Narzędzia do widoczności w AI", "Alternatywy"],
+  },
+};
+
+const getAlternativeSlug = (alternative: CollectionEntry<"alternatives">) =>
+  stripLocaleFromId(alternative.id);
+const getAlternativeCopy = (alternative: CollectionEntry<"alternatives">) => {
+  const slug = getAlternativeSlug(alternative);
+  const localized = isPolish ? localizedAlternatives[slug] : undefined;
+
+  return {
+    title: localized?.title || alternative.data.title,
+    description: localized?.description || plainify(alternative.data.description),
+    categories: localized?.categories || alternative.data.categories.map((category) => humanize(category)),
+  };
 };
 ---
 
 <AIBrandScanArchiveHero
-  eyebrow="Independent comparison guides"
+  eyebrow={copy.eyebrow}
   title={alternativesIndex.data.title}
   description={alternativesIndex.data.description}
-  primaryAction={{ label: "Browse comparisons", href: "#comparison-guides" }}
-  secondaryAction={{ label: "Scan your brand", href: "https://aibrandscan.com/register" }}
+  primaryAction={{ label: copy.primaryAction, href: "#comparison-guides" }}
+  secondaryAction={{ label: copy.secondaryAction, href: "https://aibrandscan.com/register" }}
 />
 
 <section id="comparison-guides" class="section scroll-mt-24">
   <div class="container">
     <div class="mx-auto max-w-6xl">
       <div class="mb-10 max-w-3xl">
-        <p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">Latest guide</p>
-        <h2 class="h2 mb-4">Find the right AI visibility platform</h2>
+        <p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">{copy.latestGuide}</p>
+        <h2 class="h2 mb-4">{copy.sectionTitle}</h2>
         <p class="mb-0 text-lg leading-8">
-          Compare tools by brand monitoring depth, prompt tracking, citations, answer accuracy, reporting, and the ability to turn findings into action.
+          {copy.sectionDescription}
         </p>
       </div>
 
       <div class="grid gap-6 lg:grid-cols-2">
         {alternatives.map((alternative) => {
-          const slug = stripLocaleFromId(alternative.id);
+          const slug = getAlternativeSlug(alternative);
+          const alternativeCopy = getAlternativeCopy(alternative);
+
           return (
             <article class="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-darkmode-border dark:bg-darkmode-light md:p-9">
               <div class="mb-5 flex flex-wrap gap-2">
-                {alternative.data.categories.map((category: string) => (
+                {alternativeCopy.categories.map((category: string) => (
                   <span class="rounded-full border border-orange-100 bg-[#fbfaf8] px-3 py-1 text-xs font-bold text-slate-950 dark:border-orange-900/50 dark:bg-orange-950/20 dark:text-orange-100">
-                    {humanize(category)}
+                    {category}
                   </span>
                 ))}
               </div>
               <h3 class="h3 mb-4">
-                <a class="transition hover:text-cyan-700 dark:hover:text-cyan-300" href={alternativePath(slug, lang)}>
-                  {alternative.data.title}
+                <a class="transition hover:text-orange-600 dark:hover:text-orange-300" href={alternativePath(slug, alternativeLinkLang)}>
+                  {alternativeCopy.title}
                 </a>
               </h3>
-              <p class="mb-7 text-base leading-7">{plainify(alternative.data.description)}</p>
+              <p class="mb-7 text-base leading-7">{alternativeCopy.description}</p>
               <a
                 class="aibrandscan-button aibrandscan-button-primary aibrandscan-button-sm mt-auto self-start"
-                href={alternativePath(slug, lang)}
+                href={alternativePath(slug, alternativeLinkLang)}
               >
-                Read the comparison
+                {copy.readComparison}
                 <FaArrowRight className="transition group-hover:translate-x-1" />
               </a>
             </article>

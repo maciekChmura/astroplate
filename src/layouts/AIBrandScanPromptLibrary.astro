@@ -1,5 +1,9 @@
 ---
 import { promptPath } from "@/lib/utils/promptRoutes";
+import {
+  getAIBrandScanPromptCopy,
+  getAIBrandScanPromptSlug,
+} from "@/lib/utils/aibrandscanPromptCopy";
 import AIBrandScanArchiveHero from "@/components/AIBrandScanArchiveHero.astro";
 import {
   FaArrowRight,
@@ -10,7 +14,8 @@ import {
   FaRobot,
 } from "react-icons/fa6";
 
-const { prompts, lang } = Astro.props;
+const { promptIndex, prompts, lang, promptLinkLang } = Astro.props;
+const isPolish = lang === "pl";
 
 const categoryOrder = [
   "Diagnose AI Visibility",
@@ -55,6 +60,31 @@ const categoryDescriptions: Record<string, string> = {
     "Turn visibility data into recurring reports, leadership summaries, and client deliverables.",
 };
 
+const categoryLabels: Record<string, string> = isPolish
+  ? {
+      "Diagnose AI Visibility": "Diagnoza widoczności w AI",
+      "Compare Against Competitors": "Porównanie z konkurencją",
+      "Build AI-Friendly Content": "Treści przyjazne AI",
+      "Buyer Research": "Research pytań kupujących",
+      "Monitor and Report": "Monitoring i raporty",
+    }
+  : Object.fromEntries(categoryOrder.map((category) => [category, category]));
+
+const localizedCategoryDescriptions: Record<string, string> = isPolish
+  ? {
+      "Diagnose AI Visibility":
+        "Sprawdź, czy asystenci AI znają, wspominają, opisują i rekomendują Twoją markę poprawnie.",
+      "Compare Against Competitors":
+        "Zobacz, dlaczego konkurenci pojawiają się częściej i gdzie ich treści lub dowody są silniejsze.",
+      "Build AI-Friendly Content":
+        "Twórz jaśniejsze strony, FAQ, informacje o encji marki i plany publikacji pod AI search.",
+      "Buyer Research":
+        "Odkryj realne pytania, które kupujący mogą zadawać AI przed wyborem dostawcy lub produktu.",
+      "Monitor and Report":
+        "Zamieniaj dane o widoczności w cykliczne raporty, podsumowania dla liderów i materiały dla klientów.",
+    }
+  : categoryDescriptions;
+
 const categoryIcons: Record<string, any> = {
   "Diagnose AI Visibility": FaMagnifyingGlassChart,
   "Compare Against Competitors": FaCodeCompare,
@@ -89,36 +119,111 @@ const totalPrompts = groupedPrompts.reduce(
   (total, group) => total + group.prompts.length,
   0,
 );
+
+const copy = isPolish
+  ? {
+      heroEyebrow: "15 zaawansowanych promptów, 5 praktycznych procesów",
+      heroTitle: promptIndex?.data?.title || "Biblioteka promptów AI Visibility",
+      heroDescription:
+        promptIndex?.data?.description ||
+        "Diagnozuj, monitoruj i poprawiaj to, jak ChatGPT, Claude, Gemini, Perplexity, Copilot i Google AI Overviews rozumieją, porównują i rekomendują Twoją markę.",
+      primaryAction: "Przeglądaj bibliotekę",
+      secondaryAction: "Automatyzuj monitoring marki",
+      howLabel: "Jak korzystać z biblioteki",
+      howTitle: "Zacznij od pytania biznesowego, potem wybierz właściwy prompt",
+      howDescription:
+        "Każdy prompt zawiera zastosowanie, wymagane dane wejściowe, oczekiwane wyniki, pełny zaawansowany prompt i rekomendowany następny krok.",
+      steps: [
+        ["1", "Wybierz proces", "Zacznij od pytania biznesowego, na które chcesz odpowiedzieć."],
+        ["2", "Przygotuj dane wejściowe", "Użyj zweryfikowanych faktów o marce, konkurentów, zapytań i odpowiedzi AI."],
+        ["3", "Uruchom prompt", "Przetestuj go ręcznie w kilku asystentach AI i zapisz dowody."],
+        ["4", "Monitoruj zmianę", "Powtarzaj ważne zapytania albo automatyzuj monitoring w AI Brand Scan."],
+      ],
+      categoriesLabel: "Kategorie promptów",
+      categoriesTitle: "Wybierz rezultat, którego potrzebujesz",
+      categoriesDescription:
+        "Zacznij od diagnozy, porównania, treści, researchu kupujących albo raportowania. Każdy prompt działa jak profesjonalny materiał roboczy.",
+      allPrompts: "Wszystkie prompty",
+      useCase: "Zastosowanie",
+      bestFor: "Najlepsze dla",
+      openPrompt: "Otwórz prompt",
+      ctaTitle: "Chcesz monitorować to automatycznie?",
+      ctaDescription:
+        "Ręczne testowanie promptów pomaga w diagnozie, ale trudno je powtarzać, porównywać i raportować spójnie. AI Brand Scan zamienia jednorazowe testy promptów w powtarzalny system monitorowania widoczności w AI.",
+      ctaLabel: "Uruchom AI Brand Scan",
+    }
+  : {
+      heroEyebrow: "15 advanced prompts, 5 practical workflows",
+      heroTitle: "AI Visibility Prompt Library",
+      heroDescription:
+        "Diagnose, monitor, and improve how ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews understand, compare, and recommend your brand.",
+      primaryAction: "Browse the library",
+      secondaryAction: "Automate brand monitoring",
+      howLabel: "How to use this library",
+      howTitle: "Start with a business question, then choose the right prompt",
+      howDescription:
+        "Each prompt includes the use case, required inputs, expected outputs, full Advanced Prompt, and the recommended next action.",
+      steps: [
+        ["1", "Choose a workflow", "Start with the business question you need to answer."],
+        ["2", "Prepare inputs", "Use verified brand facts, competitors, queries, and AI answers."],
+        ["3", "Run the prompt", "Test manually across several AI assistants and save the evidence."],
+        ["4", "Monitor change", "Repeat important queries or automate tracking with AI Brand Scan."],
+      ],
+      categoriesLabel: "Prompt categories",
+      categoriesTitle: "Choose the outcome you need",
+      categoriesDescription:
+        "Start with diagnosis, comparison, content, buyer research, or reporting. Each prompt is built as a professional working asset.",
+      allPrompts: "All prompts",
+      useCase: "Use case",
+      bestFor: "Best for",
+      openPrompt: "Open prompt",
+      ctaTitle: "Want to monitor this automatically?",
+      ctaDescription:
+        "Manual prompt testing is useful for investigation, but difficult to repeat, compare, and report consistently. AI Brand Scan turns one-time prompt checks into a repeatable AI visibility monitoring system.",
+      ctaLabel: "Run your AI Brand Scan",
+    };
+
+const getPromptSlug = getAIBrandScanPromptSlug;
+const getPromptCopy = (entry: any) => getAIBrandScanPromptCopy(entry, lang);
+const promptCountLabel = (count: number) => {
+  if (!isPolish) {
+    return `${count} prompts`;
+  }
+
+  if (count === 1) {
+    return "1 prompt";
+  }
+
+  if (count >= 2 && count <= 4) {
+    return `${count} prompty`;
+  }
+
+  return `${count} promptów`;
+};
 ---
 
 <div class="overflow-hidden bg-body dark:bg-darkmode-body">
   <AIBrandScanArchiveHero
-    eyebrow="15 advanced prompts, 5 practical workflows"
-    title="AI Visibility Prompt Library"
-    description="Diagnose, monitor, and improve how ChatGPT, Claude, Gemini, Perplexity, Copilot, and Google AI Overviews understand, compare, and recommend your brand."
-    primaryAction={{ label: "Browse the library", href: "#prompt-categories" }}
-    secondaryAction={{ label: "Automate brand monitoring", href: "https://aibrandscan.com" }}
+    eyebrow={copy.heroEyebrow}
+    title={copy.heroTitle}
+    description={copy.heroDescription}
+    primaryAction={{ label: copy.primaryAction, href: "#prompt-categories" }}
+    secondaryAction={{ label: copy.secondaryAction, href: "https://aibrandscan.com" }}
   />
 
   <section class="border-y border-slate-200 bg-[#fbfaf8] py-12 dark:border-darkmode-border dark:bg-darkmode-light">
     <div class="container">
       <div class="mb-10 max-w-3xl">
         <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-orange-600 dark:text-orange-300">
-          How to use this library
+          {copy.howLabel}
         </span>
-        <h2 class="h2 mb-4">Start with a business question, then choose the right prompt</h2>
+        <h2 class="h2 mb-4">{copy.howTitle}</h2>
         <p class="mb-0 text-lg leading-8">
-          Each prompt includes the use case, required inputs, expected outputs,
-          full Advanced Prompt, and the recommended next action.
+          {copy.howDescription}
         </p>
       </div>
       <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-        {[
-          ["1", "Choose a workflow", "Start with the business question you need to answer."],
-          ["2", "Prepare inputs", "Use verified brand facts, competitors, queries, and AI answers."],
-          ["3", "Run the prompt", "Test manually across several AI assistants and save the evidence."],
-          ["4", "Monitor change", "Repeat important queries or automate tracking with AI Brand Scan."],
-        ].map(([number, title, description]) => (
+        {copy.steps.map(([number, title, description]) => (
           <article>
             <div class="mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase tracking-[0.2em]">
               <span class="text-slate-300">[</span>
@@ -137,12 +242,11 @@ const totalPrompts = groupedPrompts.reduce(
     <div class="container">
       <div class="mb-12 max-w-3xl">
         <span class="mb-3 block text-sm font-bold uppercase tracking-[.18em] text-orange-600 dark:text-orange-300">
-          Prompt categories
+          {copy.categoriesLabel}
         </span>
-        <h2 class="h2 mb-4">Choose the outcome you need</h2>
+        <h2 class="h2 mb-4">{copy.categoriesTitle}</h2>
         <p class="text-lg leading-8">
-          Start with diagnosis, comparison, content, buyer research, or
-          reporting. Each prompt is built as a professional working asset.
+          {copy.categoriesDescription}
         </p>
       </div>
 
@@ -159,7 +263,7 @@ const totalPrompts = groupedPrompts.reduce(
             data-active="true"
             aria-pressed="true"
           >
-            All prompts ({totalPrompts})
+            {copy.allPrompts} ({totalPrompts})
           </button>
           {groupedPrompts.map((group) => (
             <button
@@ -169,7 +273,7 @@ const totalPrompts = groupedPrompts.reduce(
               data-active="false"
               aria-pressed="false"
             >
-              {group.category} ({group.prompts.length})
+              {categoryLabels[group.category]} ({group.prompts.length})
             </button>
           ))}
         </nav>
@@ -187,26 +291,30 @@ const totalPrompts = groupedPrompts.reduce(
                     <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-orange-600 shadow-sm dark:bg-darkmode-body dark:text-orange-300">
                       <Icon />
                     </div>
-                    <h3 class="h3 mb-0">{group.category}</h3>
+                    <h3 class="h3 mb-0">{categoryLabels[group.category]}</h3>
                   </div>
                   <p class="mb-0 max-w-3xl leading-7">
-                    {categoryDescriptions[group.category]}
+                    {localizedCategoryDescriptions[group.category]}
                   </p>
                 </div>
                   <span class="w-fit rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-950 dark:border-darkmode-border dark:bg-darkmode-body dark:text-white">
-                    {group.prompts.length} prompts
+                    {promptCountLabel(group.prompts.length)}
                   </span>
                 </div>
               </div>
 
               <div class="grid gap-5 2xl:grid-cols-2">
-                {group.prompts.map((entry: any, index: number) => (
+                {group.prompts.map((entry: any, index: number) => {
+                  const promptCopy = getPromptCopy(entry);
+                  const promptSlug = getPromptSlug(entry);
+
+                  return (
                   <article class="group flex h-full flex-col rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_18px_45px_rgba(15,23,42,0.1)] dark:border-darkmode-border dark:bg-darkmode-body dark:hover:border-orange-700 sm:p-6">
                     <div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div class="flex min-w-0 items-start gap-4">
                         <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-orange-50 text-base font-black text-slate-950 dark:bg-orange-950/40 dark:text-white">
                           {String(
-                            promptRank.get(entry.id.split("/").pop()) ||
+                            promptRank.get(promptSlug) ||
                               index + 1,
                           ).padStart(2, "0")}
                         </span>
@@ -214,9 +322,9 @@ const totalPrompts = groupedPrompts.reduce(
                           <h4 class="mb-0 text-xl font-extrabold leading-tight tracking-[-0.02em] text-slate-950 dark:text-darkmode-text-dark">
                             <a
                               class="transition group-hover:text-orange-600 dark:group-hover:text-orange-300"
-                              href={promptPath(entry.id.split("/").pop(), lang)}
+                              href={promptPath(promptSlug, promptLinkLang)}
                             >
-                              {entry.data.title}
+                              {promptCopy.title}
                             </a>
                           </h4>
                         </div>
@@ -225,32 +333,32 @@ const totalPrompts = groupedPrompts.reduce(
 
                     <div class="grow rounded-2xl border border-slate-200 bg-[#fbfaf8] p-5 dark:border-darkmode-border dark:bg-darkmode-light/70">
                       <p class="mb-2 text-xs font-black uppercase tracking-wider text-orange-600 dark:text-orange-300">
-                        Use case
+                        {copy.useCase}
                       </p>
                       <p class="mb-0 text-lg leading-8 text-slate-950 dark:text-darkmode-text-dark">
-                        {entry.data.use_case}
+                        {promptCopy.useCase}
                       </p>
                     </div>
 
                     <div class="mt-4 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
                       <div class="max-w-2xl">
                         <p class="mb-2 text-xs font-black uppercase tracking-wider text-text-light dark:text-darkmode-text-light">
-                          Best for
+                          {copy.bestFor}
                         </p>
                         <p class="mb-0 text-sm leading-6 text-text-light dark:text-darkmode-text-light">
-                          {entry.data.best_for}
+                          {promptCopy.bestFor}
                         </p>
                       </div>
                       <a
                         class="aibrandscan-button aibrandscan-button-primary aibrandscan-button-sm shrink-0 self-start sm:self-end"
-                        href={promptPath(entry.id.split("/").pop(), lang)}
+                        href={promptPath(promptSlug, promptLinkLang)}
                       >
-                        Open prompt
+                        {copy.openPrompt}
                         <FaArrowRight className="transition group-hover:translate-x-1" />
                       </a>
                     </div>
                   </article>
-                ))}
+                )})}
               </div>
             </section>
           );
@@ -265,16 +373,13 @@ const totalPrompts = groupedPrompts.reduce(
         <div class="absolute inset-0 opacity-[0.5] [background-image:linear-gradient(to_right,#1118270a_1px,transparent_1px),linear-gradient(to_bottom,#1118270a_1px,transparent_1px)] [background-size:42px_42px] dark:opacity-[0.08]"></div>
         <div class="relative mx-auto max-w-3xl">
           <h2 class="mb-5 text-3xl font-bold text-slate-950 sm:text-4xl dark:text-white">
-            Want to monitor this automatically?
+            {copy.ctaTitle}
           </h2>
           <p class="mx-auto mb-8 max-w-2xl text-lg leading-8 text-slate-700 dark:text-slate-200">
-            Manual prompt testing is useful for investigation, but difficult to
-            repeat, compare, and report consistently. AI Brand Scan turns
-            one-time prompt checks into a repeatable AI visibility monitoring
-            system.
+            {copy.ctaDescription}
           </p>
           <a class="aibrandscan-button aibrandscan-button-primary" href="https://aibrandscan.com">
-            Run your AI Brand Scan <FaArrowRight />
+            {copy.ctaLabel} <FaArrowRight />
           </a>
         </div>
       </div>

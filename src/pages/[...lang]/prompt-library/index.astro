@@ -5,8 +5,13 @@ import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
 import {
   PROMPTS_CONTENT_FOLDER,
+  promptPath,
   promptsIndexPath,
 } from "@/lib/utils/promptRoutes";
+import {
+  getAIBrandScanPromptCopy,
+  getAIBrandScanPromptSlug,
+} from "@/lib/utils/aibrandscanPromptCopy";
 import { normalizeLang, supportedLang } from "@/lib/utils/languageParser";
 
 export function getStaticPaths() {
@@ -55,17 +60,18 @@ const jsonLd = [
     mainEntity: {
       "@type": "ItemList",
       numberOfItems: prompts.length,
-      itemListElement: prompts.map((entry, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        name: entry.data.title,
-        url: siteUrl
-          ? new URL(
-              promptPath(entry.id.split("/").pop() || "", promptLinkLang),
-              siteUrl,
-            ).toString()
-          : promptPath(entry.id.split("/").pop() || "", promptLinkLang),
-      })),
+      itemListElement: prompts.map((entry, index) => {
+        const slug = getAIBrandScanPromptSlug(entry);
+
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          name: getAIBrandScanPromptCopy(entry, lang).title,
+          url: siteUrl
+            ? new URL(promptPath(slug, promptLinkLang), siteUrl).toString()
+            : promptPath(slug, promptLinkLang),
+        };
+      }),
     },
   },
 ];

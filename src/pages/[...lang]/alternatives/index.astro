@@ -36,7 +36,12 @@ export async function getStaticPaths() {
 }
 
 const { alternativesIndex, lang } = Astro.props;
-const alternatives = await getSinglePage(ALTERNATIVES_CONTENT_FOLDER, lang);
+let alternatives = await getSinglePage(ALTERNATIVES_CONTENT_FOLDER, lang);
+const alternativeLinkLang = alternatives.length > 0 ? lang : undefined;
+
+if (alternatives.length === 0 && lang !== "en") {
+  alternatives = await getSinglePage(ALTERNATIVES_CONTENT_FOLDER, "en");
+}
 ---
 
 <Base
@@ -52,6 +57,7 @@ const alternatives = await getSinglePage(ALTERNATIVES_CONTENT_FOLDER, lang);
         alternativesIndex={alternativesIndex}
         alternatives={alternatives}
         lang={lang}
+        alternativeLinkLang={alternativeLinkLang}
       />
     ) : (
       <>

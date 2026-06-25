@@ -1,7 +1,7 @@
 ---
-title: "Najlepsze alternatywy narzędzi AI Visibility"
-description: "Porównuj narzędzia do monitoringu widoczności marki w AI, Share of Voice, cytowań, konkurencji, dokładności odpowiedzi i workflow GEO."
-meta_title: "Najlepsze alternatywy i porównania narzędzi AI Visibility"
+title: "Najlepsze alternatywy narzędzi do widoczności w AI"
+description: "Porównuj narzędzia do monitoringu widoczności marki w AI, Share of Voice, cytowań, konkurencji, dokładności odpowiedzi i procesów GEO."
+meta_title: "Najlepsze alternatywy i porównania narzędzi do widoczności w AI"
 image: "/sites/aibrandscan/images/og-image.png"
 categories: ["alternatywy"]
 tags: ["aibrandscan-alternatives", "ai-brand-visibility"]

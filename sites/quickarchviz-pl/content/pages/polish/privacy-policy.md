@@ -1,6 +1,6 @@
 ---
-title: "Privacy"
-description: "Przeczytaj polityke prywatnosci Astroplate, w tym informacje o obsludze danych i odpowiedzialnosci autorow."
+title: "Polityka prywatności"
+description: "Przeczytaj politykę prywatności Astroplate, w tym informacje o obsłudze danych i odpowiedzialności autorów."
 draft: false
 ---
 
