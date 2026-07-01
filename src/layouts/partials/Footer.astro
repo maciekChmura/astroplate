@@ -1,7 +1,6 @@
 ---
 import Logo from "@/components/Logo.astro";
 import Social from "@/components/Social.astro";
-import DynamicIcon from "@/helpers/DynamicIcon";
 import { siteConfig, socialConfig } from "@/lib/siteConfig";
 import {
   getLangFromUrl,
@@ -14,162 +13,35 @@ const lang = getLangFromUrl(Astro.url);
 const { footer } = (await getTranslations(lang)) as {
   footer: { name: string; url: string }[];
 };
-const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
-const resolveFooterUrl = (url: string) =>
-  url.startsWith("http") || url.startsWith("mailto:")
-    ? url
-    : slugSelector(url, lang);
-const aibrandscanFooterColumns = [
-  {
-    title: "Company",
-    links: [
-      { name: "Home", url: "https://aibrandscan.com" },
-      { name: "Use Cases", url: "/use-cases" },
-      { name: "Alternatives", url: "/alternatives" },
-      { name: "For brands", url: "/for" },
-      { name: "Contact", url: "mailto:hi@aibrandscan.com" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { name: "Blog", url: "/blog" },
-      { name: "Prompt Library", url: "/prompt-library" },
-      { name: "Author", url: "/authors/jowita-chmura" },
-      {
-        name: "AI visibility tools",
-        url: "/alternatives/best-ai-visibility-tools",
-      },
-      { name: "AI visibility audits", url: "/use-cases" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { name: "Privacy Policy", url: "/privacy-policy" },
-      { name: "Terms", url: "https://aibrandscan.com/terms" },
-      { name: "Help", url: "mailto:hi@aibrandscan.com" },
-    ],
-  },
-];
 ---
 
-{
-  isAIBrandScan ? (
-    <footer class="relative isolate overflow-hidden border-t border-slate-200 bg-[#fbfaf8] text-slate-950 dark:border-darkmode-border dark:bg-darkmode-body dark:text-white">
-      <div class="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(to_right,#11182708_1px,transparent_1px),linear-gradient(to_bottom,#11182708_1px,transparent_1px)] [background-size:44px_44px] dark:opacity-[0.06]" aria-hidden="true"></div>
-
-      <div class="container relative z-10">
-        <div class="grid gap-10 py-12 sm:py-14 lg:grid-cols-[1.05fr_2fr] lg:gap-16">
-          <div>
-            <a
-              href={siteConfig.site.logo_url || "https://aibrandscan.com"}
-              class="inline-flex items-center text-slate-950 no-underline hover:text-slate-950 dark:text-white dark:hover:text-white"
-              aria-label="AI Brand Scan home"
-            >
-              <img
-                src="/sites/aibrandscan/images/logo.svg"
-                width="30"
-                height="30"
-                alt=""
-                class="h-7 w-7 shrink-0"
-              />
-              <span class="ml-3 text-xl font-bold tracking-tight">
-                AI Brand Scan
-              </span>
-            </a>
-
-            <p class="mt-6 max-w-sm text-base leading-7 text-slate-600 dark:text-darkmode-text">
-              AI visibility monitoring for teams that need to understand,
-              compare, and improve how AI assistants describe their brand.
-            </p>
-
-            <div class="mt-7 space-y-2 text-base font-semibold">
-              <a
-                href="mailto:hi@aibrandscan.com"
-                class="block text-slate-950 no-underline transition hover:text-orange-600 dark:text-white dark:hover:text-orange-300"
-              >
-                hi@aibrandscan.com
-              </a>
-              <a
-                href="https://aibrandscan.com/register"
-                class="inline-flex text-orange-600 no-underline transition hover:text-orange-500 dark:text-orange-300 dark:hover:text-orange-200"
-              >
-                Run your first AI Brand Scan
-              </a>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:pt-1">
-            {aibrandscanFooterColumns.map((column) => (
-              <nav aria-label={column.title}>
-                <h2 class="mb-4 text-sm font-extrabold uppercase tracking-[.16em] text-slate-950 dark:text-white">
-                  {column.title}
-                </h2>
-                <ul class="space-y-3">
-                  {column.links.map((link) => (
-                    <li>
-                      <a
-                        href={resolveFooterUrl(link.url)}
-                        class="text-sm font-medium text-slate-600 no-underline transition hover:text-orange-600 dark:text-darkmode-text dark:hover:text-orange-300"
-                      >
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            ))}
-          </div>
-        </div>
-
-        <div class="flex flex-col gap-5 border-t border-slate-200 py-6 text-sm text-slate-500 md:flex-row md:items-center md:justify-between dark:border-darkmode-border dark:text-darkmode-text-light">
-          <p>© {new Date().getFullYear()} AI Brand Scan. All rights reserved.</p>
-          <ul class="flex items-center gap-5">
-            {socialConfig.main.map((social) => (
-              <li>
-                <a
-                  aria-label={social.name}
-                  href={social.link}
-                  target="_blank"
-                  rel="noopener noreferrer nofollow"
-                  class="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600 dark:border-darkmode-border dark:bg-darkmode-light dark:text-darkmode-text dark:hover:border-orange-700 dark:hover:text-orange-300"
-                >
-                  <span class="sr-only">{social.name}</span>
-                  <DynamicIcon className="h-4 w-4" icon={social.icon} />
-                </a>
+<footer class="bg-light dark:bg-darkmode-light">
+  <div class="container">
+    <div class="row items-center py-10">
+      <div class="mb-8 text-center lg:col-3 lg:mb-0 lg:text-left">
+        <Logo />
+      </div>
+      <div class="mb-8 text-center lg:col-6 lg:mb-0">
+        <ul>
+          {
+            footer.map((menu) => (
+              <li class="m-3 inline-block">
+                <a href={slugSelector(menu.url, lang)}>{menu.name}</a>
               </li>
-            ))}
-          </ul>
-        </div>
+            ))
+          }
+        </ul>
       </div>
-    </footer>
-  ) : (
-    <footer class="bg-light dark:bg-darkmode-light">
-      <div class="container">
-        <div class="row items-center py-10">
-          <div class="mb-8 text-center lg:col-3 lg:mb-0 lg:text-left">
-            <Logo />
-          </div>
-          <div class="mb-8 text-center lg:col-6 lg:mb-0">
-            <ul>
-              {footer.map((menu) => (
-                <li class="m-3 inline-block">
-                  <a href={slugSelector(menu.url, lang)}>{menu.name}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div class="mb-8 text-center lg:col-3 lg:mb-0 lg:mt-0 lg:text-right">
-            <Social source={socialConfig.main} className="social-icons" />
-          </div>
-        </div>
+      <div class="mb-8 text-center lg:col-3 lg:mb-0 lg:mt-0 lg:text-right">
+        <Social source={socialConfig.main} className="social-icons" />
       </div>
-      <div class="border-t border-border py-7 dark:border-darkmode-border">
-        <div class="container text-center text-text-light dark:text-darkmode-text-light">
-          <p set:html={markdownify(siteConfig.params.copyright)} />
-        </div>
-      </div>
-    </footer>
-  )
-}
+    </div>
+  </div>
+  <div class="border-t border-border py-7 dark:border-darkmode-border">
+    <div
+      class="container text-center text-text-light dark:text-darkmode-text-light"
+    >
+      <p set:html={markdownify(siteConfig.params.copyright)} />
+    </div>
+  </div>
+</footer>

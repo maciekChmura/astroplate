@@ -1,448 +1,131 @@
-## 📌 Key Features
+# QuickArchViz Knowledge Hub
 
-- 👥 Multi-Authors
-- 🌐 Multilingual
-- 🎯 Similar Posts Suggestion
-- 🔍 Search Functionality
-- 🌑 Dark Mode
-- 🏷️ Tags & Categories
-- 🗂️ Multiple site instances and knowledge hubs from one shared codebase
-- 🔗 Cloudflare Pages deploys
-- 📞 Support contact form
-- 📱 Fully responsive
-- 📝 Write and update content in Markdown / MDX
-- 🤖 LLM-ready docs generation (`llms.txt`, `llms-full.txt`, and per-page `.md`)
-- 📎 Google Tag Manager
-- 💬 Disqus Comment
-- 🔳 Syntax Highlighting
+Astro 6 + Tailwind 4 + TypeScript site for the QuickArchViz English and Polish knowledge hubs.
 
-### 📄 15+ Pre-designed Pages
+This repo keeps the custom multi-site generator pipeline, but the active first-class sites are now only:
 
-- 🏠 Homepage
-- 👤 About
-- 📞 Contact
-- 👥 Authors
-- 👤 Author Single
-- 📝 Blog
-- 📝 Blog Single
-- 🚫 Custom 404
-- 💡 Elements
-- 📄 Privacy Policy
-- 🏷️ Tags
-- 🏷️ Tag Single
-- 🗂️ Categories
-- 🗂️ Category Single
-- 🔍 Search
+- `quickarchviz-en`
+- `quickarchviz-pl`
 
-## 🔗 Integrations
+The default site id is `quickarchviz-en`.
 
-- astro/react
-- astro/sitemap
-- astro/tailwind
-- Cloudflare Pages (static deploys)
-- Cloudflare Workers knowledge hub proxies in front of Pages
+## Commands
 
-## 🗂️ Multi-Site Knowledge Hub Instances
-
-This fork can run multiple sites from the same repository. The shared Astro app,
-layouts, components, scripts, and build pipeline stay in `src/` and `scripts/`.
-Each site instance owns only its branding, config, content, and public images.
-
-The selected site is chosen at command time with `--site <site-id>` or
-`SITE_ID=<site-id>`.
-
-The repo currently has one demo site and three knowledge hub deploy targets:
-
-- `astroplate`: local/demo starter site.
-- `quickarchviz-en`: QuickArchViz English knowledge hub.
-- `quickarchviz-pl`: QuickArchViz Polish knowledge hub.
-- `aibrandscan`: AIBrandScan English knowledge hub.
-
-Astro builds each Pages deploy at `/`. Clean public routes such as `/blog`,
-`/prompts`, `/use-cases`, and `/knowledge-hub` are owned by the Cloudflare
-Worker in front of the Pages project.
-
-### Site Folder Structure
-
-```text
-sites/
-  astroplate/
-    manifest.json
-    config/
-      config.json
-      theme.json
-      language.json
-      social.json
-      menu.en.json
-      menu.pl.json
-    content/
-      blog/
-      authors/
-      pages/
-      about/
-      contact/
-      homepage/
-      sections/
-
-public/
-  sites/
-    astroplate/
-      images/
+```bash
+npm install
+npm run dev
+npm run check
+npm run build
 ```
 
-The repository currently includes:
+Run a specific site:
 
-- `astroplate`: the migrated default site instance.
-- `quickarchviz-en`: English-only QuickArchViz knowledge hub deploy.
-- `quickarchviz-pl`: Polish-only QuickArchViz knowledge hub deploy.
-- `aibrandscan`: English-only AIBrandScan knowledge hub deploy.
+```bash
+npm run dev -- --site quickarchviz-en
+npm run dev -- --site quickarchviz-pl
 
-### How Selection Works
-
-- `scripts/siteResolver.js` validates the selected site and loads its folder.
-- `scripts/runWithSite.js` wraps the npm commands so `--site <id>` works with
-  compound workflows like build, preview, and deploy.
-- A generated symlink at `sites/__current__` points `@site/*` imports to the
-  selected site. This symlink is ignored by git.
-- Generated theme CSS is written to `.astro/generated-theme.css`, which is also
-  ignored by git.
-- Production builds emit root-mounted static output in `dist`. For knowledge
-  hubs this means `dist/index.html`, route folders such as `dist/blog/`,
-  `dist/_astro/`, `dist/robots.txt`, `dist/sitemap-index.xml`, and root-level
-  LLM files.
-- Optional deployment-only env overrides can live in
-  `.env.sites/<site-id>.local`; these files are ignored by git.
-
-### QuickArchViz Language Deploys
-
-The two QuickArchViz sites intentionally use one enabled language each:
-
-```text
-quickarchviz-en
-  default language: en
-  Astro mount: /
-  public Worker routes: /knowledge-hub, /blog, /prompts, /use-cases, ...
-
-quickarchviz-pl
-  default language: pl
-  Astro mount: /
-  public Worker prefix: /pl
+npm run check -- --site quickarchviz-en
+npm run check -- --site quickarchviz-pl
 ```
 
-The source content still follows the existing content folder convention:
+Production builds require a real HTTPS site URL:
+
+```bash
+PUBLIC_SITE_URL=https://quickarchviz.com npm run build -- --site quickarchviz-en
+PUBLIC_SITE_URL=https://quickarchviz.com PUBLIC_SITE_MOUNT_PATH=/pl npm run build -- --site quickarchviz-pl
+```
+
+## Content Layout
+
+English content:
+
+```text
+sites/quickarchviz-en/content/
+```
+
+Polish content:
+
+```text
+sites/quickarchviz-pl/content/
+```
+
+Shared QuickArchViz images:
+
+```text
+public/sites/quickarchviz/images/
+```
+
+Reference shared images with absolute paths such as:
+
+```text
+/sites/quickarchviz/images/cover.webp
+```
+
+## Content Types
+
+Blog posts:
 
 ```text
 sites/quickarchviz-en/content/blog/english/
 sites/quickarchviz-pl/content/blog/polish/
 ```
 
-For day-to-day content work:
-
-- Add English posts to `sites/quickarchviz-en/content/blog/english/`.
-- Add Polish posts to `sites/quickarchviz-pl/content/blog/polish/`.
-- Keep post images in `public/sites/quickarchviz/images/` unless a language
-  deploy needs its own asset folder.
-- Reference images with absolute paths like
-  `/sites/quickarchviz/images/cover.png`.
-
-Use the language-specific site id when working locally:
-
-```bash
-npm run dev -- --site quickarchviz-en
-npm run dev -- --site quickarchviz-pl
-```
-
-or:
-
-```bash
-SITE_ID=quickarchviz-en npm run dev
-SITE_ID=quickarchviz-pl npm run dev
-```
-
-### AIBrandScan Deploy
-
-AIBrandScan is an English-only knowledge hub:
+Prompts:
 
 ```text
-aibrandscan
-  default language: en
-  Astro mount: /
-  public Worker routes: /knowledge-hub, /blog, /prompts, /use-cases, ...
+sites/quickarchviz-en/content/prompts/english/
+sites/quickarchviz-pl/content/prompts/polish/
 ```
 
-Source content follows the same collection layout:
+Static pages:
 
 ```text
-sites/aibrandscan/content/blog/english/
-sites/aibrandscan/content/prompts/english/
-sites/aibrandscan/content/use-cases/english/
+sites/quickarchviz-en/content/pages/english/
+sites/quickarchviz-pl/content/pages/polish/
 ```
 
-Images live in `public/sites/aibrandscan/images/` and should be referenced with
-absolute paths such as `/sites/aibrandscan/images/cover.png`.
-
-In development, Astro serves the selected site at `http://localhost:4321/`.
-The local Astro app is root-mounted; the Worker owns clean public hub routes in
-production.
-
-### Adding a New Site
-
-1. Copy an existing instance:
-
-```bash
-cp -R sites/astroplate sites/my-project
-cp -R public/sites/astroplate public/sites/my-project
-```
-
-2. Update `sites/my-project/manifest.json`.
-3. Update `sites/my-project/config/config.json` for the site name, URL, logo,
-   favicon, SEO defaults, social links, pagination, language settings, and
-   feature toggles.
-4. Update `sites/my-project/config/theme.json` for colors and fonts.
-5. Put content in `sites/my-project/content/<collection>/<language>/`.
-6. Put images in `public/sites/my-project/images/` and reference them with
-   absolute paths like `/sites/my-project/images/cover.png`.
-
-Blog post frontmatter should include only:
-
-```yaml
-title:
-description:
-date:
-image:
-categories:
-tags:
-draft:
-```
-
-Use `draft: true` for unpublished posts. Draft posts are excluded from routes,
-search JSON, and generated output.
-
-## 🚀 Getting Started
-
-### 📦 Dependencies
-
-- astro v6.1.9
-- node v22.12.0+ (see `.nvmrc`)
-- npm
-- tailwind v4+
-
-### 👉 Install Dependencies
-
-```bash
-npm install
-```
-
-### 👉 Development Command
-
-```bash
-npm run dev -- --site astroplate
-# or
-npm run dev -- --site quickarchviz-en
-# or
-npm run dev -- --site quickarchviz-pl
-# or
-npm run dev -- --site aibrandscan
-```
-
-### 👉 Build Command
-
-```bash
-npm run build -- --site astroplate
-# or
-PUBLIC_SITE_URL=https://quickarchviz.com npm run build -- --site quickarchviz-en
-# or
-PUBLIC_SITE_URL=https://aibrandscan.com npm run build -- --site aibrandscan
-```
-
-You can also select the site with an environment variable:
-
-```bash
-SITE_ID=astroplate PUBLIC_SITE_URL=https://your-demo-domain.com npm run build
-SITE_ID=quickarchviz-en PUBLIC_SITE_URL=https://quickarchviz.com npm run build
-SITE_ID=quickarchviz-pl PUBLIC_SITE_URL=https://quickarchviz.com PUBLIC_SITE_MOUNT_PATH=/pl npm run build
-SITE_ID=aibrandscan PUBLIC_SITE_URL=https://aibrandscan.com npm run build
-```
-
-If no site is provided, the default site id is `astroplate`.
-
-Production builds require a real HTTPS `PUBLIC_SITE_URL`. Use the Pages/custom
-origin for the root-mounted Astro app, not the Worker-mounted public URL, and do
-not include `/knowledge-hub` or another content path.
-
-### 👉 Generate LLM Files
-
-After build, this project can generate LLM-friendly files from the selected
-site's `dist` HTML:
-
-- `llms.txt` (index of pages)
-- `llms-full.txt` (full combined content)
-- optional per-page Markdown files
-
-Use one of these ways:
-
-```bash
-# included in build
-npm run build -- --site astroplate
-
-# or run manually after build
-npm run generate-llms -- --site astroplate
-```
-
-Configuration is in `sites/<site-id>/config/config.json` under `llms`:
-
-- `generate_llms_txt`: create `llms.txt`
-- `generate_llms_full_txt`: create `llms-full.txt`
-- `generate_individual_md`: create individual `.md` files
-- `include`: include only selected routes/globs (empty = all files). Examples: `/about`, `/blog/**` (all files in blog folder)
-- `exclude`: exclude routes/globs on top of defaults. Example: `/blog/index.html`
-
-For knowledge hubs, generated LLM files are emitted at the build root:
+Homepage:
 
 ```text
-dist/llms.txt
-dist/llms-full.txt
-dist/<page>.md
+sites/quickarchviz-en/content/homepage/english/-index.md
+sites/quickarchviz-pl/content/homepage/polish/-index.md
 ```
 
-### 👉 Cloudflare Pages Deploys
-
-Create one Cloudflare Pages project per knowledge hub deploy target from this
-same repository. Full deployment notes live in
-`docs/cloudflare-pages-language-deploys.md`.
-
-English project:
+Reusable sections:
 
 ```text
-Build command: npm run build
-Build output directory: dist
-Environment:
-  SITE_ID=quickarchviz-en
-  PUBLIC_SITE_URL=https://quickarchviz.com
+sites/quickarchviz-en/content/sections/english/
+sites/quickarchviz-pl/content/sections/polish/
 ```
 
-Polish project:
+## Generator Workflow
 
-```text
-Build command: npm run build
-Build output directory: dist
-Environment:
-  SITE_ID=quickarchviz-pl
-  PUBLIC_SITE_URL=https://quickarchviz.com
-  PUBLIC_SITE_MOUNT_PATH=/pl
-```
+- `npm run dev` runs `themeGenerator.js` in watch mode and runs `jsonGenerator.js` before `astro dev`.
+- `npm run build` runs `themeGenerator.js`, then `jsonGenerator.js`, then `astro build`, then `llmsGenerator.js`.
+- `npm run generate-json` and `npm run generate-llms` are site-aware through `scripts/runWithSite.js`.
 
-AIBrandScan project:
+## Cloudflare
 
-```text
-Build command: npm run build
-Build output directory: dist
-Environment:
-  SITE_ID=aibrandscan
-  PUBLIC_SITE_URL=https://aibrandscan.com
-```
-
-`PUBLIC_SITE_URL` must be the root Astro app origin only. Do not include
-`/knowledge-hub`, `/blog`, or another content path.
-
-### 👉 Preview on Cloudflare Pages
-
-Preview the selected site as a Pages static output:
+Workers preview/deploy:
 
 ```bash
-SITE_ID=quickarchviz-en PUBLIC_SITE_URL=https://quickarchviz.com npm run preview:cf-pages
-SITE_ID=quickarchviz-pl PUBLIC_SITE_URL=https://quickarchviz.com PUBLIC_SITE_MOUNT_PATH=/pl npm run preview:cf-pages
-SITE_ID=aibrandscan PUBLIC_SITE_URL=https://aibrandscan.com npm run preview:cf-pages
+npm run preview:cf-workers -- --site quickarchviz-en
+npm run deploy:cf-workers -- --site quickarchviz-en
 ```
 
-### 👉 Cloudflare Knowledge Hub Proxies
-
-Knowledge hub Workers reuse `workers/knowledgeHubProxyCore.js`. Each hub has a
-small wrapper and Wrangler config that map public routes to the Pages origin and
-rewrite asset URLs.
+Knowledge-hub proxy preview/deploy:
 
 ```bash
 npm run preview:knowledge-hub-en-proxy
 npm run preview:knowledge-hub-pl-proxy
-npm run preview:knowledge-hub-aibrandscan-proxy
-
 npm run deploy:knowledge-hub-en-proxy
 npm run deploy:knowledge-hub-pl-proxy
-npm run deploy:knowledge-hub-aibrandscan-proxy
 ```
 
-Deploy all documented knowledge hub proxies after updating `prod`:
+Deploy both knowledge-hub proxies:
 
 ```bash
 npm run deploy:knowledge-hubs
 ```
 
-Astro builds with `base: "/"`, so the Worker is responsible for mapping clean
-public hub routes to root-origin Pages paths.
-
-### 👉 Legacy Cloudflare Workers Static-Assets Preview
-
-```bash
-npm run preview:cf-workers -- --site astroplate
-```
-
-### 👉 Legacy Cloudflare Workers Static-Assets Deploy
-
-```bash
-npm run deploy:cf-workers -- --site astroplate
-```
-
-### 👉 Build and Run With Docker
-
-```bash
-docker build -t astroplate .
-# or
-# docker build --build-arg INSTALLER=npm -t astroplate .
-# or
-# docker build --build-arg INSTALLER=pnpm -t astroplate .
-
-docker run -p 3000:80 astroplate
-# or
-# docker run --rm -p 3000:80 astroplate
-```
-
-To access the shell within the container:
-
-```bash
-docker run -it --rm astroplate ash
-```
-
-<!-- edit with sitepins -->
-
-## 📝 Edit Content with CMS
-
-This template comes pre-configured with [**Sitepins**](https://sitepins.com?aff=astroplate), a Git-based Headless CMS designed for seamless content management. You can update your website’s text, images, and configuration without touching a single line of code.
-
-**How to get started:**
-
-Click the Edit with Sitepins button below and follow the on-screen instructions to start editing your content visually.
-
-  <a target="_blank" href="https://app.sitepins.com/new/clone?name=Astroplate&repository=https://github.com/zeon-studio/astroplate?aff=astroplate">
-    <img src="https://sitepins.com/button.svg" alt="Edit with Sitepins">
-  </a>
-
-<!-- reporting issue -->
-
-## 🐞 Reporting Issues
-
-We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/zeon-studio/astroplate/issues). It’s possible someone has already reported the same problem.
-If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/zeon-studio/astroplate/issues).
-
-<!-- licence -->
-
-## 📝 License
-
-Copyright (c) 2023 - Present, Designed & Developed by [Zeon Studio](https://zeon.studio/)
-
-**Code License:** Released under the [MIT](https://github.com/zeon-studio/astroplate/blob/main/LICENSE) license.
-
-**Image license:** The images are only for demonstration purposes. They have their license, we don't have permission to share those images.
-
-## 💻 Need Custom Development Services?
-
-If you need a custom theme, theme customization, or complete website development services from scratch you can [Hire Us](https://zeon.studio/).
+Some infrastructure names may still contain historical labels. Treat those as external Cloudflare resource identifiers unless a task explicitly asks to rename infrastructure.

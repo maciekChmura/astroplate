@@ -2,20 +2,21 @@
 
 ## Project Overview
 
-- This repository is a locally customized fork of the Astroplate starter.
+- This repository is a locally customized fork of the Astroplate starter for the QuickArchViz knowledge hub.
 - Treat it as an Astro 6 + Tailwind 4 + TypeScript project with optional React islands.
 - The primary workflow is defined in `package.json` and supported by custom generator scripts in `scripts/`.
+- Preserve the custom generator pipeline unless a task explicitly asks to redesign it.
 
 ## Working Conventions
 
 - Prefer small, targeted edits that preserve the current project structure.
-- Preserve the custom generator pipeline unless a task explicitly asks to redesign it.
+- Use `npm` as the default package manager.
 - Do not replace the current script chain with a simplified Astro-only workflow without explicit approval.
 - Before changing build or content behavior, inspect the relevant scripts in `scripts/` to understand generated output and side effects.
+- Keep generated output, `dist/`, `.astro/`, and search/LLM build artifacts out of manual content edits unless the task explicitly asks for generated files.
 
 ## Default Commands
 
-- Use `npm` as the default package manager for this repository.
 - Install dependencies with `npm install`.
 - Start local development with `npm run dev`.
 - Run static/project checks with `npm run check`.
@@ -29,40 +30,24 @@
 - `npm run dev` runs `themeGenerator.js` in watch mode and runs `jsonGenerator.js` before starting `astro dev`.
 - `npm run build` runs `themeGenerator.js`, then `jsonGenerator.js`, then `astro build`, then `llmsGenerator.js`.
 - Changes to theme, JSON generation, or build output may affect downstream generated artifacts. Review the corresponding script before editing related behavior.
+- If no site is provided, the default site id is `quickarchviz-en`.
 
-## Multi-Site Content Guide
+## QuickArchViz Sites
 
-- Content lives under `sites/<site-id>/content/`, not under `src/content/`.
 - Current first-class site ids:
-  - Demo/starter: `astroplate`
-  - QuickArchViz English: `quickarchviz-en`
-  - QuickArchViz Polish: `quickarchviz-pl`
-  - AIBrandScan English: `aibrandscan`
-- QuickArchViz uses separate site ids for each language:
   - English: `quickarchviz-en`
   - Polish: `quickarchviz-pl`
-- AIBrandScan uses a single English site id:
-  - English: `aibrandscan`
-- QuickArchViz content roots:
-  - English content: `sites/quickarchviz-en/content/.../english/`
-  - Polish content: `sites/quickarchviz-pl/content/.../polish/`
-- AIBrandScan content root:
-  - English content: `sites/aibrandscan/content/.../english/`
+- English content lives under `sites/quickarchviz-en/content/.../english/`.
+- Polish content lives under `sites/quickarchviz-pl/content/.../polish/`.
 - Keep language separation strict. Do not add Polish content to `quickarchviz-en`, and do not add English content to `quickarchviz-pl`.
-- Keep site UI and style changes isolated. When creating new pages or modifying existing pages, make sure site-specific layouts, components, CSS classes, colors, button styles, cards, typography, and visual treatments do not leak into other site ids.
-- When editing shared components, layouts, CSS, i18n, or generator behavior for one site, guard the site-specific branch with the active site config or use clearly site-specific classes/components. Preserve the current UI of unrelated sites unless the task explicitly asks for a cross-site change.
-- Before finishing changes that touch shared UI or styling, check the relevant sibling sites, especially `quickarchviz-en`, `quickarchviz-pl`, and `aibrandscan`, with the appropriate `npm run check -- --site <site-id>` command or a targeted build when the visual/routing risk is higher.
-- Before adding or modifying content, inspect the relevant existing file or `-template.md` in the same collection and language.
 - Prefer shared QuickArchViz images in `public/sites/quickarchviz/images/` and reference them with absolute paths such as `/sites/quickarchviz/images/cover.webp`.
-- Do not add QuickArchViz media under the EN or PL public site roots; both language sites share the canonical `public/sites/quickarchviz/images/` root.
-- Keep AIBrandScan images in `public/sites/aibrandscan/images/` and reference them with absolute paths such as `/sites/aibrandscan/images/cover.png`.
-- Keep generated output, `dist/`, `.astro/`, and search/LLM build artifacts out of manual content edits unless the task explicitly asks for generated files.
+- Do not add QuickArchViz media under EN or PL public site roots; both language sites share the canonical `public/sites/quickarchviz/images/` root.
+- When editing shared components, layouts, CSS, i18n, or generator behavior for one language site, preserve the current UI of the sibling site unless the task explicitly asks for a cross-site change.
 
-### Blog Posts
+## Blog Posts
 
 - Add English blog posts to `sites/quickarchviz-en/content/blog/english/`.
 - Add Polish blog posts to `sites/quickarchviz-pl/content/blog/polish/`.
-- Add AIBrandScan blog posts to `sites/aibrandscan/content/blog/english/`.
 - Start from the nearest blog `-template.md` and rename the file to the intended slug.
 - Blog URLs come from filenames:
   - `sites/quickarchviz-en/content/blog/english/my-post.md` becomes `/blog/my-post`.
@@ -80,15 +65,13 @@ draft:
 ```
 
 - `author` is schema-supported and appears in some templates, but the default author resolves from site config. Omit `author` unless intentionally overriding it.
-- Use `draft: true` while writing unpublished posts. Draft posts stay out of routes, search JSON, sitemap output, and generated content lists.
-- Use `draft: false` only when the post should be published.
+- Use `draft: true` while writing unpublished posts. Use `draft: false` only when the post should be published.
 - Use H2 and H3 Markdown headings for article structure because the post layout builds the table of contents from headings.
 
-### Prompts
+## Prompts
 
 - Add English prompts to `sites/quickarchviz-en/content/prompts/english/`.
 - Add Polish prompts to `sites/quickarchviz-pl/content/prompts/polish/`.
-- Add AIBrandScan prompts to `sites/aibrandscan/content/prompts/english/`.
 - Prompt URLs come from filenames under `/prompts/<slug>`.
 - Prompt frontmatter must include `title`, `description`, `categories`, `tags`, `prompt`, and `draft`.
 - `prompt` should be a YAML block scalar containing the reusable prompt text:
@@ -100,39 +83,34 @@ prompt: |
 
 - Optional prompt fields include `image`, `author`, `popular`, `what_it_does`, and `best_input`. Preserve the style used by the local template.
 
-### Pages, Authors, Homepage, and Sections
+## Pages, Authors, Homepage, and Sections
 
 - Modify static pages in `sites/<site-id>/content/pages/<language>/`.
 - Modify author profiles in `sites/<site-id>/content/authors/<language>/`.
 - Modify homepage content in `sites/<site-id>/content/homepage/<language>/-index.md`.
 - Modify reusable sections in `sites/<site-id>/content/sections/<language>/`.
-- Preserve the existing frontmatter and nested YAML shape for these files. Homepage and section files often contain structured objects and arrays used directly by layouts.
-- Use ASCII where the existing file is ASCII. Preserve Polish diacritics in Polish content when they are already present or needed for reader-facing copy.
+- Preserve the existing frontmatter and nested YAML shape for these files.
+- Use ASCII where the existing file is ASCII. Preserve Polish diacritics in Polish content when they are needed for reader-facing copy.
 
-### Content Commands
+## Content Commands
 
 - Check English QuickArchViz content with `npm run check -- --site quickarchviz-en`.
 - Check Polish QuickArchViz content with `npm run check -- --site quickarchviz-pl`.
-- Check AIBrandScan content with `npm run check -- --site aibrandscan`.
 - Start English local dev with `npm run dev -- --site quickarchviz-en`.
 - Start Polish local dev with `npm run dev -- --site quickarchviz-pl`.
-- Start AIBrandScan local dev with `npm run dev -- --site aibrandscan`.
-- Production builds require a real HTTPS `PUBLIC_SITE_URL` or `SITE_URL`, for example `PUBLIC_SITE_URL=https://quickarchviz.com npm run build -- --site quickarchviz-en` or `PUBLIC_SITE_URL=https://aibrandscan.com npm run build -- --site aibrandscan`.
+- Production builds require a real HTTPS `PUBLIC_SITE_URL` or `SITE_URL`, for example:
+  - `PUBLIC_SITE_URL=https://quickarchviz.com npm run build -- --site quickarchviz-en`
+  - `PUBLIC_SITE_URL=https://quickarchviz.com PUBLIC_SITE_MOUNT_PATH=/pl npm run build -- --site quickarchviz-pl`
 
-## Package Manager Policy
+## Deployment Notes
 
-- Use `npm` for all install and run instructions in this repo.
-- Treat `yarn` references as historical leftovers unless a task explicitly asks to preserve them.
-- When touching package-manager-related files, normalize toward npm unless there is a concrete reason not to.
-- Avoid unnecessary lockfile churn unless the task is explicitly about dependencies or package-manager migration.
+- Preview the English knowledge-hub proxy with `npm run preview:knowledge-hub-en-proxy`.
+- Preview the Polish knowledge-hub proxy with `npm run preview:knowledge-hub-pl-proxy`.
+- Deploy the English knowledge-hub proxy with `npm run deploy:knowledge-hub-en-proxy`.
+- Deploy the Polish knowledge-hub proxy with `npm run deploy:knowledge-hub-pl-proxy`.
+- `npm run deploy:knowledge-hubs` deploys the production branch merge plus both QuickArchViz knowledge-hub proxies.
 
 ## Known Inconsistencies
 
-- Some generated/help text outside the primary docs may still mention historical package-manager choices.
-- The shared alternatives schema still uses QuickArchViz-named fields such as `quickarchviz_summary` and `best_for_quickarchviz`; layouts render the active site title, but content frontmatter keeps those field names for compatibility.
-
-## Preferred Cleanup Direction
-
-- If a task touches docs, scripts, or deployment config, check for lingering `yarn` assumptions and update them to npm syntax where appropriate.
-- Prefer incremental cleanup over a broad package-manager rewrite unless the task specifically calls for a full migration pass.
-- Keep the generator and deployment behavior intact while normalizing package-manager usage.
+- Some infrastructure names may still contain historical `astroplate` labels. Treat them as external Cloudflare resource identifiers unless a task explicitly asks to rename infrastructure.
+- The shared alternatives schema uses QuickArchViz-named fields such as `quickarchviz_summary` and `best_for_quickarchviz`; preserve those fields for compatibility.

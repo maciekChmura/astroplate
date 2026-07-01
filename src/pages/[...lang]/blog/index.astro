@@ -1,17 +1,12 @@
 ---
 import BlogCard from "@/components/BlogCard.astro";
-import AIBrandScanArchiveHero from "@/components/AIBrandScanArchiveHero.astro";
 import Pagination from "@/components/Pagination.astro";
 import Base from "@/layouts/Base.astro";
 import { getListPage, getSinglePage } from "@/lib/contentParser.astro";
 import { siteConfig } from "@/lib/siteConfig";
 import { getAllTaxonomy, getTaxonomy } from "@/lib/taxonomyParser.astro";
 import { BLOG_CONTENT_FOLDER } from "@/lib/utils/blogRoutes";
-import {
-  getTranslations,
-  normalizeLang,
-  supportedLang,
-} from "@/lib/utils/languageParser";
+import { normalizeLang, supportedLang } from "@/lib/utils/languageParser";
 import { sortByDate } from "@/lib/utils/sortFunctions";
 import PageHeader from "@/partials/PageHeader.astro";
 import PostSidebar from "@/partials/PostSidebar.astro";
@@ -40,20 +35,11 @@ const totalPages: number = Math.ceil(
   posts.length / siteConfig.settings.pagination,
 );
 const currentPosts = sortedPosts.slice(0, siteConfig.settings.pagination);
-const translations = (await getTranslations(lang)) as Record<string, string>;
 const archiveDescription =
   postIndex.data.description === "this is meta description"
     ? `Read the latest articles from ${siteConfig.site.title}, organized by topic and published in reverse chronological order.`
     : postIndex.data.description;
 const archiveMetaTitle = `${postIndex.data.title} | ${siteConfig.site.title}`;
-const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
-const blogEyebrow =
-  translations.blog_archive_eyebrow ||
-  "AI visibility practical guides";
-const browseArticlesLabel =
-  translations.blog_archive_primary_cta || "Browse articles";
-const scanBrandLabel =
-  translations.blog_archive_secondary_cta || "Scan your brand";
 ---
 
 <Base
@@ -63,22 +49,7 @@ const scanBrandLabel =
   description={archiveDescription}
   lang={lang}
 >
-  {
-    isAIBrandScan ? (
-      <AIBrandScanArchiveHero
-        eyebrow={blogEyebrow}
-        title={postIndex.data.title}
-        description={archiveDescription}
-        primaryAction={{ label: browseArticlesLabel, href: "#blog-articles" }}
-        secondaryAction={{
-          label: scanBrandLabel,
-          href: "https://aibrandscan.com/register",
-        }}
-      />
-    ) : (
-      <PageHeader title={postIndex?.data.title} />
-    )
-  }
+  <PageHeader title={postIndex?.data.title} />
   <section id="blog-articles" class="section scroll-mt-24">
     <div class="container">
       <div class="row gx-5">

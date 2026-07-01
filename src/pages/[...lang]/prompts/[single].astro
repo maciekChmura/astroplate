@@ -36,10 +36,6 @@ export async function getStaticPaths() {
 const { promptEntry, lang } = Astro.props;
 const promptSlug = stripLocaleFromId(promptEntry.id);
 
-if (siteConfig.site.title === "AIBrandScan") {
-  return Astro.redirect(promptPath(promptSlug, lang), 301);
-}
-
 const { title, description, image, categories, tags, keywords } =
   promptEntry.data;
 const canonicalPath = promptPath(promptSlug, lang);

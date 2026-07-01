@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, "..");
-const DEFAULT_SITE_ID = "astroplate";
+const DEFAULT_SITE_ID = "quickarchviz-en";
 const currentSiteDir = path.join(projectRoot, "sites", "__current__");
 
 function parseSiteArg(argv = process.argv.slice(2)) {

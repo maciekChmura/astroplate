@@ -154,19 +154,13 @@ test("knowledge hub Wrangler configs include alternatives and audience routes", 
         "quickarchviz.com/pl/for/*",
       ],
     },
-    {
-      path: "../wrangler.knowledge-hub-aibrandscan.jsonc",
-      requiredPatterns: [
-        "aibrandscan.com/alternatives",
-        "aibrandscan.com/alternatives/*",
-        "aibrandscan.com/for",
-        "aibrandscan.com/for/*",
-      ],
-    },
   ];
 
   for (const config of configs) {
-    const source = await readFile(new URL(config.path, import.meta.url), "utf8");
+    const source = await readFile(
+      new URL(config.path, import.meta.url),
+      "utf8",
+    );
     const patterns = new Set(extractRoutePatterns(source));
 
     for (const pattern of config.requiredPatterns) {

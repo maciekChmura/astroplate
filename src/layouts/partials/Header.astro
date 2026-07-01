@@ -9,7 +9,6 @@ import {
   getTranslations,
   slugSelector,
 } from "@/lib/utils/languageParser";
-import { FaChevronDown, FaGlobe } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 
 export interface ChildNavigationLink {
@@ -28,9 +27,6 @@ const lang = getLangFromUrl(Astro.url);
 const { main } = (await getTranslations(lang)) as { main: NavigationLink[] };
 const { navigation_button, settings } = siteConfig;
 const { pathname } = Astro.url;
-const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
-const loginUrl = "https://aibrandscan.com/login";
-const signUpUrl = "https://aibrandscan.com/register";
 const switchTargets = await getLocaleSwitchTargets(pathname);
 const languageSwitcherLinks =
   (
@@ -46,273 +42,95 @@ const languageSwitcherLinks =
   ).language_switcher?.links || [];
 ---
 
-<header
-  class={`header z-30 ${settings.sticky_header && "sticky top-0"} ${
-    isAIBrandScan
-      ? "border-b border-slate-200 !py-0 dark:border-darkmode-border"
-      : ""
-  }`}
->
-  {
-    isAIBrandScan ? (
-      <nav class="container flex min-h-[88px] flex-wrap items-center gap-x-4">
-        <div class="order-0 shrink-0">
-          <Logo />
-        </div>
-
-        <input id="nav-toggle" type="checkbox" class="hidden" />
-
-        <ul
-          id="nav-menu"
-          class="order-4 hidden w-full border-t border-slate-200 py-5 text-left dark:border-darkmode-border lg:order-1 lg:ml-8 lg:flex lg:w-auto lg:flex-1 lg:items-center lg:justify-center lg:gap-2 lg:border-0 lg:py-0 xl:gap-5"
-        >
-          {main.map((menu) => {
-            const childIsActive = Boolean(
-              menu.children
-                ?.map(({ url }) => slugSelector(url, lang))
-                .includes(pathname),
-            );
-            const menuIsActive = pathname === slugSelector(menu.url, lang);
-
-            return (
-              <>
-                {menu.hasChildren ? (
-                  <li class="group relative">
-                    <input
-                      type="checkbox"
-                      id={`submenu-${menu.name}`}
-                      class="peer hidden lg:hidden"
-                    />
-                    <label
-                      for={`submenu-${menu.name}`}
-                      class={`inline-flex w-full cursor-pointer items-center justify-between rounded-full px-4 py-3 text-base font-bold text-slate-950 transition hover:bg-slate-100 hover:text-orange-600 dark:text-white dark:hover:bg-darkmode-light dark:hover:text-orange-300 lg:w-auto lg:justify-center ${
-                        childIsActive
-                          ? "text-orange-600 dark:text-orange-300"
-                          : ""
-                      }`}
-                    >
-                      {menu.name}
-                      <FaChevronDown className="ml-2 h-3 w-3 transition lg:group-hover:rotate-180" />
-                    </label>
-                    <ul class="mt-2 hidden rounded-lg border border-slate-200 bg-white p-3 shadow-lg peer-checked:block dark:border-darkmode-border dark:bg-darkmode-body lg:invisible lg:absolute lg:left-1/2 lg:top-full lg:mt-3 lg:block lg:min-w-[240px] lg:-translate-x-1/2 lg:opacity-0 lg:transition lg:group-hover:visible lg:group-hover:opacity-100">
-                      {menu.children?.map((child) => (
-                        <li>
-                          <a
-                            href={slugSelector(child.url, lang)}
-                            aria-label={child.name}
-                            class={`block rounded-md px-4 py-3 text-sm font-semibold text-slate-700 no-underline transition hover:bg-orange-50 hover:text-orange-600 dark:text-darkmode-text dark:hover:bg-darkmode-light dark:hover:text-orange-300 ${
-                              pathname === slugSelector(child.url, lang)
-                                ? "bg-orange-50 text-orange-600 dark:bg-darkmode-light dark:text-orange-300"
-                                : ""
-                            }`}
-                          >
-                            {child.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ) : (
-                  <li>
-                    <a
-                      href={slugSelector(menu.url, lang)}
-                      class={`block rounded-full px-4 py-3 text-base font-bold text-slate-950 no-underline transition hover:bg-slate-100 hover:text-orange-600 dark:text-white dark:hover:bg-darkmode-light dark:hover:text-orange-300 ${
-                        menuIsActive ? "text-orange-600 dark:text-orange-300" : ""
-                      }`}
-                    >
-                      {menu.name}
-                    </a>
-                  </li>
-                )}
-              </>
-            );
-          })}
-          <li class="mt-4 flex flex-col gap-3 border-t border-slate-200 pt-4 dark:border-darkmode-border sm:flex-row lg:hidden">
+<header class={`header z-30 ${settings.sticky_header && "sticky top-0"}`}>
+  <nav class="navbar container">
+    <!-- logo -->
+    <div class="order-0">
+      <Logo />
+    </div>
+    <!-- navbar toggler -->
+    <input id="nav-toggle" type="checkbox" class="hidden" />
+    <label
+      for="nav-toggle"
+      class="order-3 flex cursor-pointer items-center text-text-dark dark:text-white lg:order-1 lg:hidden"
+    >
+      <svg id="show-button" class="block h-6 fill-current" viewBox="0 0 20 20">
+        <title>Menu Open</title>
+        <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z"></path>
+      </svg>
+      <svg id="hide-button" class="hidden h-6 fill-current" viewBox="0 0 20 20">
+        <title>Menu Close</title>
+        <polygon
+          points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
+          transform="rotate(45 10 10)"></polygon>
+      </svg>
+    </label>
+    <!-- /navbar toggler -->
+    <ul
+      id="nav-menu"
+      class="navbar-nav order-3 hidden w-full pb-6 lg:order-1 lg:flex lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8"
+    >
+      {
+        main.map((menu) => (
+          <>
+            {menu.hasChildren ? (
+              <li class="nav-item nav-dropdown group relative">
+                <input
+                  type="checkbox"
+                  id={`submenu-${menu.name}`}
+                  class="peer hidden lg:hidden"
+                />
+                <label
+                  for={`submenu-${menu.name}`}
+                  class={`nav-link inline-flex items-center ${
+                    menu.children
+                      ?.map(({ url }) => slugSelector(url, lang))
+                      .includes(pathname)
+                      ? "active"
+                      : ""
+                  }`}
+                >
+                  {menu.name}
+                  <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </label>
+                <ul class="nav-dropdown-list hidden peer-checked:block lg:invisible lg:absolute lg:block lg:opacity-0 lg:group-hover:visible lg:group-hover:opacity-100">
+                  {menu.children?.map((child) => (
+                    <li class="nav-dropdown-item">
+                      <a
+                        href={slugSelector(child.url, lang)}
+                        aria-label={child.name}
+                        class={`nav-dropdown-link block ${
+                          pathname === slugSelector(child.url, lang) && "active"
+                        }`}
+                      >
+                        {child.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ) : (
+              <li class="nav-item">
+                <a
+                  href={slugSelector(menu.url, lang)}
+                  class={`nav-link block ${
+                    pathname === slugSelector(menu.url, lang) && "active"
+                  }`}
+                >
+                  {menu.name}
+                </a>
+              </li>
+            )}
+          </>
+        ))
+      }
+      {
+        navigation_button.enable && (
+          <li class="mt-4 inline-block lg:hidden">
             <a
-              href={loginUrl}
-              class="inline-flex min-h-11 items-center justify-center rounded-full px-5 text-base font-semibold text-slate-950 no-underline transition hover:bg-slate-100 dark:text-white dark:hover:bg-darkmode-light"
-            >
-              Login
-            </a>
-            <a
-              href={signUpUrl}
-              class="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-200 bg-white px-6 text-base font-semibold text-slate-950 no-underline shadow-sm transition hover:-translate-y-0.5 hover:border-orange-300 hover:text-orange-600 dark:border-darkmode-border dark:bg-darkmode-light dark:text-white dark:hover:text-orange-300"
-            >
-              Sign up
-            </a>
-          </li>
-        </ul>
-
-        <div class="order-1 ml-auto flex items-center gap-3 lg:order-2 lg:ml-0">
-          {settings.search && (
-            <button
-              class="flex h-12 w-12 items-center justify-center rounded-full text-3xl text-slate-950 transition hover:bg-slate-100 hover:text-orange-600 dark:text-white dark:hover:bg-darkmode-light dark:hover:text-orange-300"
-              aria-label="search"
-              data-search-trigger
-            >
-              <IoSearch />
-            </button>
-          )}
-          <div class="relative hidden items-center gap-4 sm:flex">
-            <FaGlobe className="h-9 w-9 text-slate-950 dark:text-white" />
-            <LanguageSwitcher
-              client:load
-              lang={lang}
-              switchTargets={switchTargets}
-              externalLinks={languageSwitcherLinks}
-              wrapperClassName="relative"
-              variant="menu"
-            />
-          </div>
-          <a
-            href={loginUrl}
-            class="hidden min-h-12 items-center rounded-full px-6 text-xl font-bold text-slate-950 no-underline transition hover:bg-slate-100 dark:text-white dark:hover:bg-darkmode-light md:inline-flex"
-          >
-            Login
-          </a>
-          <a
-            href={signUpUrl}
-            class="hidden min-h-14 items-center rounded-full border border-slate-200 bg-white px-9 text-xl font-bold text-slate-950 no-underline shadow-md transition hover:-translate-y-0.5 hover:border-orange-300 hover:text-orange-600 dark:border-darkmode-border dark:bg-darkmode-light dark:text-white dark:hover:text-orange-300 md:inline-flex"
-          >
-            Sign up
-          </a>
-        </div>
-
-        <label
-          for="nav-toggle"
-          class="order-2 flex cursor-pointer items-center text-slate-950 dark:text-white lg:hidden"
-        >
-          <svg id="show-button" class="block h-6 fill-current" viewBox="0 0 20 20">
-            <title>Menu Open</title>
-            <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z" />
-          </svg>
-          <svg id="hide-button" class="hidden h-6 fill-current" viewBox="0 0 20 20">
-            <title>Menu Close</title>
-            <polygon
-              points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
-              transform="rotate(45 10 10)"
-            />
-          </svg>
-        </label>
-      </nav>
-    ) : (
-      <nav class="navbar container">
-        <!-- logo -->
-        <div class="order-0">
-          <Logo />
-        </div>
-        <!-- navbar toggler -->
-        <input id="nav-toggle" type="checkbox" class="hidden" />
-        <label
-          for="nav-toggle"
-          class="order-3 flex cursor-pointer items-center text-text-dark dark:text-white lg:order-1 lg:hidden"
-        >
-          <svg id="show-button" class="block h-6 fill-current" viewBox="0 0 20 20">
-            <title>Menu Open</title>
-            <path d="M0 3h20v2H0V3z m0 6h20v2H0V9z m0 6h20v2H0V0z" />
-          </svg>
-          <svg id="hide-button" class="hidden h-6 fill-current" viewBox="0 0 20 20">
-            <title>Menu Close</title>
-            <polygon
-              points="11 9 22 9 22 11 11 11 11 22 9 22 9 11 -2 11 -2 9 9 9 9 -2 11 -2"
-              transform="rotate(45 10 10)"
-            />
-          </svg>
-        </label>
-        <!-- /navbar toggler -->
-        <ul
-          id="nav-menu"
-          class="navbar-nav order-3 hidden w-full pb-6 lg:order-1 lg:flex lg:w-auto lg:space-x-2 lg:pb-0 xl:space-x-8"
-        >
-          {main.map((menu) => (
-            <>
-              {menu.hasChildren ? (
-                <li class="nav-item nav-dropdown group relative">
-                  <input
-                    type="checkbox"
-                    id={`submenu-${menu.name}`}
-                    class="peer hidden lg:hidden"
-                  />
-                  <label
-                    for={`submenu-${menu.name}`}
-                    class={`nav-link inline-flex items-center ${
-                      menu.children
-                        ?.map(({ url }) => slugSelector(url, lang))
-                        .includes(pathname)
-                        ? "active"
-                        : ""
-                    }`}
-                  >
-                    {menu.name}
-                    <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </label>
-                  <ul class="nav-dropdown-list hidden peer-checked:block lg:invisible lg:absolute lg:block lg:opacity-0 lg:group-hover:visible lg:group-hover:opacity-100">
-                    {menu.children?.map((child) => (
-                      <li class="nav-dropdown-item">
-                        <a
-                          href={slugSelector(child.url, lang)}
-                          aria-label={child.name}
-                          class={`nav-dropdown-link block ${
-                            pathname === slugSelector(child.url, lang) && "active"
-                          }`}
-                        >
-                          {child.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ) : (
-                <li class="nav-item">
-                  <a
-                    href={slugSelector(menu.url, lang)}
-                    class={`nav-link block ${
-                      pathname === slugSelector(menu.url, lang) && "active"
-                    }`}
-                  >
-                    {menu.name}
-                  </a>
-                </li>
-              )}
-            </>
-          ))}
-          {navigation_button.enable && (
-            <li class="mt-4 inline-block lg:hidden">
-              <a
-                class="btn btn-outline-primary btn-sm"
-                href={navigation_button.link}
-                target={
-                  navigation_button.link.startsWith("http") ? "_blank" : "_self"
-                }
-                rel={navigation_button.link.startsWith("http") ? "noopener" : ""}
-              >
-                {navigation_button.label}
-              </a>
-            </li>
-          )}
-        </ul>
-        <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
-          {settings.search && (
-            <button
-              class="mr-5 inline-block border-r border-border pr-5 text-xl text-text-dark hover:text-primary dark:border-darkmode-border dark:text-white dark:hover:text-darkmode-primary"
-              aria-label="search"
-              data-search-trigger
-            >
-              <IoSearch />
-            </button>
-          )}
-          {settings.theme_switcher && <ThemeSwitcher className="mr-5" />}
-          <LanguageSwitcher
-            client:load
-            lang={lang}
-            switchTargets={switchTargets}
-            externalLinks={languageSwitcherLinks}
-          />
-          {navigation_button.enable && (
-            <a
-              class="btn btn-outline-primary btn-sm hidden lg:inline-block"
+              class="btn btn-outline-primary btn-sm"
               href={navigation_button.link}
               target={
                 navigation_button.link.startsWith("http") ? "_blank" : "_self"
@@ -321,9 +139,43 @@ const languageSwitcherLinks =
             >
               {navigation_button.label}
             </a>
-          )}
-        </div>
-      </nav>
-    )
-  }
+          </li>
+        )
+      }
+    </ul>
+    <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
+      {
+        settings.search && (
+          <button
+            class="mr-5 inline-block border-r border-border pr-5 text-xl text-text-dark hover:text-primary dark:border-darkmode-border dark:text-white dark:hover:text-darkmode-primary"
+            aria-label="search"
+            data-search-trigger
+          >
+            <IoSearch />
+          </button>
+        )
+      }
+      {settings.theme_switcher && <ThemeSwitcher className="mr-5" />}
+      <LanguageSwitcher
+        client:load
+        lang={lang}
+        switchTargets={switchTargets}
+        externalLinks={languageSwitcherLinks}
+      />
+      {
+        navigation_button.enable && (
+          <a
+            class="btn btn-outline-primary btn-sm hidden lg:inline-block"
+            href={navigation_button.link}
+            target={
+              navigation_button.link.startsWith("http") ? "_blank" : "_self"
+            }
+            rel={navigation_button.link.startsWith("http") ? "noopener" : ""}
+          >
+            {navigation_button.label}
+          </a>
+        )
+      }
+    </div>
+  </nav>
 </header>

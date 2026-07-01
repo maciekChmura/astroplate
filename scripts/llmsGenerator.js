@@ -35,7 +35,6 @@ const KNOWLEDGE_HUB_ROUTE_PREFIXES = [
   "/for",
   "/knowledge-hub",
   "/privacy-policy",
-  "/prompt-library",
   "/prompts",
   "/tags",
   "/use-cases",
@@ -63,12 +62,7 @@ function isExcludedPublicRoute(urlPath) {
     return true;
   }
 
-  return (
-    selectedSite.id === "aibrandscan" &&
-    (normalizedPath === "/prompts" ||
-      normalizedPath.startsWith("/prompts/") ||
-      normalizedPath === "/knowledge-hub")
-  );
+  return false;
 }
 
 function isKnowledgeHubContentDeploy(config) {

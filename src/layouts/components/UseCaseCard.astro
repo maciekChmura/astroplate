@@ -5,17 +5,11 @@ import {
   stripLocaleFromId,
 } from "@/lib/utils/languageParser";
 import { useCasePath } from "@/lib/utils/useCaseRoutes";
-import { siteConfig } from "@/lib/siteConfig";
 import { humanize, plainify } from "@/lib/utils/textConverter";
-import { FaArrowRight } from "react-icons/fa";
 import ImageMod from "./ImageMod.astro";
 
-const {
-  data,
-  headingLevel = "h3",
-} = Astro.props as {
+const { data } = Astro.props as {
   data: any;
-  headingLevel?: "h2" | "h3" | "h4";
 };
 const { title, description, image, categories, hero_before, hero_after } =
   data.data;
@@ -25,128 +19,70 @@ const useCaseSlug = stripLocaleFromId(data.id);
 const cardImage = image || hero_after?.src;
 const cardImageAlt = hero_after?.alt || title;
 const hasBeforeAfterThumbnail = Boolean(hero_before?.src && hero_after?.src);
-const isAIBrandScan = siteConfig.site.title === "AIBrandScan";
-const viewUseCase =
-  isAIBrandScan && lang === "en"
-    ? "Read use case"
-    : translations.view_use_case || "View use case";
+const viewUseCase = translations.view_use_case || "View use case";
 const useCaseUrl = useCasePath(useCaseSlug, lang);
-const Heading = headingLevel;
 ---
 
-{
-  isAIBrandScan ? (
-    <article class="group flex h-full w-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-[0_18px_45px_rgba(15,23,42,0.1)] dark:border-darkmode-border dark:bg-darkmode-light dark:hover:border-orange-700">
-      {cardImage && (
-        <a class="-mx-px -mt-px block overflow-hidden bg-slate-50" href={useCaseUrl} tabindex="-1">
-          <ImageMod
-            class="aspect-[1.9/1] w-full object-cover transition duration-500 group-hover:scale-[1.02]"
-            src={cardImage}
-            alt={cardImageAlt}
-            width={720}
-            height={405}
-            fit="cover"
-            format="webp"
-          />
-        </a>
-      )}
-
-      <div class="flex grow flex-col p-6 sm:p-7">
-        <div class="mb-4 flex flex-wrap gap-2">
-          {categories.map((category: string) => (
-            <span class="rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-xs font-bold text-slate-950 dark:border-orange-900/60 dark:bg-orange-950/40 dark:text-white">
-              {humanize(category)}
-            </span>
-          ))}
-        </div>
-
-        <Heading class="mb-4 text-2xl font-extrabold leading-tight tracking-[-0.02em] text-slate-950 sm:text-[1.65rem] dark:text-darkmode-text-dark">
-          <a
-            class="transition group-hover:text-orange-600 dark:group-hover:text-orange-300"
-            href={useCaseUrl}
-          >
-            {title}
-          </a>
-        </Heading>
-
-        <p class="mb-6 line-clamp-3 leading-7 text-slate-600 dark:text-darkmode-text">
-          {plainify(description)}
-        </p>
-
-        <div class="mt-auto">
-          <div class="mb-5 border-t border-slate-200 pt-5 text-sm font-semibold text-slate-500 dark:border-darkmode-border dark:text-darkmode-text-light">
-            <span>Use case · 4 min read</span>
-          </div>
-
-          <a
-            class="aibrandscan-button aibrandscan-button-primary aibrandscan-button-sm"
-            href={useCaseUrl}
-          >
-            {viewUseCase}
-            <FaArrowRight className="transition-transform group-hover:translate-x-1" />
-          </a>
-        </div>
-      </div>
-    </article>
-  ) : (
-    <article class="h-full rounded bg-light p-6 dark:bg-darkmode-light">
-      {hasBeforeAfterThumbnail ? (
-        <div class="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded">
+<article class="h-full rounded bg-light p-6 dark:bg-darkmode-light">
+  {
+    hasBeforeAfterThumbnail ? (
+      <div class="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded">
+        <ImageMod
+          class="h-full w-full object-cover"
+          src={hero_after.src}
+          alt={hero_after.alt || title}
+          width={640}
+          height={400}
+          fit="cover"
+          format="webp"
+        />
+        <div
+          class="absolute inset-0 overflow-hidden"
+          style="clip-path: inset(0 50% 0 0);"
+        >
           <ImageMod
             class="h-full w-full object-cover"
-            src={hero_after.src}
-            alt={hero_after.alt || title}
+            src={hero_before.src}
+            alt={hero_before.alt || title}
             width={640}
             height={400}
             fit="cover"
             format="webp"
-          />
-          <div
-            class="absolute inset-0 overflow-hidden"
-            style="clip-path: inset(0 50% 0 0);"
-          >
-            <ImageMod
-              class="h-full w-full object-cover"
-              src={hero_before.src}
-              alt={hero_before.alt || title}
-              width={640}
-              height={400}
-              fit="cover"
-              format="webp"
-            />
-          </div>
-          <span
-            class="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/80 shadow-[0_0_0_1px_rgba(75,85,99,0.45)]"
-            aria-hidden="true"
           />
         </div>
-      ) : (
-        cardImage && (
-          <ImageMod
-            class="mb-6 aspect-[16/10] w-full rounded object-cover"
-            src={cardImage}
-            alt={cardImageAlt}
-            width={640}
-            height={400}
-            fit="cover"
-            format="webp"
-          />
-        )
-      )}
-      <div class="mb-4 flex flex-wrap gap-2">
-        {categories.map((category: string) => (
-          <span class="rounded bg-body px-3 py-1 text-sm text-text dark:bg-darkmode-body dark:text-darkmode-text">
-            {humanize(category)}
-          </span>
-        ))}
+        <span
+          class="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-white/80 shadow-[0_0_0_1px_rgba(75,85,99,0.45)]"
+          aria-hidden="true"
+        />
       </div>
-      <h3 class="h5 mb-3">
-        <a href={useCaseUrl}>{title}</a>
-      </h3>
-      <p class="mb-6">{plainify(description)}</p>
-      <a class="btn btn-outline-primary btn-sm" href={useCaseUrl}>
-        {viewUseCase}
-      </a>
-    </article>
-  )
-}
+    ) : (
+      cardImage && (
+        <ImageMod
+          class="mb-6 aspect-[16/10] w-full rounded object-cover"
+          src={cardImage}
+          alt={cardImageAlt}
+          width={640}
+          height={400}
+          fit="cover"
+          format="webp"
+        />
+      )
+    )
+  }
+  <div class="mb-4 flex flex-wrap gap-2">
+    {
+      categories.map((category: string) => (
+        <span class="rounded bg-body px-3 py-1 text-sm text-text dark:bg-darkmode-body dark:text-darkmode-text">
+          {humanize(category)}
+        </span>
+      ))
+    }
+  </div>
+  <h3 class="h5 mb-3">
+    <a href={useCaseUrl}>{title}</a>
+  </h3>
+  <p class="mb-6">{plainify(description)}</p>
+  <a class="btn btn-outline-primary btn-sm" href={useCaseUrl}>
+    {viewUseCase}
+  </a>
+</article>
