@@ -70,7 +70,7 @@ Traditional rendering workflows can take hours or days per image.
 
 Modern tools such as QuickArchViz allow faster exploration of visual ideas, helping you test atmosphere, lighting, and presentation styles quickly.
 
-This does not replace design thinking. It supports faster visual iteration so more time can be spent on narrative and layout. For a deeper comparison of AI rendering workflows, see the guide to [AI rendering tools for architects](/blog/best-ai-tools-for-architectural-rendering-2026).
+This does not replace design thinking. It supports faster visual iteration so more time can be spent on narrative and layout. For a deeper comparison of AI rendering workflows, see the guide to [AI rendering tools for architects](/blog/best-ai-tools-for-architectural-rendering-2026/).
 
 ### Step 4: Build a Clear Narrative
 

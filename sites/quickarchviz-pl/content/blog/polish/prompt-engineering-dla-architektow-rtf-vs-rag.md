@@ -85,7 +85,7 @@ W efekcie AI zaczyna zgadywać.
 > - odporność ogniową,
 > - wymagania ewakuacyjne.
 
-Więcej przykładów znajdziesz w sekcji promptów: [quickarchviz.com/pl/prompts](https://quickarchviz.com/pl/prompts).
+Więcej przykładów znajdziesz w sekcji promptów: [quickarchviz.com/pl/prompts](https://quickarchviz.com/pl/prompts/).
 
 ## Dlaczego framework RTF działa?
 

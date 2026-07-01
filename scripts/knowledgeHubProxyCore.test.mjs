@@ -54,14 +54,68 @@ test("proxies alternatives and audience routes to the Pages origin", async () =>
   }
 });
 
-test("redirects old hub alternatives and audience URLs to clean public URLs", async () => {
+test("redirects old hub URLs to canonical slash-ending public URLs", async () => {
   const proxy = createTestProxy();
   const cases = [
     [
       "/knowledge-hub/alternatives/example",
-      "https://quickarchviz.com/alternatives/example",
+      "https://quickarchviz.com/alternatives/example/",
     ],
-    ["/knowledge-hub/for/architects", "https://quickarchviz.com/for/architects"],
+    [
+      "/knowledge-hub/for/architects",
+      "https://quickarchviz.com/for/architects/",
+    ],
+    [
+      "/knowledge-hub/prompts/architectural-scope-creep-pushback",
+      "https://quickarchviz.com/prompts/architectural-scope-creep-pushback/",
+    ],
+    [
+      "/knowledge-hub/blog/how-architects-should-really-use-ai-in-2026",
+      "https://quickarchviz.com/blog/how-architects-should-really-use-ai-in-2026/",
+    ],
+    [
+      "/knowledge-hub/tags/building-regulations",
+      "https://quickarchviz.com/tags/building-regulations/",
+    ],
+    [
+      "/knowledge-hub/use-cases/interior-visualization-from-screenshot",
+      "https://quickarchviz.com/use-cases/interior-visualization-from-screenshot/",
+    ],
+  ];
+
+  for (const [legacyPath, cleanUrl] of cases) {
+    const response = await proxy.fetch(
+      new Request(`https://quickarchviz.com${legacyPath}`),
+    );
+
+    assert.equal(response.status, 301);
+    assert.equal(response.headers.get("location"), cleanUrl);
+  }
+});
+
+test("redirects prefixed old hub URLs to canonical slash-ending public URLs", async () => {
+  const proxy = createTestProxy({
+    publicPrefix: "/pl",
+    hubPath: "/pl/knowledge-hub",
+    assetPath: "/pl/knowledge-hub-assets",
+  });
+  const cases = [
+    [
+      "/pl/knowledge-hub/prompts/jakosc-kontra-szybkosc-brief-decyzyjny",
+      "https://quickarchviz.com/pl/prompts/jakosc-kontra-szybkosc-brief-decyzyjny/",
+    ],
+    [
+      "/pl/knowledge-hub/blog/prompt-engineering-dla-architektow-rtf-vs-rag",
+      "https://quickarchviz.com/pl/blog/prompt-engineering-dla-architektow-rtf-vs-rag/",
+    ],
+    [
+      "/pl/knowledge-hub/tags/prompt-engineering",
+      "https://quickarchviz.com/pl/tags/prompt-engineering/",
+    ],
+    [
+      "/pl/knowledge-hub/use-cases/wizualizacja-wnetrza",
+      "https://quickarchviz.com/pl/use-cases/wizualizacja-wnetrza/",
+    ],
   ];
 
   for (const [legacyPath, cleanUrl] of cases) {

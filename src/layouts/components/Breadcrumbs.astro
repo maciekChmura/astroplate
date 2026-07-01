@@ -1,7 +1,10 @@
 ---
 import { humanize } from "@/lib/utils/textConverter";
-import { withSiteMountPath } from "@/lib/utils/mountPath";
-import { getTranslations, normalizeLang } from "@/lib/utils/languageParser";
+import {
+  getTranslations,
+  normalizeLang,
+  slugSelector,
+} from "@/lib/utils/languageParser";
 
 const { className }: { className?: string } = Astro.props;
 const lang = normalizeLang(Astro.currentLocale);
@@ -21,18 +24,22 @@ const paths = Astro.url.pathname.split("/").filter((x) => x);
 let parts = [
   {
     label: getBreadcrumbLabel("home"),
-    href: withSiteMountPath("/"),
+    href: slugSelector("/", lang),
     "aria-label": Astro.url.pathname === "/" ? "page" : undefined,
   },
 ];
 
 paths.forEach((label: string, i: number) => {
   const href = `/${paths.slice(0, i + 1).join("/")}`;
+  const normalizedHref = slugSelector(href, lang);
   label !== "page" &&
     parts.push({
       label: getBreadcrumbLabel(label),
-      href: withSiteMountPath(href),
-      "aria-label": Astro.url.pathname === href ? "page" : undefined,
+      href: normalizedHref,
+      "aria-label":
+        Astro.url.pathname === href || Astro.url.pathname === normalizedHref
+          ? "page"
+          : undefined,
     });
 });
 ---

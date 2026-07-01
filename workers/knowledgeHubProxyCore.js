@@ -41,6 +41,18 @@ function normalizePath(pathname) {
   return pathname.length > 1 ? pathname.replace(/\/+$/g, "") : pathname || "/";
 }
 
+function hasFileExtension(pathname) {
+  return /\/[^/]+\.[^/]+$/.test(pathname);
+}
+
+function ensureTrailingSlash(pathname) {
+  if (pathname === "/" || pathname.endsWith("/") || hasFileExtension(pathname)) {
+    return pathname;
+  }
+
+  return `${pathname}/`;
+}
+
 function hasPrefix(pathname, prefix) {
   return pathname === prefix || pathname.startsWith(`${prefix}/`);
 }
@@ -183,6 +195,10 @@ export function createKnowledgeHubProxy(userConfig) {
     return `${config.publicOrigin}${pathname}${search}${hash}`;
   }
 
+  function publicCanonicalPathFromOriginPath(originPathname) {
+    return ensureTrailingSlash(paths.publicPathFromOriginPath(originPathname));
+  }
+
   function getOldHubRedirectTarget(pathname) {
     if (!pathname.startsWith(`${config.hubPath}/`)) {
       return undefined;
@@ -193,7 +209,7 @@ export function createKnowledgeHubProxy(userConfig) {
     if (
       oldHubRedirectPrefixes.some((prefix) => hasPrefix(pathWithoutHub, prefix))
     ) {
-      return paths.publicPathFromOriginPath(pathWithoutHub);
+      return publicCanonicalPathFromOriginPath(pathWithoutHub);
     }
 
     if (isRootFile(pathWithoutHub) || isMarkdownContentPath(pathWithoutHub)) {
@@ -216,7 +232,7 @@ export function createKnowledgeHubProxy(userConfig) {
       const target = legacyRedirects.get(candidate);
 
       if (target) {
-        return paths.publicPathFromOriginPath(target);
+        return publicCanonicalPathFromOriginPath(target);
       }
     }
 
